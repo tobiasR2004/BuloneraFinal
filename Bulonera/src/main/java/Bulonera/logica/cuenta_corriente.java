@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -30,20 +31,31 @@ public class cuenta_corriente implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha_cc;
     
-    @OneToMany
+    @OneToMany(mappedBy = "cuenta_c")
     private ArrayList<pago> listaPagos_cc;
+    @OneToOne
+    private cabecera_remito cabeceraremito;
 
     public cuenta_corriente()
     {
     }
 
-    public cuenta_corriente(int id_cc, int debe_cc, int haber_cc, int saldo_cc, Date fecha_cc, ArrayList<pago> listaPagos_cc) {
+    public cuenta_corriente(int id_cc, int debe_cc, int haber_cc, int saldo_cc, Date fecha_cc, ArrayList<pago> listaPagos_cc, cabecera_remito cabeceraremito) {
         this.id_cc = id_cc;
         this.debe_cc = debe_cc;
         this.haber_cc = haber_cc;
         this.saldo_cc = saldo_cc;
         this.fecha_cc = fecha_cc;
         this.listaPagos_cc = listaPagos_cc;
+        this.cabeceraremito = cabeceraremito;
+    }
+
+    public cabecera_remito getCabeceraremito() {
+        return cabeceraremito;
+    }
+
+    public void setCabeceraremito(cabecera_remito cabeceraremito) {
+        this.cabeceraremito = cabeceraremito;
     }
 
     public ArrayList<pago> getListaPagos_cc() {

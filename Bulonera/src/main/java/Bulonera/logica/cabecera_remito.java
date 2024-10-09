@@ -5,11 +5,13 @@
 package Bulonera.logica;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -28,24 +30,30 @@ public class cabecera_remito implements Serializable {
     
     @OneToOne
     private cliente cliente_cabecera;
-
-    @Override
-    public String toString() {
-        return "cabecera_remito{" + "id_remito=" + id_remito + ", nro_cliente=" + nro_cliente + ", cuit_cliente=" + cuit_cliente + ", nro_remito=" + nro_remito + ", razon_social=" + razon_social + ", cliente_cabecera=" + cliente_cabecera + '}';
-    }
+    @OneToMany(mappedBy = "cabecrem")
+    private ArrayList<detalle_remito> listadetalles;
     
     public cabecera_remito(){
     }
 
-    public cabecera_remito(int id_remito, int nro_cliente, int cuit_cliente, int nro_remito, String razon_social, cliente cliente_cabecera) {
+    public cabecera_remito(int id_remito, int nro_cliente, int cuit_cliente, int nro_remito, String razon_social, cliente cliente_cabecera, ArrayList<detalle_remito> listadetalles) {
         this.id_remito = id_remito;
         this.nro_cliente = nro_cliente;
         this.cuit_cliente = cuit_cliente;
         this.nro_remito = nro_remito;
         this.razon_social = razon_social;
         this.cliente_cabecera = cliente_cabecera;
+        this.listadetalles = listadetalles;
     }
 
+    public ArrayList<detalle_remito> getListadetalles() {
+        return listadetalles;
+    }
+
+    public void setListadetalles(ArrayList<detalle_remito> listadetalles) {
+        this.listadetalles = listadetalles;
+    }
+    
     public cliente getCliente_cabecera() {
         return cliente_cabecera;
     }

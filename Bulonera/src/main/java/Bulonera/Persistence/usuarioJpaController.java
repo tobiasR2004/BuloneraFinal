@@ -11,21 +11,20 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
  *
- * @author tobi2
+ * @author Alumno
  */
 public class usuarioJpaController implements Serializable {
 
     public usuarioJpaController() {
         emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
-    
     
     public usuarioJpaController(EntityManagerFactory emf) {
         this.emf = emf;

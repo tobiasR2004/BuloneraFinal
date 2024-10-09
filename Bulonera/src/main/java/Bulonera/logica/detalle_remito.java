@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -23,19 +24,40 @@ public class detalle_remito implements Serializable {
     @Basic
     private int cant_prod, precio_unit, importe, importe_total;
     private String nomb_prod;
+    
+    @OneToMany(mappedBy = "detalle_rem")
+    private cabecera_remito cabecdetalleremito;
+    private producto Producdetalle;
 
     public detalle_remito()
     {
     }
-    
-    public detalle_remito(int id_remito, int cant_prod, int precio_unit, int importe, int importe_total, String nomb_prod)
-    {
+
+    public detalle_remito(int id_remito, int cant_prod, int precio_unit, int importe, int importe_total, String nomb_prod, cabecera_remito cabecdetalleremito, producto Producdetalle) {
         this.id_remito = id_remito;
         this.cant_prod = cant_prod;
         this.precio_unit = precio_unit;
         this.importe = importe;
         this.importe_total = importe_total;
         this.nomb_prod = nomb_prod;
+        this.cabecdetalleremito = cabecdetalleremito;
+        this.Producdetalle = Producdetalle;
+    }
+
+    public cabecera_remito getCabecdetalleremito() {
+        return cabecdetalleremito;
+    }
+
+    public void setCabecdetalleremito(cabecera_remito cabecdetalleremito) {
+        this.cabecdetalleremito = cabecdetalleremito;
+    }
+
+    public producto getProducdetalle() {
+        return Producdetalle;
+    }
+
+    public void setProducdetalle(producto Producdetalle) {
+        this.Producdetalle = Producdetalle;
     }
 
     public int getId_remito() {

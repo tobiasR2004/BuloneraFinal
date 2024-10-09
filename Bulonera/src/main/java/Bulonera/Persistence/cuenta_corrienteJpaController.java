@@ -7,16 +7,14 @@ package Bulonera.Persistence;
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
 import Bulonera.logica.cuenta_corriente;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import Bulonera.logica.pago;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -38,24 +36,11 @@ public class cuenta_corrienteJpaController implements Serializable {
     }
 
     public void create(cuenta_corriente cuenta_corriente) {
-        if (cuenta_corriente.getListaPagos_cc() == null) {
-            cuenta_corriente.setListaPagos_cc(new ArrayList<pago>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            ArrayList<pago> attachedListaPagos_cc = new ArrayList<pago>();
-            for (pago listaPagos_ccpagoToAttach : cuenta_corriente.getListaPagos_cc()) {
-                listaPagos_ccpagoToAttach = em.getReference(listaPagos_ccpagoToAttach.getClass(), listaPagos_ccpagoToAttach.getId_pago());
-                attachedListaPagos_cc.add(listaPagos_ccpagoToAttach);
-            }
-            cuenta_corriente.setListaPagos_cc(attachedListaPagos_cc);
             em.persist(cuenta_corriente);
-            for (pago listaPagos_ccpago : cuenta_corriente.getListaPagos_cc()) {
-                listaPagos_ccpago.getCc_pago().add(cuenta_corriente);
-                listaPagos_ccpago = em.merge(listaPagos_ccpago);
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -69,29 +54,7 @@ public class cuenta_corrienteJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            cuenta_corriente persistentcuenta_corriente = em.find(cuenta_corriente.class, cuenta_corriente.getId_cc());
-            ArrayList<pago> listaPagos_ccOld = persistentcuenta_corriente.getListaPagos_cc();
-            ArrayList<pago> listaPagos_ccNew = cuenta_corriente.getListaPagos_cc();
-            ArrayList<pago> attachedListaPagos_ccNew = new ArrayList<pago>();
-            for (pago listaPagos_ccNewpagoToAttach : listaPagos_ccNew) {
-                listaPagos_ccNewpagoToAttach = em.getReference(listaPagos_ccNewpagoToAttach.getClass(), listaPagos_ccNewpagoToAttach.getId_pago());
-                attachedListaPagos_ccNew.add(listaPagos_ccNewpagoToAttach);
-            }
-            listaPagos_ccNew = attachedListaPagos_ccNew;
-            cuenta_corriente.setListaPagos_cc(listaPagos_ccNew);
             cuenta_corriente = em.merge(cuenta_corriente);
-            for (pago listaPagos_ccOldpago : listaPagos_ccOld) {
-                if (!listaPagos_ccNew.contains(listaPagos_ccOldpago)) {
-                    listaPagos_ccOldpago.getCc_pago().remove(cuenta_corriente);
-                    listaPagos_ccOldpago = em.merge(listaPagos_ccOldpago);
-                }
-            }
-            for (pago listaPagos_ccNewpago : listaPagos_ccNew) {
-                if (!listaPagos_ccOld.contains(listaPagos_ccNewpago)) {
-                    listaPagos_ccNewpago.getCc_pago().add(cuenta_corriente);
-                    listaPagos_ccNewpago = em.merge(listaPagos_ccNewpago);
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -120,11 +83,6 @@ public class cuenta_corrienteJpaController implements Serializable {
                 cuenta_corriente.getId_cc();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The cuenta_corriente with id " + id + " no longer exists.", enfe);
-            }
-            ArrayList<pago> listaPagos_cc = cuenta_corriente.getListaPagos_cc();
-            for (pago listaPagos_ccpago : listaPagos_cc) {
-                listaPagos_ccpago.getCc_pago().remove(cuenta_corriente);
-                listaPagos_ccpago = em.merge(listaPagos_ccpago);
             }
             em.remove(cuenta_corriente);
             em.getTransaction().commit();
