@@ -101,5 +101,69 @@ public class controladoraLogica {
     public ArrayList<detalle_remito> consultarDetalleList(){
         return ctrlpersis.consultarDetalleList();
     }
+
+    //CRUD PAGO
+    public void crearPago(pago pago1){
+        ctrlpersis.crearPago(pago1);
+    }
     
-} 
+    public void eliminarPago(int id){
+        ctrlpersis.eliminarPago(id);
+    }
+    
+    public void modifPago(pago pago1){
+        ctrlpersis.modifPago(pago1);
+    }
+    
+    public pago consultarPago(int id){
+        return ctrlpersis.consultarPago(id);
+    }
+    
+    public ArrayList<pago> cosultarPagoList(){
+        return ctrlpersis.consultarPagoList();
+    }
+    
+    
+    //CRUD PRODUCTO
+    public void crearProducto(producto prod1){
+        ctrlpersis.crearProducto(prod1);
+    }
+    
+    public void eliminarProducto(int id){
+        ctrlpersis.eliminarProducto(id);
+    }
+    
+    public void modifProducto(producto prod1){
+        ctrlpersis.modifProducto(prod1);
+    }
+    
+    public producto consultarProducto(int id){
+        return ctrlpersis.consultarProducto(id);
+    }
+    
+    public ArrayList<producto> consultarProductosList(){
+        return ctrlpersis.consultarProductosList();
+    }
+    
+    //CRUD USUARIO
+    public void crearUsuario(usuario user1){
+        ctrlpersis.crearUsuario(user1);
+    }
+    
+    public void eliminarUsuario(int id){
+        ctrlpersis.eliminarUsuario(id);
+    }
+    
+    public void modifUsuario(usuario user1){
+        ctrlpersis.modifUsuario(user1);
+    }
+    
+    public usuario consultarUsuario(int id){
+        return ctrlpersis.consultarUsuario(id);
+    }
+    
+    public ArrayList<usuario> consultarUsuariosList(){
+        return ctrlpersis.consultarUsuariosList();
+    }
+    
+}
