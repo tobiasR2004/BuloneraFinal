@@ -110,6 +110,7 @@ public class controladoraPersistencia {
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
     public void modifCc(cuenta_corriente cC1) {
         try {
@@ -179,9 +180,10 @@ public class controladoraPersistencia {
     public void modifDetalle(detalle_remito detalle1) {
         try {
             detalle_remitoJpa.edit(detalle1);
-        }catch (NonexistentEntityException ex) {
+        }catch (Exception ex) {
              Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
     public detalle_remito consultarDetalle(int id) {
         return detalle_remitoJpa.finddetalle_remito(id);
