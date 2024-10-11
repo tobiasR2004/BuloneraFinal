@@ -5,11 +5,13 @@
 package Bulonera.logica;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -25,15 +27,17 @@ public class detalle_remito implements Serializable {
     private int cant_prod, precio_unit, importe, importe_total;
     private String nomb_prod;
     
-    @OneToMany(mappedBy = "detalle_rem")
+    @ManyToOne
     private cabecera_remito cabecdetalleremito;
-    private producto Producdetalle;
+    
+    @OneToMany(mappedBy="detalle")
+      private List<producto> Producdetalle;
 
     public detalle_remito()
     {
     }
 
-    public detalle_remito(int id_remito, int cant_prod, int precio_unit, int importe, int importe_total, String nomb_prod, cabecera_remito cabecdetalleremito, producto Producdetalle) {
+    public detalle_remito(int id_remito, int cant_prod, int precio_unit, int importe, int importe_total, String nomb_prod, cabecera_remito cabecdetalleremito, List<producto> Producdetalle) {
         this.id_remito = id_remito;
         this.cant_prod = cant_prod;
         this.precio_unit = precio_unit;
@@ -44,6 +48,8 @@ public class detalle_remito implements Serializable {
         this.Producdetalle = Producdetalle;
     }
 
+    
+
     public cabecera_remito getCabecdetalleremito() {
         return cabecdetalleremito;
     }
@@ -52,11 +58,11 @@ public class detalle_remito implements Serializable {
         this.cabecdetalleremito = cabecdetalleremito;
     }
 
-    public producto getProducdetalle() {
+    public List<producto> getProducdetalle() {
         return Producdetalle;
     }
 
-    public void setProducdetalle(producto Producdetalle) {
+    public void setProducdetalle(List<producto> Producdetalle) {
         this.Producdetalle = Producdetalle;
     }
 

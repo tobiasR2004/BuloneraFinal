@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -28,14 +29,14 @@ public class producto implements Serializable
     private int precio_compra, precio_venta;
     private String nomb_prod, categoria_prod;
     
-    @OneToMany(mappedBy ="prod")
-    private ArrayList<detalle_remito> listadetalles;
+    @ManyToOne 
+    private detalle_remito listadetalles;
 
     public producto()
     {
     }
 
-    public producto(int id_prod, int cod_prod, int precio_compra, int precio_venta, String nomb_prod, String categoria_prod, ArrayList<detalle_remito> listadetalles) {
+    public producto(int id_prod, int cod_prod, int precio_compra, int precio_venta, String nomb_prod, String categoria_prod, detalle_remito listadetalles) {
         this.id_prod = id_prod;
         this.cod_prod = cod_prod;
         this.precio_compra = precio_compra;
@@ -45,13 +46,13 @@ public class producto implements Serializable
         this.listadetalles = listadetalles;
     }
 
-    public ArrayList<detalle_remito> getListadetalles() {
+    public detalle_remito getListadetalles() {
         return listadetalles;
     }
 
-    public void setListadetalles(ArrayList<detalle_remito> listadetalles) {
+    public void setListadetalles(detalle_remito listadetalles) {
         this.listadetalles = listadetalles;
-    }
+    } 
 
     public int getId_prod() {
         return id_prod;
