@@ -6,6 +6,7 @@ package Bulonera.logica;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,30 +30,29 @@ public class producto implements Serializable
     private int precio_compra, precio_venta;
     private String nomb_prod, categoria_prod;
     
-    @ManyToOne 
-    private detalle_remito listadetalles;
+    @OneToMany(mappedBy="producDetalle")
+      private List<detalle_remito> detalles;
 
     public producto()
     {
     }
 
-    public producto(int id_prod, int cod_prod, int precio_compra, int precio_venta, String nomb_prod, String categoria_prod, detalle_remito listadetalles) {
+    public producto(int id_prod, int cod_prod, int precio_compra, int precio_venta, String nomb_prod, String categoria_prod) {
         this.id_prod = id_prod;
         this.cod_prod = cod_prod;
         this.precio_compra = precio_compra;
         this.precio_venta = precio_venta;
         this.nomb_prod = nomb_prod;
         this.categoria_prod = categoria_prod;
-        this.listadetalles = listadetalles;
     }
 
-    public detalle_remito getListadetalles() {
-        return listadetalles;
+    public List<detalle_remito> getDetalles() {
+        return detalles;
     }
 
-    public void setListadetalles(detalle_remito listadetalles) {
-        this.listadetalles = listadetalles;
-    } 
+    public void setDetalles(List<detalle_remito> detalles) {
+        this.detalles = detalles;
+    }
 
     public int getId_prod() {
         return id_prod;

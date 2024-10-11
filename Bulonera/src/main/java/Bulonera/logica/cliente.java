@@ -31,7 +31,7 @@ public class cliente implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha_ingreso;
     
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "cliente_pago")
     private ArrayList<pago> listaPagos_c;
 
     public cliente(){

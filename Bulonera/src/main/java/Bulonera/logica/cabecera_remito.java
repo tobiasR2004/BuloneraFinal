@@ -30,7 +30,7 @@ public class cabecera_remito implements Serializable {
     
     @OneToOne
     private cliente cliente_cabecera;
-    @OneToMany(mappedBy = "cabecrem")
+    @OneToMany(mappedBy = "cabecdetalleremito")
     private ArrayList<detalle_remito> listadetalles;
     
     public cabecera_remito(){

@@ -5,17 +5,16 @@
 package Bulonera.Persistence;
 
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
-import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import Bulonera.logica.detalle_remito;
 import Bulonera.logica.producto;
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -24,9 +23,8 @@ import javax.persistence.Persistence;
 public class productoJpaController implements Serializable {
 
     public productoJpaController() {
-        emf = Persistence.createEntityManagerFactory("buloneraPU");
+         emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
-    
 
     public productoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
@@ -42,16 +40,7 @@ public class productoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            detalle_remito listadetalles = producto.getListadetalles();
-            if (listadetalles != null) {
-                listadetalles = em.getReference(listadetalles.getClass(), listadetalles.getId_remito());
-                producto.setListadetalles(listadetalles);
-            }
             em.persist(producto);
-            if (listadetalles != null) {
-                listadetalles.getProducdetalle().add(producto);
-                listadetalles = em.merge(listadetalles);
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -65,22 +54,7 @@ public class productoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            producto persistentproducto = em.find(producto.class, producto.getId_prod());
-            detalle_remito listadetallesOld = persistentproducto.getListadetalles();
-            detalle_remito listadetallesNew = producto.getListadetalles();
-            if (listadetallesNew != null) {
-                listadetallesNew = em.getReference(listadetallesNew.getClass(), listadetallesNew.getId_remito());
-                producto.setListadetalles(listadetallesNew);
-            }
             producto = em.merge(producto);
-            if (listadetallesOld != null && !listadetallesOld.equals(listadetallesNew)) {
-                listadetallesOld.getProducdetalle().remove(producto);
-                listadetallesOld = em.merge(listadetallesOld);
-            }
-            if (listadetallesNew != null && !listadetallesNew.equals(listadetallesOld)) {
-                listadetallesNew.getProducdetalle().add(producto);
-                listadetallesNew = em.merge(listadetallesNew);
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -109,11 +83,6 @@ public class productoJpaController implements Serializable {
                 producto.getId_prod();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The producto with id " + id + " no longer exists.", enfe);
-            }
-            detalle_remito listadetalles = producto.getListadetalles();
-            if (listadetalles != null) {
-                listadetalles.getProducdetalle().remove(producto);
-                listadetalles = em.merge(listadetalles);
             }
             em.remove(producto);
             em.getTransaction().commit();
