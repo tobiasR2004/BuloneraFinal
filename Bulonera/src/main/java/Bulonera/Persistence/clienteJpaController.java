@@ -18,7 +18,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Alumno
+ * @author tobi2
  */
 public class clienteJpaController implements Serializable {
 
@@ -26,6 +26,7 @@ public class clienteJpaController implements Serializable {
          emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
     
+
     public clienteJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }

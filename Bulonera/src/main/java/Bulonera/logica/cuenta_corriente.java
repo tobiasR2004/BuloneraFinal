@@ -31,7 +31,7 @@ public class cuenta_corriente implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha_cc;
     
-    @OneToMany(mappedBy = "cuenta_c")
+    @OneToMany(mappedBy = "cc_pago")
     private ArrayList<pago> listaPagos_cc;
     @OneToOne
     private cabecera_remito cabeceraremito;
