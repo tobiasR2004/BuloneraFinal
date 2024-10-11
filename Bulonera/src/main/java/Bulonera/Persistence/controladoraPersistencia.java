@@ -6,6 +6,9 @@ package Bulonera.Persistence;
 
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
 import Bulonera.logica.cabecera_remito;
+import Bulonera.logica.cliente;
+import Bulonera.logica.cuenta_corriente;
+import Bulonera.logica.detalle_remito;
 import Bulonera.logica.pago;
 import Bulonera.logica.producto;
 import Bulonera.logica.usuario;
@@ -27,27 +30,29 @@ public class controladoraPersistencia {
     pagoJpaController pagoJpa = new pagoJpaController();
     productoJpaController productoJpa = new productoJpaController();
     usuarioJpaController usuarioJpa = new usuarioJpaController();
-    
+
     public controladoraPersistencia() {
     }
-    
-     public void crearcabecremito(cabecera_remito idcabec) {
-           cabecera_remitoJpa.create(idcabec); 
+
+    // CRUD CABECERA_REMITO
+
+    public void crearcabecremito(cabecera_remito idcabec) {
+        cabecera_remitoJpa.create(idcabec);
     }
 
     public void eliminarcabecremit(int id) {
-       try{
-          cabecera_remitoJpa.destroy(id);
-       } catch(NonexistentEntityException ex) {
-            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE,null, ex);
-       }
+        try {
+            cabecera_remitoJpa.destroy(id);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void modifcabecremito(cabecera_remito idcabec) {
         try {
-            cabecera_remitoJpa.edit(idcabec);      
-        } catch (Exception ex){
-           Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE,null, ex);
+            cabecera_remitoJpa.edit(idcabec);
+        } catch (Exception ex) {
+            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -61,9 +66,75 @@ public class controladoraPersistencia {
         return listacabecremi;
     }
 
-    //CRUD PAGO
+    // CRUD CLIENTE
+
+    public void crearCliente(cliente cliente1) {
+        clienteJpa.create(cliente1);
+    }
+
+    public void eliminarCliente(int id) {
+        try {
+            clienteJpa.destroy(id);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void modifCliente(cliente cliente1) {
+        try {
+            clienteJpa.edit(cliente1);
+        } catch (Exception ex) {
+            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public cliente consultarcliente(int id) {
+        return clienteJpa.findcliente(id);
+    }
+
+    public ArrayList<cliente> consultarClienList() {
+        List<cliente> listaClient = clienteJpa.findclienteEntities();
+        ArrayList<cliente> listaClientes = new ArrayList<cliente>(listaClient);
+        return listaClientes;
+    }
+
+    // CRUD CUENTA CORRIENTE
+
+    public void crearCc(cuenta_corriente cC) {
+        cuenta_corrienteJpa.create(cC);
+    }
+
+    public void eliminarCc(int id) {
+        try {
+            cuenta_corrienteJpa.destroy(id);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void modifCc(cuenta_corriente cC1) {
+        try {
+            cuenta_corrienteJpa.edit(cC1);
+        } catch (Exception ex) {
+            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   
+    }
+    
+    public cuenta_corriente consultarCc(int id) {
+        return cuenta_corrienteJpa.findcuenta_corriente(id);
+    }
+
+    public ArrayList<cuenta_corriente> consultarCcList() {
+        List<cuenta_corriente> listaCuentacorr = cuenta_corrienteJpa.findcuenta_corrienteEntities();
+        ArrayList<cuenta_corriente> listaCc = new ArrayList<cuenta_corriente>(listaCuentacorr);
+        return listaCc;
+    }
+
+    // CRUD PAGO
+
     public void crearPago(pago pago1) {
-        pagoJpa.create(pago1); 
+        pagoJpa.create(pago1);
     }
 
     public void eliminarPago(int id) {
@@ -92,8 +163,39 @@ public class controladoraPersistencia {
         return listaPagos;
     }
 
-    
-    //CRUD PRODUCTO
+    // CRUD DETALLE REMITO
+
+    public void crearDetalle(detalle_remito detalle1) {
+        detalle_remitoJpa.create(detalle1);
+    }
+
+    public void eliminarDetalle(int id) {
+        try {
+            detalle_remitoJpa.destroy(id);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void modifDetalle(detalle_remito detalle1) {
+        try {
+            detalle_remitoJpa.edit(detalle1);
+        }catch (Exception ex) {
+             Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public detalle_remito consultarDetalle(int id) {
+        return detalle_remitoJpa.finddetalle_remito(id);
+    }
+
+    public ArrayList<detalle_remito> consultarDetalleList() {
+        List<detalle_remito> listadet = detalle_remitoJpa.finddetalle_remitoEntities();
+        ArrayList<detalle_remito> listadetalle = new ArrayList<detalle_remito>(listadet);
+        return listadetalle;
+    }
+
+    // CRUD PRODUCTO
     public void crearProducto(producto prod1) {
         productoJpa.create(prod1);
     }
@@ -123,6 +225,8 @@ public class controladoraPersistencia {
         ArrayList<producto> listaProductos = new ArrayList<producto>(listaPr);
         return listaProductos;
     }
+
+    //CRUD USUARIO
 
     public void crearUsuario(usuario user1) {
         usuarioJpa.create(user1);
@@ -154,5 +258,4 @@ public class controladoraPersistencia {
         return listaUsuarios;
     }
 
-    
 }
