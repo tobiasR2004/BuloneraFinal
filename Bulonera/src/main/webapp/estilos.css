@@ -1,0 +1,474 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+
+
+* {
+  font-family: Rubik, sans-serif;
+}
+
+.bodyIndex {
+  background-image: url(img/Fondolog.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  padding-left: 0px;  
+}
+
+#Logo {
+  width: 100%;
+  height: 10%;
+  margin-bottom: 3%;
+}
+
+.MenuPrincipal {
+  width: 40%;
+  background-color: rgba(196, 196, 196, 0.308);
+  padding: 1%;
+  border-radius: 3%;
+  margin: 40px 36% 10px 36%;
+  padding-top: 3%;
+  padding-bottom: 1%;
+}
+
+.btn-danger {
+  margin-top: 5%;
+}
+
+#boton6:hover{
+  color: #fff;
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.mb-3 {
+  padding: 3%;
+  color: white;
+}
+
+.headermenu {
+  background: rgba(0,0,0,0.9);
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+}
+
+:root {
+  --blanco: #E0E0E0;
+  --azulopac: #184463;
+  --menu: #003053;
+  --bg-body: #c7e1ff;
+}
+
+#MenuPrincipal {
+  background-image: url('img/fondomenu.jpg');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  left: 0px;
+  top: 0px;
+}
+
+.menu {
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  padding-left: 0px;  
+}
+
+.bodymenu {
+  position: relative;
+  font-family: Rubik, sans-serif;
+  color: var(--blanco);
+}
+
+.menu-dashboard {
+  max-width: 90px;
+  height: 100vh;
+  background-color: var(--menu);
+  padding: 25px;
+  transition: max-width .3s ease;
+  margin-top: 0px;
+}
+
+.top-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.top-menu .logo {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.top-menu .logo span {
+  font-size: 20px;
+  margin-left: 10px;
+  display: none;
+}
+
+.top-menu .toggle {
+  width: 30px;
+  height: 20px;
+  display: inline-block;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;  
+}
+
+.top-menu .toggle i {
+  font-size: 35px;
+} 
+
+
+.elementmenu .enlace {
+  width: 130%;
+  padding: 30px 0px 30px 17px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: all .3s ease;
+}
+
+.elementmenu .enlace:hover {
+  background: var(--azulopac);
+}
+
+.elementmenu .enlace i {
+  margin-right: 20px;
+  font-size: 25px;
+}
+
+.elementmenu .enlace span {
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+.menu-dashboard.open {
+  max-width: 300px;
+  z-index: 2;
+}
+
+.menu-dashboard.open .top-menu .logo span {
+  display: block;
+  margin-top: 0px;
+}
+
+.menu-dashboard.open .elementmenu .enlace {
+  width: auto;
+  padding: 30 px 0px;
+
+}
+
+.menu-dashboard.open .elementmenu .enlace span {
+  opacity: 1;
+  padding: 50px 5px;
+}
+
+
+.bg-body-tertiary {
+  display: flex;
+  position: fixed;
+  right: 0;
+  width: 78%;
+  z-index: -1;
+}
+
+.titulonavbar {
+  font-family:Impact;
+  border: solid white 2px;
+  position: fixed;
+  background-color:dodgerblue;
+  padding: 8px;
+  left: 10%;
+  z-index: -1;
+  color: white;
+}
+
+.btn-outline-success { 
+  background-color: white;
+  color: var(--azulopac);
+  border-color: var(--azulopac);
+}
+
+#btnAcept{
+  margin-top: 15%;
+  width: 400px;
+}
+
+.btn-outline-success:hover {
+  background-color: #0d6d00;
+  border-color: #0d6d00;
+}
+
+section {
+  display: none;
+}
+
+section:target {
+  display: block;
+}
+
+#client {  
+  position:fixed;
+  left: 10%;
+  top: 10%;
+  color: #000000;
+  z-index: -1;
+}
+
+.enlace span {
+  text-decoration: double;
+  color: var(--bg-body);
+}
+
+#cuentcorr {  
+  position: fixed;
+  left: 10%;
+  top: 10%;
+  color: #000000;
+  z-index: -1;
+}
+
+#prod {  
+  position: fixed;
+  left: 10%;
+  top: 10%;
+  color: #000000;
+  z-index: -1;
+}
+
+#configcuenta {  
+  position: fixed;
+  left: 23%;
+  top: 10%;
+  color: #000000;
+}
+
+.modal-content {
+  color: #003053;
+}
+
+.btn-navbar {
+  margin: 0px 10px 0px 30px;
+  background-color: #184463;
+  color: white;
+}
+
+#opcion5 {
+  width: 100px;
+}
+
+.tablita {
+  border: solid 2px black;
+  border-collapse: collapse;
+  width: 95%;
+  background-color: #003053;
+  color: aliceblue;
+  table-layout: fixed;
+}
+
+.tablita tbody tr:nth-of-type(odd) {
+  background-color: #184463;
+}
+
+.Columnas {
+  table-layout: fixed;
+  border: solid 2px black;
+  text-align: center;
+}
+
+td {
+  height: 30px;
+}
+
+.btn-outline-primary {
+  position: fixed;
+  bottom: 8%;
+}
+
+.mb-3config {
+  position: fixed;
+  left: 37%;
+}
+
+.label2 {
+  margin-bottom: 10px;
+  border-radius: 2px;
+  background-color: #003053;
+  color: white;
+  position: relative;
+  text-align: center;
+  width: 400px;
+  padding: 5%;
+}
+
+.inputConfig {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: absolute;
+  right: 3%;
+  text-align: center;
+}
+
+.labelConfig {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#importe{
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    margin-left: 10%;
+    padding-top: 10px; /* Ajusta según necesites espacio arriba */
+}
+
+#modal2 {
+  position: absolute;
+  top: 1%;
+}
+
+.btnremito {
+  margin-left: 44.5%;
+  padding: 5px 20px;
+  font-size: 25px;
+  border: 0px;
+}
+
+.modif {
+  width: 400px;
+  height: 60%;
+  margin-left: 40%;
+}
+
+.modal-body {
+  position: relative;
+  display: inline-block;
+  margin-left: 7%;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+}
+
+.importe {
+  padding-left: 25px; /* Espacio para el símbolo de peso */
+  text-align: right;
+}
+
+.col{
+  color: #000000;
+}
+  
+#importe-total{
+  width: 150px;
+}
+
+.importefinal{
+  margin-left: 50%;
+  margin-bottom: 30px;
+  width: 150px;
+}
+
+.form-group-inline label {
+  margin-bottom: 0; /* Elimina el margen inferior del label */
+}
+
+#boton8{
+  border: 0px;
+  margin-left: 105px;
+  padding: 0px 15px;
+}
+
+#boton8:hover{
+  background-color: #0d6d00;
+  border-color: #0d6d00;
+}
+
+#boton5, #boton6{
+  width: 150px;
+}
+
+/* Consultas de medios para hacer el diseño responsivo */
+@media (max-width: 768px) {
+  .MenuPrincipal {
+      width: 90%;
+      margin: 20px auto;
+  }
+
+  .bodymenu {
+      font-size: 0.9em;
+  }
+
+  .menu-dashboard {
+      max-width: 70px;
+  }
+
+  .menu-dashboard.open {
+      max-width: 250px;
+  }
+
+  .btn-outline-secondary {
+      margin-left: 30%;
+      font-size: 20px;
+  }
+
+  #client, #cuentcorr, #prod, #configcuenta {
+      left: 10%;
+      top: 15%;
+      width: 80%;
+  }
+
+  .label2, .btn-success, .modif {
+      width: 80%;
+      margin-left: 10%;
+  }
+}
+
+@media (max-width: 480px) {
+  .MenuPrincipal {
+      width: 100%;
+      margin: 10px auto;
+  }
+
+  .bodymenu {
+      font-size: 0.8em;
+  }
+
+  .menu-dashboard {
+      max-width: 60px;
+  }
+
+  .menu-dashboard.open {
+      max-width: 200px;
+  }
+
+  .btn-outline-secondary {
+      margin-left: 20%;
+      font-size: 18px;
+  }
+
+  #client, #cuentcorr, #prod, #configcuenta {
+      left: 5%;
+      top: 20%;
+      width: 90%;
+  }
+
+  .label2, .btn-success, .modif {
+      width: 90%;
+      margin-left: 5%;
+  }
+}
