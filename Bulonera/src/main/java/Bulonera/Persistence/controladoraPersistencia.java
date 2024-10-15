@@ -96,7 +96,7 @@ public class controladoraPersistencia {
         return listaClientes;
     }
     
-    //CRUD
+    //CRUD CUENTACORRIENTE
 
     public void crearCc(cuenta_corriente cC) {
         cuenta_corrienteJpa.create(cC);
