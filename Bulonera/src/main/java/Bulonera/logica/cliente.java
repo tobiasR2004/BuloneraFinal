@@ -23,10 +23,11 @@ import javax.persistence.TemporalType;
 @Entity
 public class cliente implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int nro_client;
     @Basic
-    private int dni_cliente, cuit_cliente;
+    private int dni_cliente;
+    private String cuit_cliente;
     private String razon_social, domicilio_cliente;
     @Temporal(TemporalType.DATE)
     private Date fecha_ingreso;
@@ -38,7 +39,7 @@ public class cliente implements Serializable {
         
     }
 
-    public cliente(int nro_client, int dni_cliente, int cuit_cliente, String razon_social, String domicilio_cliente, Date fecha_ingreso, ArrayList<pago> listaPagos_c) {
+    public cliente(int nro_client, int dni_cliente, String cuit_cliente, String razon_social, String domicilio_cliente, Date fecha_ingreso, ArrayList<pago> listaPagos_c) {
         this.nro_client = nro_client;
         this.dni_cliente = dni_cliente;
         this.cuit_cliente = cuit_cliente;
@@ -47,6 +48,8 @@ public class cliente implements Serializable {
         this.fecha_ingreso = fecha_ingreso;
         this.listaPagos_c = listaPagos_c;
     }
+
+    
 
     public ArrayList<pago> getListaPagos_c() {
         return listaPagos_c;
@@ -72,11 +75,11 @@ public class cliente implements Serializable {
         this.dni_cliente = dni_cliente;
     }
 
-    public int getCuit_cliente() {
+    public String getCuit_cliente() {
         return cuit_cliente;
     }
 
-    public void setCuit_cliente(int cuit_cliente) {
+    public void setCuit_cliente(String cuit_cliente) {
         this.cuit_cliente = cuit_cliente;
     }
 
