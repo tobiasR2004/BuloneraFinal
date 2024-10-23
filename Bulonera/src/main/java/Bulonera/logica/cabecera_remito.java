@@ -25,7 +25,8 @@ public class cabecera_remito implements Serializable {
     private int id_remito;
     @Basic
     private int nro_cliente;
-    private int cuit_cliente, nro_remito;
+    private int cuit_cliente;
+    private int nro_remito;
     private String razon_social;
     
     @OneToOne

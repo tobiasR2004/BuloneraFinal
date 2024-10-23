@@ -3,6 +3,7 @@ Bulonera\Persistence\usuarioJpaController.class
 com\mycompany\bulonera\resources\JakartaEE8Resource.class
 Bulonera\logica\producto.class
 Bulonera\Persistence\exceptions\PreexistingEntityException.class
+Bulonera\Servlet\sVcliente.class
 com\mycompany\bulonera\JakartaRestConfiguration.class
 Bulonera\logica\pago.class
 Bulonera\logica\controladoraLogica.class

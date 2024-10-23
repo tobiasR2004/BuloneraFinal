@@ -46,13 +46,12 @@
   color: white;
 }
 
-.headermenu {
-  background: rgba(0,0,0,0.9);
-  width: 100%;
-  position: fixed;
-  z-index: 10;
+.headermenu{
+    background: rgba(0,0,0,0.9);
+    width: 100%;
+    position: fixed;
+    z-index: 10;  
 }
-
 :root {
   --blanco: #E0E0E0;
   --azulopac: #184463;
@@ -93,6 +92,7 @@
   padding: 25px;
   transition: max-width .3s ease;
   margin-top: 0px;
+  z-index: 3;
 }
 
 .top-menu {
@@ -154,18 +154,19 @@
 }
 
 .menu-dashboard.open {
+  position: fixed;
   max-width: 300px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .menu-dashboard.open .top-menu .logo span {
-  display: block;
+  display: flex;
   margin-top: 0px;
 }
 
 .menu-dashboard.open .elementmenu .enlace {
   width: auto;
-  padding: 30 px 0px;
+  padding: 30px 0px;
 
 }
 
@@ -180,7 +181,7 @@
   position: fixed;
   right: 0;
   width: 78%;
-  z-index: -1;
+  z-index: 1;
 }
 
 .titulonavbar {
@@ -190,7 +191,6 @@
   background-color:dodgerblue;
   padding: 8px;
   left: 10%;
-  z-index: -1;
   color: white;
 }
 
@@ -223,7 +223,7 @@ section:target {
   left: 10%;
   top: 10%;
   color: #000000;
-  z-index: -1;
+  z-index: 1;
 }
 
 .enlace span {
@@ -236,7 +236,7 @@ section:target {
   left: 10%;
   top: 10%;
   color: #000000;
-  z-index: -1;
+  z-index: 1;
 }
 
 #prod {  
@@ -244,7 +244,7 @@ section:target {
   left: 10%;
   top: 10%;
   color: #000000;
-  z-index: -1;
+  z-index: 1;
 }
 
 #configcuenta {  
