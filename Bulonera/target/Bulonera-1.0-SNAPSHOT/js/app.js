@@ -97,3 +97,21 @@ function mostrarBotones(ids) {
         if (boton) boton.style.display = 'block';
     });
 }
+
+        document.getElementById('btnAlta').addEventListener('click', function() {
+            const tablaClientes = document.querySelector('#tablaClientes tbody');
+            const fila = document.createElement('tr');
+
+            // Crear celdas vacías
+            fila.innerHTML = `
+                <td class="Columnas"></td>
+                <td class="Columnas"></td>
+                <td class="Columnas"></td>
+                <td class="Columnas"></td>
+                <td class="Columnas"></td>
+            `;
+
+            tablaClientes.appendChild(fila);
+        });
+        
+        

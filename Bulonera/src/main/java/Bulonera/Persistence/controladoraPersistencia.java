@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -87,6 +91,34 @@ public class controladoraPersistencia {
         } catch (Exception ex){
            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE,null, ex);
         }
+    }
+    
+    public cliente buscarDniClient(int dni) {
+        EntityManager em = clienteJpa.getEntityManager();
+        cliente client = null;
+        try {
+            em.getTransaction().begin();
+           
+            String jpql = "SELECT c FROM Cliente c WHERE c.dni_cliente = :dni";
+
+            Query query = em.createQuery(jpql);
+            query.setParameter("dni", dni);
+
+            
+            client = (cliente) query.getSingleResult();
+            em.getTransaction().commit();
+        } catch (NoResultException e) {
+            
+            System.out.println("No se encontró el cliente con DNI: " + dni);
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return client;
     }
 
     public cliente consultarcliente(int id) {
@@ -256,5 +288,6 @@ public class controladoraPersistencia {
         ArrayList<usuario> listaUsuarios = new ArrayList<usuario>(listaUs);
         return listaUsuarios;
     }
+
 
 }

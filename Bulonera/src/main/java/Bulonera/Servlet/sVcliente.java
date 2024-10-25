@@ -49,7 +49,7 @@ public class sVcliente extends HttpServlet {
             HttpSession sessionMuestraCli = request.getSession();
             sessionMuestraCli.setAttribute("listaCliente", listaCliente);
             
-            response.sendRedirect("menu.jsp#client");
+            response.sendRedirect("clientes.jsp");
         
     }
     
