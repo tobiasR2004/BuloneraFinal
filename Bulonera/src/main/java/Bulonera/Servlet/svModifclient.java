@@ -59,12 +59,12 @@ public class svModifclient extends HttpServlet {
         cliente cliente1 = ctrl.buscarDniCliente(dniModif);
         
         HttpSession misesion = request.getSession();
-        misesion.setAttribute("clienremito", cliente1);
+        misesion.setAttribute("clienModif", cliente1);
         
-        response.sendRedirect("menu.jsp#cuentcorr");
+        response.sendRedirect("modifCliente.jsp");
     }
 
-    /**
+    /**     
      * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
@@ -82,21 +82,25 @@ public class svModifclient extends HttpServlet {
             String fechaStr= request.getParameter("fechaClModif");
             String cuit= request.getParameter("cuitClModif");
             String domicilio= request.getParameter("domicilioClModif");
-            
+           
+
             cliente cliente1 = (cliente) request.getSession().getAttribute("clienModif");
             
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date fechaing = format.parse(fechaStr);
-            
+                
             cliente1.setDni_cliente(dni);
             cliente1.setRazon_social(razonSoc);
             cliente1.setFecha_ingreso(fechaing);
             cliente1.setCuit_cliente(cuit);
             cliente1.setDomicilio_cliente(domicilio);
+            
+            ctrl.modifCliente(cliente1);
+            
         } catch (ParseException ex) {
             Logger.getLogger(svModifclient.class.getName()).log(Level.SEVERE, null, ex);
         }
-        response.sendRedirect("menu.jsp#clientmodif");
+        response.sendRedirect("menu.jsp#MenuPrincipal");
     }
 
     /**

@@ -8,11 +8,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,12 +23,14 @@ import javax.persistence.TemporalType;
  * @author Alumno
  */
 @Entity
+@Table(name = "cliente") 
 public class cliente implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int nro_client;
     @Basic
-    private int dni_cliente;
+    @Column(name = "dni_cliente")  // Mapeo si el nombre en la tabla es diferente
+    private int dniCliente;
     private String cuit_cliente;
     private String razon_social, domicilio_cliente;
     @Temporal(TemporalType.DATE)
@@ -41,7 +45,7 @@ public class cliente implements Serializable {
 
     public cliente(int nro_client, int dni_cliente, String cuit_cliente, String razon_social, String domicilio_cliente, Date fecha_ingreso, ArrayList<pago> listaPagos_c) {
         this.nro_client = nro_client;
-        this.dni_cliente = dni_cliente;
+        this.dniCliente = dni_cliente;
         this.cuit_cliente = cuit_cliente;
         this.razon_social = razon_social;
         this.domicilio_cliente = domicilio_cliente;
@@ -68,11 +72,11 @@ public class cliente implements Serializable {
     }
 
     public int getDni_cliente() {
-        return dni_cliente;
+        return dniCliente;
     }
 
     public void setDni_cliente(int dni_cliente) {
-        this.dni_cliente = dni_cliente;
+        this.dniCliente = dni_cliente;
     }
 
     public String getCuit_cliente() {
