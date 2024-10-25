@@ -50,6 +50,10 @@ public class controladoraLogica {
         ctrlpersis.modifCliente(cliente1);
     }
     
+    public cliente buscarDniCliente(int dni){
+        return ctrlpersis.buscarDniClient(dni);
+    }
+    
     public cliente consultarCliente(int id){
         return ctrlpersis.consultarcliente(id);
     }

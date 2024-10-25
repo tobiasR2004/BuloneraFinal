@@ -80,7 +80,9 @@
 }
 
 .bodymenu {
-  position: relative;
+  display: flex;          
+  margin: 0;
+  position: fixed;
   font-family: Rubik, sans-serif;
   color: var(--blanco);
 }
@@ -93,6 +95,7 @@
   transition: max-width .3s ease;
   margin-top: 0px;
   z-index: 3;
+  position: fixed;
 }
 
 .top-menu {
@@ -189,7 +192,8 @@
   border: solid white 2px;
   position: fixed;
   background-color:dodgerblue;
-  padding: 8px;
+  padding: 15px;
+  top: 1px;
   left: 10%;
   color: white;
 }
@@ -216,14 +220,6 @@ section {
 
 section:target {
   display: block;
-}
-
-#client {  
-  position:fixed;
-  left: 10%;
-  top: 10%;
-  color: #000000;
-  z-index: 1;
 }
 
 .enlace span {
@@ -268,13 +264,22 @@ section:target {
   width: 100px;
 }
 
+.nav-item{
+  list-style-type: none;
+}
+
 .tablita {
   border: solid 2px black;
   border-collapse: collapse;
-  width: 95%;
+  width: 90%;
   background-color: #003053;
   color: aliceblue;
   table-layout: fixed;
+  position:fixed; 
+  left: 6%;
+  top: 15%;
+  right: 4%;
+  z-index: 1;
 }
 
 .tablita tbody tr:nth-of-type(odd) {
@@ -338,10 +343,17 @@ td {
 }
 
 .btnremito {
-  margin-left: 44.5%;
-  padding: 5px 20px;
-  font-size: 25px;
-  border: 0px;
+  top: 90%;
+  left: 47%;   
+  padding: 10px 20px;
+  font-size: 16px;
+  position: fixed;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #6c757d;
+  background-color: transparent;
+  color: #6c757d;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .modif {
@@ -389,7 +401,7 @@ td {
 
 #boton8{
   border: 0px;
-  margin-left: 105px;
+  margin-left: 140px;
   padding: 0px 15px;
 }
 
