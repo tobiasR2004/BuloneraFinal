@@ -6,6 +6,7 @@ package Bulonera.logica;
 
 import Bulonera.Persistence.controladoraPersistencia;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

@@ -4,7 +4,10 @@
     Author     : tobi2
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Bulonera.logica.cliente"%>
+<%@page import="java.util.List"%>
+<%@page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -45,10 +48,11 @@
                         <li class="nav-item">
                             <button type="button" class="btn btn-navbar" id="boton3" style="display: none;">Agregar</button>
                         </li>
-
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-navbar" id="boton4" style="display: none;">Eliminar</button>
+                        <form action="sVeliminarCliente" method="post">
+                            <li class="nav-item">
+                            <button type="submit" class="btn btn-navbar" id="boton4" style="display: none;">Eliminar</button>
                         </li>
+                        </form>
 
                         <li class="nav-item">
                             <button type="button" class="btn btn-navbar" id="boton5" style="display: none;">Imprimir deuda</button>
@@ -102,10 +106,13 @@
                 </div>
             </div>
             <div class="elementmenu">
-                <div class="enlace">
-                    <i class="bi bi-file-earmark-person"></i>
-                    <a href="#client" style="text-decoration: none;" onclick="cambiarBotones('opcion1')"><span>Clientes </span></a>
-                </div>
+                <form action="sVcliente" method="Get">
+                    <div class="enlace">
+                        <i class="bi bi-file-earmark-person"></i>
+                        <button type="submit"><a href="#client" style="text-decoration: none;" onclick="cambiarBotones('opcion1')"><span>Clientes </span></a></button>
+                    </div>
+                </form>
+                
                 <div class="enlace">
                     <i class="bi bi-cart"></i>
                     <a href="#cuentcorr" style="text-decoration: none;"
@@ -278,55 +285,35 @@
         <section id="client">
             CLIENTES REGISTRADOS
             <br>
-            <TABLE class="table tablita">
+            <table class="table tablita">
                 <tr class="Columnas">
+                    <th class="Columnas">Nro Cliente</th>
                     <th class="Columnas">DNI</th>
                     <th class="Columnas">Razon Social</th>
                     <th class="Columnas">Fecha de ingreso</th>
                     <th class="Columnas">CUIT</th>
                     <th class="Columnas">Domicilio</th>
                 </tr>
-
-                <tr id="columclient" contenteditable="false">
-                    <td class="Columnas" contenteditable="false">45.047.374</td>
-                    <td class="Columnas" contenteditable="false">Romani Tobias</td>
-                    <td class="Columnas" contenteditable="false">30/05/2024</td>
-                    <td class="Columnas" contenteditable="false">20-45047354-8</td>
-                    <td class="Columnas" contenteditable="false">Eva Perón 255</td>
-                </tr>
-
+                    <%
+                List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
+                if (listaCliente != null) {
+                    for (cliente Cli : listaCliente) {
+                    %>
                 <tr>
-                    <td class="Columnas" contenteditable="false">45.616.591</td>
-                    <td class="Columnas" contenteditable="false">Mallarino Lisandro</td>
-                    <td class="Columnas" contenteditable="false">31/05/2024</td>
-                    <td class="Columnas" contenteditable="false">20-45616591-6</td>
-                    <td class="Columnas" contenteditable="false">Carmen Gadea 680</td>
+                    <td><%= Cli.getNro_client() %></td>
+                    <td><%= Cli.getDni_cliente() %></td>
+                    <td><%= Cli.getRazon_social() %></td>
+                    <td>xd</td>
+                    <td><%= Cli.getCuit_cliente() %></td>
+                    <td><%= Cli.getDomicilio_cliente() %></td>
                 </tr>
-
-                <tr>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                </tr>
-
-                <tr>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                </tr>
-
-                <tr>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                    <td class="Columnas" contenteditable="false"></td>
-                </tr>
-
+                    <%
+                    }
+                } else {
+                    %>
+            <%
+                }
+            %>
             </table>
         </section>
 

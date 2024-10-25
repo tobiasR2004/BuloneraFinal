@@ -12,6 +12,7 @@ Bulonera\logica\cliente.class
 Bulonera\Persistence\clienteJpaController.class
 Bulonera\Persistence\controladoraPersistencia.class
 Bulonera\Persistence\exceptions\IllegalOrphanException.class
+Bulonera\Servlet\sVeliminarCliente.class
 Bulonera\logica\cabecera_remito.class
 Bulonera\Persistence\cabecera_remitoJpaController.class
 Bulonera\Persistence\cuenta_corrienteJpaController.class

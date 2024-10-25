@@ -7,12 +7,10 @@ package Bulonera.Servlet;
 import Bulonera.logica.cliente;
 import Bulonera.logica.controladoraLogica;
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.lang.Long.parseLong;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+;
 
 /**
  *
@@ -30,43 +29,30 @@ import javax.servlet.http.HttpServletResponse;
 public class sVcliente extends HttpServlet {
     controladoraLogica ctrl = new controladoraLogica();
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
+    public sVcliente() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            //MUESTRA
+            List<cliente> listaCliente = new ArrayList<>();
+            listaCliente = (List<cliente>) ctrl.consultarClienteList();
+            
+            HttpSession sessionMuestraCli = request.getSession();
+            sessionMuestraCli.setAttribute("listaCliente", listaCliente);
+            
+            response.sendRedirect("menu.jsp#client");
+        
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -80,8 +66,6 @@ public class sVcliente extends HttpServlet {
             
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date fechaing = format.parse(fechaStr);
-            
-            
             
             cliente client = new cliente();
             
@@ -97,7 +81,6 @@ public class sVcliente extends HttpServlet {
             Logger.getLogger(sVcliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         response.sendRedirect("menu.jsp");
-        
     }
 
     /**
