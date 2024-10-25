@@ -3,8 +3,6 @@
     Created on : 15 oct 2024, 20:01:44
     Author     : tobi2
 --%>
-
-<%@page import="Bulonera.logica.cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>

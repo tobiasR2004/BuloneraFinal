@@ -96,31 +96,23 @@ public class controladoraPersistencia {
     public cliente buscarDniClient(int dni) {
         EntityManager em = clienteJpa.getEntityManager();
         cliente client = null;
-        try {
-            em.getTransaction().begin();
-           
-            String jpql = "SELECT c FROM Cliente c WHERE c.dni_cliente = :dni";
 
-            Query query = em.createQuery(jpql);
-            query.setParameter("dni", dni);
+            try {
+                String jpql = "SELECT c FROM cliente c WHERE c.dniCliente = :dni";
+                Query query = em.createQuery(jpql);
+                query.setParameter("dni", dni);
 
-            
-            client = (cliente) query.getSingleResult();
-            em.getTransaction().commit();
-        } catch (NoResultException e) {
-            
-            System.out.println("No se encontró el cliente con DNI: " + dni);
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+                client = (cliente) query.getSingleResult();
+            } catch (NoResultException e) {
+                System.out.println("No se encontró el cliente con DNI: " + dni);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                em.close();
             }
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return client;
-    }
 
+    return client;
+}
     public cliente consultarcliente(int id) {
         return clienteJpa.findcliente(id);
     }
