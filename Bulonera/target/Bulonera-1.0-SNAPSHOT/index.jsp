@@ -39,7 +39,7 @@
             <script>
               function redireccionar()
               {
-                window.location.href = "menu.jsp#MenuPrincipal";
+                window.location.href = "menu.jsp";
               }
             </script>
 

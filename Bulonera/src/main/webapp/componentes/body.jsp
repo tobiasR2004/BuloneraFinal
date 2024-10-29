@@ -5,7 +5,7 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<body class="bodymenu">
+<body class="bodymenu" id="MenuPrincipal">
     <!--Dashboard  Romani Tobias-->
     <div class="menu-dashboard">
         <div class="top-menu">
