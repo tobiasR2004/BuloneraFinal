@@ -3,10 +3,7 @@
     Created on : 23 oct 2024, 20:59:14
     Author     : tobi2
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<section id="MenuPrincipal">  
-</section>
 
 <body class="bodymenu">
     <!--Dashboard  Romani Tobias-->
@@ -22,9 +19,10 @@
             <form action="sVcliente" method="Get">
                     <div class="enlace">
                         <i class="bi bi-file-earmark-person"></i>
-                        <button type="submit"><a href="clientes.jsp" style="text-decoration: none;" onclick="cambiarBotones('opcion1')"><span>Clientes</span></a></button>
+                        <button type="submit" class="onlyTXT"><a href="clientes.jsp#client" style="text-decoration:none;"
+                                onclick="cambiarBotones('opcion1')"><span>Clientes </span></a></button>
                     </div>
-            </form>
+                </form>
             
             
             <div class="enlace">

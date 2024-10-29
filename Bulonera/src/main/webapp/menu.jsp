@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-=======
 <%-- 
     Document   : menu
     Created on : 15 oct 2024, 20:01:44
     Author     : tobi2
 --%>
->>>>>>> 06cc52cb53c1bd20ff7f3a6cb786593a9db83414
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>

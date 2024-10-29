@@ -7,7 +7,7 @@
 }
 
 .bodyIndex {
-  background-image: url(img/Fondolog.jpg);
+  background-image: url(../img/Fondolog.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -60,7 +60,7 @@
 }
 
 #MenuPrincipal {
-  background-image: url('img/fondomenu.jpg');
+  background-image: url("../img/fondomenu.jpg");
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -94,6 +94,7 @@
   padding: 25px;
   transition: max-width .3s ease;
   margin-top: 0px;
+  position: fixed;
   z-index: 3;
 }
 
@@ -101,6 +102,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.onlyTXT{
+    background-color: transparent;
+    border: none; 
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .top-menu .logo {
@@ -252,7 +260,7 @@ section:target {
   color: aliceblue;
   table-layout: fixed;
   position:fixed; 
-  left: 6%;
+  left: 7%;
   top: 15%;
   right: 4%;
   z-index: 1;
@@ -320,7 +328,7 @@ td {
 
 .btnremito {
   top: 90%;
-  left: 47%;   
+  left: 50%;   
   padding: 10px 20px;
   font-size: 16px;
   position: fixed;
@@ -377,8 +385,8 @@ td {
 
 #boton8{
   border: 0px;
-  margin-left: 140px;
-  padding: 0px 15px;
+  margin-left: 60px;
+  padding: 7px 15px;
 }
 
 #boton8:hover{

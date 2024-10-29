@@ -4,6 +4,8 @@
     Author     : tobi2
 --%>
 
+<%@page import="Bulonera.logica.cliente"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
@@ -19,6 +21,7 @@
     <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
             data-bs-toggle="modal">Cancelar deuda</button>
 </li>
+
 <li><button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button></li>
 
 </ul>
@@ -66,10 +69,13 @@
 </TABLE>
 
 <!-- Botón para abrir el modal -->
-<button type="button" class="btn btn-outline-secondary btnremito" 
-        tabindex="0" data-bs-target="#remito" data-bs-toggle="modal">
-    <i class="bi bi-plus-circle"></i>
-</button>
+<form action="svCliente" method="get">
+    <button type="button" class="btn btn-outline-secondary btnremito" 
+            tabindex="0" data-bs-target="#remito" data-bs-toggle="modal">
+        <i class="bi bi-plus-circle"></i>
+    </button>
+</form>
+
 
 <!-- Estructura del modal -->
 <div class="modal fade" id="remito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -80,15 +86,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
+                
+                
                 <!-- Formularios en línea -->
+                <%
+                List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
+                
+                    %>
                 <div class="row mb-3">
                     <div class="col">
                         <label for="numero-cliente" class="form-label">Número de cliente</label>
-                        <input type="text" id="numero-cliente" class="form-control" aria-label="Número de cliente" disabled>
+                        <input type="text" id="numero-cliente" class="form-control" aria-label="Número de cliente"
+                               disabled value="<%= Cli.getNro_client() %>">
                     </div>
+                    
                     <div class="col">
                         <label for="razon-social" class="form-label">Razón social</label>
-                        <input type="text" id="razon-social" class="form-control" aria-label="Razón social" disabled>
+                        <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
+                               disabled value="<%= ((cliente) request.getAttribute("cliente")).getRazon_social()%>">
                     </div>
                 </div>
 

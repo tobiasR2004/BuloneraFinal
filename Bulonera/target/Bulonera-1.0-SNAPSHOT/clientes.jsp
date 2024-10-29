@@ -1,8 +1,9 @@
-<%@page import="java.util.List"%>
 <%@page import="Bulonera.logica.cliente"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
@@ -16,6 +17,7 @@
     </li>
 
 </ul>
+
 <form action="svModifclient" method="GET" class="d-flex" role="search">
     <input class="form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="buscarCl">
     <button class="btn btn-outline-success" type="submit">BUSCAR</button>
@@ -25,8 +27,7 @@
 </nav>
 
 
-CLIENTES REGISTRADOS
-            <br>
+        <section id="client">
             <table class="table tablita">
                 <tr class="Columnas">
                     <th class="Columnas">Nro Cliente</th>
@@ -45,18 +46,16 @@ CLIENTES REGISTRADOS
                     <td><%= Cli.getNro_client() %></td>
                     <td><%= Cli.getDni_cliente() %></td>
                     <td><%= Cli.getRazon_social() %></td>
-                    <td>xd</td>
+                    <td><fmt:formatDate value="<%= Cli.getFecha_ingreso() %>" pattern="dd/MM/yyyy" /></td>
                     <td><%= Cli.getCuit_cliente() %></td>
                     <td><%= Cli.getDomicilio_cliente() %></td>
                 </tr>
                     <%
                     }
-                } else {
-                    %>
-            <%
                 }
             %>
-            </table>      
+            </table>
+        </section>      
 
 <div class="modal fade" id="alta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -96,12 +95,11 @@ CLIENTES REGISTRADOS
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary" id="btnAlta">Cargar</button>
                     </div>
-
+                </div>
             </form>
         </div>
     </div>
 </div>  
-</div>
 
 <!-- BTN MODIFICACION -->
     <div id="confirmodif" class="modal" tabindex="-1">
