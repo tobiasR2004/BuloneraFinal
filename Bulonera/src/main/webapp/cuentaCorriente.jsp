@@ -4,11 +4,27 @@
     Author     : tobi2
 --%>
 
+<%@page import="Bulonera.logica.cliente"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
 
-<li class="nav-item">
+            <form action="svModifclient" method="GET" class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="buscarCl">
+                <button class="btn btn-outline-success" type="submit">BUSCAR</button>
+            </form
+            <li class="nav-item">
+                <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="btn btn-navbar" id="boton5">Imprimir deuda</button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
+                        data-bs-toggle="modal">Cancelar deuda</button>
+            </li>
+            <li><button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button></li>
 
     <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
 </li>
@@ -19,12 +35,24 @@
     <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
             data-bs-toggle="modal">Cancelar deuda</button>
 </li>
+
 <li><button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button></li>
 
 </ul>
 </div>
 </div>
 </nav>
+
+   <%
+    cliente cliente1 = (cliente) request.getSession().getAttribute("clienModif");
+%>
+<div>
+<p><label>Cliente: </label></p>
+<p><label>Numero de Cliente: </label></p>
+</div>
+
+
+
 <br>
 <TABLE class="table tablita">
     <tr class="Columnas ">
@@ -66,10 +94,13 @@
 </TABLE>
 
 <!-- Botón para abrir el modal -->
-<button type="button" class="btn btn-outline-secondary btnremito" 
-        tabindex="0" data-bs-target="#remito" data-bs-toggle="modal">
-    <i class="bi bi-plus-circle"></i>
-</button>
+<form action="svCliente" method="get">
+    <button type="button" class="btn btn-outline-secondary btnremito" 
+            tabindex="0" data-bs-target="#remito" data-bs-toggle="modal">
+        <i class="bi bi-plus-circle"></i>
+    </button>
+</form>
+
 
 <!-- Estructura del modal -->
 <div class="modal fade" id="remito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -80,20 +111,29 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
+                
+                
                 <!-- Formularios en línea -->
+                <%
+                List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
+                
+                    %>
                 <div class="row mb-3">
                     <div class="col">
                         <label for="numero-cliente" class="form-label">Número de cliente</label>
-                        <input type="text" id="numero-cliente" class="form-control" aria-label="Número de cliente" disabled>
+                        <input type="text" id="numero-cliente" class="form-control" aria-label="Número de cliente"
+                               disabled value="<%= Cli.getNro_client() %>">
                     </div>
+                    
                     <div class="col">
                         <label for="razon-social" class="form-label">Razón social</label>
-                        <input type="text" id="razon-social" class="form-control" aria-label="Razón social" disabled>
+                        <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
+                               disabled value="<%= ((cliente) request.getAttribute("cliente")).getRazon_social()%>">
                     </div>
                 </div>
 
                 <!-- Tabla -->
-                <div class="table-responsive">
+                <div class="table-responsive">  
                     <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>

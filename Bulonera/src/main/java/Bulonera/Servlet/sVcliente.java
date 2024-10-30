@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,43 +31,32 @@ import javax.servlet.http.HttpServletResponse;
 public class sVcliente extends HttpServlet {
     controladoraLogica ctrl = new controladoraLogica();
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
+    public sVcliente() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+       
+            //MUESTRA
+            List<cliente> listaCliente = new ArrayList<>();
+            listaCliente = (List<cliente>) ctrl.consultarClienteList();
+            
+            HttpSession sessionMuestraCli = request.getSession();
+            sessionMuestraCli.setAttribute("listaCliente", listaCliente);
+            
+            response.sendRedirect("clientes.jsp#client");
+        
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -81,8 +71,6 @@ public class sVcliente extends HttpServlet {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date fechaing = format.parse(fechaStr);
             
-            
-            
             cliente client = new cliente();
             
             client.setDni_cliente(dni);
@@ -96,7 +84,7 @@ public class sVcliente extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(sVcliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        response.sendRedirect("menu.jsp");
+        response.sendRedirect("clientes.jsp");
         
     }
 
