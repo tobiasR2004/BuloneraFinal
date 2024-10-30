@@ -60,11 +60,7 @@
 }
 
 #MenuPrincipal {
-<<<<<<< HEAD
   background-image: url('../img/fondomenu.jpg');
-=======
-  background-image: url("../img/fondomenu.jpg");
->>>>>>> c60cf1543f5604fc63a9137608abdb41867cc23a
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;

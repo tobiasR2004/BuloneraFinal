@@ -10,7 +10,6 @@
                 <button class="btn btn-outline-success" type="submit">BUSCAR</button>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-<<<<<<< HEAD
                 <li>
                     <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#alta"
                             data-bs-whatever="@mdo" id="boton1" onclick="mostraralta">Alta</button>
@@ -24,21 +23,6 @@
         </div>
     </div>
 </nav>
-
-    <li>
-        <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#alta"
-                data-bs-whatever="@mdo" id="boton1" onclick="mostraralta">Alta</button>
-    </li>
-
-</ul>
-<form action="svModifclient" method="GET" class="d-flex" role="search">
-    <input class="form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="buscarCl">
-    <button class="btn btn-outline-success" type="submit">BUSCAR</button>
-</form>
-</div>
-</div>
-</nav>
-
 
         <section id="client">
             <table class="table tablita">
@@ -69,6 +53,7 @@
             %>
             </table>
         </section>      
+
 
 <div class="modal fade" id="alta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

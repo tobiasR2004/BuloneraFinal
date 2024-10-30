@@ -9,26 +9,24 @@
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
 
-<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-    <li class="nav-item">
-        <button type="button" class="btn btn-navbar" id="boton2">Modificacion</button>
-    </li>
+                <input class="btnnavBuscar form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="nombreBusq">
+                <button class="btn btn-outline-success" type="submit">BUSCAR</button>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-    <li>
-        <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#alta"
-                data-bs-whatever="@mdo" id="boton1" onclick="mostraralta">Alta</button>
-    </li>
-
-</ul>
-<form action="svModifclient" method="GET" class="d-flex" role="search">
-    <input class="form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="buscarCl">
-    <button class="btn btn-outline-success" type="submit">BUSCAR</button>
-</form>
-</div>
-</div>
+                <li>
+                    <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#alta"
+                            data-bs-whatever="@mdo" id="boton1" onclick="mostraralta">Alta</button>
+                </li>
+            <form action="svModifclient" method="GET" class="d-flex" role="search">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-navbar" id="boton2" data-bs-toggle="modal" data-bs-target="#confirmodif">Modificacion</button>
+                </li>
+            </form
+            </ul>
+        </div>
+    </div>
 </nav>
-
 
 <br>
 <TABLE class="table tablita">
@@ -119,12 +117,11 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary" id="btnAlta">Cargar</button>
+                        </div>
                     </div>
-
-            </form>
+                </form>
         </div>
-    </div>
-</div>  
+    </div>  
 </div>
 
 <!-- BTN MODIFICACION -->
@@ -141,7 +138,7 @@
                 </div>
                 <form action="svModifclient" method="GET">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="DNI del cliente que desea modificar" aria-label="DNI" aria-describedby="button-addon2" name="buscarCl">
+                        <input type="text" class="form-control" placeholder="DNI del cliente que desea modificar" aria-label="DNI" aria-describedby="button-addon2" name="buscarCl"">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
                     </div>
                 </form>                  
