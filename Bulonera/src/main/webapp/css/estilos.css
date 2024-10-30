@@ -7,7 +7,7 @@
 }
 
 .bodyIndex {
-  background-image: url(img/Fondolog.jpg);
+  background-image: url(../img/Fondolog.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -60,7 +60,7 @@
 }
 
 #MenuPrincipal {
-  background-image: url('img/fondomenu.jpg');
+  background-image: url('../img/fondomenu.jpg');
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -178,6 +178,10 @@
   padding: 50px 5px;
 }
 
+.btnnavBuscar{
+    margin-left: 5px;
+    
+}
 
 .bg-body-tertiary {
   display: flex;
@@ -227,31 +231,9 @@ section:target {
   color: var(--bg-body);
 }
 
-#cuentcorr {  
-  position: fixed;
-  left: 10%;
-  top: 10%;
-  color: #000000;
-  z-index: 1;
-}
-
-#prod {  
-  position: fixed;
-  left: 10%;
-  top: 10%;
-  color: #000000;
-  z-index: 1;
-}
-
-#configcuenta {  
-  position: fixed;
-  left: 23%;
-  top: 10%;
-  color: #000000;
-}
-
 .modal-content {
   color: #003053;
+  
 }
 
 .btn-navbar {
@@ -332,15 +314,11 @@ td {
 
 #importe{
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
+    justify-content: center; 
     margin-left: 10%;
-    padding-top: 10px; /* Ajusta según necesites espacio arriba */
+    padding-top: 10px;
 }
 
-#modal2 {
-  position: absolute;
-  top: 1%;
-}
 
 .btnremito {
   top: 90%;
@@ -356,6 +334,7 @@ td {
   transition: background-color 0.3s, color 0.3s;
 }
 
+
 .modif {
   width: 400px;
   height: 60%;
@@ -364,7 +343,7 @@ td {
 
 .modal-body {
   position: relative;
-  display: inline-block;
+  display: block;
   margin-left: 7%;
 }
 

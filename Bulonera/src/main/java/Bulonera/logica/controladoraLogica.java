@@ -3,9 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Bulonera.logica;
-
+import Bulonera.logica.usuario;
 import Bulonera.Persistence.controladoraPersistencia;
 import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -60,6 +62,11 @@ public class controladoraLogica {
     
     public ArrayList<cliente> consultarClienteList(){
         return ctrlpersis.consultarClienList();
+    }
+    
+    public cliente buscarNombCliente(String Razonsoc)
+    { 
+        return ctrlpersis.buscarNombCliente(Razonsoc);
     }
     
     //CRUD CUENTA_CORRIENTE
@@ -170,5 +177,20 @@ public class controladoraLogica {
         return ctrlpersis.consultarUsuariosList();
     }
     
-    
-} 
+    public void validarIngreso(String nombUsuario, String contrasenia, HttpServletRequest request) {
+        List<usuario> listaUs = ctrlpersis.consultarUsuariosList();
+
+    for (usuario usu : listaUs) {
+        if (usu.getNombUsuario().equals(nombUsuario) &&
+            usu.getContraseña().equals(contrasenia)) {
+            // Guardar datos en los atributos del request
+            request.setAttribute("usuarioValido", true);
+            request.setAttribute("idUsuario", usu.getIdUsuario());
+            return;  // Salimos del método
+        }
+    }
+
+    // Si no es válido, marcamos que falló la autenticación
+    request.setAttribute("usuarioValido", false);
+}
+}
