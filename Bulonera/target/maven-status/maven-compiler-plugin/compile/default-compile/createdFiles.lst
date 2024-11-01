@@ -24,3 +24,4 @@ Bulonera\logica\cuenta_corriente.class
 Bulonera\Persistence\clienteJpaController.class
 Bulonera\Persistence\detalle_remitoJpaController.class
 Bulonera\Servlet\svRemito.class
+Bulonera\Servlet\svUsuario.class

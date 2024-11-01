@@ -116,6 +116,27 @@ public class controladoraPersistencia {
 
     return client;
 }
+    
+        public cliente buscarNombCliente(String razonSoc) {
+        EntityManager em = usuarioJpa.getEntityManager();
+        cliente client2 = null;
+
+            try {
+                String jpql = "SELECT c FROM usuario c WHERE c.razonSocial = razonSoc";
+                Query query = em.createQuery(jpql);
+                query.setParameter("cliente", razonSoc);
+
+                client2 = (cliente) query.getSingleResult();
+            } catch (NoResultException e) {
+                System.out.println("No se encontró el cliente: " + client2 );
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                em.close();
+            }
+
+    return client2;
+}
     public cliente consultarcliente(int id) {
         return clienteJpa.findcliente(id);
     }
@@ -290,5 +311,5 @@ public class controladoraPersistencia {
         return listaUsuarios;
     }
 
-
+ 
 }

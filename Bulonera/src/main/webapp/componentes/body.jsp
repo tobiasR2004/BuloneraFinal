@@ -5,6 +5,9 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<section id="MenuPrincipal">  
+</section>
+
 <body class="bodymenu" id="MenuPrincipal">
     <!--Dashboard  Romani Tobias-->
     <div class="menu-dashboard">

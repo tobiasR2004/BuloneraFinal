@@ -10,24 +10,34 @@
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
 
-<li class="nav-item">
+            <form action="svModifclient" method="GET" class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="buscarCl">
+                <button class="btn btn-outline-success" type="submit">BUSCAR</button>
+            </form
+            <li class="nav-item">
+                <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="btn btn-navbar" id="boton5">Imprimir deuda</button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
+                        data-bs-toggle="modal">Cancelar deuda</button>
+            </li>
+            <li><button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button></li>
 
-    <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
-</li>
-<li class="nav-item">
-    <button type="button" class="btn btn-navbar" id="boton5">Imprimir deuda</button>
-</li>
-<li class="nav-item">
-    <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
-            data-bs-toggle="modal">Cancelar deuda</button>
-</li>
-
-<li><button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button></li>
-
-</ul>
-</div>
-</div>
 </nav>
+
+   <%
+    cliente cliente1 = (cliente) request.getSession().getAttribute("clienModif");
+%>
+<div>
+<p><label>Cliente: </label></p>
+<p><label>Numero de Cliente: </label></p>
+</div>
+
+
+
 <br>
 
 
@@ -106,7 +116,7 @@
                 </div>
 
                 <!-- Tabla -->
-                <div class="table-responsive">
+                <div class="table-responsive">  
                     <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>

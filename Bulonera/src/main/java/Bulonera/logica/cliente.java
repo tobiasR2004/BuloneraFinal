@@ -32,7 +32,9 @@ public class cliente implements Serializable {
     @Column(name = "dni_cliente")  // Mapeo si el nombre en la tabla es diferente
     private int dniCliente;
     private String cuit_cliente;
-    private String razon_social, domicilio_cliente;
+    @Column(name = "razon_social") 
+    private String razonSocial;
+    private String domicilio_cliente;
     @Temporal(TemporalType.DATE)
     private Date fecha_ingreso;
     
@@ -47,7 +49,7 @@ public class cliente implements Serializable {
         this.nro_client = nro_client;
         this.dniCliente = dni_cliente;
         this.cuit_cliente = cuit_cliente;
-        this.razon_social = razon_social;
+        this.razonSocial = razon_social;
         this.domicilio_cliente = domicilio_cliente;
         this.fecha_ingreso = fecha_ingreso;
         this.listaPagos_c = listaPagos_c;
@@ -88,11 +90,11 @@ public class cliente implements Serializable {
     }
 
     public String getRazon_social() {
-        return razon_social;
+        return razonSocial;
     }
 
     public void setRazon_social(String razon_social) {
-        this.razon_social = razon_social;
+        this.razonSocial = razon_social;
     }
 
     public String getDomicilio_cliente() {
