@@ -49,8 +49,7 @@ public class sVcliente extends HttpServlet {
             HttpSession sessionMuestraCli = request.getSession();
             sessionMuestraCli.setAttribute("listaCliente", listaCliente);
             
-            response.sendRedirect("clientes.jsp#client");
-        
+            response.sendRedirect("clientes.jsp#client");   
     }
     
     @Override
@@ -80,7 +79,7 @@ public class sVcliente extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(sVcliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        response.sendRedirect("menu.jsp");
+        response.sendRedirect("clientes.jsp");
     }
 
     /**

@@ -29,6 +29,8 @@
 </div>
 </nav>
 <br>
+
+
 <TABLE class="table tablita">
     <tr class="Columnas ">
         <th class="Columnas">Fecha operación</th>
@@ -69,7 +71,7 @@
 </TABLE>
 
 <!-- Botón para abrir el modal -->
-<form action="svCliente" method="get">
+<form action="sVcuentaCorrienteRemito" method="get">
     <button type="button" class="btn btn-outline-secondary btnremito" 
             tabindex="0" data-bs-target="#remito" data-bs-toggle="modal">
         <i class="bi bi-plus-circle"></i>
@@ -89,21 +91,17 @@
                 
                 
                 <!-- Formularios en línea -->
-                <%
-                List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
-                
-                    %>
                 <div class="row mb-3">
                     <div class="col">
                         <label for="numero-cliente" class="form-label">Número de cliente</label>
-                        <input type="text" id="numero-cliente" class="form-control" aria-label="Número de cliente"
-                               disabled value="<%= Cli.getNro_client() %>">
+                        <input type="text" id="numero-cliente" name="nroClient" class="form-control"
+                               disabled value="<%= request.getAttribute("nroClient") %>">
                     </div>
                     
                     <div class="col">
                         <label for="razon-social" class="form-label">Razón social</label>
                         <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
-                               disabled value="<%= ((cliente) request.getAttribute("cliente")).getRazon_social()%>">
+                               disabled value="<%= request.getAttribute("razonSocial") %>">
                     </div>
                 </div>
 
@@ -146,6 +144,18 @@
         </div>
     </div>
 </div>
+                    
+                    <div style="margin-top: 5%">
+                        HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                        HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                        HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                        HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                            <select>
+                                <c:forEach var="Cli" items="${listaClientes}">
+                                    <option value="${Cli.nro_client}">${Cli.razon_social}</option>
+                                </c:forEach>
+                            </select>
+                    </div>                    
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {

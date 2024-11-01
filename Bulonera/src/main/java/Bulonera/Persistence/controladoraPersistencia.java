@@ -17,9 +17,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -34,6 +35,8 @@ public class controladoraPersistencia {
     pagoJpaController pagoJpa = new pagoJpaController();
     productoJpaController productoJpa = new productoJpaController();
     usuarioJpaController usuarioJpa = new usuarioJpaController();
+    
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("buloneraPU");
     
     public controladoraPersistencia() {
     }
@@ -122,6 +125,12 @@ public class controladoraPersistencia {
         ArrayList<cliente> listaClientes = new ArrayList<cliente>(listaClient);
         return listaClientes;
     }
+    
+    public List<cliente> getClientes() {
+    EntityManager em = emf.createEntityManager();
+    Query query = em.createQuery("SELECT c FROM cliente c");
+    return query.getResultList();
+}
     
     //CRUD CUENTACORRIENTE
 

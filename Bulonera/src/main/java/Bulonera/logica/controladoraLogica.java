@@ -63,6 +63,10 @@ public class controladoraLogica {
         return ctrlpersis.consultarClienList();
     }
     
+    public List<cliente> obtenerClientes() {
+        return ctrlpersis.getClientes();
+    }
+    
     //CRUD CUENTA_CORRIENTE
     
     public void crearCc(cuenta_corriente cC1){

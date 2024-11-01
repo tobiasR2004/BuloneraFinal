@@ -22,14 +22,16 @@
                         <button type="submit" class="onlyTXT"><a href="clientes.jsp#client" style="text-decoration:none;"
                                 onclick="cambiarBotones('opcion1')"><span>Clientes </span></a></button>
                     </div>
-                </form>
+            </form>
             
             
-            <div class="enlace">
-                <i class="bi bi-cart"></i>
-                <a href="cuentaCorriente.jsp" style="text-decoration: none;"
-                   onclick="cambiarBotones('opcion2')"><span>C/corrientes</span></a>
-            </div>
+            <form action="sVcuentaCorrienteRemito" method="get">
+                <div class="enlace">
+                    <i class="bi bi-cart"></i>
+                    <button type="submit" class="onlyTXT"><a href="cuentaCorriente.jsp" style="text-decoration: none;"
+                               onclick="cambiarBotones('opcion2')"><span>C/corrientes</span></a></button>
+                </div>
+            </form>
 
             <div class="enlace">
                 <i class="bi bi-screwdriver"></i>
