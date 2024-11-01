@@ -1,13 +1,10 @@
-<%-- 
-    Document   : clientes
-    Created on : 23 oct 2024, 21:13:31
-    Author     : tobi2
---%>
 
 <%@page import="Bulonera.logica.cliente"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
                 <input class="btnnavBuscar form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="nombreBusq">
@@ -28,57 +25,36 @@
     </div>
 </nav>
 
-<br>
-<TABLE class="table tablita">
-    <tr class="Columnas">
-        <th class="Columnas">DNI</th>
-        <th class="Columnas">Razon Social</th>
-        <th class="Columnas">Fecha de ingreso</th>
-        <th class="Columnas">CUIT</th>
-        <th class="Columnas">Domicilio</th>
-    </tr>
+        <section id="client">
+            <table class="table tablita">
+                <tr class="Columnas">
+                    <th class="Columnas">Nro Cliente</th>
+                    <th class="Columnas">DNI</th>
+                    <th class="Columnas">Razon Social</th>
+                    <th class="Columnas">Fecha de ingreso</th>
+                    <th class="Columnas">CUIT</th>
+                    <th class="Columnas">Domicilio</th>
+                </tr>
+                    <%
+                List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
+                if (listaCliente != null) {
+                    for (cliente Cli : listaCliente) {
+                    %>
+                <tr>
+                    <td><%= Cli.getNro_client() %></td>
+                    <td><%= Cli.getDni_cliente() %></td>
+                    <td><%= Cli.getRazon_social() %></td>
+                    <td><fmt:formatDate value="<%= Cli.getFecha_ingreso() %>" pattern="dd/MM/yyyy" /></td>
+                    <td><%= Cli.getCuit_cliente() %></td>
+                    <td><%= Cli.getDomicilio_cliente() %></td>
+                </tr>
+                    <%
+                    }
+                }
+            %>
+            </table>
+        </section>      
 
-    <tr id="columclient" contenteditable="false">
-        <td class="Columnas" contenteditable="false">45.047.374</td>
-        <td class="Columnas" contenteditable="false">Romani Tobias</td>
-        <td class="Columnas" contenteditable="false">30/05/2024</td>
-        <td class="Columnas" contenteditable="false">20-45047354-8</td>
-        <td class="Columnas" contenteditable="false">Eva Perón 255</td>
-    </tr>
-
-    <tr>
-        <td class="Columnas" contenteditable="false">45.616.591</td>
-        <td class="Columnas" contenteditable="false">Mallarino Lisandro</td>
-        <td class="Columnas" contenteditable="false">31/05/2024</td>
-        <td class="Columnas" contenteditable="false">20-45616591-6</td>
-        <td class="Columnas" contenteditable="false">Carmen Gadea 680</td>
-    </tr>
-
-    <tr>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-    </tr>
-
-    <tr>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-    </tr>
-
-    <tr>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-        <td class="Columnas" contenteditable="false"></td>
-    </tr>
-
-</table>      
 
 <div class="modal fade" id="alta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -119,10 +95,11 @@
                         <button type="submit" class="btn btn-primary" id="btnAlta">Cargar</button>
                         </div>
                     </div>
-                </form>
+                </div>
+            </form>
         </div>
-    </div>  
-</div>
+    </div>
+</div>  
 
 <!-- BTN MODIFICACION -->
     <div id="confirmodif" class="modal" tabindex="-1">
@@ -132,11 +109,11 @@
                     <h5 class="modal-title">Modificar Cliente</h5>
                     <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <form action="svModifclient" method="GET">
                 <div class="modal-body">
                     <input type="text" class="form-control" placeholder="Ingrese su contraseña para poder modificar"
-                           aria-label="Username" aria-describedby="addon-wrapping" minlength="3" required pattern="[a-zA-Z0-9]+">
+                           aria-label="Username" aria-describedby="addon-wrapping" minlength="3" name="confirmContra">
                 </div>
-                <form action="svModifclient" method="GET">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="DNI del cliente que desea modificar" aria-label="DNI" aria-describedby="button-addon2" name="buscarCl"">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
@@ -145,6 +122,38 @@
             </div>
         </div>
     </div>
- 
+
+
+    <!-- Modal de Error -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error de Ingreso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    window.onload = function() {
+        
+        // Verificar si hay un mensaje de error
+        const error = "<%= request.getAttribute("error") != null ? "true" : "false" %>";
+        
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+        if (error === "true") {
+            errorModal.show();
+        }
+    };
+    </script>
 </body>
+
 </html>

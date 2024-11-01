@@ -5,7 +5,10 @@
 --%>
 
 <%@page import="Bulonera.logica.cliente"%>
+<<<<<<< HEAD
 <%@page import="java.util.List"%>
+=======
+>>>>>>> 395bc0aa1a4ffed1d672ebcae5837bd668678ce8
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
@@ -26,9 +29,27 @@
             </li>
             <li><button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button></li>
 
+<<<<<<< HEAD
+    <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
+</li>
+<li class="nav-item">
+    <button type="button" class="btn btn-navbar" id="boton5">Imprimir deuda</button>
+</li>
+<li class="nav-item">
+    <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
+            data-bs-toggle="modal">Cancelar deuda</button>
+</li>
+
+<li><button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button></li>
+
+</ul>
+</div>
+</div>
+=======
             </ul>
         </div>
     </div>
+>>>>>>> 395bc0aa1a4ffed1d672ebcae5837bd668678ce8
 </nav>
 
    <%

@@ -1,3 +1,4 @@
+
 <%@page import="Bulonera.logica.cliente"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -108,11 +109,11 @@
                     <h5 class="modal-title">Modificar Cliente</h5>
                     <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <form action="svModifclient" method="GET">
                 <div class="modal-body">
                     <input type="text" class="form-control" placeholder="Ingrese su contraseña para poder modificar"
-                           aria-label="Username" aria-describedby="addon-wrapping" minlength="3" required pattern="[a-zA-Z0-9]+">
+                           aria-label="Username" aria-describedby="addon-wrapping" minlength="3" name="confirmContra">
                 </div>
-                <form action="svModifclient" method="GET">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="DNI del cliente que desea modificar" aria-label="DNI" aria-describedby="button-addon2" name="buscarCl"">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
@@ -121,6 +122,38 @@
             </div>
         </div>
     </div>
- 
+
+
+    <!-- Modal de Error -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error de Ingreso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    window.onload = function() {
+        
+        // Verificar si hay un mensaje de error
+        const error = "<%= request.getAttribute("error") != null ? "true" : "false" %>";
+        
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+        if (error === "true") {
+            errorModal.show();
+        }
+    };
+    </script>
 </body>
+
 </html>

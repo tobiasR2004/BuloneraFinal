@@ -54,14 +54,37 @@ public class svModifclient extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        int dniModif = Integer.parseInt(request.getParameter("buscarCl"));
         
-        cliente cliente1 = ctrl.buscarDniCliente(dniModif);
+        HttpSession miSesion = request.getSession(false);
         
-        HttpSession misesion = request.getSession();
-        misesion.setAttribute("clienModif", cliente1);
+        String contra = request.getParameter("confirmContra");
+        String contraIng = (String) miSesion.getAttribute("contraValida");
         
-        response.sendRedirect("modifCliente.jsp");
+        boolean validacionContra = false;
+        
+        
+        if (contra == null  || contraIng == null){
+           request.setAttribute("error", "Complete el campo de contraseña");
+           request.getRequestDispatcher("clientes.jsp#clsient").forward(request, response);
+           validacionContra = false;
+        
+        } else if(contra.equals(contraIng)) {
+            int dniModif = Integer.parseInt(request.getParameter("buscarCl"));
+        
+            cliente cliente1 = ctrl.buscarDniCliente(dniModif);
+        
+            HttpSession misesion = request.getSession();
+            misesion.setAttribute("clienModif", cliente1);
+            validacionContra = true;
+            response.sendRedirect("modifCliente.jsp");
+        } else{
+            request.setAttribute("error", "contraseña incorrecta.");
+            request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
+            validacionContra = false;
+        }
+       HttpSession sesionBool = request.getSession();
+       sesionBool.setAttribute("validac", validacionContra );
+       
     }
 
     /**     
@@ -75,6 +98,9 @@ public class svModifclient extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        Boolean validac = (Boolean) request.getSession().getAttribute("validac");
+        if (validac == true) {
         try {
             processRequest(request, response);
             int dni = Integer.parseInt(request.getParameter("dniClModif"));
@@ -94,13 +120,15 @@ public class svModifclient extends HttpServlet {
             cliente1.setFecha_ingreso(fechaing);
             cliente1.setCuit_cliente(cuit);
             cliente1.setDomicilio_cliente(domicilio);
-            
+                    
             ctrl.modifCliente(cliente1);
+            response.sendRedirect("clientes.jsp#client");
             
         } catch (ParseException ex) {
             Logger.getLogger(svModifclient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        response.sendRedirect("menu.jsp#MenuPrincipal");
+        }}
+        
+
     }
 
     /**

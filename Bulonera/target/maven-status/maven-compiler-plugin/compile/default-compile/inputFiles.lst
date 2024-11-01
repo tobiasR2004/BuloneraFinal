@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 395bc0aa1a4ffed1d672ebcae5837bd668678ce8
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svModifclient.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cuenta_corriente.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svUsuario.java
@@ -17,7 +13,10 @@ C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\control
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\NonexistentEntityException.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\PreexistingEntityException.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\pagoJpaController.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svModifUs.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svLogin.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\com\mycompany\bulonera\JakartaRestConfiguration.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\sVeliminarCliente.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\com\mycompany\bulonera\resources\JakartaEE8Resource.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\producto.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cliente.java
@@ -27,30 +26,3 @@ C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svRemito.ja
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\cuenta_corrienteJpaController.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\pago.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\cabecera_remitoJpaController.java
-=======
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\pagoJpaController.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cuenta_corriente.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\detalle_remitoJpaController.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svRemito.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\pago.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\IllegalOrphanException.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\cuenta_corrienteJpaController.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\com\mycompany\bulonera\JakartaRestConfiguration.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\PreexistingEntityException.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\clienteJpaController.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\usuarioJpaController.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\cabecera_remitoJpaController.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\productoJpaController.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svModifclient.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cliente.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\controladoraLogica.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\usuario.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\NonexistentEntityException.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\sVeliminarCliente.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\detalle_remito.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\sVcliente.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\producto.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\com\mycompany\bulonera\resources\JakartaEE8Resource.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cabecera_remito.java
-D:\Backup\Escritorio\Software 3er año\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\controladoraPersistencia.java
->>>>>>> c60cf1543f5604fc63a9137608abdb41867cc23a

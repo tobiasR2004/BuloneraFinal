@@ -4,7 +4,6 @@
     Author     : tobi2
 --%>
 
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
@@ -15,12 +14,13 @@
     <form action="svUsuario" method="POST">
         <div class="mb-3config" style="top: 20%;">
             <label for="formGroupExampleInput" class="label2">USUARIO</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre de usuario actual" name="nombreUs">
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre de usuario actual" 
+                   name="nombreUsConfig">
         </div>
         <div class="mb-3config" style="top: 45%;">
             <label for="formGroupExampleInput2" class="label2">CONTRASEÑA</label>
             <input type="password" class="form-control" id="formGroupExampleInput2" placeholder="Contraseña actual"
-                   minlength="3" name="contrasenia">
+                   minlength="3" name="contraConfig">
             <button type="submit" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#Modal2"
                     id="btnAcept">ACEPTAR</button>
         </div>
@@ -62,11 +62,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="errorModalLabel">Error de Ingreso</h5>
+                <h5 class="modal-title" id="errorModalLabel">Error de Validacion</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
+                <%= request.getAttribute("UsInvalido") != null ? request.getAttribute("UsInvalido") : "" %>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -79,8 +79,8 @@
     window.onload = function() {
         
         // Verificar si hay un mensaje de error
-        const error = "<%= request.getAttribute("error") != null ? "true" : "false" %>";
-        const usuarioValido = "<%= session.getAttribute("usuarioValido") != null ? "true" : "false" %>";
+        const error = "<%= request.getAttribute("UsInvalido") != null ? "true" : "false" %>";
+        const usuarioValido = "<%= session.getAttribute("usuarioVal") != null ? "true" : "false" %>";
         
         const adminModal = new bootstrap.Modal(document.getElementById('adminUs'));
         const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));

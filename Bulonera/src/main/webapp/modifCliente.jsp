@@ -4,6 +4,8 @@
     Author     : tobi2
 --%>
 
+
+
 <%@page import="Bulonera.logica.cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>

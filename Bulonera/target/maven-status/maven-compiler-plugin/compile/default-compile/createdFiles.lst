@@ -15,9 +15,11 @@ Bulonera\logica\usuario.class
 Bulonera\logica\detalle_remito.class
 Bulonera\Persistence\usuarioJpaController.class
 Bulonera\logica\producto.class
+Bulonera\Servlet\svModifUs.class
 Bulonera\Persistence\exceptions\PreexistingEntityException.class
 Bulonera\Servlet\sVcliente.class
 com\mycompany\bulonera\JakartaRestConfiguration.class
+Bulonera\Servlet\svLogin.class
 Bulonera\logica\controladoraLogica.class
 Bulonera\logica\cuenta_corriente.class
 Bulonera\Persistence\clienteJpaController.class
