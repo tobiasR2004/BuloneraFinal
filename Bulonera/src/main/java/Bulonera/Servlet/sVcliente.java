@@ -51,7 +51,7 @@ public class sVcliente extends HttpServlet {
             sessionMuestraCli.setAttribute("listaCliente", listaCliente);
             
             response.sendRedirect("clientes.jsp#client");   
-        processRequest(request, response);
+            processRequest(request, response);
        
     }
     

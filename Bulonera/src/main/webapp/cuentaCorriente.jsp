@@ -4,16 +4,22 @@
     Author     : tobi2
 --%>
 
-<%@page import="Bulonera.logica.cliente"%>
-<%@page import="java.util.List"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="componentes/head.jsp"%>
-<%@include file="componentes/body.jsp"%>
-
+            <%@page import="Bulonera.logica.cuenta_corriente"%>
+            <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+            <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+            <%@page import="Bulonera.logica.cliente"%>
+            <%@page import="java.util.List"%>
+            <%@page contentType="text/html" pageEncoding="UTF-8"%>
+            <%@include file="componentes/head.jsp"%>
+            <%@include file="componentes/body.jsp"%>
+            
+            <!--BOTONES NAVBAR-->
+            <li class="nav-item">
             <form action="svModifclient" method="GET" class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="buscarCl">
                 <button class="btn btn-outline-success" type="submit">BUSCAR</button>
-            </form
+            </form>    
+            </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
             </li>
@@ -24,61 +30,58 @@
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-            <li><button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button></li>
-
+            <li>
+                <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
+            </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
-   <%
-    cliente cliente1 = (cliente) request.getSession().getAttribute("clienModif");
-%>
-<div>
-<p><label>Cliente: </label></p>
-<p><label>Numero de Cliente: </label></p>
+<!-- SELECT - COMBOBOX -->
+<div class="comboBox">
+    <form action="sVcuentaCorrienteRemito" method="get">
+        <label class="lblCli">CLIENTE: </label>
+        <select name="buscarCli" class="form-select" aria-label="Default select example">
+            <option selected>Elegir...</option>
+            <c:forEach var="clie" items="${listaClientes}">
+                <option value="${clie.nro_client}"<c:if test="${clienteIdSeleccionado == clie.nro_client}">selected</c:if>>
+                ${clie.razon_social}</option>
+            </c:forEach>
+        </select>
+        
+        <button class="btnSel" type="submit">Seleccionar</button>
+    </form>
 </div>
 
-
-
-<br>
-
-
-<TABLE class="table tablita">
+<!-- TABLA CUENTA CORRIENTE -->
+<div id="cuentaCorrienteTabla">
+<TABLE class="table tablaCC">
     <tr class="Columnas ">
         <th class="Columnas">Fecha operación</th>
         <th class="Columnas">Debe</th>
         <th class="Columnas">Haber</th>
         <th class="Columnas">Saldo</th>
     </tr>
-    <tr>
-        <td class="Columnas" contenteditable="true">15/05/2024</td>
-        <td class="Columnas" contenteditable="true">1000</td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true"></td>
+    
+    <%
+        List<cuenta_corriente> listaCC = (List<cuenta_corriente>) request.getSession().getAttribute("listaCC");
+        if (listaCC != null) {
+            for (cuenta_corriente cc : listaCC) {
+    %>
+
+    <tr style="text-align: center">
+        <td><fmt:formatDate value="<%= cc.getFecha_cc()%>" pattern="dd/MM/yyyy" /></td>
+        <td><%= cc.getDebe_cc()%></td>
+        <td><%= cc.getHaber_cc()%></td>
+        <td><%= cc.getSaldo_cc()%></td>
     </tr>
-    <tr>
-        <td class="Columnas" contenteditable="true">16/05/2024</td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true">600</td>
-        <td class="Columnas" contenteditable="true"></td>
-    </tr>
-    <tr>
-        <td class="Columnas" contenteditable="true">17/05/2024</td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true">300</td>
-        <td class="Columnas" contenteditable="true"></td>
-    </tr>
-    <tr>
-        <td class="Columnas" contenteditable="true">18/05/2024</td>
-        <td class="Columnas" contenteditable="true">500</td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true"></td>
-    </tr>
-    <tr>
-        <td class="Columnas" contenteditable="true">19/05/2024</td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true">100</td>
-        <td class="Columnas" contenteditable="true"></td>
-    </tr>
-</TABLE>
+            <%
+                    }
+                }
+            %>
+</TABLE>    
+</div>
 
 <!-- Botón para abrir el modal -->
 <form action="sVcuentaCorrienteRemito" method="get">
@@ -97,21 +100,29 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">REMITO</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
+            <form action="sVcuentaCorrienteRemito" method="post">
             <div class="modal-body">
-                
-                
                 <!-- Formularios en línea -->
                 <div class="row mb-3">
                     <div class="col">
                         <label for="numero-cliente" class="form-label">Número de cliente</label>
-                        <input type="text" id="numero-cliente" name="nroClient" class="form-control"
-                               disabled value="<%= request.getAttribute("nroClient") %>">
+                        <c:forEach var="clie" items="${listaClientes}">
+                            <c:if test="${clienteIdSeleccionado == clie.nro_client}">
+                                <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
+                                       disabled value="${clie.nro_client}">
+                            </c:if>
+                        </c:forEach>
+                        
                     </div>
                     
                     <div class="col">
                         <label for="razon-social" class="form-label">Razón social</label>
-                        <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
-                               disabled value="<%= request.getAttribute("razonSocial") %>">
+                        <c:forEach var="clie" items="${listaClientes}">
+                            <c:if test="${clienteIdSeleccionado == clie.nro_client}">
+                                <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
+                                       disabled value="${clie.razon_social}">
+                            </c:if>
+                        </c:forEach>
                     </div>
                 </div>
 
@@ -120,6 +131,7 @@
                     <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>
+                                <th scope="col">ID-Producto</th>
                                 <th scope="col">Nombre de producto</th>
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Precio/u</th>
@@ -127,17 +139,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr contenteditable="true">
-                                <td contenteditable="true">Tornillo</td>
-                                <td contenteditable="true" class="cantidad">5</td>
-                                <td contenteditable="true" class="precio">50</td>
-                                <td contenteditable="false" class="importe">250</td>
-                            </tr>
-                            <tr contenteditable="true">
-                                <td contenteditable="true">Tuerca</td>
-                                <td contenteditable="true" class="cantidad">5</td>
-                                <td contenteditable="true" class="precio">15</td>
-                                <td contenteditable="false" class="importe">75</td>
+                            <tr>
+                                <td><input class="sinBorde" type="number" name="idProd" value="300" readonly></td>
+                                <td><input class="sinBorde" type="text" name="nombreProd" value="TORNILLO"></td>
+                                <td><input class="sinBorde" id="cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde" id="precioProd" type="number" name="precioProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde" type="number" name="importeProd" id="importeProd" oninput="calcularImporte()"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -146,55 +153,48 @@
             <div class="modal-footer">
                 <div class="col importefinal">
                     <label for="importe-total" class="form-label">Importe total</label>
-                    <input type="text" id="importe-total" class="form-control" aria-label="Importe total" disabled>
+                    <input type="text" id="importe-total" name="importeTotal" class="form-control" aria-label="Importe total" disabled>
                 </div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar Remito</button>
+                <button type="button submit" class="btn btn-primary">Guardar Remito</button>
             </div>
+            </form>
         </div>
     </div>
-</div>
-                    
-                    <div style="margin-top: 5%">
-                        HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                        HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                        HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                        HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                            <select>
-                                <c:forEach var="Cli" items="${listaClientes}">
-                                    <option value="${Cli.nro_client}">${Cli.razon_social}</option>
-                                </c:forEach>
-                            </select>
-                    </div>                    
-
+</div>                    
+   
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-    calcularimportetotal();
-    
-    // Agregar evento input a cada fila de la tabla
-    const rows = document.querySelectorAll("#tabla-remito tbody tr");
-    rows.forEach(row => {
-        row.addEventListener("input", calcularimportetotal);
-    });
-});
+function calcularImporte() {
+    // Obtener los valores de cantidad y precio, convirtiéndolos a números
+    const cantProd = parseFloat(document.getElementById("cantProd").value) || 0;
+    const precioProd = parseFloat(document.getElementById("precioProd").value) || 0;
 
-function calcularimportetotal() {
-    let total = 0;
-    const rows = document.querySelectorAll("#tabla-remito tbody tr");
+    // Calcular el importe total de la línea actual
+    const importeProd = cantProd * precioProd;
 
-    rows.forEach(row => {
-        const cantidad = parseFloat(row.children[1].innerText) || 0; // Obtener cantidad
-        const precio = parseFloat(row.children[2].innerText) || 0; // Obtener precio
-        const importe = cantidad * precio; // Calcular importe
-        row.children[3].innerText = importe.toFixed(2); // Actualizar la celda de importe (formateado a 2 decimales)
-        total += importe; // Sumar al total
-    });
+    // Mostrar el resultado en el campo importeProd
+    document.getElementById("importeProd").value = importeProd;
 
-    document.getElementById("importe-total").value = total.toFixed(2); // Actualizar el campo total (formateado)
+    // Llamar a la función para actualizar el importe total
+    calcularImporteTotal();
 }
-</script>   
 
+function calcularImporteTotal() {
+    // Seleccionar todos los elementos de importeProd en las filas
+    const importeProdElements = document.querySelectorAll("input[name='importeProd']");
 
+    // Sumar todos los valores de importeProd
+    let total = 0;
+    importeProdElements.forEach(input => {
+        total += parseFloat(input.value) || 0;
+    });
+
+    // Mostrar el total en el campo importe-total
+    document.getElementById("importe-total").value = total;
+}
+</script>
+
+<!-- BOTON CANCELAR DEUDA -->
 <div class="modal fade" id="CancelarDeuda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">

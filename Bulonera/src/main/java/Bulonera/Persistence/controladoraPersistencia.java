@@ -36,7 +36,6 @@ public class controladoraPersistencia {
     productoJpaController productoJpa = new productoJpaController();
     usuarioJpaController usuarioJpa = new usuarioJpaController();
     
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("buloneraPU");
     
     public controladoraPersistencia() {
     }
@@ -96,6 +95,23 @@ public class controladoraPersistencia {
         }
     }
     
+        public List<cliente> getClientes() {
+        EntityManager em = clienteJpa.getEntityManager();
+        List<cliente> clientes = null;
+        try {
+            String jpql = "SELECT c FROM cliente c";
+            Query query = em.createQuery(jpql);
+            clientes = query.getResultList();
+        }catch (NoResultException e) {
+                System.out.println("No se encontraron clientes");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+            em.close();
+        }
+        return clientes;
+}
+    
     public cliente buscarDniClient(int dni) {
         EntityManager em = clienteJpa.getEntityManager();
         cliente client = null;
@@ -115,7 +131,7 @@ public class controladoraPersistencia {
             }
 
     return client;
-}
+    }
     
         public cliente buscarNombCliente(String razonSoc) {
         EntityManager em = usuarioJpa.getEntityManager();
@@ -146,12 +162,6 @@ public class controladoraPersistencia {
         ArrayList<cliente> listaClientes = new ArrayList<cliente>(listaClient);
         return listaClientes;
     }
-    
-    public List<cliente> getClientes() {
-    EntityManager em = emf.createEntityManager();
-    Query query = em.createQuery("SELECT c FROM cliente c");
-    return query.getResultList();
-}
     
     //CRUD CUENTACORRIENTE
 

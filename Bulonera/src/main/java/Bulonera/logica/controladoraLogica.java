@@ -57,6 +57,10 @@ public class controladoraLogica {
         return ctrlpersis.buscarDniClient(dni);
     }
     
+    public cliente buscarNombCliente(String Razonsoc){
+        return ctrlpersis.buscarNombCliente(Razonsoc);
+    }
+    
     public cliente consultarCliente(int id){
         return ctrlpersis.consultarcliente(id);
     }
@@ -67,10 +71,6 @@ public class controladoraLogica {
     
     public List<cliente> obtenerClientes() {
         return ctrlpersis.getClientes();
-
-    public cliente buscarNombCliente(String Razonsoc)
-    { 
-        return ctrlpersis.buscarNombCliente(Razonsoc);
     }
     
     //CRUD CUENTA_CORRIENTE
