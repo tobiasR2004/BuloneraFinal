@@ -16,35 +16,37 @@
 </div>
 </div>
 </nav>
-<TABLE class="table tablita">
-    <tr class="Columnas ">
-        <th class="Columnas">Código</th>
-        <th class="Columnas">Categoría</th>
-        <th class="Columnas">Descripcion</th>
-        <th class="Columnas">Precio compra</th>
-        <th class="Columnas">Precio venta</th>
-    </tr>
-    <tr>
-        <td class="Columnas" contenteditable="true">01.AN18</td>
-        <td class="Columnas" contenteditable="true">Arandela pulida 1/8</td>
-        <td class="Columnas" contenteditable="true">Arandela</td>
-        <td class="Columnas" contenteditable="true">7.680,88</td>
-        <td class="Columnas" contenteditable="true">7.707,90</td>
-    </tr>
-    <tr>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true"></td>
-    </tr>
-    <tr>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true"></td>
-        <td class="Columnas" contenteditable="true"></td>
-    </tr>
-</TABLE>
+<section id="produc">
+    <TABLE class="table tablita">
+        <tr class="Columnas ">
+            <th class="Columnas">Código</th>
+            <th class="Columnas">Categoría</th>
+            <th class="Columnas">Descripcion</th>
+            <th class="Columnas">Precio compra</th>
+            <th class="Columnas">Precio venta</th>
+        </tr>
+        <tr>
+            <td class="Columnas" contenteditable="true">01.AN18</td>
+            <td class="Columnas" contenteditable="true">Arandela pulida 1/8</td>
+            <td class="Columnas" contenteditable="true">Arandela</td>
+            <td class="Columnas" contenteditable="true">7.680,88</td>
+            <td class="Columnas" contenteditable="true">7.707,90</td>
+        </tr>
+        <tr>
+            <td class="Columnas" contenteditable="true"></td>
+            <td class="Columnas" contenteditable="true"></td>
+            <td class="Columnas" contenteditable="true"></td>
+            <td class="Columnas" contenteditable="true"></td>
+            <td class="Columnas" contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td class="Columnas" contenteditable="true"></td>
+            <td class="Columnas" contenteditable="true"></td>
+            <td class="Columnas" contenteditable="true"></td>
+            <td class="Columnas" contenteditable="true"></td>
+            <td class="Columnas" contenteditable="true"></td>
+        </tr>
+    </TABLE>
+</section>
 </body>
 </html>

@@ -24,20 +24,21 @@
         </div>
     </div>
 </nav>
-
-        <section id="client">
-            <table class="table tablita">
-                <tr class="Columnas">
-                    <th class="Columnas">Nro Cliente</th>
-                    <th class="Columnas">DNI</th>
-                    <th class="Columnas">Razon Social</th>
-                    <th class="Columnas">Fecha de ingreso</th>
-                    <th class="Columnas">CUIT</th>
-                    <th class="Columnas">Domicilio</th>
-                </tr>
+    
+<section id="client">
+    <div class="table-container">
+        <table class="table tablita">
+            <tr class="Columnas">
+                <th class="Columnas">Nro Cliente</th>
+                <th class="Columnas">DNI</th>
+                <th class="Columnas">Razon Social</th>
+                <th class="Columnas">Fecha de ingreso</th>
+                <th class="Columnas">CUIT</th>
+                <th class="Columnas">Domicilio</th>
+            </tr>
                     <%
                 List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
-                if (listaCliente != null) {
+               if (listaCliente != null) {
                     for (cliente Cli : listaCliente) {
                     %>
                 <tr>
@@ -49,12 +50,13 @@
                     <td><%= Cli.getDomicilio_cliente() %></td>
                 </tr>
                     <%
-                    }
+               }
                 }
             %>
-            </table>
-        </section>      
-
+        </table>  
+    </div> 
+</section>   
+  
 
 <div class="modal fade" id="alta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

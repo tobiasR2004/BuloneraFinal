@@ -5,9 +5,6 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<section id="MenuPrincipal">  
-</section>
-
 <body class="bodymenu" id="MenuPrincipal">
     <!--Dashboard  Romani Tobias-->
     <div class="menu-dashboard">
@@ -36,7 +33,7 @@
 
             <div class="enlace">
                 <i class="bi bi-screwdriver"></i>
-                <a href="productos.jsp" style="text-decoration: none;" onclick="cambiarBotones('opcion3')"><span>Productos</span></a>
+                <a href="productos.jsp#produc" style="text-decoration: none;" onclick="cambiarBotones('opcion3')"><span>Productos</span></a>
 
             </div>
 

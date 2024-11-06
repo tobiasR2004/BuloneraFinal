@@ -82,7 +82,7 @@
 .bodymenu {
   display: flex;          
   margin: 0;
-  position: relative;
+  position: fixed;
   font-family: Rubik, sans-serif;
   color: var(--blanco);
 }
@@ -258,19 +258,49 @@ section:target {
 }
 
 .tablita {
-  border: solid 2px black;
-  border-collapse: collapse;
-  width: 90%;
-  background-color: #003053;
-  color: aliceblue;
-  table-layout: fixed;
-  position:fixed; 
-  left: 7%;
-  top: 15%;
-  right: 4%;
-  z-index: 1;
+    border: solid 2px black;
+    border-collapse: collapse;
+    width: 100%; 
+    background-color: #003053;
+    color: aliceblue;
+    table-layout: fixed;
 }
 
+#client {
+    margin-top: 80px; 
+}
+
+#produc{
+     margin-top: 80px;
+}
+
+.tablita th {
+   position: sticky;
+    top: 0;
+    background-color: #cbbfff;
+    color: #000000;
+    z-index: 2;
+    border: 2px solid black;
+    text-align: center;
+    padding: 8px;
+}
+
+.tablita td {
+    border: 2px solid black;
+    text-align: center;
+    padding: 8px;
+}
+
+.table-container {
+    position: relative;
+    width: 90%; 
+    margin: 0 auto; 
+    margin-right: 0px;
+    max-height: 90vh; 
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+}
 .tablita tbody tr:nth-of-type(odd) {
   background-color: #184463;
 }
@@ -283,6 +313,7 @@ section:target {
 
 td {
   height: 30px;
+  
 }
 
 .btn-outline-primary {
@@ -398,6 +429,20 @@ td {
 
 #boton5, #boton6{
   width: 150px;
+}
+
+.form-modif {
+    position: fixed;               
+    top: 50%;                       
+    left: 50%;                      
+    transform: translate(-50%, -50%); 
+    width: 90%;                     
+    max-width: 500px;              
+    padding: 20px;                
+    background-color: #f2f2f2;     
+    border-radius: 8px;            
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    box-sizing: border-box;   
 }
 
 /* Consultas de medios para hacer el diseño responsivo */

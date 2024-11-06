@@ -25,10 +25,8 @@ public class cabecera_remito implements Serializable {
     private int id_remito;
     @Basic
     private int nro_cliente;
-    private int cuit_cliente;
-    private int nro_remito;
+    private String cuit_cliente;
     private String razon_social;
-    
     @OneToOne
     private cliente cliente_cabecera;
     @OneToMany(mappedBy = "cabecdetalleremito")
@@ -37,11 +35,10 @@ public class cabecera_remito implements Serializable {
     public cabecera_remito(){
     }
 
-    public cabecera_remito(int id_remito, int nro_cliente, int cuit_cliente, int nro_remito, String razon_social, cliente cliente_cabecera, ArrayList<detalle_remito> listadetalles) {
+    public cabecera_remito(int id_remito, int nro_cliente, String cuit_cliente , String razon_social, cliente cliente_cabecera, ArrayList<detalle_remito> listadetalles) {
         this.id_remito = id_remito;
         this.nro_cliente = nro_cliente;
         this.cuit_cliente = cuit_cliente;
-        this.nro_remito = nro_remito;
         this.razon_social = razon_social;
         this.cliente_cabecera = cliente_cabecera;
         this.listadetalles = listadetalles;
@@ -79,20 +76,12 @@ public class cabecera_remito implements Serializable {
         this.nro_cliente = nro_cliente;
     }
 
-    public int getCuit_cliente() {
+    public String getCuit_cliente() {
         return cuit_cliente;
     }
 
-    public void setCuit_cliente(int cuit_cliente) {
+    public void setCuit_cliente(String cuit_cliente) {
         this.cuit_cliente = cuit_cliente;
-    }
-
-    public int getNro_remito(int nro_remito) {
-        return nro_remito;
-    }
-
-    public void setNro_remito(int nro_remito) {
-        this.nro_remito = nro_remito;
     }
 
     public String getRazon_social() {

@@ -4,8 +4,10 @@
  */
 package Bulonera.Servlet;
 
+import Bulonera.logica.cabecera_remito;
 import Bulonera.logica.cliente;
 import Bulonera.logica.controladoraLogica;
+import Bulonera.logica.detalle_remito;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.Long.parseLong;
@@ -82,6 +84,18 @@ public class sVcliente extends HttpServlet {
             client.setDomicilio_cliente(domicilio);
             
             ctrl.crearCliente(client);
+            
+            cabecera_remito cabec = new cabecera_remito();
+            
+            List<detalle_remito> listaCabec = new ArrayList<>();
+            listaCabec = (List<detalle_remito>) ctrl.consultarDetalleList();
+            
+            cabec.setListadetalles((ArrayList<detalle_remito>) listaCabec);
+            cabec.setCuit_cliente(cuit);
+            cabec.setRazon_social(razonSoc);
+            cabec.setCliente_cabecera(client);
+         
+            ctrl.crearcabecremito(cabec);
             
         } catch (ParseException ex) {
             Logger.getLogger(sVcliente.class.getName()).log(Level.SEVERE, null, ex);
