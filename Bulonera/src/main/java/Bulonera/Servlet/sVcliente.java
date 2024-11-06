@@ -9,13 +9,15 @@ import Bulonera.logica.cliente;
 import Bulonera.logica.controladoraLogica;
 import Bulonera.logica.detalle_remito;
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.lang.Long.parseLong;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -48,8 +50,7 @@ public class sVcliente extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-       
+
             //MUESTRA
             List<cliente> listaCliente = new ArrayList<>();
             listaCliente = (List<cliente>) ctrl.consultarClienteList();
@@ -57,7 +58,9 @@ public class sVcliente extends HttpServlet {
             HttpSession sessionMuestraCli = request.getSession();
             sessionMuestraCli.setAttribute("listaCliente", listaCliente);
             
-            response.sendRedirect("clientes.jsp#client");
+            response.sendRedirect("clientes.jsp#client");   
+            processRequest(request, response);
+       
         
     }
     
@@ -101,7 +104,6 @@ public class sVcliente extends HttpServlet {
             Logger.getLogger(sVcliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         response.sendRedirect("clientes.jsp");
-        
     }
 
     /**

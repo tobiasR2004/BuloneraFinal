@@ -19,7 +19,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class detalle_remito implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_remito;
     @Basic
     private int cant_prod, precio_unit, importe, importe_total;

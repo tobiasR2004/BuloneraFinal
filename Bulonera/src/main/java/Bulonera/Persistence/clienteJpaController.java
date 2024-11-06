@@ -20,14 +20,13 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author tobi2
+ * @author Alumno
  */
 public class clienteJpaController implements Serializable {
     
      public clienteJpaController() {
          emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
-    
 
     public clienteJpaController(EntityManagerFactory emf) {
         this.emf = emf;
@@ -145,7 +144,7 @@ public class clienteJpaController implements Serializable {
             }
         }
     }
-
+    
     public List<cliente> findclienteEntities() {
         return findclienteEntities(true, -1, -1);
     }

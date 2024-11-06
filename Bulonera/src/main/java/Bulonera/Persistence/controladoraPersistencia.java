@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -33,6 +35,7 @@ public class controladoraPersistencia {
     pagoJpaController pagoJpa = new pagoJpaController();
     productoJpaController productoJpa = new productoJpaController();
     usuarioJpaController usuarioJpa = new usuarioJpaController();
+    
     
     public controladoraPersistencia() {
     }
@@ -92,6 +95,23 @@ public class controladoraPersistencia {
         }
     }
     
+        public List<cliente> getClientes() {
+        EntityManager em = clienteJpa.getEntityManager();
+        List<cliente> clientes = null;
+        try {
+            String jpql = "SELECT c FROM cliente c";
+            Query query = em.createQuery(jpql);
+            clientes = query.getResultList();
+        }catch (NoResultException e) {
+                System.out.println("No se encontraron clientes");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+            em.close();
+        }
+        return clientes;
+}
+    
     public cliente buscarDniClient(int dni) {
         EntityManager em = clienteJpa.getEntityManager();
         cliente client = null;
@@ -111,7 +131,7 @@ public class controladoraPersistencia {
             }
 
     return client;
-}
+    }
     
         public cliente buscarNombCliente(String razonSoc) {
         EntityManager em = usuarioJpa.getEntityManager();

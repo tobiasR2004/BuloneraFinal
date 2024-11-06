@@ -17,19 +17,21 @@
         </div>
         <div class="elementmenu">
             <form action="sVcliente" method="Get">
-                    <div class="enlace">
-                        <i class="bi bi-file-earmark-person"></i>
-                        <button type="submit" class="onlyTXT"><a href="clientes.jsp#client" style="text-decoration:none;"
-                                onclick="cambiarBotones('opcion1')"><span>Clientes </span></a></button>
-                    </div>
-                </form>
-            
-            
-            <div class="enlace">
-                <i class="bi bi-cart"></i>
-                <a href="cuentaCorriente.jsp" style="text-decoration: none;"
-                   onclick="cambiarBotones('opcion2')"><span>C/corrientes</span></a>
-            </div>
+                <div class="enlace">
+                    <i class="bi bi-file-earmark-person"></i>
+                    <button type="submit" class="onlyTXT"><a href="clientes.jsp" style="text-decoration:none;"
+                        onclick="cambiarBotones('opcion1')"><span>Clientes </span></a></button>
+                </div>
+            </form>
+
+            <form action="sVcuentaCorrienteRemito" method="get">
+                <div class="enlace">
+                    <i class="bi bi-cart"></i>
+                    <button type="submit" class="onlyTXT"><a href="cuentaCorriente.jsp" style="text-decoration: none;"
+                        onclick="cambiarBotones('opcion2')"><span>C/corrientes</span></a></button>
+                </div>
+            </form>
+
 
             <div class="enlace">
                 <i class="bi bi-screwdriver"></i>

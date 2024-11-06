@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-
-
-* {
+*{
   font-family: Rubik, sans-serif;
 }
 
@@ -82,7 +80,7 @@
 .bodymenu {
   display: flex;          
   margin: 0;
-  position: fixed;
+  position: relative;
   font-family: Rubik, sans-serif;
   color: var(--blanco);
 }
@@ -401,7 +399,7 @@ td {
 .col{
   color: #000000;
 }
-  
+
 #importe-total{
   width: 150px;
 }
