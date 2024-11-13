@@ -30,13 +30,14 @@
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-            <li>
-                <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
-            </li>
+             <form action="svRemito"  method="GET">
+                <li>
+                    <button type="submit" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
+                </li>
+             </form> git config --global http.lowSpeedLimit 0
             </ul>
         </div>
     </div>
->>>>>>> 395bc0aa1a4ffed1d672ebcae5837bd668678ce8
 </nav>
 
 <!-- SELECT - COMBOBOX -->
