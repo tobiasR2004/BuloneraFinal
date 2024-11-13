@@ -6,10 +6,14 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
-<form action="svModifclient" method="GET" class="d-flex" role="search">
-    <input class="form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="buscarCl">
-    <button class="btn btn-outline-success" type="submit">BUSCAR</button>
-</form>
+    <input type="text" id="searchInput" placeholder="Buscar por Razon Social" onkeyup="buscarRazonSocial()">
+    
+<li> 
+        <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#modalEliminar" id="boton9">
+             Eliminar cliente  </button>
+       
+</li>
+    
 
 <li>
     <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#alta"
@@ -58,6 +62,28 @@
         </table>  
     </div> 
 </section>   
+        
+ <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <form action="sVeliminarCliente" method="POST">
+        <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-sm">ID cliente</span>
+              <input type="text" name ="idCliente" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"">
+                  </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Eliminar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
   
 
 <!--MODAL ALTAS -->
@@ -104,7 +130,6 @@
         </div>
     </div>
 </div>  
-
 <!-- BTN MODIFICACION -->
     <div id="confirmodif" class="modal" tabindex="-1">
         <div class="modal-dialog">
@@ -123,17 +148,7 @@
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
                     </div>
                 </form>                  
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control" placeholder="Ingrese su contraseña para poder modificar"
-                       aria-label="Username" aria-describedby="addon-wrapping" minlength="3" required pattern="[a-zA-Z0-9]+">
-            </div>
-            <form action="svModifclient" method="GET">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="DNI del cliente que desea modificar" aria-label="DNI" aria-describedby="button-addon2" name="buscarCl"">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
-                </div>
-            </form>                  
+            </div>              
         </div>
     </div>
 
@@ -168,6 +183,25 @@
         }
     };
     </script>
+        <script>
+            function buscarRazonSocial() {
+                // Obtén el valor ingresado por el usuario
+                let input = document.getElementById("searchInput").value.toLowerCase();
+
+                // Obtén todas las filas de la tabla, excepto la de encabezado
+                let table = document.querySelector(".tablita");
+                let rows = table.getElementsByTagName("tr");
+
+                // Recorre todas las filas y oculta las que no coincidan con la búsqueda
+                for (let i = 1; i < rows.length; i++) { // Empieza en 1 para saltar el encabezado
+                    let razonSocialCell = rows[i].getElementsByTagName("td")[2]; // Columna de Razon Social
+                    if (razonSocialCell) {
+                        let razonSocialText = razonSocialCell.textContent || razonSocialCell.innerText;
+                        rows[i].style.display = razonSocialText.toLowerCase().includes(input) ? "" : "none";
+                    }
+                }
+            }
+</script>
 </body>
 
 </html>

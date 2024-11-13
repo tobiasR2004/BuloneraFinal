@@ -67,7 +67,12 @@ public class controladoraLogica {
     public cliente buscarNombCliente(String Razonsoc)
     { 
         return ctrlpersis.buscarNombCliente(Razonsoc);
+    }  
+        
+    public List<cliente> obtenerClientes() {
+        return ctrlpersis.getClientes();
     }
+    
     
     //CRUD CUENTA_CORRIENTE
     

@@ -134,11 +134,11 @@ public class controladoraPersistencia {
     }
     
         public cliente buscarNombCliente(String razonSoc) {
-        EntityManager em = usuarioJpa.getEntityManager();
+        EntityManager em = clienteJpa.getEntityManager();
         cliente client2 = null;
 
             try {
-                String jpql = "SELECT c FROM usuario c WHERE c.razonSocial = razonSoc";
+                String jpql = "SELECT c FROM cliente c WHERE c.razonSocial = razonSoc";
                 Query query = em.createQuery(jpql);
                 query.setParameter("cliente", razonSoc);
 

@@ -44,8 +44,14 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cliente cliente1 = ctrl.buscarNombCliente(nombCli);
         
         HttpSession misesion = request.getSession();
+       
         misesion.setAttribute("clienteCC", cliente1);
-        request.setAttribute("clienteIdSeleccionado", nombCli);
+        misesion.setAttribute("clienteIdSeleccionado", nombCli);
+        
+        int idCliente = Integer.parseInt(nombCli);
+        
+        misesion.setAttribute( "IdCliente" ,idCliente);
+
         
         // Reenvía la solicitud al JSP
         request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
@@ -54,7 +60,13 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
+        HttpSession misesion = request.getSession();
+        
+        
+        
         String nombreProd = request.getParameter("nombreProd");
+        
+        
         int cantProd = Integer.parseInt(request.getParameter("cantProd"));
         int precioProd = Integer.parseInt(request.getParameter("precioProd"));
         int importeProd = Integer.parseInt(request.getParameter("importeProd"));
