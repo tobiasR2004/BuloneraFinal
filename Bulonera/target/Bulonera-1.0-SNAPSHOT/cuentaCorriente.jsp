@@ -30,9 +30,11 @@
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-            <li>
-                <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
-            </li>
+            <form action="svRemito" method="get">
+                <li>
+                    <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
+                </li>    
+            </form>
             </ul>
         </div>
     </div>

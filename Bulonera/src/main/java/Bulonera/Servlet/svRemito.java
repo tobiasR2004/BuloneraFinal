@@ -51,25 +51,25 @@ public class svRemito extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-                
+
         HttpSession misesion = request.getSession();
-         String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado");   
-         misesion.setAttribute("idCabec", idCabec);
-         
-       if(idCabec == null  || "".equals(idCabec) || "Elegir...".equals(idCabec)){
-           
-        request.setAttribute("errorCabec", "Por favor... seleccione un Cliente");
-        request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
-        
-       } else if (idCabec instanceof String){
-        int idCabecint = Integer.parseInt(idCabec);
-        
-        cliente cliente1 = ctrl.consultarCliente(idCabecint);
-        misesion.setAttribute("clientCabec", cliente1);     
-        
-        response.sendRedirect("remito.jsp");
-        
-    } 
+        String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado");
+        misesion.setAttribute("idCabec", idCabec);
+
+        if (idCabec == null || "".equals(idCabec) || "Elegir...".equals(idCabec)) {
+
+            request.setAttribute("errorCabec", "Por favor... seleccione un Cliente");
+            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+
+        } else if (idCabec instanceof String) {
+            int idCabecint = Integer.parseInt(idCabec);
+
+            cliente cliente1 = ctrl.consultarCliente(idCabecint);
+            misesion.setAttribute("clientCabec", cliente1);
+
+            response.sendRedirect("remito.jsp");
+
+        }
     }
 
     /**

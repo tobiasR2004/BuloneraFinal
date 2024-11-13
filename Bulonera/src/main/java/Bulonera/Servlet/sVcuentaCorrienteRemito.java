@@ -41,17 +41,6 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
 
         //TRAER CLIENTE
         String nombCli = request.getParameter("buscarCli");
-        cliente cliente1 = ctrl.buscarNombCliente(nombCli);
-        
-        HttpSession misesion = request.getSession();
-       
-        misesion.setAttribute("clienteCC", cliente1);
-        misesion.setAttribute("clienteIdSeleccionado", nombCli);
-        
-        int idCliente = Integer.parseInt(nombCli);
-        
-        misesion.setAttribute( "IdCliente" ,idCliente);
-
         
         if (nombCli == null || nombCli.equals("-1")) {
             request.setAttribute("error", "Seleccione un cliente");
