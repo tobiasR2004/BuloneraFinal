@@ -21,6 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -132,13 +133,12 @@ public class controladoraPersistencia {
 
     return client;
     }
-    
         public cliente buscarNombCliente(String razonSoc) {
-        EntityManager em = usuarioJpa.getEntityManager();
+        EntityManager em = clienteJpa.getEntityManager();
         cliente client2 = null;
 
             try {
-                String jpql = "SELECT c FROM usuario c WHERE c.razonSocial = razonSoc";
+                String jpql = "SELECT c FROM cliente c WHERE c.razonSocial = razonSoc";
                 Query query = em.createQuery(jpql);
                 query.setParameter("cliente", razonSoc);
 
@@ -189,10 +189,14 @@ public class controladoraPersistencia {
         return cuenta_corrienteJpa.findcuenta_corriente(id);
     }
 
-    public ArrayList<cuenta_corriente> consultarCcList() {
-        List<cuenta_corriente> listaCuentacorr = cuenta_corrienteJpa.findcuenta_corrienteEntities();
-        ArrayList<cuenta_corriente> listaCc = new ArrayList<cuenta_corriente>(listaCuentacorr);
-        return listaCc;
+    public List<cuenta_corriente> consultarCcList(cabecera_remito cabec) {
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        
+        String query = "SELECT cc FROM cuenta_corriente cc WHERE cc.cabeceraremito = :cabec ORDER BY cc.fecha_cc";
+        TypedQuery<cuenta_corriente> typedQuery = em.createQuery(query, cuenta_corriente.class);
+        typedQuery.setParameter("cabec", cabec);
+        
+        return typedQuery.getResultList();
     }
 
     //CRUD DETALLE REMITO

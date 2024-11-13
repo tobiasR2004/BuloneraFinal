@@ -30,13 +30,14 @@
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-            <li>
-                <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
-            </li>
+            <form action="svRemito" method="get">
+                <li>
+                    <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
+                </li>    
+            </form>
             </ul>
         </div>
     </div>
->>>>>>> 395bc0aa1a4ffed1d672ebcae5837bd668678ce8
 </nav>
 
 <!-- SELECT - COMBOBOX -->
@@ -44,10 +45,11 @@
     <form action="sVcuentaCorrienteRemito" method="get">
         <label class="lblCli">CLIENTE: </label>
         <select name="buscarCli" class="form-select" aria-label="Default select example">
-            <option selected>Elegir...</option>
+            <option value="-1" selected>Elegir...</option>
             <c:forEach var="clie" items="${listaClientes}">
                 <option value="${clie.nro_client}"<c:if test="${clienteIdSeleccionado == clie.nro_client}">selected</c:if>>
-                ${clie.razon_social}</option>
+                ${clie.razon_social}
+            </option>
             </c:forEach>
         </select>
         
@@ -112,10 +114,10 @@
                     %>
                 <div class="row mb-3">
                     <div class="col">
-                        <label for="numero-cliente" class="form-label">Número de cliente</label>
+                        <label for="numero-cliente" class="form-label">Numero de cliente</label>
                         <c:forEach var="clie" items="${listaClientes}">
                             <c:if test="${clienteIdSeleccionado == clie.nro_client}">
-                                <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
+                                <input type="text" id="razon-social" class="form-control" aria-label="RazÃ³n social"
                                        disabled value="${clie.nro_client}">
                             </c:if>
                         </c:forEach>
@@ -123,10 +125,10 @@
                     </div>
                     
                     <div class="col">
-                        <label for="razon-social" class="form-label">Razón social</label>
+                        <label for="razon-social" class="form-label">Razon social</label>
                         <c:forEach var="clie" items="${listaClientes}">
                             <c:if test="${clienteIdSeleccionado == clie.nro_client}">
-                                <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
+                                <input type="text" id="razon-social" class="form-control" aria-label="RazÃ³n social"
                                        disabled value="${clie.razon_social}">
                             </c:if>
                         </c:forEach>
@@ -146,21 +148,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><input class="sinBorde" type="number" name="idProd" value="300" readonly></td>
+                            <tr id="fila-producto">
+                                <td><input class="sinBorde ancho" type="number" name="idProd" value="1" readonly></td>
                                 <td><input class="sinBorde" type="text" name="nombreProd" value="TORNILLO"></td>
-                                <td><input class="sinBorde" id="cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde" id="precioProd" type="number" name="precioProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde" type="number" name="importeProd" id="importeProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde ancho cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde ancho precioProd" type="number" name="precioProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde importeProd" type="number" name="importeProd" readonly></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <button type="button" id="agregarFila" class="btn btn-outline-secondary" style="margin-left: 50%">
+                    <i class="bi bi-plus-circle"></i>
+                </button>
             </div>
+                
             <div class="modal-footer">
                 <div class="col importefinal">
                     <label for="importe-total" class="form-label">Importe total</label>
-                    <input type="text" id="importe-total" name="importeTotal" class="form-control" aria-label="Importe total" disabled>
+                    <input type="number" id="importe-total" name="importeTotal" class="form-control" aria-label="Importe total" value="0" readonly>
                 </div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button submit" class="btn btn-primary">Guardar Remito</button>
@@ -170,25 +176,22 @@
     </div>
 </div>                    
    
+<!-- CALCULAR IMPORTES TOTALES -->
 <script>
 function calcularImporte() {
-    // Obtener los valores de cantidad y precio, convirtiéndolos a números
-    const cantProd = parseFloat(document.getElementById("cantProd").value) || 0;
-    const precioProd = parseFloat(document.getElementById("precioProd").value) || 0;
-
-    // Calcular el importe total de la línea actual
-    const importeProd = cantProd * precioProd;
-
-    // Mostrar el resultado en el campo importeProd
-    document.getElementById("importeProd").value = importeProd;
-
-    // Llamar a la función para actualizar el importe total
+    const filas = document.querySelectorAll('#tabla-remito tbody tr');
+    filas.forEach(fila => {
+        const cantidad = fila.querySelector('.cantProd').value || 0;
+        const precio = fila.querySelector('.precioProd').value || 0;
+        const importe = fila.querySelector('.importeProd');
+        importe.value = (precio * cantidad).toFixed(2);
+    });
     calcularImporteTotal();
 }
 
 function calcularImporteTotal() {
     // Seleccionar todos los elementos de importeProd en las filas
-    const importeProdElements = document.querySelectorAll("input[name='importeProd']");
+    const importeProdElements = document.querySelectorAll("input.importeProd");
 
     // Sumar todos los valores de importeProd
     let total = 0;
@@ -197,9 +200,9 @@ function calcularImporteTotal() {
     });
 
     // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total;
+    document.getElementById("importe-total").value = total.toFixed(2);
 }
-</script>
+</script> 
 
 <!-- BOTON CANCELAR DEUDA -->
 <div class="modal fade" id="CancelarDeuda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -220,8 +223,54 @@ function calcularImporteTotal() {
     </div>
 </div>
 
+<!-- Modal de Error -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">¡Atencion!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 
+<script>
+    //Agregar fila al modal de remito
+document.getElementById('agregarFila').addEventListener('click', function() {
+    var tabla = document.getElementById('tabla-remito');
+    var fila = document.getElementById('fila-producto');
+    var nuevaFila = fila.cloneNode(true);
 
+    // Resetear los valores de los campos para la nueva fila
+    var inputs = nuevaFila.getElementsByTagName('input');
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].value = '';
+    }
+
+    var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
+    tablaCuerpo.appendChild(nuevaFila);
+});
+</script>
+
+<script>
+    //Enviar error para mostrar el modal
+window.onload = function () {
+    const error = '<%= request.getAttribute("error") != null ? "true" : "false" %>';
+    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+    if (error === "true") {
+        errorModal.show();
+    }
+};
+</script>
 
 </body>
 </html>

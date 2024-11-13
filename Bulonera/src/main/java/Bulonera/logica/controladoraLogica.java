@@ -67,6 +67,10 @@ public class controladoraLogica {
     public cliente buscarNombCliente(String Razonsoc)
     { 
         return ctrlpersis.buscarNombCliente(Razonsoc);
+    }  
+        
+    public List<cliente> obtenerClientes() {
+        return ctrlpersis.getClientes();
     }
     
     //CRUD CUENTA_CORRIENTE
@@ -87,8 +91,8 @@ public class controladoraLogica {
         return ctrlpersis.consultarCc(id);
     }
     
-    public ArrayList<cuenta_corriente> consultarCcList(){
-        return ctrlpersis.consultarCcList();
+    public List<cuenta_corriente> consultarCcList(cabecera_remito cab){
+        return ctrlpersis.consultarCcList(cab);
     }
     
     //CRUD DETALLE

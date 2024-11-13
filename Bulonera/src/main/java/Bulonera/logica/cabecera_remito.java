@@ -24,7 +24,6 @@ public class cabecera_remito implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id_remito;
     @Basic
-    private int nro_cliente;
     private String cuit_cliente;
     private String razon_social;
     @OneToOne
@@ -35,9 +34,8 @@ public class cabecera_remito implements Serializable {
     public cabecera_remito(){
     }
 
-    public cabecera_remito(int id_remito, int nro_cliente, String cuit_cliente , String razon_social, cliente cliente_cabecera, ArrayList<detalle_remito> listadetalles) {
+    public cabecera_remito(int id_remito, String cuit_cliente , String razon_social, cliente cliente_cabecera, ArrayList<detalle_remito> listadetalles) {
         this.id_remito = id_remito;
-        this.nro_cliente = nro_cliente;
         this.cuit_cliente = cuit_cliente;
         this.razon_social = razon_social;
         this.cliente_cabecera = cliente_cabecera;
@@ -68,13 +66,6 @@ public class cabecera_remito implements Serializable {
         this.id_remito = id_remito;
     }
     
-    public int getNro_cliente() {
-        return nro_cliente;
-    }
-
-    public void setNro_cliente(int nro_cliente) {
-        this.nro_cliente = nro_cliente;
-    }
 
     public String getCuit_cliente() {
         return cuit_cliente;
