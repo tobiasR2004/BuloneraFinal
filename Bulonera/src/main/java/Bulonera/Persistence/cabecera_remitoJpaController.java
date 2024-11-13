@@ -177,7 +177,9 @@ public class cabecera_remitoJpaController implements Serializable {
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException e) {
-        return null;
+            return em.find(cabecera_remito.class, id);
+        } finally {
+            em.close();
         }
     }
 

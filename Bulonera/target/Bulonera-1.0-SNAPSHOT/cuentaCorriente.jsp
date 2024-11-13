@@ -84,7 +84,7 @@
 </TABLE>    
 </div>
 
-<!-- BotÃ³n para abrir el modal -->
+<!-- Botón para abrir el modal -->
 <form action="sVcuentaCorrienteRemito" method="get">
     <button type="button" class="btn btn-outline-secondary btnremito" 
             tabindex="0" data-bs-target="#remito" data-bs-toggle="modal">
@@ -93,7 +93,7 @@
 </form>
 
 
-<!-- Estructura del modal remito-->
+<!-- Estructura del modal -->
 <div class="modal fade" id="remito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -105,7 +105,7 @@
             <div class="modal-body">
                 
                 
-                <!-- Formularios en lÃ­nea -->
+                <!-- Formularios en línea -->
                 <%
                 List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
                 
@@ -149,9 +149,9 @@
                             <tr id="fila-producto">
                                 <td><input class="sinBorde ancho" type="number" name="idProd" value="1" readonly></td>
                                 <td><input class="sinBorde" type="text" name="nombreProd" value="TORNILLO"></td>
-                                <td><input class="sinBorde ancho" id="cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde ancho" id="precioProd" type="number" name="precioProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde" type="number" name="importeProd" id="importeProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde ancho cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde ancho precioProd" type="number" name="precioProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde importeProd" type="number" name="importeProd" readonly></td>
                             </tr>
                         </tbody>
                     </table>
@@ -177,23 +177,19 @@
 <!-- CALCULAR IMPORTES TOTALES -->
 <script>
 function calcularImporte() {
-    // Obtener los valores de cantidad y precio, convirtiÃ©ndolos a nÃºmeros
-    const cantProd = parseFloat(document.getElementById("cantProd").value) || 0;
-    const precioProd = parseFloat(document.getElementById("precioProd").value) || 0;
-
-    // Calcular el importe total de la lÃ­nea actual
-    const importeProd = cantProd * precioProd;
-
-    // Mostrar el resultado en el campo importeProd
-    document.getElementById("importeProd").value = importeProd;
-
-    // Llamar a la funciÃ³n para actualizar el importe total
+    const filas = document.querySelectorAll('#tabla-remito tbody tr');
+    filas.forEach(fila => {
+        const cantidad = fila.querySelector('.cantProd').value || 0;
+        const precio = fila.querySelector('.precioProd').value || 0;
+        const importe = fila.querySelector('.importeProd');
+        importe.value = (precio * cantidad).toFixed(2);
+    });
     calcularImporteTotal();
 }
 
 function calcularImporteTotal() {
     // Seleccionar todos los elementos de importeProd en las filas
-    const importeProdElements = document.querySelectorAll("input[name='importeProd']");
+    const importeProdElements = document.querySelectorAll("input.importeProd");
 
     // Sumar todos los valores de importeProd
     let total = 0;
@@ -202,7 +198,7 @@ function calcularImporteTotal() {
     });
 
     // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total;
+    document.getElementById("importe-total").value = total.toFixed(2);
 }
 </script> 
 
