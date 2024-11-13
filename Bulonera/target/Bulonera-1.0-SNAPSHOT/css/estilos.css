@@ -263,6 +263,9 @@ section:target {
     color: aliceblue;
     table-layout: fixed;
 }
+#searchInput {
+    margin-left: 15px;
+}
 
 #client {
     margin-top: 80px; 
@@ -432,6 +435,17 @@ td {
 #boton5, #boton6{
   width: 150px;
 }
+#boton9{
+  border: 0px;
+  margin-left: 60px;
+  padding: 7px 15px;
+}
+
+#boton9:hover{
+  color: #fff;
+  background-color: #c82333;
+  border-color: #bd2130;
+}
 
 .form-modif {
     position: fixed;               
@@ -446,7 +460,90 @@ td {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     box-sizing: border-box;   
 }
+.form-select{
+    width: 220px;
+    height: 30px;
+    display: inline-block;
+    vertical-align:middle;
+    font-size: 12px;
+}
 
+.tablaCC{
+    border: solid 2px black;
+    border-collapse: collapse;
+    width: 90%;
+    background-color: #003053;
+    color: aliceblue;
+    table-layout: fixed;
+    position:fixed; 
+    left: 7%;
+    top: 18%;
+    right: 4%;
+    z-index: 1;
+}
+
+.comboBox{
+    position: fixed;
+    top: 70px;  
+    left: 139px; 
+    width: 900px;
+    height: 40px;
+    z-index: 1; 
+    color: black;
+}
+
+.lblCli{
+    vertical-align:middle;
+    font-size: 16px;
+}
+
+.me-2{
+    margin-left: 12%;
+}
+
+.btnSel{
+    display: inline-block;
+    position: fixed;
+    height: 30px;
+    vertical-align:middle;
+    top: 70px;
+    left: 450px; 
+    background-color:yellowgreen;
+}
+
+.sinBorde{
+    border: none;
+    outline: none;
+}
+
+#ancho{
+    width: 60px;
+}
+
+.cabecRemito{
+ padding: 2%
+}
+
+.cabecRemito label{
+    color: rgba(66,66,66);
+    background-color: rgba(300, 300, 300, 0.8);
+    padding: 4px;
+    border: solid 2px rgba(66,66,66);
+    border-radius: 10px;
+}
+
+.fondoRem{
+ margin-top: 70px;
+ margin-left: 25%;
+ width: 800px;
+ height: 150px;
+ display: flex;
+ background-color: rgba(20, 75, 110, 0.5);
+ border-radius: 10px;
+ box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); 
+
+    
+}
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
   .MenuPrincipal {

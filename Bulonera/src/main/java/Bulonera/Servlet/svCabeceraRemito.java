@@ -4,25 +4,23 @@
  */
 package Bulonera.Servlet;
 
-import Bulonera.logica.cliente;
 import Bulonera.logica.controladoraLogica;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author tobi2
  */
-@WebServlet(name = "svRemito", urlPatterns = {"/svRemito"})
-public class svRemito extends HttpServlet {
-    controladoraLogica ctrl = new controladoraLogica();
+@WebServlet(name = "svCabeceraRemito", urlPatterns = {"/svCabeceraRemito"})
+public class svCabeceraRemito extends HttpServlet {
+    
+     controladoraLogica ctrl = new controladoraLogica();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,25 +49,13 @@ public class svRemito extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-                
-        HttpSession misesion = request.getSession();
-         String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado");   
-         misesion.setAttribute("idCabec", idCabec);
-         
-       if(idCabec == null  || "".equals(idCabec) || "Elegir...".equals(idCabec)){
-           
-        request.setAttribute("errorCabec", "Por favor... seleccione un Cliente");
-        request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
         
-       } else if (idCabec instanceof String){
-        int idCabecint = Integer.parseInt(idCabec);
+        int nroclient = Integer.parseInt(request.getSession().getAttribute("idclient1").toString());
         
-        cliente cliente1 = ctrl.consultarCliente(idCabecint);
-        misesion.setAttribute("clientCabec", cliente1);     
+        ctrl.consultarCliente(80);
         
-        response.sendRedirect("remito.jsp");
+        response.sendRedirect("remitos.jsp");
         
-    } 
     }
 
     /**
@@ -83,15 +69,7 @@ public class svRemito extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        HttpSession misesion = request.getSession();
-        cliente cliente1 = (cliente) misesion.getAttribute("clienteCabec");
-        
-        cliente1.getCuit_cliente();
-        cliente1.getRazon_social();
-        
-        
-        
+        processRequest(request, response);
     }
 
     /**
@@ -102,6 +80,7 @@ public class svRemito extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>♠
+    }// </editor-fold>
 
 }
+
