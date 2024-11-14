@@ -25,9 +25,9 @@ import javax.persistence.Persistence;
 public class cabecera_remitoJpaController implements Serializable {
 
     public cabecera_remitoJpaController() {
-         emf = Persistence.createEntityManagerFactory("buloneraPU");
+        emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
-    
+
     public cabecera_remitoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -74,7 +74,7 @@ public class cabecera_remitoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            cabecera_remito persistentcabecera_remito = em.find(cabecera_remito.class, cabecera_remito.getId_remito());
+            cabecera_remito persistentcabecera_remito = em.find(cabecera_remito.class, cabecera_remito.getIdRemito());
             ArrayList<detalle_remito> listadetallesOld = persistentcabecera_remito.getListadetalles();
             ArrayList<detalle_remito> listadetallesNew = cabecera_remito.getListadetalles();
             ArrayList<detalle_remito> attachedListadetallesNew = new ArrayList<detalle_remito>();
@@ -106,7 +106,7 @@ public class cabecera_remitoJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                int id = cabecera_remito.getId_remito();
+                int id = cabecera_remito.getIdRemito();
                 if (findcabecera_remito(id) == null) {
                     throw new NonexistentEntityException("The cabecera_remito with id " + id + " no longer exists.");
                 }
@@ -127,7 +127,7 @@ public class cabecera_remitoJpaController implements Serializable {
             cabecera_remito cabecera_remito;
             try {
                 cabecera_remito = em.getReference(cabecera_remito.class, id);
-                cabecera_remito.getId_remito();
+                cabecera_remito.getIdRemito();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The cabecera_remito with id " + id + " no longer exists.", enfe);
             }

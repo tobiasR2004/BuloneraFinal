@@ -12,15 +12,15 @@
         </div>
     </div>
 </nav>
+
 <% cliente cli = (cliente) request.getSession().getAttribute("clienteCabec");%>
     <form action="svRemito" method="GET" class="fondoRem">
         <div class="cabecRemito">
-        <label class="form-label">Numero Cliente</label>
-        <input type="text" class="form-control" id="exampleInputEmail1"  value="<%= session.getAttribute("idCabec") %>">
-            </div>
+            <label class="form-label">Numero Cliente</label>
+            <input type="text" class="form-control" id="exampleInputEmail1"  value="<%= session.getAttribute("idCabec") %>">
+        </div>
 
-
-        <div class="cabecRemito">
+      <div class="cabecRemito">
         <label class="form-label">Razon Social</label>
         <input type="text" class="form-control" id="exampleInputEmail1" value="<%=cli.getRazon_social()%>">
         </div>
@@ -29,7 +29,8 @@
         <label class="form-label">CUIT</label>
         <input type="text" class="form-control" id="exampleInputEmail1" value="<%=cli.getCuit_cliente()%>">
         </div>
-     </form>
+    </form>
+     
                 <!-- Modal de Error -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
         <div class="modal-dialog">

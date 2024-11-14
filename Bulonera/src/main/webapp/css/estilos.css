@@ -238,7 +238,7 @@ section:target {
 
 .modal-content {
   color: #003053;
-  
+  background-color: #D3EBEC;
 }
 
 .btn-navbar {
@@ -264,7 +264,7 @@ section:target {
     table-layout: fixed;
 }
 #searchInput {
-    margin-left: 15px;
+    margin-left: 12%;
 }
 
 #client {
@@ -383,7 +383,11 @@ td {
 .modal-body {
   position: relative;
   display: block;
-  margin-left: 7%;
+  margin-left: 2%;
+}
+
+.ancho{
+    width: 60px;
 }
 
 .currency-symbol {
@@ -428,9 +432,6 @@ td {
   border-color: #0d6d00;
 }
 
-#boton5, #boton6{
-  width: 150px;
-}
 #boton9{
   border: 0px;
   margin-left: 60px;
@@ -441,6 +442,10 @@ td {
   color: #fff;
   background-color: #c82333;
   border-color: #bd2130;
+}
+
+#boton5, #boton6, #boton9{
+  width: 150px;
 }
 
 .form-modif {

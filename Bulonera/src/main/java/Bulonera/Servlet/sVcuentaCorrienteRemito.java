@@ -41,7 +41,6 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
 
         //TRAER CLIENTE
         String nombCli = request.getParameter("buscarCli");
-        cliente cliente1 = ctrl.buscarNombCliente(nombCli);
         
         if (nombCli == null || nombCli.equals("-1")) {
             request.setAttribute("error", "Seleccione un cliente");
@@ -65,7 +64,6 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
             request.getSession().setAttribute("listaCC", listaCC);
         }
 
-        
         // Reenvía la solicitud al JSP
         request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
     }
@@ -109,10 +107,5 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         misesion.removeAttribute("clienteIdSeleccionado");
         response.sendRedirect("menu.jsp");
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

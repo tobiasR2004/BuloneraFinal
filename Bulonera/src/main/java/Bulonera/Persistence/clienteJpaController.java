@@ -25,9 +25,9 @@ import javax.persistence.Persistence;
 public class clienteJpaController implements Serializable {
 
     public clienteJpaController() {
-         emf = Persistence.createEntityManagerFactory("buloneraPU");
+        emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
-    
+
     public clienteJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }

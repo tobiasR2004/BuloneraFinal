@@ -21,6 +21,11 @@
         <title>Inicio de sesión</title>
     </head>
    <body class="bodyIndex">
+       
+       <% 
+           controladoraPersistencia controlPersis = new controladoraPersistencia();
+       %>
+       
     <form class="MenuPrincipal" action="svLogin" method="POST">
         <img id="Logo" src="img/LogoBulonera.jpg" alt="Logo Bulonera">
         <div class="mb-3">

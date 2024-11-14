@@ -25,9 +25,9 @@ import javax.persistence.Persistence;
 public class detalle_remitoJpaController implements Serializable {
 
     public detalle_remitoJpaController() {
-         emf = Persistence.createEntityManagerFactory("buloneraPU");
+        emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
-
+   
     public detalle_remitoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -44,7 +44,7 @@ public class detalle_remitoJpaController implements Serializable {
             em.getTransaction().begin();
             cabecera_remito cabecdetalleremito = detalle_remito.getCabecdetalleremito();
             if (cabecdetalleremito != null) {
-                cabecdetalleremito = em.getReference(cabecdetalleremito.getClass(), cabecdetalleremito.getId_remito());
+                cabecdetalleremito = em.getReference(cabecdetalleremito.getClass(), cabecdetalleremito.getIdRemito());
                 detalle_remito.setCabecdetalleremito(cabecdetalleremito);
             }
             producto producDetalle = detalle_remito.getProducDetalle();
@@ -80,7 +80,7 @@ public class detalle_remitoJpaController implements Serializable {
             producto producDetalleOld = persistentdetalle_remito.getProducDetalle();
             producto producDetalleNew = detalle_remito.getProducDetalle();
             if (cabecdetalleremitoNew != null) {
-                cabecdetalleremitoNew = em.getReference(cabecdetalleremitoNew.getClass(), cabecdetalleremitoNew.getId_remito());
+                cabecdetalleremitoNew = em.getReference(cabecdetalleremitoNew.getClass(), cabecdetalleremitoNew.getIdRemito());
                 detalle_remito.setCabecdetalleremito(cabecdetalleremitoNew);
             }
             if (producDetalleNew != null) {
