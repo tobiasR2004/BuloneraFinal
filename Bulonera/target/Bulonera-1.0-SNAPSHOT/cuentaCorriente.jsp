@@ -149,8 +149,8 @@
                         </thead>
                         <tbody>
                             <tr id="fila-producto">
-                                <td><input class="sinBorde ancho" type="number" name="idProd" value="1" readonly></td>
-                                <td><input class="sinBorde" type="text" name="nombreProd" value="TORNILLO"></td>
+                                <td><input class="sinBorde ancho" type="number" name="idProd" onchange="completarProducto(this)"></td>
+                                <td><input class="sinBorde" type="text" name="nombreProd"></td>
                                 <td><input class="sinBorde ancho cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
                                 <td><input class="sinBorde ancho precioProd" type="number" name="precioProd" oninput="calcularImporte()"></td>
                                 <td><input class="sinBorde importeProd" type="number" name="importeProd" readonly></td>
@@ -175,7 +175,33 @@
         </div>
     </div>
 </div>                    
-   
+
+<script>
+function completarProducto(elemento) {
+    const idProd = elemento.value;
+    console.log("ID del producto ingresado:", idProd);
+    
+    if (idProd) {
+        fetch(`/svRemito?idProd=${idProd}`)
+            .then(response => {
+                console.log("Respuesta del servidor:", response);
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta del servidor");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Datos del producto recibidos:", data);
+                const fila = elemento.closest('tr');
+                fila.querySelector('input[name="nombreProd"]').value = data.nombreProd;
+                fila.querySelector('input[name="precioProd"]').value = data.precioProd;
+                calcularImporte();
+            })
+            .catch(error => console.error("Error al obtener los datos del producto:", error));
+    }
+}
+</script>
+                
 <!-- CALCULAR IMPORTES TOTALES -->
 <script>
 function calcularImporte() {
@@ -184,7 +210,7 @@ function calcularImporte() {
         const cantidad = fila.querySelector('.cantProd').value || 0;
         const precio = fila.querySelector('.precioProd').value || 0;
         const importe = fila.querySelector('.importeProd');
-        importe.value = (precio * cantidad).toFixed(2);
+        importe.value = (precio * cantidad);
     });
     calcularImporteTotal();
 }
@@ -200,7 +226,7 @@ function calcularImporteTotal() {
     });
 
     // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total.toFixed(2);
+    document.getElementById("importe-total").value = total;
 }
 </script> 
 
