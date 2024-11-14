@@ -184,7 +184,7 @@ function calcularImporte() {
         const cantidad = fila.querySelector('.cantProd').value || 0;
         const precio = fila.querySelector('.precioProd').value || 0;
         const importe = fila.querySelector('.importeProd');
-        importe.value = (precio * cantidad);
+        importe.value = (precio * cantidad).toFixed(2);
     });
     calcularImporteTotal();
 }
@@ -200,7 +200,7 @@ function calcularImporteTotal() {
     });
 
     // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total;
+    document.getElementById("importe-total").value = total.toFixed(2);
 }
 </script> 
 

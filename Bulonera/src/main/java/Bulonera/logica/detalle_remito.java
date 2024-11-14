@@ -109,8 +109,6 @@ public class detalle_remito implements Serializable {
     public void setProducDetalle(producto producDetalle) {
         this.producDetalle = producDetalle;
     }
-
-    
-    
+      
     
 }
