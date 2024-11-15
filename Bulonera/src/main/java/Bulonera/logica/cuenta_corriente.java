@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -34,6 +35,7 @@ public class cuenta_corriente implements Serializable {
     @OneToMany(mappedBy = "cc_pago")
     private ArrayList<pago> listaPagos_cc;
     @OneToOne
+    @JoinColumn(name = "CABECERAREMITO_ID_REMITO") 
     private cabecera_remito cabeceraremito;
 
     public cuenta_corriente()

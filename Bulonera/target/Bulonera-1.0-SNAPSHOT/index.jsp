@@ -4,6 +4,7 @@
     Author     : tobi2
 --%>
 
+<%@page import="Bulonera.logica.usuarioService"%>
 <%@page import="Bulonera.Persistence.controladoraPersistencia"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -21,6 +22,11 @@
         <title>Inicio de sesión</title>
     </head>
    <body class="bodyIndex">
+      <% controladoraPersistencia ctrlpersis = new controladoraPersistencia();
+         usuarioService newus = new usuarioService();
+         newus.init();
+      %>
+       
     <form class="MenuPrincipal" action="svLogin" method="POST">
         <img id="Logo" src="img/LogoBulonera.jpg" alt="Logo Bulonera">
         <div class="mb-3">

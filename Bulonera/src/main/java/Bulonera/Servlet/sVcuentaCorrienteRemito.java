@@ -45,7 +45,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         
         HttpSession misesion = request.getSession();
         misesion.setAttribute("clienteCC", cliente1);
-        request.setAttribute("clienteIdSeleccionado", nombCli);
+        misesion.setAttribute("clienteIdSeleccionado", nombCli);
         
         // Reenvía la solicitud al JSP
         request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);

@@ -20,7 +20,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author Alumno
+ * @author tobi2
  */
 public class clienteJpaController implements Serializable {
     
@@ -144,7 +144,7 @@ public class clienteJpaController implements Serializable {
             }
         }
     }
-    
+
     public List<cliente> findclienteEntities() {
         return findclienteEntities(true, -1, -1);
     }

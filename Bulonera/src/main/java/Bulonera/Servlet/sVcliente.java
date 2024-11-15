@@ -88,7 +88,7 @@ public class sVcliente extends HttpServlet {
             
             ctrl.crearCliente(client);
             
-            cabecera_remito cabec = new cabecera_remito();
+            /*cabecera_remito cabec = new cabecera_remito();
             
             List<detalle_remito> listaCabec = new ArrayList<>();
             listaCabec = (List<detalle_remito>) ctrl.consultarDetalleList();
@@ -98,7 +98,7 @@ public class sVcliente extends HttpServlet {
             cabec.setRazon_social(razonSoc);
             cabec.setCliente_cabecera(client);
          
-            ctrl.crearcabecremito(cabec);
+            ctrl.crearcabecremito(cabec);*/
             
         } catch (ParseException ex) {
             Logger.getLogger(sVcliente.class.getName()).log(Level.SEVERE, null, ex);

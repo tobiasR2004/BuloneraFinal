@@ -32,6 +32,7 @@ public class sVeliminarCliente extends HttpServlet {
             throws ServletException, IOException {
         int idBorrar = Integer.parseInt(request.getParameter("idCliente"));
         ctrl.eliminarCliente(idBorrar);
+        response.sendRedirect("clientes.jsp#client");
     }
     
     @Override

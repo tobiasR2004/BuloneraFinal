@@ -36,8 +36,65 @@
             </ul>
         </div>
     </div>
->>>>>>> 395bc0aa1a4ffed1d672ebcae5837bd668678ce8
 </nav>
+
+<form action="svCabeceraRem" method="GET">
+    <button type="submit" class="btnaux btn-primary" >
+      Launch demo modal
+    </button>
+</form>
+
+<!-- Modal -->
+<form action="svCabeceraRem" method="POST"></form>
+        <div class="modal fade" id="modalcabec" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <% 
+                   cliente cli = (cliente) request.getSession().getAttribute("clienteCabec");
+                %>
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Cabecera de Remito</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-bodyCabec">
+                  <div class="divCabec">
+                      <label for="numero cliente" class="form-label">Número de cliente</label>
+                      <% if (cli != null) { %>
+                      <input type="text" name="NroClientCabec" class="form-control" disabled="disabled" value="<%= cli.getNro_client() %>">
+                      <% } else { %>
+                          <input type="text" name="NroClientCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
+                      <% } %>
+                  </div>
+                  <div class="divCabec">
+                      <label for="Razon Social" class="form-label">Razón Social</label>
+                      <% if (cli != null) { %>
+                          <input type="text" name="nombCabec" class="form-control" disabled="disabled" value="<%= cli.getRazon_social() %>">
+                      <% } else { %>
+                          <input type="text" name="nombCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
+                      <% } %>
+                  </div>
+                  <div class="divCabec">
+                      <label for="Cuit" class="form-label">CUIT</label>
+                      <% if (cli != null) { %>
+                          <input type="text" name="cuitCabec" class="form-control" disabled="disabled" value="<%= cli.getCuit_cliente()%>">
+                      <% } else { %>
+                          <input type="text" name="cuitCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
+                      <% } %>
+                  </div>
+                  <div class="divCabec">
+                      <label for="Fecha" class="form-label" >Fecha</label>
+                      <input type="Date" name="fechaCabec" class="form-control" disabled="disabled" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
+                  </div>
+                </div>
+               </form>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+                </div>
+            </div>
+        </div>
+</form>
 
 <!-- SELECT - COMBOBOX -->
 <div class="comboBox">
@@ -83,6 +140,8 @@
             %>
 </TABLE>    
 </div>
+
+
 
 <!-- Botón para abrir el modal -->
 <form action="sVcuentaCorrienteRemito" method="get">
@@ -168,7 +227,23 @@
             </form>
         </div>
     </div>
-</div>                    
+</div>            
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <%= request.getAttribute("errorCabec") != null ? request.getAttribute("errorCabec") : "" %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>                
    
 <script>
 function calcularImporte() {
@@ -199,6 +274,34 @@ function calcularImporteTotal() {
     // Mostrar el total en el campo importe-total
     document.getElementById("importe-total").value = total;
 }
+</script>
+
+<script>
+    window.onload = function() {
+        // Verificar si hay un mensaje de error
+        const error = '<%= request.getAttribute("errorCabec") != null ? "true" : "false" %>';
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+        if (error === "true") {
+            errorModal.show();
+        }
+    };
+</script>
+
+<% 
+    Boolean abrirModal = (Boolean) session.getAttribute("abrirModal");
+    // Elimina el atributo después de leerlo para que no persista
+    session.removeAttribute("abrirModal");
+%>
+<script>
+    // Función que abre el modal automáticamente si abrirModal es true
+    document.addEventListener("DOMContentLoaded", function() {
+        let abrirModal = <%= (abrirModal != null && abrirModal ? "true" : "false") %>;
+        if (abrirModal) {
+            var modalElement = new bootstrap.Modal(document.getElementById('modalcabec'));
+            modalElement.show();
+        }
+    });
 </script>
 
 <!-- BOTON CANCELAR DEUDA -->
