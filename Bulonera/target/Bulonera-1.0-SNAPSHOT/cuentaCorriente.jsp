@@ -190,6 +190,7 @@
                 <!-- Tabla -->
                 <div class="table-responsive">  
                     <table class="table table-bordered" id="tabla-remito">
+                        <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>
                                 <th scope="col">ID-Producto</th>
@@ -200,12 +201,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><input class="sinBorde" type="number" name="idProd" value="300" readonly></td>
-                                <td><input class="sinBorde" type="text" name="nombreProd" value="TORNILLO"></td>
-                                <td><input class="sinBorde" id="cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde" id="precioProd" type="text" name="precioProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde" type="text" name="importeProd" id="importeProd" oninput="calcularImporte()"></td>
+                            <tr id="fila-producto">
+                                <td><input class="sinBorde ancho" type="number" name="idProd" onchange="completarProducto(this)"></td>
+                                <td><input class="sinBorde" type="text" name="nombreProd" readonly></td>
+                                <td><input class="sinBorde ancho cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde ancho precioProd" type="number" name="precioProd" readonly></td>
+                                <td><input class="sinBorde importeProd" type="number" name="importeProd" readonly></td>
                             </tr>
                         </tbody>
                     </table>
@@ -253,6 +254,47 @@ function calcularImporte() {
     document.getElementById("importeProd").value = importeProd;
 
     // Llamar a la función para actualizar el importe total
+</div>                    
+                
+                
+<script>
+    function completarProducto(input) {
+    const idProducto = input.value.trim;
+
+    if (idProducto) {
+        fetch(`http://localhost:8080/Bulonera/svRemito?idProd=${idProd}`)
+            .then(response => response.json())
+            .then(data =>{
+                console.log("Datos recibidos del servidor:", data);  // Verifica los datos recibidos
+                if (data.nombre && data.precio) {
+                    // Actualiza los campos del modal con los datos del producto
+                    document.getElementsByName('nombreProd')[0].value = data.nombre;
+                    document.getElementsByName('precioProd')[0].value = data.precio;
+                } else {
+                    alert("Datos del producto no traidos");
+                }
+            })
+                .catch(error => {
+                // Si ocurre un error en la solicitud, lo muestra
+                console.error("Error al obtener los datos:", error);
+                alert("Hubo un error al cargar los datos del producto.");
+            });
+        }else{
+            alert("Por favor ingrese un ID de producto.");
+    }
+}
+</script>            
+
+<!-- CALCULAR IMPORTES TOTALES -->
+<script>
+function calcularImporte() {
+    const filas = document.querySelectorAll('#tabla-remito tbody tr');
+    filas.forEach(fila => {
+        const cantidad = fila.querySelector('.cantProd').value || 0;
+        const precio = fila.querySelector('.precioProd').value || 0;
+        const importe = fila.querySelector('.importeProd');
+        importe.value = (precio * cantidad);
+    });
     calcularImporteTotal();
 }
 
@@ -267,7 +309,7 @@ function calcularImporteTotal() {
     });
 
     // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total.toFixed(2);
+    document.getElementById("importe-total").value = total;
 }
 </script>
 

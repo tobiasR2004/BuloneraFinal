@@ -47,23 +47,12 @@ public class controladoraPersistencia {
            cabecera_remitoJpa.create(idcabec); 
     }
 
-    public void eliminarcabecremito(int nroCliente) {
-        EntityManager em = cabecera_remitoJpa.getEntityManager();
-        try {
-                String jpql = "DELETE FROM cabecera_remito c WHERE c.CLIENTE_CABECERA_NRO_CLIENT = :nroCliente";
-                Query query = em.createQuery(jpql);
-                query.setParameter("nroCliente", nroCliente);
-                int rowsAffected = query.executeUpdate();  
-            if (rowsAffected > 0) {
-                System.out.println("Se han eliminado " + rowsAffected + " cabeceras.");
-            } else {
-                System.out.println("No se encontraron cabeceras para eliminar.");
-        }
-        } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-        em.close();
-}
+    public void eliminarcabecremit(int id) {
+       try{
+          cabecera_remitoJpa.destroy(id);
+       } catch(NonexistentEntityException ex) {
+            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE,null, ex);
+       }
     }
 
     public void modifcabecremito(cabecera_remito idcabec) {
@@ -84,22 +73,6 @@ public class controladoraPersistencia {
         return listacabecremi;
     }
 
-    public cabecera_remito consultarCabecNroClient(int nroClient) {
-        EntityManager em = cabecera_remitoJpa.getEntityManager();
-        cabecera_remito cabec = null;
-        try {
-            String jpql = "SELECT c FROM cabecera_remito c where c.CLIENTE_CABECERA_NRO_CLIENT = :nroCliente";
-            Query query = em.createQuery(jpql);
-            cabec = (cabecera_remito) query.getSingleResult();
-        }catch (NoResultException e) {
-                System.out.println("No se encontro la cabecera");
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-            em.close();
-        }
-        return cabec;
-    }
     
     //CRUD CLIENTE
     
@@ -165,7 +138,7 @@ public class controladoraPersistencia {
         cliente client2 = null;
 
             try {
-                String jpql = "SELECT c FROM cliente c WHERE c.razonSocial = :razonSoc";
+                String jpql = "SELECT c FROM cliente c WHERE c.razonSocial = razonSoc";
                 Query query = em.createQuery(jpql);
                 query.setParameter("cliente", razonSoc);
 
@@ -312,7 +285,20 @@ public class controladoraPersistencia {
         }
     }
 
-    public producto consultarProducto(int id) {
+    public producto buscarProductoPorCodProd(int codProd) {
+        EntityManager em = clienteJpa.getEntityManager();
+        try {
+            TypedQuery<producto> query = em.createQuery("SELECT p FROM producto p WHERE p.cod_prod = :codProd", producto.class);
+            query.setParameter("codProd", codProd);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public producto buscarProducto(int id){
         return productoJpa.findproducto(id);
     }
 
@@ -351,8 +337,6 @@ public class controladoraPersistencia {
         ArrayList<usuario> listaUsuarios = new ArrayList<usuario>(listaUs);
         return listaUsuarios;
     }
-
-
 
  
 }
