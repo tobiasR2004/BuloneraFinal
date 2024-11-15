@@ -44,49 +44,7 @@
     </button>
 </form>
 
-<!-- Modal -->
-<form action="svCrearCabeceraRem" method="POST">
-        <div class="modal fade" id="modalcabec" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <% 
-                   cliente cli = (cliente) request.getSession().getAttribute("clienteCabec");
-                %>
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Cabecera de Remito</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-bodyCabec">
-                  <div class="divCabec">
-                      <label for="numero cliente" class="form-label">Número de cliente</label> 
-                      <input type="text" name="nroClientCabec" class="form-control" disabled="disabled" value="<%= cli.getNro_client() %>">
 
-                  </div>
-                  <div class="divCabec">
-                      <label for="Razon Social" class="form-label">Razón Social</label>
-                      <input type="text" name="nombCabec" class="form-control" disabled="disabled" value="<%= cli.getRazon_social() %>">
-                  </div>
-                  <div class="divCabec">
-                      <label for="Cuit" class="form-label">CUIT</label>
-                      <input type="text" name="cuitCabec" class="form-control" disabled="disabled" value="<%= cli.getCuit_cliente()%>">
-                  </div>
-                  <div class="divCabec">
-                      <label for="Fecha" class="form-label" >Fecha</label>
-                      <input type="Date" name="fechaCabec" class="form-control" disabled="disabled" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                  <button type="submit" class="btn btn-primary">Crear Cabecera</button>
-                  </form>
-                  <form action="sVcuentaCorrienteRemito" method="GET">
-                    <button type="button" class="btn btn-primary" data-bs-target="#remito" data-bs-toggle="modal">Cargar Remito</button>
-                </form>
-                </div>
-                </div>
-            </div>
-        </div>
-</form>
 
 <!-- SELECT - COMBOBOX -->
 <div class="comboBox">
@@ -140,6 +98,52 @@
             tabindex="0">
         <i class="bi bi-plus-circle"></i>
     </button>
+</form>
+
+<!-- Modal -->
+<form action="svCrearCabeceraRem" method="POST">
+        <div class="modal fade" id="modalcabec" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <% 
+                   cliente cli = (cliente) request.getSession().getAttribute("clienteCabec");
+                   if (cli!=null) {
+                %>
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Cabecera de Remito</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-bodyCabec">
+                  <div class="divCabec">
+                      <label for="numero cliente" class="form-label">Número de cliente</label> 
+                      <input type="text" name="nroClientCabec" class="form-control" disabled="disabled" value="<%= cli.getNro_client() %>">
+
+                  </div>
+                  <div class="divCabec">
+                      <label for="Razon Social" class="form-label">Razón Social</label>
+                      <input type="text" name="nombCabec" class="form-control" disabled="disabled" value="<%= cli.getRazon_social() %>">
+                  </div>
+                  <div class="divCabec">
+                      <label for="Cuit" class="form-label">CUIT</label>
+                      <input type="text" name="cuitCabec" class="form-control" disabled="disabled" value="<%= cli.getCuit_cliente()%>">
+                  </div>
+                  <div class="divCabec">
+                      <label for="Fecha" class="form-label" >Fecha</label>
+                      <input type="Date" name="fechaCabec" class="form-control" disabled="disabled" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary">Crear Cabecera</button>
+                  </form>
+                  <form action="sVcuentaCorrienteRemito" method="GET">
+                    <button type="button" class="btn btn-primary" data-bs-target="#remito" data-bs-toggle="modal">Cargar Remito</button>
+                </form>
+                  <%} else {}%>
+                </div>
+                </div>
+            </div>
+        </div>
 </form>
 
 
@@ -200,8 +204,8 @@
                                 <td><input class="sinBorde" type="number" name="idProd" value="300" readonly></td>
                                 <td><input class="sinBorde" type="text" name="nombreProd" value="TORNILLO"></td>
                                 <td><input class="sinBorde" id="cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde" id="precioProd" type="number" name="precioProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde" type="number" name="importeProd" id="importeProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde" id="precioProd" type="text" name="precioProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde" type="text" name="importeProd" id="importeProd" oninput="calcularImporte()"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -253,8 +257,8 @@ function calcularImporte() {
 }
 
 function calcularImporteTotal() {
-    // Seleccionar todos los elementos de importeProd en las filas
-    const importeProdElements = document.querySelectorAll("input.importeProd");
+    // Seleccionar todos los elementos con el atributo name="importeProd"
+    const importeProdElements = document.querySelectorAll("[name='importeProd']");
 
     // Sumar todos los valores de importeProd
     let total = 0;
