@@ -83,7 +83,7 @@
                   </div>
                   <div class="divCabec">
                       <label for="Fecha" class="form-label" >Fecha</label>
-                      <input type="Date" name="FechaCabec" class="form-control" disabled="disabled" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
+                      <input type="Date" name="fechaCabec" class="form-control" disabled="disabled" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
                   </div>
                 </div>
                </form>

@@ -17,7 +17,7 @@ public class usuarioService {
     controladoraLogica ctrl = new controladoraLogica();
 
     public void init() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadDePersistencia");  // Asegúrate de que el nombre coincida con el de tu archivo persistence.xml
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("buloneraPU"); 
         this.entityManager = emf.createEntityManager();
         Long count = (Long) entityManager.createQuery("SELECT COUNT(u) FROM usuario u").getSingleResult();
         

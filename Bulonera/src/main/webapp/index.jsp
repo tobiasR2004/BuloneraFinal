@@ -22,12 +22,10 @@
         <title>Inicio de sesión</title>
     </head>
    <body class="bodyIndex">
-       
-       <% 
-           controladoraPersistencia controlPersis = new controladoraPersistencia();
-           usuarioService us = new usuarioService();
-           us.init();
-       %>
+      <% controladoraPersistencia ctrlpersis = new controladoraPersistencia();
+         usuarioService newus = new usuarioService();
+         newus.init();
+      %>
        
     <form class="MenuPrincipal" action="svLogin" method="POST">
         <img id="Logo" src="img/LogoBulonera.jpg" alt="Logo Bulonera">

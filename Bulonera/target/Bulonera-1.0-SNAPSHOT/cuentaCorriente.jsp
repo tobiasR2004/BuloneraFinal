@@ -83,7 +83,7 @@
                   </div>
                   <div class="divCabec">
                       <label for="Fecha" class="form-label" >Fecha</label>
-                      <input type="Date" name="FechaCabec" class="form-control" disabled="disabled" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
+                      <input type="Date" name="fechaCabec" class="form-control" disabled="disabled" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
                   </div>
                 </div>
                </form>
@@ -220,7 +220,7 @@
             <div class="modal-footer">
                 <div class="col importefinal">
                     <label for="importe-total" class="form-label">Importe total</label>
-                    <input type="number" id="importe-total" name="importeTotal" class="form-control" aria-label="Importe total" value="0" readonly>
+                    <input type="text" id="importe-total" name="importeTotal" class="form-control" aria-label="Importe total" disabled>
                 </div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button submit" class="btn btn-primary">Guardar Remito</button>
