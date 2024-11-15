@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,15 +22,17 @@ import javax.persistence.TemporalType;
 @Entity
 public class pago implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_pago;
     @Basic
     private int num_pago;
     private int importe_pago;
     @Temporal(TemporalType.DATE)
     private Date fecha_pago;
-    @OneToMany
+    
+    @ManyToOne
     private cliente cliente_pago;
+    @ManyToOne
     private cuenta_corriente cc_pago;
 
     public pago()
