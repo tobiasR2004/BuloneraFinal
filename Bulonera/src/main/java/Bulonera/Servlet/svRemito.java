@@ -4,66 +4,96 @@
  */
 package Bulonera.Servlet;
 
+import Bulonera.Persistence.controladoraPersistencia;
 import Bulonera.logica.cliente;
-import Bulonera.logica.controladoraLogica;
 import Bulonera.logica.producto;
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.http.HttpSession;
+import org.json.JSONObject;
 
-/**
- *
- * @author tobi2
- */
-@WebServlet(name = "svRemito", urlPatterns = {"/svRemito"})
+@WebServlet("/svRemito")
 public class svRemito extends HttpServlet {
-    controladoraLogica ctrl = new controladoraLogica();
+    controladoraPersistencia ctrl = new controladoraPersistencia();
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int idProd = Integer.parseInt(request.getParameter("idProd"));
-        
-        producto prod = ctrl.consultarProducto(idProd);
-        
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        
-        // Devuelve el JSON con el nombre y precio
-        try (PrintWriter out = response.getWriter()) {
-            out.print("{\"nombreProd\": \"" + prod.getNomb_prod() + "\", \"precioProd\": " + prod.getPrecio_venta() + "}");
-        }
+
+        String codProducto = request.getParameter("idProd");
+        System.out.println("El id es:" + codProducto);
+
+            try {
+                producto prod1 = ctrl.buscarProductoPorCodProd(Integer.parseInt(codProducto));
+                
+                if (prod1 != null) {
+                    // Crear el JSON de respuesta con los datos del producto
+                    JSONObject json = new JSONObject();
+                    json.put("nombre", prod1.getNomb_prod());
+                    json.put("precio", prod1.getPrecio_venta());
+
+                    response.getWriter().write(json.toString());
+                } else {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    response.getWriter().write("{\"error\":\"Producto no encontrado\"}");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().write("{\"error\":\"Error al obtener el producto\"}");
+            }
     }
-        
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         HttpSession misesion = request.getSession();
         cliente cliente1 = (cliente) misesion.getAttribute("clienteCabec");
         
         cliente1.getCuit_cliente();
         cliente1.getRazon_social();
         
-        
-        
     }
 
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>♠
+    }// </editor-fold>
 
 }

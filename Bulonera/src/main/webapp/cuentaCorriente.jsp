@@ -138,6 +138,7 @@
                 <!-- Tabla -->
                 <div class="table-responsive">  
                     <table class="table table-bordered" id="tabla-remito">
+                        <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>
                                 <th scope="col">ID-Producto</th>
@@ -150,9 +151,9 @@
                         <tbody>
                             <tr id="fila-producto">
                                 <td><input class="sinBorde ancho" type="number" name="idProd" onchange="completarProducto(this)"></td>
-                                <td><input class="sinBorde" type="text" name="nombreProd"></td>
+                                <td><input class="sinBorde" type="text" name="nombreProd" readonly></td>
                                 <td><input class="sinBorde ancho cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde ancho precioProd" type="number" name="precioProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde ancho precioProd" type="number" name="precioProd" readonly></td>
                                 <td><input class="sinBorde importeProd" type="number" name="importeProd" readonly></td>
                             </tr>
                         </tbody>
@@ -175,33 +176,36 @@
         </div>
     </div>
 </div>                    
-
+                
+                
 <script>
-function completarProducto(elemento) {
-    const idProd = elemento.value;
-    console.log("ID del producto ingresado:", idProd);
-    
-    if (idProd) {
-        fetch(`/svRemito?idProd=${idProd}`)
-            .then(response => {
-                console.log("Respuesta del servidor:", response);
-                if (!response.ok) {
-                    throw new Error("Error en la respuesta del servidor");
+    function completarProducto(input) {
+    const idProducto = input.value.trim;
+
+    if (idProducto) {
+        fetch(`http://localhost:8080/Bulonera/svRemito?idProd=${idProd}`)
+            .then(response => response.json())
+            .then(data =>{
+                console.log("Datos recibidos del servidor:", data);  // Verifica los datos recibidos
+                if (data.nombre && data.precio) {
+                    // Actualiza los campos del modal con los datos del producto
+                    document.getElementsByName('nombreProd')[0].value = data.nombre;
+                    document.getElementsByName('precioProd')[0].value = data.precio;
+                } else {
+                    alert("Datos del producto no traidos");
                 }
-                return response.json();
             })
-            .then(data => {
-                console.log("Datos del producto recibidos:", data);
-                const fila = elemento.closest('tr');
-                fila.querySelector('input[name="nombreProd"]').value = data.nombreProd;
-                fila.querySelector('input[name="precioProd"]').value = data.precioProd;
-                calcularImporte();
-            })
-            .catch(error => console.error("Error al obtener los datos del producto:", error));
+                .catch(error => {
+                // Si ocurre un error en la solicitud, lo muestra
+                console.error("Error al obtener los datos:", error);
+                alert("Hubo un error al cargar los datos del producto.");
+            });
+        }else{
+            alert("Por favor ingrese un ID de producto.");
     }
 }
-</script>
-                
+</script>            
+
 <!-- CALCULAR IMPORTES TOTALES -->
 <script>
 function calcularImporte() {

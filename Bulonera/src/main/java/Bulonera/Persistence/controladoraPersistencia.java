@@ -285,7 +285,20 @@ public class controladoraPersistencia {
         }
     }
 
-    public producto consultarProducto(int id) {
+    public producto buscarProductoPorCodProd(int codProd) {
+        EntityManager em = clienteJpa.getEntityManager();
+        try {
+            TypedQuery<producto> query = em.createQuery("SELECT p FROM producto p WHERE p.cod_prod = :codProd", producto.class);
+            query.setParameter("codProd", codProd);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public producto buscarProducto(int id){
         return productoJpa.findproducto(id);
     }
 

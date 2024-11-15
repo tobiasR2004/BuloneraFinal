@@ -152,8 +152,12 @@ public class controladoraLogica {
         ctrlpersis.modifProducto(prod1);
     }
     
+    public producto consultarProductoStr(int codProd){
+        return ctrlpersis.buscarProductoPorCodProd(codProd);
+    }
+    
     public producto consultarProducto(int id){
-        return ctrlpersis.consultarProducto(id);
+        return ctrlpersis.buscarProducto(id);
     }
     
     public ArrayList<producto> consultarProductosList(){
@@ -197,4 +201,8 @@ public class controladoraLogica {
     // Si no es válido, marcamos que falló la autenticación
     request.setAttribute("usuarioValido", false);
 }
+
+    public producto buscarProductoPorCodProd(int parseInt) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
