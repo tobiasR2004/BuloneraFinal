@@ -22,8 +22,8 @@ public class controladoraLogica {
         ctrlpersis.crearcabecremito(cabecera1);
     }
     
-    public void eliminarcabecremito(int id){
-        ctrlpersis.eliminarcabecremit(id);
+    public void eliminarcabecremito(int nroCliente){
+        ctrlpersis.eliminarcabecremito(nroCliente);
     }
     
     public void modifcabecremito(cabecera_remito cabecera1){
@@ -38,6 +38,9 @@ public class controladoraLogica {
         return ctrlpersis.consultarcabecerarem();
     }
    
+    public cabecera_remito consultarCabecNroClient(int nroClient){
+        return ctrlpersis.consultarCabecNroClient(nroClient);
+    }
     // CRUD CLIENTE
     
     public void crearCliente(cliente cliente1){
@@ -67,8 +70,8 @@ public class controladoraLogica {
     public cliente buscarNombCliente(String Razonsoc)
     { 
         return ctrlpersis.buscarNombCliente(Razonsoc);
-    }
-    
+    }  
+        
     public List<cliente> obtenerClientes() {
         return ctrlpersis.getClientes();
     }
@@ -91,8 +94,8 @@ public class controladoraLogica {
         return ctrlpersis.consultarCc(id);
     }
     
-    public ArrayList<cuenta_corriente> consultarCcList(){
-        return ctrlpersis.consultarCcList();
+    public List<cuenta_corriente> consultarCcList(cabecera_remito cab){
+        return ctrlpersis.consultarCcList(cab);
     }
     
     //CRUD DETALLE

@@ -56,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function() {
     if (errorModal) {
         const button = errorModal.querySelector('.btn-close');
         button.addEventListener('click', function() {
-            // Tu lógica aquí
         });
     }
 });

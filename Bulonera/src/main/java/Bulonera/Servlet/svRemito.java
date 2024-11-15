@@ -4,6 +4,8 @@
  */
 package Bulonera.Servlet;
 
+import Bulonera.logica.cabecera_remito;
+import Bulonera.logica.cliente;
 import Bulonera.logica.controladoraLogica;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -49,7 +52,25 @@ public class svRemito extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
+
+        HttpSession misesion = request.getSession();
+        String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado");
+        misesion.setAttribute("idCabec", idCabec);
+
+        if (idCabec == null || "".equals(idCabec) || "Elegir...".equals(idCabec)) {
+
+            request.setAttribute("errorCabec", "Por favor... seleccione un Cliente");
+            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+
+        } else if (idCabec instanceof String) {
+            int idCabecint = Integer.parseInt(idCabec);
+
+            cliente cliente1 = ctrl.consultarCliente(idCabecint);
+            misesion.setAttribute("clientCabec", cliente1);
+
+            response.sendRedirect("remito.jsp");
+
+        }
     }
 
     /**
@@ -63,6 +84,12 @@ public class svRemito extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession misesion = request.getSession();
+        cliente cliente1 = (cliente) misesion.getAttribute("clienteCabec");
+        
+        
+        
         
         
     }

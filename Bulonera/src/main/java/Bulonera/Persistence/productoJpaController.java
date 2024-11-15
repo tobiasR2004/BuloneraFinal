@@ -5,16 +5,18 @@
 package Bulonera.Persistence;
 
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
-import Bulonera.logica.producto;
 import java.io.Serializable;
+import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import Bulonera.logica.detalle_remito;
+import Bulonera.logica.producto;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 /**
  *
@@ -23,7 +25,7 @@ import javax.persistence.criteria.Root;
 public class productoJpaController implements Serializable {
 
     public productoJpaController() {
-         emf = Persistence.createEntityManagerFactory("buloneraPU");
+        emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
 
     public productoJpaController(EntityManagerFactory emf) {
@@ -36,11 +38,29 @@ public class productoJpaController implements Serializable {
     }
 
     public void create(producto producto) {
+        if (producto.getDetalles() == null) {
+            producto.setDetalles(new ArrayList<detalle_remito>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<detalle_remito> attachedDetalles = new ArrayList<detalle_remito>();
+            for (detalle_remito detallesdetalle_remitoToAttach : producto.getDetalles()) {
+                detallesdetalle_remitoToAttach = em.getReference(detallesdetalle_remitoToAttach.getClass(), detallesdetalle_remitoToAttach.getId_remito());
+                attachedDetalles.add(detallesdetalle_remitoToAttach);
+            }
+            producto.setDetalles(attachedDetalles);
             em.persist(producto);
+            for (detalle_remito detallesdetalle_remito : producto.getDetalles()) {
+                producto oldProducDetalleOfDetallesdetalle_remito = detallesdetalle_remito.getProducDetalle();
+                detallesdetalle_remito.setProducDetalle(producto);
+                detallesdetalle_remito = em.merge(detallesdetalle_remito);
+                if (oldProducDetalleOfDetallesdetalle_remito != null) {
+                    oldProducDetalleOfDetallesdetalle_remito.getDetalles().remove(detallesdetalle_remito);
+                    oldProducDetalleOfDetallesdetalle_remito = em.merge(oldProducDetalleOfDetallesdetalle_remito);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -54,7 +74,34 @@ public class productoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            producto persistentproducto = em.find(producto.class, producto.getId_prod());
+            List<detalle_remito> detallesOld = persistentproducto.getDetalles();
+            List<detalle_remito> detallesNew = producto.getDetalles();
+            List<detalle_remito> attachedDetallesNew = new ArrayList<detalle_remito>();
+            for (detalle_remito detallesNewdetalle_remitoToAttach : detallesNew) {
+                detallesNewdetalle_remitoToAttach = em.getReference(detallesNewdetalle_remitoToAttach.getClass(), detallesNewdetalle_remitoToAttach.getId_remito());
+                attachedDetallesNew.add(detallesNewdetalle_remitoToAttach);
+            }
+            detallesNew = attachedDetallesNew;
+            producto.setDetalles(detallesNew);
             producto = em.merge(producto);
+            for (detalle_remito detallesOlddetalle_remito : detallesOld) {
+                if (!detallesNew.contains(detallesOlddetalle_remito)) {
+                    detallesOlddetalle_remito.setProducDetalle(null);
+                    detallesOlddetalle_remito = em.merge(detallesOlddetalle_remito);
+                }
+            }
+            for (detalle_remito detallesNewdetalle_remito : detallesNew) {
+                if (!detallesOld.contains(detallesNewdetalle_remito)) {
+                    producto oldProducDetalleOfDetallesNewdetalle_remito = detallesNewdetalle_remito.getProducDetalle();
+                    detallesNewdetalle_remito.setProducDetalle(producto);
+                    detallesNewdetalle_remito = em.merge(detallesNewdetalle_remito);
+                    if (oldProducDetalleOfDetallesNewdetalle_remito != null && !oldProducDetalleOfDetallesNewdetalle_remito.equals(producto)) {
+                        oldProducDetalleOfDetallesNewdetalle_remito.getDetalles().remove(detallesNewdetalle_remito);
+                        oldProducDetalleOfDetallesNewdetalle_remito = em.merge(oldProducDetalleOfDetallesNewdetalle_remito);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -83,6 +130,11 @@ public class productoJpaController implements Serializable {
                 producto.getId_prod();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The producto with id " + id + " no longer exists.", enfe);
+            }
+            List<detalle_remito> detalles = producto.getDetalles();
+            for (detalle_remito detallesdetalle_remito : detalles) {
+                detallesdetalle_remito.setProducDetalle(null);
+                detallesdetalle_remito = em.merge(detallesdetalle_remito);
             }
             em.remove(producto);
             em.getTransaction().commit();

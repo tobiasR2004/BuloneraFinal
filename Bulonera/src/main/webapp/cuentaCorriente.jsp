@@ -38,14 +38,14 @@
     </div>
 </nav>
 
-<form action="svCabeceraRem" method="GET">
+<!-- <form action="svCrearCabeceraRem" method="GET">
     <button type="submit" class="btnaux btn-primary" >
       Launch demo modal
     </button>
 </form>
 
 <!-- Modal -->
-<form action="svCabeceraRem" method="POST"></form>
+<form action="svCrearCabeceraRem" method="POST">
         <div class="modal fade" id="modalcabec" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -58,38 +58,30 @@
                 </div>
                 <div class="modal-bodyCabec">
                   <div class="divCabec">
-                      <label for="numero cliente" class="form-label">Número de cliente</label>
-                      <% if (cli != null) { %>
-                      <input type="text" name="NroClientCabec" class="form-control" disabled="disabled" value="<%= cli.getNro_client() %>">
-                      <% } else { %>
-                          <input type="text" name="NroClientCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
-                      <% } %>
+                      <label for="numero cliente" class="form-label">Número de cliente</label> 
+                      <input type="text" name="nroClientCabec" class="form-control" disabled="disabled" value="<%= cli.getNro_client() %>">
+
                   </div>
                   <div class="divCabec">
                       <label for="Razon Social" class="form-label">Razón Social</label>
-                      <% if (cli != null) { %>
-                          <input type="text" name="nombCabec" class="form-control" disabled="disabled" value="<%= cli.getRazon_social() %>">
-                      <% } else { %>
-                          <input type="text" name="nombCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
-                      <% } %>
+                      <input type="text" name="nombCabec" class="form-control" disabled="disabled" value="<%= cli.getRazon_social() %>">
                   </div>
                   <div class="divCabec">
                       <label for="Cuit" class="form-label">CUIT</label>
-                      <% if (cli != null) { %>
-                          <input type="text" name="cuitCabec" class="form-control" disabled="disabled" value="<%= cli.getCuit_cliente()%>">
-                      <% } else { %>
-                          <input type="text" name="cuitCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
-                      <% } %>
+                      <input type="text" name="cuitCabec" class="form-control" disabled="disabled" value="<%= cli.getCuit_cliente()%>">
                   </div>
                   <div class="divCabec">
                       <label for="Fecha" class="form-label" >Fecha</label>
                       <input type="Date" name="fechaCabec" class="form-control" disabled="disabled" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
                   </div>
                 </div>
-               </form>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                  <button type="submit" class="btn btn-primary">Crear Cabecera</button>
+                  </form>
+                  <form action="sVcuentaCorrienteRemito" method="GET">
+                    <button type="button" class="btn btn-primary" data-bs-target="#remito" data-bs-toggle="modal">Cargar Remito</button>
+                </form>
                 </div>
                 </div>
             </div>
@@ -101,10 +93,11 @@
     <form action="sVcuentaCorrienteRemito" method="get">
         <label class="lblCli">CLIENTE: </label>
         <select name="buscarCli" class="form-select" aria-label="Default select example">
-            <option selected>Elegir...</option>
+            <option value="-1" selected>Elegir...</option>
             <c:forEach var="clie" items="${listaClientes}">
                 <option value="${clie.nro_client}"<c:if test="${clienteIdSeleccionado == clie.nro_client}">selected</c:if>>
-                ${clie.razon_social}</option>
+                ${clie.razon_social}
+            </option>
             </c:forEach>
         </select>
         
@@ -141,12 +134,10 @@
 </TABLE>    
 </div>
 
-
-
-<!-- Botón para abrir el modal -->
-<form action="sVcuentaCorrienteRemito" method="get">
-    <button type="button" class="btn btn-outline-secondary btnremito" 
-            tabindex="0" data-bs-target="#remito" data-bs-toggle="modal">
+<!--Botón para abrir el modal -->
+<form action="svCrearCabeceraRem" method="GET">
+    <button type="submit" class="btn btn-outline-secondary btnremito" 
+            tabindex="0">
         <i class="bi bi-plus-circle"></i>
     </button>
 </form>
@@ -263,7 +254,7 @@ function calcularImporte() {
 
 function calcularImporteTotal() {
     // Seleccionar todos los elementos de importeProd en las filas
-    const importeProdElements = document.querySelectorAll("input[name='importeProd']");
+    const importeProdElements = document.querySelectorAll("input.importeProd");
 
     // Sumar todos los valores de importeProd
     let total = 0;
@@ -272,7 +263,7 @@ function calcularImporteTotal() {
     });
 
     // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total;
+    document.getElementById("importe-total").value = total.toFixed(2);
 }
 </script>
 
@@ -323,8 +314,54 @@ function calcularImporteTotal() {
     </div>
 </div>
 
+<!-- Modal de Error -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">¡Atencion!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 
+<script>
+    //Agregar fila al modal de remito
+document.getElementById('agregarFila').addEventListener('click', function() {
+    var tabla = document.getElementById('tabla-remito');
+    var fila = document.getElementById('fila-producto');
+    var nuevaFila = fila.cloneNode(true);
 
+    // Resetear los valores de los campos para la nueva fila
+    var inputs = nuevaFila.getElementsByTagName('input');
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].value = '';
+    }
+
+    var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
+    tablaCuerpo.appendChild(nuevaFila);
+});
+</script>
+
+<script>
+    //Enviar error para mostrar el modal
+window.onload = function () {
+    const error = '<%= request.getAttribute("error") != null ? "true" : "false" %>';
+    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+    if (error === "true") {
+        errorModal.show();
+    }
+};
+</script>
 
 </body>
 </html>

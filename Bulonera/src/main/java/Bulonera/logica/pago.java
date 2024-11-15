@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
 @Entity
 public class pago implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_pago;
     @Basic
     private int num_pago;

@@ -6,13 +6,17 @@ package Bulonera.logica;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -21,59 +25,39 @@ import javax.persistence.OneToOne;
 @Entity
 public class cabecera_remito implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id_remito;
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    private int idRemito;
     @Basic
-    private int nro_cliente;
     private String cuit_cliente;
     private String razon_social;
+    private double importe_total;
+    @Temporal(TemporalType.DATE)
+    private Date fecha_Rem;
     @OneToOne
+    @JoinColumn(name = "CABECERAREMITO_ID_REMITO")
     private cliente cliente_cabecera;
     @OneToMany(mappedBy = "cabecdetalleremito")
     private ArrayList<detalle_remito> listadetalles;
-    
-    public cabecera_remito(){
-    }
 
-    public cabecera_remito(int id_remito, int nro_cliente, String cuit_cliente , String razon_social, cliente cliente_cabecera, ArrayList<detalle_remito> listadetalles) {
-        this.id_remito = id_remito;
-        this.nro_cliente = nro_cliente;
+    public cabecera_remito(int idRemito, String cuit_cliente, String razon_social, double importe_total, Date fecha_Rem, cliente cliente_cabecera, ArrayList<detalle_remito> listadetalles) {
+        this.idRemito = idRemito;
         this.cuit_cliente = cuit_cliente;
         this.razon_social = razon_social;
+        this.importe_total = importe_total;
+        this.fecha_Rem = fecha_Rem;
         this.cliente_cabecera = cliente_cabecera;
         this.listadetalles = listadetalles;
     }
 
-    public ArrayList<detalle_remito> getListadetalles() {
-        return listadetalles;
+    public cabecera_remito() {
     }
 
-    public void setListadetalles(ArrayList<detalle_remito> listadetalles) {
-        this.listadetalles = listadetalles;
-    }
-    
-    public cliente getCliente_cabecera() {
-        return cliente_cabecera;
+    public int getIdRemito() {
+        return idRemito;
     }
 
-    public void setCliente_cabecera(cliente cliente_cabecera) {
-        this.cliente_cabecera = cliente_cabecera;
-    }
-
-    public int getId_remito() {
-        return id_remito;
-    }
-
-    public void setId_remito(int id_remito) {
-        this.id_remito = id_remito;
-    }
-    
-    public int getNro_cliente() {
-        return nro_cliente;
-    }
-
-    public void setNro_cliente(int nro_cliente) {
-        this.nro_cliente = nro_cliente;
+    public void setIdRemito(int idRemito) {
+        this.idRemito = idRemito;
     }
 
     public String getCuit_cliente() {
@@ -91,6 +75,40 @@ public class cabecera_remito implements Serializable {
     public void setRazon_social(String razon_social) {
         this.razon_social = razon_social;
     }
+
+    public double getImporte_total() {
+        return importe_total;
+    }
+
+    public void setImporte_total(double importe_total) {
+        this.importe_total = importe_total;
+    }
+
+    public Date getFecha_Rem() {
+        return fecha_Rem;
+    }
+
+    public void setFecha_Rem(Date fecha_Rem) {
+        this.fecha_Rem = fecha_Rem;
+    }
+
+    public cliente getCliente_cabecera() {
+        return cliente_cabecera;
+    }
+
+    public void setCliente_cabecera(cliente cliente_cabecera) {
+        this.cliente_cabecera = cliente_cabecera;
+    }
+
+    public ArrayList<detalle_remito> getListadetalles() {
+        return listadetalles;
+    }
+
+    public void setListadetalles(ArrayList<detalle_remito> listadetalles) {
+        this.listadetalles = listadetalles;
+    }
+    
+
     
     
     

@@ -78,15 +78,13 @@
               aria-describedby="inputGroup-sizing-sm"">
                   </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-primary">Eliminar</button>
         </div>
       </form>
     </div>
   </div>
 </div>
-  
-        
   
 
 <!--MODAL ALTAS -->
@@ -133,7 +131,6 @@
         </div>
     </div>
 </div>  
-
 <!-- BTN MODIFICACION -->
     <div id="confirmodif" class="modal" tabindex="-1">
         <div class="modal-dialog">
@@ -152,7 +149,7 @@
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
                     </div>
                 </form>                  
-            </div>                
+            </div>              
         </div>
     </div>
 

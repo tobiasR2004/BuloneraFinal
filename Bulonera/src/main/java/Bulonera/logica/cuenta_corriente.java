@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 @Entity
 public class cuenta_corriente implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_cc;
     @Basic
     private int debe_cc, haber_cc, saldo_cc;
