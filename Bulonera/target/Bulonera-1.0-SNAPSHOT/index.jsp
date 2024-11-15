@@ -4,6 +4,7 @@
     Author     : tobi2
 --%>
 
+<%@page import="Bulonera.logica.usuarioService"%>
 <%@page import="Bulonera.Persistence.controladoraPersistencia"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -24,6 +25,8 @@
        
        <% 
            controladoraPersistencia controlPersis = new controladoraPersistencia();
+           usuarioService us = new usuarioService();
+           us.init();
        %>
        
     <form class="MenuPrincipal" action="svLogin" method="POST">

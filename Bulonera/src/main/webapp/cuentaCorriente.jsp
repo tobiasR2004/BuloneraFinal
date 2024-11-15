@@ -30,15 +30,71 @@
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-            <form action="svRemito" method="GET">
-                <li>
-                    <button type="submit" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
-                </li>    
-            </form>
+            <li>
+                <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
+            </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<form action="svCabeceraRem" method="GET">
+    <button type="submit" class="btnaux btn-primary" >
+      Launch demo modal
+    </button>
+</form>
+
+<!-- Modal -->
+<form action="svCabeceraRem" method="POST"></form>
+        <div class="modal fade" id="modalcabec" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <% 
+                   cliente cli = (cliente) request.getSession().getAttribute("clienteCabec");
+                %>
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Cabecera de Remito</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-bodyCabec">
+                  <div class="divCabec">
+                      <label for="numero cliente" class="form-label">Número de cliente</label>
+                      <% if (cli != null) { %>
+                      <input type="text" name="NroClientCabec" class="form-control" disabled="disabled" value="<%= cli.getNro_client() %>">
+                      <% } else { %>
+                          <input type="text" name="NroClientCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
+                      <% } %>
+                  </div>
+                  <div class="divCabec">
+                      <label for="Razon Social" class="form-label">Razón Social</label>
+                      <% if (cli != null) { %>
+                          <input type="text" name="nombCabec" class="form-control" disabled="disabled" value="<%= cli.getRazon_social() %>">
+                      <% } else { %>
+                          <input type="text" name="nombCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
+                      <% } %>
+                  </div>
+                  <div class="divCabec">
+                      <label for="Cuit" class="form-label">CUIT</label>
+                      <% if (cli != null) { %>
+                          <input type="text" name="cuitCabec" class="form-control" disabled="disabled" value="<%= cli.getCuit_cliente()%>">
+                      <% } else { %>
+                          <input type="text" name="cuitCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
+                      <% } %>
+                  </div>
+                  <div class="divCabec">
+                      <label for="Fecha" class="form-label" >Fecha</label>
+                      <input type="Date" name="FechaCabec" class="form-control" disabled="disabled" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
+                  </div>
+                </div>
+               </form>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+                </div>
+            </div>
+        </div>
+</form>
 
 <!-- SELECT - COMBOBOX -->
 <div class="comboBox">
@@ -86,6 +142,8 @@
 </TABLE>    
 </div>
 
+
+
 <!-- Botón para abrir el modal -->
 <form action="sVcuentaCorrienteRemito" method="get">
     <button type="button" class="btn btn-outline-secondary btnremito" 
@@ -114,10 +172,10 @@
                     %>
                 <div class="row mb-3">
                     <div class="col">
-                        <label for="numero-cliente" class="form-label">Numero de cliente</label>
+                        <label for="numero-cliente" class="form-label">Número de cliente</label>
                         <c:forEach var="clie" items="${listaClientes}">
                             <c:if test="${clienteIdSeleccionado == clie.nro_client}">
-                                <input type="text" id="razon-social" class="form-control" aria-label="Razon social"
+                                <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
                                        disabled value="${clie.nro_client}">
                             </c:if>
                         </c:forEach>
@@ -125,10 +183,10 @@
                     </div>
                     
                     <div class="col">
-                        <label for="razon-social" class="form-label">Razon social</label>
+                        <label for="razon-social" class="form-label">Razón social</label>
                         <c:forEach var="clie" items="${listaClientes}">
                             <c:if test="${clienteIdSeleccionado == clie.nro_client}">
-                                <input type="text" id="razon-social" class="form-control" aria-label="RazÃ³n social"
+                                <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
                                        disabled value="${clie.razon_social}">
                             </c:if>
                         </c:forEach>
@@ -148,25 +206,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr id="fila-producto">
-                                <td><input class="sinBorde ancho" type="number" name="idProd" value="1" readonly></td>
+                            <tr>
+                                <td><input class="sinBorde" type="number" name="idProd" value="300" readonly></td>
                                 <td><input class="sinBorde" type="text" name="nombreProd" value="TORNILLO"></td>
-                                <td><input class="sinBorde ancho cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde ancho precioProd" type="number" name="precioProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde importeProd" type="number" name="importeProd" readonly></td>
+                                <td><input class="sinBorde" id="cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde" id="precioProd" type="number" name="precioProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde" type="number" name="importeProd" id="importeProd" oninput="calcularImporte()"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <button type="button" id="agregarFila" class="btn btn-outline-secondary" style="margin-left: 50%">
-                    <i class="bi bi-plus-circle"></i>
-                </button>
             </div>
-                
             <div class="modal-footer">
                 <div class="col importefinal">
                     <label for="importe-total" class="form-label">Importe total</label>
-                    <input type="number" id="importe-total" name="importeTotal" class="form-control" aria-label="Importe total" value="0" readonly>
+                    <input type="text" id="importe-total" name="importeTotal" class="form-control" aria-label="Importe total" disabled>
                 </div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button submit" class="btn btn-primary">Guardar Remito</button>
@@ -174,18 +228,37 @@
             </form>
         </div>
     </div>
-</div>                    
+</div>            
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <%= request.getAttribute("errorCabec") != null ? request.getAttribute("errorCabec") : "" %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>                
    
-<!-- CALCULAR IMPORTES TOTALES -->
 <script>
 function calcularImporte() {
-    const filas = document.querySelectorAll('#tabla-remito tbody tr');
-    filas.forEach(fila => {
-        const cantidad = fila.querySelector('.cantProd').value || 0;
-        const precio = fila.querySelector('.precioProd').value || 0;
-        const importe = fila.querySelector('.importeProd');
-        importe.value = (precio * cantidad).toFixed(2);
-    });
+    // Obtener los valores de cantidad y precio, convirtiéndolos a números
+    const cantProd = parseFloat(document.getElementById("cantProd").value) || 0;
+    const precioProd = parseFloat(document.getElementById("precioProd").value) || 0;
+
+    // Calcular el importe total de la línea actual
+    const importeProd = cantProd * precioProd;
+
+    // Mostrar el resultado en el campo importeProd
+    document.getElementById("importeProd").value = importeProd;
+
+    // Llamar a la función para actualizar el importe total
     calcularImporteTotal();
 }
 
@@ -202,7 +275,35 @@ function calcularImporteTotal() {
     // Mostrar el total en el campo importe-total
     document.getElementById("importe-total").value = total.toFixed(2);
 }
-</script> 
+</script>
+
+<script>
+    window.onload = function() {
+        // Verificar si hay un mensaje de error
+        const error = '<%= request.getAttribute("errorCabec") != null ? "true" : "false" %>';
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+        if (error === "true") {
+            errorModal.show();
+        }
+    };
+</script>
+
+<% 
+    Boolean abrirModal = (Boolean) session.getAttribute("abrirModal");
+    // Elimina el atributo después de leerlo para que no persista
+    session.removeAttribute("abrirModal");
+%>
+<script>
+    // Función que abre el modal automáticamente si abrirModal es true
+    document.addEventListener("DOMContentLoaded", function() {
+        let abrirModal = <%= (abrirModal != null && abrirModal ? "true" : "false") %>;
+        if (abrirModal) {
+            var modalElement = new bootstrap.Modal(document.getElementById('modalcabec'));
+            modalElement.show();
+        }
+    });
+</script>
 
 <!-- BOTON CANCELAR DEUDA -->
 <div class="modal fade" id="CancelarDeuda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
