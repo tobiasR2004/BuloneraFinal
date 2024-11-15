@@ -73,7 +73,22 @@ public class controladoraPersistencia {
         return listacabecremi;
     }
 
-    
+        public cabecera_remito consultarCabecNroClient(int nroClient) {
+        EntityManager em = cabecera_remitoJpa.getEntityManager();
+        cabecera_remito cabec = null;
+        try {
+            String jpql = "SELECT c FROM cabecera_remito c where c.CLIENTE_CABECERA_NRO_CLIENT = :nroCliente";
+            Query query = em.createQuery(jpql);
+            cabec = (cabecera_remito) query.getSingleResult();
+        }catch (NoResultException e) {
+                System.out.println("No se encontro la cabecera");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+            em.close();
+        }
+        return cabec;
+    }
     //CRUD CLIENTE
     
     public void crearCliente(cliente cliente1) {

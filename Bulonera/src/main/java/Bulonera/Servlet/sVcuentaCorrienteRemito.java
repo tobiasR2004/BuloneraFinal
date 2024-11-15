@@ -99,7 +99,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
         cuenta_corriente cuentaCorr = new cuenta_corriente();
         cuentaCorr.setCabeceraremito(cabecdetalleremito);
-        cuentaCorr.setDebe_cc(importe_total);
+        //cuentaCorr.setDebe_cc(importe_total);
         cuentaCorr.setFecha_cc(fechaSQL);
         
         ctrl.crearCc(cuentaCorr);
