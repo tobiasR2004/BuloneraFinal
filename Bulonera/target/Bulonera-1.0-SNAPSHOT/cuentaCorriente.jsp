@@ -38,14 +38,14 @@
     </div>
 </nav>
 
-<form action="svCabeceraRem" method="GET">
+<!-- <form action="svCrearCabeceraRem" method="GET">
     <button type="submit" class="btnaux btn-primary" >
       Launch demo modal
     </button>
 </form>
 
 <!-- Modal -->
-<form action="svCabeceraRem" method="POST"></form>
+<form action="svCrearCabeceraRem" method="POST">
         <div class="modal fade" id="modalcabec" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -58,38 +58,30 @@
                 </div>
                 <div class="modal-bodyCabec">
                   <div class="divCabec">
-                      <label for="numero cliente" class="form-label">Número de cliente</label>
-                      <% if (cli != null) { %>
-                      <input type="text" name="NroClientCabec" class="form-control" disabled="disabled" value="<%= cli.getNro_client() %>">
-                      <% } else { %>
-                          <input type="text" name="NroClientCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
-                      <% } %>
+                      <label for="numero cliente" class="form-label">Número de cliente</label> 
+                      <input type="text" name="nroClientCabec" class="form-control" disabled="disabled" value="<%= cli.getNro_client() %>">
+
                   </div>
                   <div class="divCabec">
                       <label for="Razon Social" class="form-label">Razón Social</label>
-                      <% if (cli != null) { %>
-                          <input type="text" name="nombCabec" class="form-control" disabled="disabled" value="<%= cli.getRazon_social() %>">
-                      <% } else { %>
-                          <input type="text" name="nombCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
-                      <% } %>
+                      <input type="text" name="nombCabec" class="form-control" disabled="disabled" value="<%= cli.getRazon_social() %>">
                   </div>
                   <div class="divCabec">
                       <label for="Cuit" class="form-label">CUIT</label>
-                      <% if (cli != null) { %>
-                          <input type="text" name="cuitCabec" class="form-control" disabled="disabled" value="<%= cli.getCuit_cliente()%>">
-                      <% } else { %>
-                          <input type="text" name="cuitCabec" class="form-control" disabled="disabled" placeholder="Cliente no disponible">
-                      <% } %>
+                      <input type="text" name="cuitCabec" class="form-control" disabled="disabled" value="<%= cli.getCuit_cliente()%>">
                   </div>
                   <div class="divCabec">
                       <label for="Fecha" class="form-label" >Fecha</label>
                       <input type="Date" name="fechaCabec" class="form-control" disabled="disabled" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
                   </div>
                 </div>
-               </form>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                  <button type="submit" class="btn btn-primary">Crear Cabecera</button>
+                  </form>
+                  <form action="sVcuentaCorrienteRemito" method="GET">
+                    <button type="button" class="btn btn-primary" data-bs-target="#remito" data-bs-toggle="modal">Cargar Remito</button>
+                </form>
                 </div>
                 </div>
             </div>
@@ -142,12 +134,10 @@
 </TABLE>    
 </div>
 
-
-
-<!-- Botón para abrir el modal -->
-<form action="sVcuentaCorrienteRemito" method="get">
-    <button type="button" class="btn btn-outline-secondary btnremito" 
-            tabindex="0" data-bs-target="#remito" data-bs-toggle="modal">
+<!--Botón para abrir el modal -->
+<form action="svCrearCabeceraRem" method="GET">
+    <button type="submit" class="btn btn-outline-secondary btnremito" 
+            tabindex="0">
         <i class="bi bi-plus-circle"></i>
     </button>
 </form>

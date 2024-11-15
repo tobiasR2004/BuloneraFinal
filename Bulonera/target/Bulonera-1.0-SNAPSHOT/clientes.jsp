@@ -13,7 +13,6 @@
              Eliminar cliente  </button>
        
 </li>
-    
 
 <li>
     <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#alta"
