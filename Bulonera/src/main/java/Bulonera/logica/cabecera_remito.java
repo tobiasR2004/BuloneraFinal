@@ -35,17 +35,17 @@ public class cabecera_remito implements Serializable {
     private Date fecha_Rem;
     @OneToOne
     @JoinColumn(name = "CABECERAREMITO_ID_REMITO")
-    private cliente cliente_cabecera;
+    private cliente clienteCabecera;
     @OneToMany(mappedBy = "cabecdetalleremito")
     private ArrayList<detalle_remito> listadetalles;
 
-    public cabecera_remito(int idRemito, String cuit_cliente, String razon_social, double importe_total, Date fecha_Rem, cliente cliente_cabecera, ArrayList<detalle_remito> listadetalles) {
+    public cabecera_remito(int idRemito, String cuit_cliente, String razon_social, double importe_total, Date fecha_Rem, cliente clienteCabecera, ArrayList<detalle_remito> listadetalles) {
         this.idRemito = idRemito;
         this.cuit_cliente = cuit_cliente;
         this.razon_social = razon_social;
         this.importe_total = importe_total;
         this.fecha_Rem = fecha_Rem;
-        this.cliente_cabecera = cliente_cabecera;
+        this.clienteCabecera = clienteCabecera;
         this.listadetalles = listadetalles;
     }
 
@@ -92,12 +92,12 @@ public class cabecera_remito implements Serializable {
         this.fecha_Rem = fecha_Rem;
     }
 
-    public cliente getCliente_cabecera() {
-        return cliente_cabecera;
+    public cliente getClienteCabecera() {
+        return clienteCabecera;
     }
 
-    public void setCliente_cabecera(cliente cliente_cabecera) {
-        this.cliente_cabecera = cliente_cabecera;
+    public void setClienteCabecera(cliente cliente_cabecera) {
+        this.clienteCabecera = cliente_cabecera;
     }
 
     public ArrayList<detalle_remito> getListadetalles() {

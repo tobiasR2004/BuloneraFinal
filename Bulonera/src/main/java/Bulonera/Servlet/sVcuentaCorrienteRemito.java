@@ -52,13 +52,15 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
             cliente cliente1 = ctrl.buscarNombCliente(nombCli);
             misesion.setAttribute("clienteCC", cliente1);
             misesion.setAttribute("clienteIdSeleccionado", nombCli);
-            request.setAttribute("clienteIdSeleccionado", nombCli);
         }
        
         //TRAER LISTA DE CUENTAS CORRIENTES
         if (nombCli != null && !nombCli.equals("-1")) {
             int clienteId = Integer.parseInt(nombCli);
-            cabecera_remito cabecdetalleremito = ctrl.consultarCabecremito(clienteId);
+            
+            List<cabecera_remito> cabecList = (List<cabecera_remito>) ctrl.consultarCabecNroClient(clienteId);
+            
+            cabecera_remito cabecdetalleremito = cabecList.get(cabecList.size() - 1);
             
             List<cuenta_corriente> listaCC = ctrl.consultarCcList(cabecdetalleremito);
             System.out.println("Número de cuentas corrientes obtenidas: " + listaCC.size());
@@ -74,7 +76,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         int cant_prod = Integer.parseInt(request.getParameter("cantProd"));
         int precio_unit = Integer.parseInt(request.getParameter("precioProd"));
         int importe = Integer.parseInt(request.getParameter("importeProd"));
-        int importe_total = Integer.parseInt(request.getParameter("importeTotal"));
+        Double importe_total = Double.parseDouble(request.getParameter("importeTotal"));
         String nomb_prod = request.getParameter("nombreProd");
 
         HttpSession misesion = request.getSession();
@@ -101,6 +103,8 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cuentaCorr.setCabeceraremito(cabecdetalleremito);
         cuentaCorr.setDebe_cc(importe_total);
         cuentaCorr.setFecha_cc(fechaSQL);
+        
+        
         
         ctrl.crearCc(cuentaCorr);
         ctrl.crearDetalle(detalleRem);

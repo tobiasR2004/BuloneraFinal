@@ -47,7 +47,7 @@ public class controladoraPersistencia {
            cabecera_remitoJpa.create(idcabec); 
     }
 
-    public void eliminarcabecremit(int id) {
+    public void eliminarcabecremito(int id) {
        try{
           cabecera_remitoJpa.destroy(id);
        } catch(NonexistentEntityException ex) {
@@ -73,6 +73,23 @@ public class controladoraPersistencia {
         return listacabecremi;
     }
 
+    public List<cabecera_remito> consultarCabecNroClient(int nroCliente) {
+    EntityManager em = cabecera_remitoJpa.getEntityManager();
+    List<cabecera_remito> cabecList = new ArrayList<>();
+    try {
+        String jpql = "SELECT c FROM cabecera_remito c WHERE c.clienteCabecera.nroClient = :nroCliente";
+        Query query = em.createQuery(jpql);
+        query.setParameter("nroCliente", nroCliente);
+        cabecList = query.getResultList();
+    } catch (NoResultException e) {
+        System.out.println("No se encontró ninguna cabecera de remito.");
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        em.close();
+    }
+    return cabecList;
+}
     
     //CRUD CLIENTE
     

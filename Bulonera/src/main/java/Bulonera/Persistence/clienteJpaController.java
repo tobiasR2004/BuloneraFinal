@@ -74,7 +74,7 @@ public class clienteJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            cliente persistentcliente = em.find(cliente.class, cliente.getNro_client());
+            cliente persistentcliente = em.find(cliente.class, cliente.getNroClient());
             ArrayList<pago> listaPagos_cOld = persistentcliente.getListaPagos_c();
             ArrayList<pago> listaPagos_cNew = cliente.getListaPagos_c();
             ArrayList<pago> attachedListaPagos_cNew = new ArrayList<pago>();
@@ -106,7 +106,7 @@ public class clienteJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                int id = cliente.getNro_client();
+                int id = cliente.getNroClient();
                 if (findcliente(id) == null) {
                     throw new NonexistentEntityException("The cliente with id " + id + " no longer exists.");
                 }
@@ -127,7 +127,7 @@ public class clienteJpaController implements Serializable {
             cliente cliente;
             try {
                 cliente = em.getReference(cliente.class, id);
-                cliente.getNro_client();
+                cliente.getNroClient();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The cliente with id " + id + " no longer exists.", enfe);
             }

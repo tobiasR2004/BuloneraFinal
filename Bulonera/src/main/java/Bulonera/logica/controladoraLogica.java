@@ -38,7 +38,7 @@ public class controladoraLogica {
         return ctrlpersis.consultarcabecerarem();
     }
    
-    public cabecera_remito consultarCabecNroClient(int nroClient){
+    public List<cabecera_remito> consultarCabecNroClient(int nroClient){
         return ctrlpersis.consultarCabecNroClient(nroClient);
     }
     // CRUD CLIENTE

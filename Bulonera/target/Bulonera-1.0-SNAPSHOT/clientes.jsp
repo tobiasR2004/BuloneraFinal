@@ -47,7 +47,7 @@
                     for (cliente Cli : listaCliente) {
                     %>
                 <tr>
-                    <td><%= Cli.getNro_client() %></td>
+                    <td><%= Cli.getNroClient() %></td>
                     <td><%= Cli.getDni_cliente() %></td>
                     <td><%= Cli.getRazon_social() %></td>
                     <td><fmt:formatDate value="<%= Cli.getFecha_ingreso() %>" pattern="dd/MM/yyyy" /></td>
