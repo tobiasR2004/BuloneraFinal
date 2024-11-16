@@ -122,7 +122,7 @@ public class svCrearCabeceraRem extends HttpServlet {
             cabec.setRazon_social(cli.getRazon_social());
             cabec.setFecha_Rem(fechaStr);
             cabec.setImporte_total(0);
-            cabec.setCliente_cabecera(cli);
+            cabec.setClienteCabecera(cli);
             
             ctrl.crearcabecremito(cabec);
             

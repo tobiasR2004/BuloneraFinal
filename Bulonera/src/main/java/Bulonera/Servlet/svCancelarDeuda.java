@@ -4,13 +4,22 @@
  */
 package Bulonera.Servlet;
 
+import Bulonera.logica.cabecera_remito;
+import Bulonera.logica.cliente;
+import Bulonera.logica.controladoraLogica;
+import Bulonera.logica.cuenta_corriente;
+import Bulonera.logica.pago;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -18,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "svCancelarDeuda", urlPatterns = {"/svCancelarDeuda"})
 public class svCancelarDeuda extends HttpServlet {
+    controladoraLogica ctrl = new controladoraLogica();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,19 +40,7 @@ public class svCancelarDeuda extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet svCancelarDeuda</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet svCancelarDeuda at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -57,7 +55,7 @@ public class svCancelarDeuda extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /**
@@ -72,6 +70,41 @@ public class svCancelarDeuda extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+         HttpSession misesion = request.getSession();
+        String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado");   
+        String importePago = request.getParameter("cancelDeuda");
+        int nroClient = Integer.parseInt(idCabec);
+        List<cabecera_remito> cabecList = (List<cabecera_remito>) ctrl.consultarCabecNroClient(nroClient);
+        double importepago = Double.parseDouble(importePago); 
+        
+        if (importePago == null || importePago.trim().isEmpty()) {
+             // Manejar el caso de valor no válido
+            request.setAttribute("errorCabec", "Seleccione un cliente");
+            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+        } else if (idCabec == null || "".equals(idCabec) || "Elegir...".equals(idCabec)) {
+            request.setAttribute("errorCabec", "Por favor... seleccione un Cliente");
+            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+            
+        } else if (cabecList.isEmpty()) {
+           
+        request.setAttribute("errorCabec", "Por favor... seleccione un Cliente");
+         request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+            
+        } else {
+            cabecera_remito ultimaCabecera = cabecList.get(cabecList.size() - 1);
+
+            LocalDate fechaActual = LocalDate.now();
+            java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
+
+            cuenta_corriente cC1 = new cuenta_corriente();
+
+            cC1.setCabeceraremito(ultimaCabecera);
+            cC1.setFecha_cc(fechaSQL);
+            cC1.setHaber_cc(importepago);
+            ctrl.crearCc(cC1);
+            response.sendRedirect("cuentaCorriente.jsp");
+        }   
     }
 
     /**

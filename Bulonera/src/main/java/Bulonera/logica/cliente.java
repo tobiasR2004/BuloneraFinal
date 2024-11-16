@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
 public class cliente implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
-    private int nro_client;
+    private int nroClient;
     @Basic
     @Column(name = "dni_cliente")  // Mapeo si el nombre en la tabla es diferente
     private int dniCliente;
@@ -45,8 +45,8 @@ public class cliente implements Serializable {
         
     }
 
-    public cliente(int nro_client, int dni_cliente, String cuit_cliente, String razon_social, String domicilio_cliente, Date fecha_ingreso, ArrayList<pago> listaPagos_c) {
-        this.nro_client = nro_client;
+    public cliente(int nroClient, int dni_cliente, String cuit_cliente, String razon_social, String domicilio_cliente, Date fecha_ingreso, ArrayList<pago> listaPagos_c) {
+        this.nroClient = nroClient;
         this.dniCliente = dni_cliente;
         this.cuit_cliente = cuit_cliente;
         this.razonSocial = razon_social;
@@ -65,12 +65,12 @@ public class cliente implements Serializable {
         this.listaPagos_c = listaPagos_c;
     }
     
-    public int getNro_client() {
-        return nro_client;
+    public int getNroClient() {
+        return nroClient;
     }
 
-    public void setNro_client(int nro_client) {
-        this.nro_client = nro_client;
+    public void setNroClient(int nro_client) {
+        this.nroClient = nro_client;
     }
 
     public int getDni_cliente() {

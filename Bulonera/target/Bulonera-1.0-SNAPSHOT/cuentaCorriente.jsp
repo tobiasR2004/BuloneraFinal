@@ -53,7 +53,7 @@
         <select name="buscarCli" class="form-select" aria-label="Default select example">
             <option value="-1" selected>Elegir...</option>
             <c:forEach var="clie" items="${listaClientes}">
-                <option value="${clie.nro_client}"<c:if test="${clienteIdSeleccionado == clie.nro_client}">selected</c:if>>
+                <option value="${clie.nroClient}"<c:if test="${clienteIdSeleccionado == clie.nroClient}">selected</c:if>>
                 ${clie.razon_social}
             </option>
             </c:forEach>
@@ -65,7 +65,7 @@
 
 <!-- TABLA CUENTA CORRIENTE -->
 <div id="cuentaCorrienteTabla">
-<TABLE class="table tablaCC">
+    <TABLE class="table tablaCC" id="tablaCC">
     <tr class="Columnas ">
         <th class="Columnas">Fecha operación</th>
         <th class="Columnas">Debe</th>
@@ -76,14 +76,18 @@
     <%
         List<cuenta_corriente> listaCC = (List<cuenta_corriente>) request.getSession().getAttribute("listaCC");
         if (listaCC != null) {
+        double saldoAcumulado = 0;
             for (cuenta_corriente cc : listaCC) {
+            double debe = cc.getDebe_cc() != null ? cc.getDebe_cc() : 0; 
+            double haber = cc.getHaber_cc() != null ? cc.getHaber_cc() : 0; 
+            saldoAcumulado += (debe - haber);
     %>
-
+    
     <tr style="text-align: center">
         <td><fmt:formatDate value="<%= cc.getFecha_cc()%>" pattern="dd/MM/yyyy" /></td>
         <td><%= cc.getDebe_cc()%></td>
         <td><%= cc.getHaber_cc()%></td>
-        <td><%= cc.getSaldo_cc()%></td>
+        <td class="saldo" name="saldoCc"><%=saldoAcumulado%></td>
     </tr>
             <%
                     }
@@ -116,7 +120,7 @@
                 <div class="modal-bodyCabec">
                   <div class="divCabec">
                       <label for="numero cliente" class="form-label">Número de cliente</label> 
-                      <input type="text" name="nroClientCabec" class="form-control" disabled="disabled" value="<%= cli.getNro_client() %>">
+                      <input type="text" name="nroClientCabec" class="form-control" disabled="disabled" value="<%= cli.getNroClient() %>">
 
                   </div>
                   <div class="divCabec">
@@ -160,32 +164,27 @@
                 
                 
                 <!-- Formularios en línea -->
-                <%
-                List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
-                
+                    <%
+                        List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
                     %>
-                <div class="row mb-3">
-                    <div class="col">
-                        <label for="numero-cliente" class="form-label">Número de cliente</label>
-                        <c:forEach var="clie" items="${listaClientes}">
-                            <c:if test="${clienteIdSeleccionado == clie.nro_client}">
-                                <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
-                                       disabled value="${clie.nro_client}">
-                            </c:if>
-                        </c:forEach>
-                        
-                    </div>
-                    
-                    <div class="col">
-                        <label for="razon-social" class="form-label">Razón social</label>
-                        <c:forEach var="clie" items="${listaClientes}">
-                            <c:if test="${clienteIdSeleccionado == clie.nro_client}">
-                                <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
-                                       disabled value="${clie.razon_social}">
+                    <div class="row mb-3">
+                        <c:forEach var="clie" items="${listaCliente}">
+                            <c:if test="${clienteIdSeleccionado == clie.nroClient}">
+                                <!-- Número de cliente -->
+                                <div class="col">
+                                    <label for="numero-cliente" class="form-label">Número de cliente</label>
+                                    <input type="text" id="numero-cliente" class="form-control" aria-label="Número de cliente"
+                                           disabled value="${clie.nroClient}">
+                                </div>
+                                <!-- Razón social -->
+                                <div class="col">
+                                    <label for="razon-social" class="form-label">Razón social</label>
+                                    <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
+                                           disabled value="${clie.razon_social}">
+                                </div>
                             </c:if>
                         </c:forEach>
                     </div>
-                </div>
 
                 <!-- Tabla -->
                 <div class="table-responsive">  
@@ -223,7 +222,29 @@
             </form>
         </div>
     </div>
-</div>            
+</div>
+                    
+                    <!-- Modal CANCELAR DEUDA -->
+<div class="modal fade" id="CancelarDeuda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel" style="margin-left: 10%;">IMPORTE A INGRESAR</h1>
+            </div>
+            <form action="svCancelarDeuda" method="POST">
+            <div class="modal-body">
+                <span class="currency-symbol">$</span>
+                <input class="importe" name="cancelDeuda" type="text" placeholder="0.00" minlength="3" required pattern="^\d+(\.\d{1,2})?$">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                <button type="Submit" class="btn btn-primary" style="margin-left: 10%;">CONFIRMAR</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+                    
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -242,21 +263,21 @@
     </div>                
    
 <script>
-    function calcularImporte() {
-        // Obtener los valores de cantidad y precio, convirtiéndolos a números
-        const cantProd = parseFloat(document.getElementById("cantProd").value) || 0;
-        const precioProd = parseFloat(document.getElementById("precioProd").value) || 0;
+function calcularImporte() {
+    // Obtener los valores de cantidad y precio, convirtiéndolos a números
+    const cantProd = parseFloat(document.getElementById("cantProd").value) || 0;
+    const precioProd = parseFloat(document.getElementById("precioProd").value) || 0;
 
-        // Calcular el importe total de la línea actual
-        const importeProd = cantProd * precioProd;
+    // Calcular el importe total de la línea actual
+    const importeProd = cantProd * precioProd;
 
-        // Mostrar el resultado en el campo importeProd
-        document.getElementById("importeProd").value = importeProd;
+    // Mostrar el resultado en el campo importeProd
+    document.getElementById("importeProd").value = importeProd;
 
-        // Llamar a la función para actualizar el importe total
-        calcularImporteTotal();               
-    }
-</script>                             
+    // Llamar a la función para actualizar el importe total
+</div>                    
+                
+                
 <script>
     function completarProducto(input) {
     const idProducto = input.value.trim;
@@ -341,24 +362,7 @@ function calcularImporteTotal() {
     });
 </script>
 
-<!-- BOTON CANCELAR DEUDA -->
-<div class="modal fade" id="CancelarDeuda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel" style="margin-left: 10%;">IMPORTE A INGRESAR</h1>
-            </div>
-            <div class="modal-body">
-                <span class="currency-symbol">$</span>
-                <input class="importe" type="text" placeholder="0.00" minlength="3" required pattern="^\d+(\.\d{1,2})?$">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
-                <button type="button" class="btn btn-primary" style="margin-left: 10%;">CONFIRMAR</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Modal de Error -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
@@ -396,6 +400,29 @@ document.getElementById('agregarFila').addEventListener('click', function() {
     tablaCuerpo.appendChild(nuevaFila);
 });
 </script>
+
+  <!--
+<script>
+      //CALCULAR SALDO Total.
+    document.addEventListener("DOMContentLoaded", function () {
+        let tabla = document.getElementById("tablaCC");
+        let filas = tabla.querySelectorAll("tbody tr");
+        let saldoAcumulado = 0;
+
+        filas.forEach(fila => {
+            let debe = parseDouble(fila.querySelector(".debe").textContent) || 0;
+            let haber = parseDouble(fila.querySelector(".haber").textContent) || 0;
+            
+            // Calcular saldo acumulado
+            saldoAcumulado += (debe - haber);
+            
+            // Mostrar saldo en la columna correspondiente
+            fila.querySelector(".saldo").textContent = saldoAcumulado.toFixed(2);
+        });
+    });
+</script>
+        -->
+
 
 <script>
     //Enviar error para mostrar el modal

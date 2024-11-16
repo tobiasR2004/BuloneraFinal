@@ -50,7 +50,7 @@ public class pagoJpaController implements Serializable {
             }
             cliente cliente_pago = pago.getCliente_pago();
             if (cliente_pago != null) {
-                cliente_pago = em.getReference(cliente_pago.getClass(), cliente_pago.getNro_client());
+                cliente_pago = em.getReference(cliente_pago.getClass(), cliente_pago.getNroClient());
                 pago.setCliente_pago(cliente_pago);
             }
             em.persist(pago);
@@ -85,7 +85,7 @@ public class pagoJpaController implements Serializable {
                 pago.setCc_pago(cc_pagoNew);
             }
             if (cliente_pagoNew != null) {
-                cliente_pagoNew = em.getReference(cliente_pagoNew.getClass(), cliente_pagoNew.getNro_client());
+                cliente_pagoNew = em.getReference(cliente_pagoNew.getClass(), cliente_pagoNew.getNroClient());
                 pago.setCliente_pago(cliente_pagoNew);
             }
             pago = em.merge(pago);

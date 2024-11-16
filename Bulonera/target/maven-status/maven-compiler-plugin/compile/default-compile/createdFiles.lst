@@ -1,8 +1,6 @@
 Bulonera\Persistence\productoJpaController.class
 com\mycompany\bulonera\resources\JakartaEE8Resource.class
-Bulonera\Servlet\svCrearCabeceraRem.class
 Bulonera\logica\pago.class
-Bulonera\Servlet\svModifclient.class
 Bulonera\logica\cliente.class
 Bulonera\Persistence\controladoraPersistencia.class
 Bulonera\Persistence\exceptions\IllegalOrphanException.class
@@ -10,13 +8,10 @@ Bulonera\Servlet\sVeliminarCliente.class
 Bulonera\logica\cabecera_remito.class
 Bulonera\Persistence\cabecera_remitoJpaController.class
 Bulonera\Persistence\cuenta_corrienteJpaController.class
-Bulonera\Servlet\svCabeceraRemito.class
 Bulonera\Persistence\exceptions\NonexistentEntityException.class
-Bulonera\Persistence\pagoJpaController.class
 Bulonera\logica\usuario.class
 Bulonera\logica\detalle_remito.class
 Bulonera\Persistence\usuarioJpaController.class
-Bulonera\Servlet\sVcuentaCorrienteRemito.class
 Bulonera\logica\producto.class
 Bulonera\Servlet\svModifUs.class
 Bulonera\Persistence\exceptions\PreexistingEntityException.class
@@ -26,7 +21,5 @@ Bulonera\Servlet\svLogin.class
 Bulonera\logica\controladoraLogica.class
 Bulonera\logica\cuenta_corriente.class
 Bulonera\logica\usuarioService.class
-Bulonera\Persistence\clienteJpaController.class
 Bulonera\Persistence\detalle_remitoJpaController.class
-Bulonera\Servlet\svRemito.class
 Bulonera\Servlet\svUsuario.class
