@@ -97,7 +97,7 @@ public class cabecera_remito implements Serializable {
     }
 
     public void setClienteCabecera(cliente cliente_cabecera) {
-        this.clienteCabecera = cliente_cabecera;
+        this.clienteCabecera = clienteCabecera;
     }
 
     public ArrayList<detalle_remito> getListadetalles() {
