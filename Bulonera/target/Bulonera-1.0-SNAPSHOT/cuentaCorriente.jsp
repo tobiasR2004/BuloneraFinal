@@ -15,16 +15,7 @@
             
             <!--BOTONES NAVBAR-->
             <li class="nav-item">
-            <form action="svModifclient" method="GET" class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="buscarCl">
-                <button class="btn btn-outline-success" type="submit">BUSCAR</button>
-            </form>    
-            </li>
-            <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
-            </li>
-            <li class="nav-item">
-                <button type="button" class="btn btn-navbar" id="boton5">Imprimir deuda</button>
             </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"

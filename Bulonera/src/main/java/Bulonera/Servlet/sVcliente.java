@@ -82,17 +82,21 @@ public class sVcliente extends HttpServlet {
             
             ctrl.crearCliente(client);
             
-            /*cabecera_remito cabec = new cabecera_remito();
+            
+            Date fechaCabec = new java.util.Date();
+            
+            cabecera_remito cabec = new cabecera_remito();
             
             List<detalle_remito> listaCabec = new ArrayList<>();
             listaCabec = (List<detalle_remito>) ctrl.consultarDetalleList();
-            
+             
             cabec.setListadetalles((ArrayList<detalle_remito>) listaCabec);
             cabec.setCuit_cliente(cuit);
             cabec.setRazon_social(razonSoc);
-            cabec.setCliente_cabecera(client);
+            cabec.setClienteCabecera(client);
+            cabec.setFecha_Rem(fechaCabec);
          
-            ctrl.crearcabecremito(cabec);*/
+            ctrl.crearcabecremito(cabec);
             
         } catch (ParseException ex) {
             Logger.getLogger(sVcliente.class.getName()).log(Level.SEVERE, null, ex);
