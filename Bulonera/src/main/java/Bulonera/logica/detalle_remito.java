@@ -22,7 +22,8 @@ public class detalle_remito implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_remito;
     @Basic
-    private int cant_prod, precio_unit, importe, importe_total;
+    private int cant_prod;
+    private double precio_unit, importe, importe_total;
     private String nomb_prod;
     
     @ManyToOne
@@ -35,7 +36,7 @@ public class detalle_remito implements Serializable {
     {
     }
 
-    public detalle_remito(int id_remito, int cant_prod, int precio_unit, int importe, int importe_total, String nomb_prod, cabecera_remito cabecdetalleremito, producto producDetalle) {
+    public detalle_remito(int id_remito, int cant_prod, double precio_unit, double importe, double importe_total, String nomb_prod, cabecera_remito cabecdetalleremito, producto producDetalle) {
         this.id_remito = id_remito;
         this.cant_prod = cant_prod;
         this.precio_unit = precio_unit;
@@ -80,27 +81,27 @@ public class detalle_remito implements Serializable {
         this.cant_prod = cant_prod;
     }
 
-    public int getPrecio_unit() {
+    public double getPrecio_unit() {
         return precio_unit;
     }
 
-    public void setPrecio_unit(int precio_unit) {
+    public void setPrecio_unit(double precio_unit) {
         this.precio_unit = precio_unit;
     }
 
-    public int getImporte() {
+    public double getImporte() {
         return importe;
     }
 
-    public void setImporte(int importe) {
+    public void setImporte(double importe) {
         this.importe = importe;
     }
 
-    public int getImporte_total() {
+    public double getImporte_total() {
         return importe_total;
     }
 
-    public void setImporte_total(int importe_total) {
+    public void setImporte_total(double importe_total) {
         this.importe_total = importe_total;
     }
 

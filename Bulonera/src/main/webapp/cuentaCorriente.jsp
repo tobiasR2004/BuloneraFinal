@@ -137,7 +137,6 @@
 
                 <!-- Tabla -->
                 <div class="table-responsive">  
-                    <table class="table table-bordered" id="tabla-remito">
                         <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>
@@ -150,7 +149,7 @@
                         </thead>
                         <tbody>
                             <tr id="fila-producto">
-                                <td><input class="sinBorde ancho" type="number" name="idProd" onchange="completarProducto(this)"></td>
+                                <td><input class="sinBorde ancho" type="text" name="idProd" onchange="completarProducto(this)"></td>
                                 <td><input class="sinBorde" type="text" name="nombreProd" readonly></td>
                                 <td><input class="sinBorde ancho cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
                                 <td><input class="sinBorde ancho precioProd" type="number" name="precioProd" readonly></td>
@@ -179,29 +178,31 @@
                 
                 
 <script>
-    function completarProducto(input) {
-    const idProducto = input.value.trim;
-
-    if (idProducto) {
-        fetch(`http://localhost:8080/Bulonera/svRemito?idProd=${idProd}`)
+    function completarProducto(input) {    
+    const idProd = input.value.trim();
+    
+    if (idProd.trim() !== "") {
+        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
             .then(response => response.json())
-            .then(data =>{
-                console.log("Datos recibidos del servidor:", data);  // Verifica los datos recibidos
+            .then(data => {
+                console.log("Datos recibidos del servidor:", data);
                 if (data.nombre && data.precio) {
-                    // Actualiza los campos del modal con los datos del producto
-                    document.getElementsByName('nombreProd')[0].value = data.nombre;
-                    document.getElementsByName('precioProd')[0].value = data.precio;
+                    const fila = input.closest('tr');
+                    const nombreProdInput = fila.querySelector('input[name="nombreProd"]');
+                    const precioProdInput = fila.querySelector('input[name="precioProd"]');
+                    
+                    nombreProdInput.value = data.nombre;
+                    precioProdInput.value = data.precio;
                 } else {
-                    alert("Datos del producto no traidos");
+                    alert(data.error || "Producto no encontrado.");
                 }
             })
-                .catch(error => {
-                // Si ocurre un error en la solicitud, lo muestra
+            .catch(error => {
                 console.error("Error al obtener los datos:", error);
-                alert("Hubo un error al cargar los datos del producto.");
+                alert("Error al obtener los datos del producto.");
             });
-        }else{
-            alert("Por favor ingrese un ID de producto.");
+    } else {
+        alert("Por favor ingresa un ID de producto válido.");
     }
 }
 </script>            
@@ -214,7 +215,7 @@ function calcularImporte() {
         const cantidad = fila.querySelector('.cantProd').value || 0;
         const precio = fila.querySelector('.precioProd').value || 0;
         const importe = fila.querySelector('.importeProd');
-        importe.value = (precio * cantidad);
+        importe.value = (precio * cantidad).toFixed(2);
     });
     calcularImporteTotal();
 }
@@ -230,7 +231,7 @@ function calcularImporteTotal() {
     });
 
     // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total;
+    document.getElementById("importe-total").value = total.toFixed(2);
 }
 </script> 
 
@@ -274,20 +275,20 @@ function calcularImporteTotal() {
 
 <script>
     //Agregar fila al modal de remito
-document.getElementById('agregarFila').addEventListener('click', function() {
-    var tabla = document.getElementById('tabla-remito');
-    var fila = document.getElementById('fila-producto');
-    var nuevaFila = fila.cloneNode(true);
+    document.getElementById('agregarFila').addEventListener('click', function() {
+        var tabla = document.getElementById('tabla-remito');
+        var fila = document.getElementById('fila-producto');
+        var nuevaFila = fila.cloneNode(true);
 
-    // Resetear los valores de los campos para la nueva fila
-    var inputs = nuevaFila.getElementsByTagName('input');
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].value = '';
-    }
-
-    var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
-    tablaCuerpo.appendChild(nuevaFila);
-});
+        // Resetear los valores de los campos para la nueva fila
+        var inputs = nuevaFila.getElementsByTagName('input');
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].value = '';
+        }
+        
+        var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
+        tablaCuerpo.appendChild(nuevaFila);
+    });
 </script>
 
 <script>
@@ -301,6 +302,5 @@ window.onload = function () {
     }
 };
 </script>
-
 </body>
 </html>

@@ -70,22 +70,29 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int cant_prod = Integer.parseInt(request.getParameter("cantProd"));
-        int precio_unit = Integer.parseInt(request.getParameter("precioProd"));
-        int importe = Integer.parseInt(request.getParameter("importeProd"));
-        int importe_total = Integer.parseInt(request.getParameter("importeTotal"));
-        String nomb_prod = request.getParameter("nombreProd");
+        String[] cantidades = request.getParameterValues("cantProd");
+        String[] precios = request.getParameterValues("precioProd");
+        String[] importes = request.getParameterValues("importeProd");
+        double importe_total = Double.parseDouble(request.getParameter("importeTotal"));
+        String[] nombres = request.getParameterValues("nombreProd");
+        String[] idsProd = request.getParameterValues("idProd");
 
         HttpSession misesion = request.getSession();
         String nombCli = (String) misesion.getAttribute("clienteIdSeleccionado");
         int idCli = Integer.parseInt(nombCli);
-        int productoId = Integer.parseInt(request.getParameter("idProd")); 
                
         cabecera_remito cabecdetalleremito = ctrl.consultarCabecremito(idCli);
-        producto producDetalle = ctrl.consultarProducto(productoId);
         
+        for (int i = 0; i < cantidades.length; i++) {
+        int cant_prod = Integer.parseInt(cantidades[i]);
+        double precio_unit = Double.parseDouble(precios[i]);
+        double importe = Double.parseDouble(importes[i]);
+        String nomb_prod = nombres[i];
+        int productoId = Integer.parseInt(idsProd[i]);
+            
+        producto producDetalle = ctrl.consultarProductoStr(productoId);
+            
         detalle_remito detalleRem = new detalle_remito();
-        detalleRem.setId_remito(1);
         detalleRem.setCant_prod(cant_prod);
         detalleRem.setPrecio_unit(precio_unit);
         detalleRem.setImporte(importe);
@@ -93,6 +100,9 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         detalleRem.setNomb_prod(nomb_prod);
         detalleRem.setCabecdetalleremito(cabecdetalleremito);
         detalleRem.setProducDetalle(producDetalle);
+        
+        ctrl.crearDetalle(detalleRem);
+        }
         
         LocalDate fechaActual = LocalDate.now();
         java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
@@ -102,7 +112,6 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cuentaCorr.setFecha_cc(fechaSQL);
         
         ctrl.crearCc(cuentaCorr);
-        ctrl.crearDetalle(detalleRem);
 
         misesion.removeAttribute("clienteIdSeleccionado");
         response.sendRedirect("menu.jsp");
