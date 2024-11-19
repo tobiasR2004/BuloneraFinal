@@ -179,7 +179,6 @@
 
                 <!-- Tabla -->
                 <div class="table-responsive">  
-                    <table class="table table-bordered" id="tabla-remito">
                         <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>

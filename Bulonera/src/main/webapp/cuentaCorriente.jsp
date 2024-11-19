@@ -179,7 +179,6 @@
 
                 <!-- Tabla -->
                 <div class="table-responsive">  
-                    <table class="table table-bordered" id="tabla-remito">
                         <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>
@@ -321,7 +320,7 @@ function calcularImporteTotal() {
     });
 
     // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total;
+    document.getElementById("importe-total").value = total.toFixed(2);
 }
 </script>
 

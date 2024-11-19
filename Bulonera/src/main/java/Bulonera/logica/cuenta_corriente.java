@@ -28,7 +28,7 @@ public class cuenta_corriente implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_cc;
     @Basic
-    private Double debe_cc, haber_cc, saldo_cc;
+    private double debe_cc, haber_cc, saldo_cc;
     @Temporal(TemporalType.DATE)
     private Date fecha_cc;
     
@@ -42,7 +42,7 @@ public class cuenta_corriente implements Serializable {
     {
     }
 
-    public cuenta_corriente(int id_cc, Double debe_cc, Double haber_cc, Double saldo_cc, Date fecha_cc, ArrayList<pago> listaPagos_cc, cabecera_remito cabeceraremito) {
+    public cuenta_corriente(int id_cc, double debe_cc, double haber_cc, double saldo_cc, Date fecha_cc, ArrayList<pago> listaPagos_cc, cabecera_remito cabeceraremito) {
         this.id_cc = id_cc;
         this.debe_cc = debe_cc;
         this.haber_cc = haber_cc;
@@ -76,27 +76,27 @@ public class cuenta_corriente implements Serializable {
         this.id_cc = id_cc;
     }
 
-    public Double getDebe_cc() {
+    public double getDebe_cc() {
         return debe_cc;
     }
 
-    public void setDebe_cc(Double debe_cc) {
+    public void setDebe_cc(double debe_cc) {
         this.debe_cc = debe_cc;
     }
 
-    public Double getHaber_cc() {
+    public double getHaber_cc() {
         return haber_cc;
     }
 
-    public void setHaber_cc(Double haber_cc) {
+    public void setHaber_cc(double haber_cc) {
         this.haber_cc = haber_cc;
     }
 
-    public Double getSaldo_cc() {
+    public double getSaldo_cc() {
         return saldo_cc;
     }
 
-    public void setSaldo_cc(Double saldo_cc) {
+    public void setSaldo_cc(double saldo_cc) {
         this.saldo_cc = saldo_cc;
     }
 

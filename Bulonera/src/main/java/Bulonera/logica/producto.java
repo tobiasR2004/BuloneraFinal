@@ -21,11 +21,11 @@ import javax.persistence.OneToMany;
 public class producto implements Serializable
 {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id_prod;
     @Basic
     private int cod_prod;
-    private int precio_compra, precio_venta;
+    private double precio_compra, precio_venta;
     private String nomb_prod, categoria_prod;
     
     @OneToMany(mappedBy="producDetalle")
@@ -35,7 +35,7 @@ public class producto implements Serializable
     {
     }
 
-    public producto(int id_prod, int cod_prod, int precio_compra, int precio_venta, String nomb_prod, String categoria_prod) {
+    public producto(int id_prod, int cod_prod, double precio_compra, double precio_venta, String nomb_prod, String categoria_prod) {
         this.id_prod = id_prod;
         this.cod_prod = cod_prod;
         this.precio_compra = precio_compra;
@@ -68,19 +68,19 @@ public class producto implements Serializable
         this.cod_prod = cod_prod;
     }
 
-    public int getPrecio_compra() {
+    public double getPrecio_compra() {
         return precio_compra;
     }
 
-    public void setPrecio_compra(int precio_compra) {
+    public void setPrecio_compra(double precio_compra) {
         this.precio_compra = precio_compra;
     }
 
-    public int getPrecio_venta() {
+    public double getPrecio_venta() {
         return precio_venta;
     }
 
-    public void setPrecio_venta(int precio_venta) {
+    public void setPrecio_venta(double precio_venta) {
         this.precio_venta = precio_venta;
     }
 
