@@ -69,8 +69,8 @@
         if (listaCC != null) {
         double saldoAcumulado = 0;
             for (cuenta_corriente cc : listaCC) {
-            double debe = cc.getDebe_cc() != null ? cc.getDebe_cc() : 0; 
-            double haber = cc.getHaber_cc() != null ? cc.getHaber_cc() : 0; 
+            double debe = cc.getDebe_cc(); 
+            double haber = cc.getHaber_cc(); 
             saldoAcumulado += (debe - haber);
     %>
     
@@ -85,7 +85,7 @@
                 }
             %>
 </TABLE>    
-</div>
+</div>    
 
 <!--Botón para abrir el modal -->
 <form action="svCrearCabeceraRem" method="GET">
@@ -178,7 +178,8 @@
                     </div>
 
                 <!-- Tabla -->
-                <div class="table-responsive">  
+                <div class="table-responsive"> 
+                       <table class="table table-bordered" id="tabla-remito">
                         <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>
@@ -214,7 +215,7 @@
     </div>
 </div>
                     
-                    <!-- Modal CANCELAR DEUDA -->
+ <!-- Modal CANCELAR DEUDA -->
 <div class="modal fade" id="CancelarDeuda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -250,7 +251,26 @@
                 </div>
             </div>
         </div>
-    </div>                
+    </div>            
+                
+    
+<!-- Modal de Error -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">¡Atencion!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>            
    
 <script>
 function calcularImporte() {
@@ -269,32 +289,34 @@ function calcularImporte() {
                 
                 
 <script>
-    function completarProducto(input) {
-    const idProducto = input.value.trim;
-
-    if (idProducto) {
-        fetch(`http://localhost:8080/Bulonera/svRemito?idProd=${idProd}`)
+    function completarProducto(input) {    
+    const idProd = input.value.trim();
+    
+    if (idProd.trim() !== "") {
+        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
             .then(response => response.json())
-            .then(data =>{
-                console.log("Datos recibidos del servidor:", data);  // Verifica los datos recibidos
+            .then(data => {
+                console.log("Datos recibidos del servidor:", data);
                 if (data.nombre && data.precio) {
-                    // Actualiza los campos del modal con los datos del producto
-                    document.getElementsByName('nombreProd')[0].value = data.nombre;
-                    document.getElementsByName('precioProd')[0].value = data.precio;
+                    const fila = input.closest('tr');
+                    const nombreProdInput = fila.querySelector('input[name="nombreProd"]');
+                    const precioProdInput = fila.querySelector('input[name="precioProd"]');
+                    
+                    nombreProdInput.value = data.nombre;
+                    precioProdInput.value = data.precio;
                 } else {
-                    alert("Datos del producto no traidos");
+                    alert(data.error || "Producto no encontrado.");
                 }
             })
-                .catch(error => {
-                // Si ocurre un error en la solicitud, lo muestra
+            .catch(error => {
                 console.error("Error al obtener los datos:", error);
-                alert("Hubo un error al cargar los datos del producto.");
+                alert("Error al obtener los datos del producto.");
             });
-        }else{
-            alert("Por favor ingrese un ID de producto.");
+    } else {
+        alert("Por favor ingresa un ID de producto válido.");
     }
 }
-</script>            
+</script>              
 
 <!-- CALCULAR IMPORTES TOTALES -->
 <script>
@@ -320,7 +342,7 @@ function calcularImporteTotal() {
     });
 
     // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total;
+    document.getElementById("importe-total").value = total.toFixed(2);
 }
 </script>
 
@@ -354,24 +376,6 @@ function calcularImporteTotal() {
 
 
 
-<!-- Modal de Error -->
-    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="errorModalLabel">¡Atencion!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
 
 <script>
     //Agregar fila al modal de remito
@@ -391,7 +395,7 @@ document.getElementById('agregarFila').addEventListener('click', function() {
 });
 </script>
 
-  <!--
+  
 <script>
       //CALCULAR SALDO Total.
     document.addEventListener("DOMContentLoaded", function () {
@@ -411,7 +415,7 @@ document.getElementById('agregarFila').addEventListener('click', function() {
         });
     });
 </script>
-        -->
+        
 
 
 <script>
