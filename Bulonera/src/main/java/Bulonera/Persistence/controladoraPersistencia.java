@@ -77,7 +77,7 @@ public class controladoraPersistencia {
     EntityManager em = cabecera_remitoJpa.getEntityManager();
     List<cabecera_remito> cabecList = new ArrayList<>();
     try {
-        String jpql = "SELECT c FROM cabecera_remito c WHERE c.clienteCabecera.nroClient = :nroCliente";
+        String jpql = "SELECT c FROM cabecera_remito c WHERE c.clienteCabecera.nroClient = :nroCliente ORDER BY c.idRemito ASC";
         Query query = em.createQuery(jpql);
         query.setParameter("nroCliente", nroCliente);
         cabecList = query.getResultList();
@@ -206,15 +206,21 @@ public class controladoraPersistencia {
         return cuenta_corrienteJpa.findcuenta_corriente(id);
     }
 
-    public List<cuenta_corriente> consultarCcList(cabecera_remito cabec) {
-        EntityManager em = cuenta_corrienteJpa.getEntityManager();
-        
-        String query = "SELECT cc FROM cuenta_corriente cc WHERE cc.cabeceraremito = :cabec ORDER BY cc.fecha_cc";
-        TypedQuery<cuenta_corriente> typedQuery = em.createQuery(query, cuenta_corriente.class);
-        typedQuery.setParameter("cabec", cabec);
-        
-        return typedQuery.getResultList();
-    }
+   public List<cuenta_corriente> consultarCcList(cabecera_remito cabec) {
+    EntityManager em = cuenta_corrienteJpa.getEntityManager();
+    
+    String query = "SELECT cc FROM cuenta_corriente cc " +
+                   "JOIN cc.cabeceraremito cr " +
+                   "WHERE cr.clienteCabecera.nroClient = :nroCliente " +
+                   "ORDER BY cc.fecha_cc";
+                   
+    TypedQuery<cuenta_corriente> typedQuery = em.createQuery(query, cuenta_corriente.class);
+    
+    // Establecer el parámetro nroCliente
+    typedQuery.setParameter("nroCliente", cabec.getClienteCabecera().getNroClient());
+    
+    return typedQuery.getResultList();
+}
 
     //CRUD DETALLE REMITO
     
@@ -302,7 +308,7 @@ public class controladoraPersistencia {
         }
     }
 
-    public producto buscarProductoPorCodProd(int codProd) {
+    public producto buscarProductoPorCodProd(String codProd) {
         EntityManager em = clienteJpa.getEntityManager();
         try {
             TypedQuery<producto> query = em.createQuery("SELECT p FROM producto p WHERE p.cod_prod = :codProd", producto.class);

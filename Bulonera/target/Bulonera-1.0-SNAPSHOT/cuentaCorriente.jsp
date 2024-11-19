@@ -38,13 +38,6 @@
     </div>
 </nav>
 
-<!-- <form action="svCrearCabeceraRem" method="GET">
-    <button type="submit" class="btnaux btn-primary" >
-      Launch demo modal
-    </button>
-</form>
-
-
 
 <!-- SELECT - COMBOBOX -->
 <div class="comboBox">
@@ -164,27 +157,32 @@
                 
                 
                 <!-- Formularios en línea -->
-                    <%
-                        List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
+                <%
+                List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
+                
                     %>
-                    <div class="row mb-3">
-                        <c:forEach var="clie" items="${listaCliente}">
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="numero-cliente" class="form-label">Numero de cliente</label>
+                        <c:forEach var="clie" items="${listaClientes}">
                             <c:if test="${clienteIdSeleccionado == clie.nroClient}">
-                                <!-- Número de cliente -->
-                                <div class="col">
-                                    <label for="numero-cliente" class="form-label">Número de cliente</label>
-                                    <input type="text" id="numero-cliente" class="form-control" aria-label="Número de cliente"
-                                           disabled value="${clie.nroClient}">
-                                </div>
-                                <!-- Razón social -->
-                                <div class="col">
-                                    <label for="razon-social" class="form-label">Razón social</label>
-                                    <input type="text" id="razon-social" class="form-control" aria-label="Razón social"
-                                           disabled value="${clie.razon_social}">
-                                </div>
+                                <input type="text" id="razon-social" class="form-control" aria-label="RazÃ³n social"
+                                       disabled value="${clie.nroClient}">
+                            </c:if>
+                        </c:forEach>
+                        
+                    </div>
+                    
+                    <div class="col">
+                        <label for="razon-social" class="form-label">Razon social</label>
+                        <c:forEach var="clie" items="${listaClientes}">
+                            <c:if test="${clienteIdSeleccionado == clie.nroClient}">
+                                <input type="text" id="razon-social" class="form-control" aria-label="RazÃ³n social"
+                                       disabled value="${clie.razon_social}">
                             </c:if>
                         </c:forEach>
                     </div>
+                </div>
 
                 <!-- Tabla -->
                 <div class="table-responsive">  
@@ -209,11 +207,15 @@
                         </tbody>
                     </table>
                 </div>
+                <button type="button" id="agregarFila" class="btn btn-outline-secondary" style="margin-left: 50%">
+                    <i class="bi bi-plus-circle"></i>
+                </button>
             </div>
+                
             <div class="modal-footer">
                 <div class="col importefinal">
                     <label for="importe-total" class="form-label">Importe total</label>
-                    <input type="text" id="importe-total" name="importeTotal" class="form-control" aria-label="Importe total" disabled>
+                    <input type="number" id="importe-total" name="importeTotal" class="form-control" aria-label="Importe total" value="0" readonly>
                 </div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button submit" class="btn btn-primary">Guardar Remito</button>
@@ -221,7 +223,7 @@
             </form>
         </div>
     </div>
-</div>
+</div>    
                     
                     <!-- Modal CANCELAR DEUDA -->
 <div class="modal fade" id="CancelarDeuda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -244,7 +246,7 @@
     </div>
 </div>
                     
-    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -259,111 +261,9 @@
                 </div>
             </div>
         </div>
-    </div>                
-   
-<script>
-function calcularImporte() {
-    // Obtener los valores de cantidad y precio, convirtiéndolos a números
-    const cantProd = parseFloat(document.getElementById("cantProd").value) || 0;
-    const precioProd = parseFloat(document.getElementById("precioProd").value) || 0;
-
-    // Calcular el importe total de la línea actual
-    const importeProd = cantProd * precioProd;
-
-    // Mostrar el resultado en el campo importeProd
-    document.getElementById("importeProd").value = importeProd;
-
-    // Llamar a la función para actualizar el importe total
-</div>                    
+    </div>    
                 
                 
-<script>
-    function completarProducto(input) {    
-    const idProd = input.value.trim();
-    
-    if (idProd.trim() !== "") {
-        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
-            .then(response => response.json())
-            .then(data => {
-                console.log("Datos recibidos del servidor:", data);
-                if (data.nombre && data.precio) {
-                    const fila = input.closest('tr');
-                    const nombreProdInput = fila.querySelector('input[name="nombreProd"]');
-                    const precioProdInput = fila.querySelector('input[name="precioProd"]');
-                    
-                    nombreProdInput.value = data.nombre;
-                    precioProdInput.value = data.precio;
-                } else {
-                    alert(data.error || "Producto no encontrado.");
-                }
-            })
-            .catch(error => {
-                console.error("Error al obtener los datos:", error);
-                alert("Error al obtener los datos del producto.");
-            });
-    } else {
-        alert("Por favor ingresa un ID de producto válido.");
-    }
-}
-</script>            
-
-<!-- CALCULAR IMPORTES TOTALES -->
-<script>
-function calcularImporte() {
-    const filas = document.querySelectorAll('#tabla-remito tbody tr');
-    filas.forEach(fila => {
-        const cantidad = fila.querySelector('.cantProd').value || 0;
-        const precio = fila.querySelector('.precioProd').value || 0;
-        const importe = fila.querySelector('.importeProd');
-        importe.value = (precio * cantidad).toFixed(2);
-    });
-    calcularImporteTotal();
-}
-
-function calcularImporteTotal() {
-    // Seleccionar todos los elementos con el atributo name="importeProd"
-    const importeProdElements = document.querySelectorAll("[name='importeProd']");
-
-    // Sumar todos los valores de importeProd
-    let total = 0;
-    importeProdElements.forEach(input => {
-        total += parseFloat(input.value) || 0;
-    });
-
-    // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total.toFixed(2);
-}
-</script>
-
-<script>
-    window.onload = function() {
-        // Verificar si hay un mensaje de error
-        const error = '<%= request.getAttribute("errorCabec") != null ? "true" : "false" %>';
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-
-        if (error === "true") {
-            errorModal.show();
-        }
-    };
-</script>
-
-<% 
-    Boolean abrirModal = (Boolean) session.getAttribute("abrirModal");
-    // Elimina el atributo después de leerlo para que no persista
-    session.removeAttribute("abrirModal");
-%>
-<script>
-    // Función que abre el modal automáticamente si abrirModal es true
-    document.addEventListener("DOMContentLoaded", function() {
-        let abrirModal = <%= (abrirModal != null && abrirModal ? "true" : "false") %>;
-        if (abrirModal) {
-            var modalElement = new bootstrap.Modal(document.getElementById('modalcabec'));
-            modalElement.show();
-        }
-    });
-</script>
-
-
 
 <!-- Modal de Error -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
@@ -402,6 +302,106 @@ function calcularImporteTotal() {
     });
 </script>
 
+<script>
+function calcularImporte() {
+    const filas = document.querySelectorAll('#tabla-remito tbody tr');
+    filas.forEach(fila => {
+        const cantidad = fila.querySelector('.cantProd').value || 0;
+        const precio = fila.querySelector('.precioProd').value || 0;
+        const importe = fila.querySelector('.importeProd');
+        importe.value = (precio * cantidad).toFixed(2);
+    });
+    calcularImporteTotal();
+}
+
+function calcularImporteTotal() {
+    // Seleccionar todos los elementos de importeProd en las filas
+    const importeProdElements = document.querySelectorAll("input.importeProd");
+
+    // Sumar todos los valores de importeProd
+    let total = 0;
+    importeProdElements.forEach(input => {
+        total += parseFloat(input.value) || 0;
+    });
+
+    // Mostrar el total en el campo importe-total
+    document.getElementById("importe-total").value = total.toFixed(2);
+}
+</script> 
+                
+                
+<script>
+function completarProducto(input) {    
+    const idProd = input.value.trim();
+    if (idProd !== "") {
+        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
+            .then(response => response.json())
+            .then(data => {
+                if (data.nombre && data.precio) {
+                    const fila = input.closest('tr');
+                    fila.querySelector('input[name="nombreProd"]').value = data.nombre;
+                    fila.querySelector('input[name="precioProd"]').value = data.precio;
+                } else {
+                    alert(data.error || "Producto no encontrado.");
+                }
+            })
+            .catch(error => {
+                console.error("Error al obtener los datos:", error);
+                alert("Error al obtener los datos del producto.");
+            });
+    } else {
+        alert("Por favor ingresa un ID de producto válido.");
+    }
+}
+</script>          
+
+<script>
+    window.onload = function() {
+        // Verificar si hay un mensaje de error
+        const error = '<%= request.getAttribute("errorCabec") != null ? "true" : "false" %>';
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
+        if (error === "true") {
+            errorModal.show();
+        }
+    };
+</script>
+
+<% 
+    Boolean abrirModal = (Boolean) session.getAttribute("abrirModal");
+    // Elimina el atributo después de leerlo para que no persista
+    session.removeAttribute("abrirModal");
+%>
+<script>
+    // Función que abre el modal automáticamente si abrirModal es true
+    document.addEventListener("DOMContentLoaded", function() {
+        let abrirModal = <%= (abrirModal != null && abrirModal ? "true" : "false") %>;
+        if (abrirModal) {
+            var modalElement = new bootstrap.Modal(document.getElementById('modalcabec'));
+            modalElement.show();
+        }
+    });
+</script>
+    
+
+<script>
+    //Agregar fila al modal de remito
+    document.getElementById('agregarFila').addEventListener('click', function() {
+        var tabla = document.getElementById('tabla-remito');
+        var fila = document.getElementById('fila-producto');
+        var nuevaFila = fila.cloneNode(true);
+
+        // Resetear los valores de los campos para la nueva fila
+        var inputs = nuevaFila.getElementsByTagName('input');
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].value = '';
+        }
+        
+        var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
+        tablaCuerpo.appendChild(nuevaFila);
+    })
+</script>   
+
   <!--
 <script>
       //CALCULAR SALDO Total.
@@ -423,18 +423,17 @@ function calcularImporteTotal() {
     });
 </script>
         -->
+       
 
 
 <script>
     //Enviar error para mostrar el modal
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
     const error = '<%= request.getAttribute("error") != null ? "true" : "false" %>';
-    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-
     if (error === "true") {
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
         errorModal.show();
     }
-};
 </script>
 </body>
 </html>

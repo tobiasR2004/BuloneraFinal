@@ -83,17 +83,21 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         HttpSession misesion = request.getSession();
         String nombCli = (String) misesion.getAttribute("clienteIdSeleccionado");
         int idCli = Integer.parseInt(nombCli);
+        
+         List<cabecera_remito> cabecList = (List<cabecera_remito>) ctrl.consultarCabecNroClient(idCli);
                
-        cabecera_remito cabecdetalleremito = ctrl.consultarCabecremito(idCli);
+        cabecera_remito cabecdetalleremito =  cabecList.get(cabecList.size() - 1);
         
         for (int i = 0; i < cantidades.length; i++) {
         int cant_prod = Integer.parseInt(cantidades[i]);
         double precio_unit = Double.parseDouble(precios[i]);
         double importe = Double.parseDouble(importes[i]);
         String nomb_prod = nombres[i];
-        int productoId = Integer.parseInt(idsProd[i]);
+        String productoId = idsProd[i];
             
         producto producDetalle = ctrl.consultarProductoStr(productoId);
+        
+
             
         detalle_remito detalleRem = new detalle_remito();
         detalleRem.setCant_prod(cant_prod);
@@ -111,7 +115,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
         cuenta_corriente cuentaCorr = new cuenta_corriente();
         cuentaCorr.setCabeceraremito(cabecdetalleremito);
-        //cuentaCorr.setDebe_cc(importe_total);
+        cuentaCorr.setDebe_cc(importe_total);
         cuentaCorr.setFecha_cc(fechaSQL);
         
         

@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -33,8 +34,8 @@ public class cabecera_remito implements Serializable {
     private double importe_total;
     @Temporal(TemporalType.DATE)
     private Date fecha_Rem;
-    @OneToOne
-    @JoinColumn(name = "CABECERAREMITO_ID_REMITO")
+    @ManyToOne
+    @JoinColumn(name = "ID_CLIENTE")
     private cliente clienteCabecera;
     @OneToMany(mappedBy = "cabecdetalleremito")
     private ArrayList<detalle_remito> listadetalles;
@@ -96,7 +97,7 @@ public class cabecera_remito implements Serializable {
         return clienteCabecera;
     }
 
-    public void setClienteCabecera(cliente cliente_cabecera) {
+    public void setClienteCabecera(cliente clienteCabecera) {
         this.clienteCabecera = clienteCabecera;
     }
 

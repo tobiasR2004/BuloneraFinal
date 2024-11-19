@@ -35,7 +35,7 @@ public class producto implements Serializable
     {
     }
 
-    public producto(int id_prod, int cod_prod, double precio_compra, double precio_venta, String nomb_prod, String categoria_prod) {
+    public producto(int id_prod, String cod_prod, double precio_compra, double precio_venta, String nomb_prod, String categoria_prod) {
         this.id_prod = id_prod;
         this.cod_prod = cod_prod;
         this.precio_compra = precio_compra;
@@ -60,11 +60,11 @@ public class producto implements Serializable
         this.id_prod = id_prod;
     }
     
-    public int getCod_prod() {
+    public String getCod_prod() {
         return cod_prod;
     }
 
-    public void setCod_prod(int cod_prod) {
+    public void setCod_prod(String cod_prod) {
         this.cod_prod = cod_prod;
     }
 

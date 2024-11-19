@@ -25,7 +25,6 @@ public class pago implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_pago;
     @Basic
-    private int num_pago;
     private int importe_pago;
     @Temporal(TemporalType.DATE)
     private Date fecha_pago;
@@ -39,9 +38,8 @@ public class pago implements Serializable {
     {
     }
 
-    public pago(int id_pago, int num_pago, int importe_pago, Date fecha_pago, cliente cliente_pago, cuenta_corriente cc_pago) {
+    public pago(int id_pago, int importe_pago, Date fecha_pago, cliente cliente_pago, cuenta_corriente cc_pago) {
         this.id_pago = id_pago;
-        this.num_pago = num_pago;
         this.importe_pago = importe_pago;
         this.fecha_pago = fecha_pago;
         this.cliente_pago = cliente_pago;
@@ -70,14 +68,6 @@ public class pago implements Serializable {
 
     public void setId_pago(int id_pago) {
         this.id_pago = id_pago;
-    }
-
-    public int getNum_pago() {
-        return num_pago;
-    }
-
-    public void setNum_pago(int num_pago) {
-        this.num_pago = num_pago;
     }
 
     public int getImporte_pago() {
