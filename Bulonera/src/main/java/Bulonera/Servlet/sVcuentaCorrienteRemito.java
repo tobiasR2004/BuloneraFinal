@@ -64,7 +64,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
             
             List<cuenta_corriente> listaCC = ctrl.consultarCcList(cabecdetalleremito);
             System.out.println("Número de cuentas corrientes obtenidas: " + listaCC.size());
-            request.getSession().setAttribute("listaCC", listaCC);
+            misesion.setAttribute("listaCC", listaCC);
         }
 
         // Reenvía la solicitud al JSP
@@ -81,6 +81,10 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         String[] idsProd = request.getParameterValues("idProd");
 
         HttpSession misesion = request.getSession();
+        List<cuenta_corriente> listaCC = (List<cuenta_corriente>)misesion.getAttribute("listaCC");
+     
+        
+        
         String nombCli = (String) misesion.getAttribute("clienteIdSeleccionado");
         int idCli = Integer.parseInt(nombCli);
         
@@ -110,6 +114,8 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         ctrl.crearDetalle(detalleRem);
         }
         
+        
+        
         LocalDate fechaActual = LocalDate.now();
         java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
         cuenta_corriente cuentaCorr = new cuenta_corriente();
@@ -117,6 +123,23 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cuentaCorr.setDebe_cc(importe_total);
         cuentaCorr.setFecha_cc(fechaSQL);
         
+<<<<<<< HEAD
+=======
+        if (listaCC.size() <= 0 ) {
+         cuentaCorr.setSaldo_cc(importe_total);
+        } else {
+         cuenta_corriente ultimoElemento = listaCC.get(listaCC.size() - 1);
+         double ultimoSaldo = ultimoElemento.getSaldo_cc();
+         
+         double saldototal = ultimoSaldo + importe_total;
+         cuentaCorr.setSaldo_cc(saldototal);
+        }
+            
+                
+       
+        
+        
+>>>>>>> 80767e64f023df5b620707aeccf0f1c63ea990cc
         ctrl.crearCc(cuentaCorr);
 
         misesion.removeAttribute("clienteIdSeleccionado");

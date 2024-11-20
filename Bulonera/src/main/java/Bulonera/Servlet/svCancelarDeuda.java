@@ -71,12 +71,25 @@ public class svCancelarDeuda extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-         HttpSession misesion = request.getSession();
-        String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado");   
-        String importePago = request.getParameter("cancelDeuda");
+        
+        HttpSession misesion = request.getSession();
+        String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado"); 
         int nroClient = Integer.parseInt(idCabec);
         List<cabecera_remito> cabecList = (List<cabecera_remito>) ctrl.consultarCabecNroClient(nroClient);
-        double importepago = Double.parseDouble(importePago); 
+        cabecera_remito cabecdetalleremito = cabecList.get(cabecList.size() - 1);
+        List<cuenta_corriente> listaCC = ctrl.consultarCcList(cabecdetalleremito);
+        if(listaCC.isEmpty()){
+           request.setAttribute("errorCabec", "No se encontro deuda para cancelar");
+           request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+        } else 
+        {
+        String importePago = request.getParameter("cancelDeuda");
+
+
+        double importepago = Double.parseDouble(importePago);
+        double saldoAcumulado = 0;
+        
+        
         
         if (importePago == null || importePago.trim().isEmpty()) {
              // Manejar el caso de valor no válido
@@ -92,19 +105,33 @@ public class svCancelarDeuda extends HttpServlet {
          request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
             
         } else {
+
             cabecera_remito ultimaCabecera = cabecList.get(cabecList.size() - 1);
 
             LocalDate fechaActual = LocalDate.now();
             java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
 
             cuenta_corriente cC1 = new cuenta_corriente();
-
+            
+            cC1.setSaldo_cc(saldoAcumulado);
             cC1.setCabeceraremito(ultimaCabecera);
             cC1.setFecha_cc(fechaSQL);
             cC1.setHaber_cc(importepago);
+            
+              if (listaCC.size() <= 0 ) {
+                cC1.setSaldo_cc(importepago);
+               } else {
+                cuenta_corriente ultimoElemento = listaCC.get(listaCC.size() - 1);
+                double ultimoSaldo = ultimoElemento.getSaldo_cc();
+
+                double saldototal = (ultimoSaldo - importepago);
+                cC1.setSaldo_cc(saldototal);
+               }
+            
             ctrl.crearCc(cC1);
             response.sendRedirect("cuentaCorriente.jsp");
-        }   
+        }  
+        }
     }
 
     /**
