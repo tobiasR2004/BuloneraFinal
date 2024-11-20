@@ -212,7 +212,7 @@ public class controladoraPersistencia {
     String query = "SELECT cc FROM cuenta_corriente cc " +
                    "JOIN cc.cabeceraremito cr " +
                    "WHERE cr.clienteCabecera.nroClient = :nroCliente " +
-                   "ORDER BY cc.fecha_cc";
+                   "ORDER BY cc.id_cc ASC";
                    
     TypedQuery<cuenta_corriente> typedQuery = em.createQuery(query, cuenta_corriente.class);
     
