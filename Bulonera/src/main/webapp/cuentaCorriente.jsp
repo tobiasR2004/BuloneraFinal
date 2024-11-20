@@ -381,26 +381,7 @@ function completarProducto(input) {
             modalElement.show();
         }
     });
-</script>
-    
-
-<script>
-    //Agregar fila al modal de remito
-    document.getElementById('agregarFila').addEventListener('click', function() {
-        var tabla = document.getElementById('tabla-remito');
-        var fila = document.getElementById('fila-producto');
-        var nuevaFila = fila.cloneNode(true);
-
-        // Resetear los valores de los campos para la nueva fila
-        var inputs = nuevaFila.getElementsByTagName('input');
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].value = '';
-        }
-        
-        var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
-        tablaCuerpo.appendChild(nuevaFila);
-    })
-</script>   
+</script>  
 
   <!--
 <script>
@@ -428,12 +409,14 @@ function completarProducto(input) {
 
 <script>
     //Enviar error para mostrar el modal
-document.addEventListener("DOMContentLoaded", function () {
-    const error = '<%= request.getAttribute("error") != null ? "true" : "false" %>';
+window.onload = function () {
+    const error = '<%= request.getAttribute("error") != null ? "true" : "false"%>';
+    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
     if (error === "true") {
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
         errorModal.show();
     }
+};
 </script>
 </body>
 </html>

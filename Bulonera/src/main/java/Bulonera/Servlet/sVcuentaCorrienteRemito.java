@@ -96,7 +96,6 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         String productoId = idsProd[i];
             
         producto producDetalle = ctrl.consultarProductoStr(productoId);
-        
 
             
         detalle_remito detalleRem = new detalle_remito();
@@ -117,8 +116,6 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cuentaCorr.setCabeceraremito(cabecdetalleremito);
         cuentaCorr.setDebe_cc(importe_total);
         cuentaCorr.setFecha_cc(fechaSQL);
-        
-        
         
         ctrl.crearCc(cuentaCorr);
 
