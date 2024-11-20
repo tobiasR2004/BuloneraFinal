@@ -198,11 +198,11 @@
                         </thead>
                         <tbody>
                             <tr id="fila-producto">
-                                <td><input class="sinBorde ancho" type="text" name="idProd" onchange="completarProducto(this)"></td>
-                                <td><input class="sinBorde" type="text" name="nombreProd" readonly></td>
-                                <td><input class="sinBorde ancho cantProd" type="number" name="cantProd" oninput="calcularImporte()"></td>
-                                <td><input class="sinBorde ancho precioProd" type="number" name="precioProd" readonly></td>
-                                <td><input class="sinBorde importeProd" type="number" name="importeProd" readonly></td>
+                                <td><input class="sinBorde ancho" minlength="1" type="text" name="idProd" onchange="completarProducto(this)"></td>
+                                <td><input class="sinBorde" type="text" minlength="1" name="nombreProd" readonly></td>
+                                <td><input class="sinBorde ancho cantProd" minlength="1" required pattern="[0-9]+" type="number" name="cantProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde ancho precioProd" minlength="1" type="number" name="precioProd" readonly></td>
+                                <td><input class="sinBorde importeProd" minlength="1" type="number" name="importeProd" readonly></td>
                             </tr>
                         </tbody>
                     </table>
