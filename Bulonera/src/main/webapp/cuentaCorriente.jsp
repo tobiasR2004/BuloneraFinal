@@ -370,7 +370,9 @@ function completarProducto(input) {
 <% 
     Boolean abrirModal = (Boolean) session.getAttribute("abrirModal");
     // Elimina el atributo después de leerlo para que no persista
-    session.removeAttribute("abrirModal");
+    if (abrirModal != null && abrirModal) {
+        session.removeAttribute("abrirModal");
+    }
 %>
 <script>
     // Función que abre el modal automáticamente si abrirModal es true
