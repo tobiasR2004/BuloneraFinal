@@ -114,8 +114,7 @@ public class svCrearCabeceraRem extends HttpServlet {
             cabecera_remito cabec = new cabecera_remito();
             cliente cli = ctrl.consultarCliente(nroClient);
             
-            List<detalle_remito> listaCabec = new ArrayList<>();
-            listaCabec = (ArrayList<detalle_remito>) ctrl.consultarDetalleList();
+            List<detalle_remito> listaCabec = null;
             
             cabec.setCuit_cliente(cli.getCuit_cliente());
             cabec.setListadetalles((ArrayList<detalle_remito>) listaCabec);

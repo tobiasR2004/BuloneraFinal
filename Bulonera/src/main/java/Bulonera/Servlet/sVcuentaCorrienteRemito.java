@@ -64,7 +64,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
             
             List<cuenta_corriente> listaCC = ctrl.consultarCcList(cabecdetalleremito);
             System.out.println("Número de cuentas corrientes obtenidas: " + listaCC.size());
-            request.getSession().setAttribute("listaCC", listaCC);
+            misesion.setAttribute("listaCC", listaCC);
         }
 
         // Reenvía la solicitud al JSP
@@ -81,19 +81,27 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         String[] idsProd = request.getParameterValues("idProd");
 
         HttpSession misesion = request.getSession();
+        List<cuenta_corriente> listaCC = (List<cuenta_corriente>)misesion.getAttribute("listaCC");
+     
+        
+        
         String nombCli = (String) misesion.getAttribute("clienteIdSeleccionado");
         int idCli = Integer.parseInt(nombCli);
+        
+         List<cabecera_remito> cabecList = (List<cabecera_remito>) ctrl.consultarCabecNroClient(idCli);
                
-        cabecera_remito cabecdetalleremito = ctrl.consultarCabecremito(idCli);
+        cabecera_remito cabecdetalleremito =  cabecList.get(cabecList.size() - 1);
         
         for (int i = 0; i < cantidades.length; i++) {
         int cant_prod = Integer.parseInt(cantidades[i]);
         double precio_unit = Double.parseDouble(precios[i]);
         double importe = Double.parseDouble(importes[i]);
         String nomb_prod = nombres[i];
-        int productoId = Integer.parseInt(idsProd[i]);
+        String productoId = idsProd[i];
             
         producto producDetalle = ctrl.consultarProductoStr(productoId);
+        
+
             
         detalle_remito detalleRem = new detalle_remito();
         detalleRem.setCant_prod(cant_prod);
@@ -107,6 +115,8 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         ctrl.crearDetalle(detalleRem);
         }
         
+        
+        
         LocalDate fechaActual = LocalDate.now();
         java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
         cuenta_corriente cuentaCorr = new cuenta_corriente();
@@ -114,6 +124,18 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cuentaCorr.setDebe_cc(importe_total);
         cuentaCorr.setFecha_cc(fechaSQL);
         
+        if (listaCC.size() <= 0 ) {
+         cuentaCorr.setSaldo_cc(importe_total);
+        } else {
+         cuenta_corriente ultimoElemento = listaCC.get(listaCC.size() - 1);
+         double ultimoSaldo = ultimoElemento.getSaldo_cc();
+         
+         double saldototal = ultimoSaldo + importe_total;
+         cuentaCorr.setSaldo_cc(saldototal);
+        }
+            
+                
+       
         
         
         ctrl.crearCc(cuentaCorr);

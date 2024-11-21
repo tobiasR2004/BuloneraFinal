@@ -37,7 +37,7 @@ public class svRemito extends HttpServlet {
         String codProducto = request.getParameter("idProd");
 
         try {
-            producto prod1 = ctrl.buscarProductoPorCodProd(Integer.parseInt(codProducto));
+            producto prod1 = ctrl.buscarProductoPorCodProd(codProducto);
 
             if (prod1 != null) {
                 // Crear el JSON de respuesta con los datos del producto

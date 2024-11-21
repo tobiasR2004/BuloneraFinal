@@ -173,7 +173,7 @@ public class cabecera_remitoJpaController implements Serializable {
     public cabecera_remito findcabecera_remito(int id) {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("SELECT c FROM cabecera_remito c WHERE c.cliente_cabecera.nro_client = :id", cabecera_remito.class)
+            return em.createQuery("SELECT c FROM cabecera_remito c WHERE c.cliente_cabecera.nroClient = :id", cabecera_remito.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException e) {

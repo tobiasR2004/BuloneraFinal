@@ -82,11 +82,9 @@ public class sVcliente extends HttpServlet {
             
             ctrl.crearCliente(client);
             
-            
-            Date fechaCabec = new java.util.Date();
-            
+            client = ctrl.buscarDniCliente(dni);
+            Date fechaCabec = new java.util.Date(); 
             cabecera_remito cabec = new cabecera_remito();
-            
             List<detalle_remito> listaCabec = new ArrayList<>();
             listaCabec = (List<detalle_remito>) ctrl.consultarDetalleList();
              
@@ -101,7 +99,7 @@ public class sVcliente extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(sVcliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        response.sendRedirect("clientes.jsp");
+        response.sendRedirect("clientes.jsp#client");
     }
 
     /**

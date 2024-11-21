@@ -155,7 +155,7 @@ public class controladoraLogica {
         ctrlpersis.modifProducto(prod1);
     }
     
-    public producto consultarProductoStr(int codProd){
+    public producto consultarProductoStr(String codProd){
         return ctrlpersis.buscarProductoPorCodProd(codProd);
     }
     
