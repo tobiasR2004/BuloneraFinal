@@ -23,6 +23,7 @@ Bulonera\Persistence\exceptions\PreexistingEntityException.class
 Bulonera\Servlet\sVcliente.class
 com\mycompany\bulonera\JakartaRestConfiguration.class
 Bulonera\Servlet\svLogin.class
+Bulonera\Servlet\svProductos.class
 Bulonera\logica\controladoraLogica.class
 Bulonera\logica\cuenta_corriente.class
 Bulonera\logica\usuarioService.class

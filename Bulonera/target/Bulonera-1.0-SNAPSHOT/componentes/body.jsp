@@ -32,12 +32,13 @@
                 </div>
             </form>
 
-
-            <div class="enlace">
-                <i class="bi bi-screwdriver"></i>
-                <a href="productos.jsp#produc" style="text-decoration: none;" onclick="cambiarBotones('opcion3')"><span>Productos</span></a>
-
-            </div>
+            <form action="svProductos" method="get">
+                <div class="enlace">
+                    <i class="bi bi-screwdriver"></i>
+                    <button type="submit" class="onlyTXT"><a href="productos.jsp#produc" style="text-decoration: none;"
+                        onclick="cambiarBotones('opcion3')"><span>Productos</span></a></button>
+                </div>
+            </form>
 
             <div class="enlace">
                 <i class="bi bi-gear "></i>

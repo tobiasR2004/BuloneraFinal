@@ -96,9 +96,15 @@ public class sVcliente extends HttpServlet {
          
             ctrl.crearcabecremito(cabec);
             
+            List<cliente> listaClientesActualizada = ctrl.consultarClienteList();
+            HttpSession session = request.getSession();
+            session.setAttribute("listaCliente", listaClientesActualizada);
+            
         } catch (ParseException ex) {
             Logger.getLogger(sVcliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
         response.sendRedirect("clientes.jsp#client");
     }
 

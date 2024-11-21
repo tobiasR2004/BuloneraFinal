@@ -73,12 +73,13 @@ public class svCrearCabeceraRem extends HttpServlet {
                     // Guarda el booleano en la sesión para abrir el modal
                     misesion.setAttribute("abrirModal", true);
 
-                    // Redirige a cuentaCorriente.jsp para abrir el modal
-                    response.sendRedirect("cuentaCorriente.jsp");
-
                     // Ejecuta la consulta del cliente
                     cliente cli = ctrl.consultarCliente(idCabecint);
                     misesion.setAttribute("clienteCabec", cli);
+                    
+                    // Redirige a cuentaCorriente.jsp para abrir el modal
+                    misesion.setAttribute("abrirModal", true);
+                    response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + idCabec);
                     
                 } catch (NumberFormatException e) {
                     request.setAttribute("errorCabec", "El ID de cliente no es válido.");
@@ -125,7 +126,7 @@ public class svCrearCabeceraRem extends HttpServlet {
             
             ctrl.crearcabecremito(cabec);
             
-            response.sendRedirect("cuentaCorriente.jsp");
+            response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + nroClientStr);
         } catch (Exception ex) {
             Logger.getLogger(svCrearCabeceraRem.class.getName()).log(Level.SEVERE, null, ex);
         }

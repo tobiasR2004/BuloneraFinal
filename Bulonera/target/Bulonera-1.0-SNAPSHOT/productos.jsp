@@ -5,6 +5,8 @@
 --%>
 
 
+<%@page import="java.util.List"%>
+<%@page import="Bulonera.logica.producto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
@@ -17,36 +19,33 @@
 </div>
 </nav>
 <section id="produc">
-    <TABLE class="table tablita">
-        <tr class="Columnas ">
-            <th class="Columnas">Código</th>
-            <th class="Columnas">Categoría</th>
-            <th class="Columnas">Descripcion</th>
-            <th class="Columnas">Precio compra</th>
-            <th class="Columnas">Precio venta</th>
-        </tr>
-        <tr>
-            <td class="Columnas" contenteditable="true">01.AN18</td>
-            <td class="Columnas" contenteditable="true">Arandela pulida 1/8</td>
-            <td class="Columnas" contenteditable="true">Arandela</td>
-            <td class="Columnas" contenteditable="true">7.680,88</td>
-            <td class="Columnas" contenteditable="true">7.707,90</td>
-        </tr>
-        <tr>
-            <td class="Columnas" contenteditable="true"></td>
-            <td class="Columnas" contenteditable="true"></td>
-            <td class="Columnas" contenteditable="true"></td>
-            <td class="Columnas" contenteditable="true"></td>
-            <td class="Columnas" contenteditable="true"></td>
-        </tr>
-        <tr>
-            <td class="Columnas" contenteditable="true"></td>
-            <td class="Columnas" contenteditable="true"></td>
-            <td class="Columnas" contenteditable="true"></td>
-            <td class="Columnas" contenteditable="true"></td>
-            <td class="Columnas" contenteditable="true"></td>
-        </tr>
-    </TABLE>
+    <div class="table-container">
+        <TABLE class="table tablita">
+            <tr class="Columnas ">
+                <th class="Columnas">Código</th>
+                <th class="Columnas">Categoría</th>
+                <th class="Columnas">Descripcion</th>
+                <th class="Columnas">Precio compra</th>
+                <th class="Columnas">Precio venta</th>
+            </tr>
+            <%
+                List<producto> listaProducto = (List<producto>) request.getSession().getAttribute("listaProducto");
+                if (listaProducto != null) {
+                    for (producto prod : listaProducto) {
+            %>
+                    <tr>
+                        <td><%= prod.getCod_prod() %></td>
+                        <td><%= prod.getCategoria_prod() %></td>
+                        <td><%= prod.getNomb_prod() %></td>
+                        <td><%= prod.getPrecio_compra() %></td>
+                        <td><%= prod.getPrecio_venta()%></td>
+                    </tr>
+            <%
+                    }   
+                }
+            %>
+        </TABLE>
+    </div>
 </section>
 </body>
 </html>

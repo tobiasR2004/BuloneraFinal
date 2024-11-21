@@ -291,7 +291,9 @@
 <% 
     Boolean abrirModal = (Boolean) session.getAttribute("abrirModal");
     // Elimina el atributo después de leerlo para que no persista
-    session.removeAttribute("abrirModal");
+    if (abrirModal != null && abrirModal) {
+        session.removeAttribute("abrirModal");
+    }
 %>
 <script>
     // Función que abre el modal automáticamente si abrirModal es true
@@ -326,12 +328,14 @@ document.getElementById('agregarFila').addEventListener('click', function() {
 
 <script>
     //Enviar error para mostrar el modal
-document.addEventListener("DOMContentLoaded", function () {
-    const error = '<%= request.getAttribute("error") != null ? "true" : "false" %>';
+window.onload = function () {
+    const error = '<%= request.getAttribute("error") != null ? "true" : "false"%>';
+    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+
     if (error === "true") {
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
         errorModal.show();
     }
+};
 </script>
 
 </body>
