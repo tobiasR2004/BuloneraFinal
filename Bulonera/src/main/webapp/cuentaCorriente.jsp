@@ -285,77 +285,6 @@
 </body>
 
 <script>
-    //Agregar fila al modal de remito
-    document.getElementById('agregarFila').addEventListener('click', function() {
-        var tabla = document.getElementById('tabla-remito');
-        var fila = document.getElementById('fila-producto');
-        var nuevaFila = fila.cloneNode(true);
-
-        // Resetear los valores de los campos para la nueva fila
-        var inputs = nuevaFila.getElementsByTagName('input');
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].value = '';
-        }
-        
-        var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
-        tablaCuerpo.appendChild(nuevaFila);
-    });
-</script>
-
-<script>
-function calcularImporte() {
-    const filas = document.querySelectorAll('#tabla-remito tbody tr');
-    filas.forEach(fila => {
-        const cantidad = fila.querySelector('.cantProd').value || 0;
-        const precio = fila.querySelector('.precioProd').value || 0;
-        const importe = fila.querySelector('.importeProd');
-        importe.value = (precio * cantidad).toFixed(2);
-    });
-    calcularImporteTotal();
-}
-
-function calcularImporteTotal() {
-    // Seleccionar todos los elementos de importeProd en las filas
-    const importeProdElements = document.querySelectorAll("input.importeProd");
-
-    // Sumar todos los valores de importeProd
-    let total = 0;
-    importeProdElements.forEach(input => {
-        total += parseFloat(input.value) || 0;
-    });
-
-    // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total.toFixed(2);
-}
-</script> 
-                
-                
-<script>
-function completarProducto(input) {    
-    const idProd = input.value.trim();
-    if (idProd !== "") {
-        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
-            .then(response => response.json())
-            .then(data => {
-                if (data.nombre && data.precio) {
-                    const fila = input.closest('tr');
-                    fila.querySelector('input[name="nombreProd"]').value = data.nombre;
-                    fila.querySelector('input[name="precioProd"]').value = data.precio;
-                } else {
-                    alert(data.error || "Producto no encontrado.");
-                }
-            })
-            .catch(error => {
-                console.error("Error al obtener los datos:", error);
-                alert("Error al obtener los datos del producto.");
-            });
-    } else {
-        alert("Por favor ingresa un ID de producto válido.");
-    }
-}
-</script>          
-
-<script>
     window.onload = function() {
         // Verificar si hay un mensaje de error
         const error = '<%= request.getAttribute("errorCabec") != null ? "true" : "false" %>';
@@ -399,32 +328,9 @@ function completarProducto(input) {
         
         var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
         tablaCuerpo.appendChild(nuevaFila);
-    })
-</script>   
-
-  <!--
-<script>
-      //CALCULAR SALDO Total.
-    document.addEventListener("DOMContentLoaded", function () {
-        let tabla = document.getElementById("tablaCC");
-        let filas = tabla.querySelectorAll("tbody tr");
-        let saldoAcumulado = 0;
-
-        filas.forEach(fila => {
-            let debe = parseDouble(fila.querySelector(".debe").textContent) || 0;
-            let haber = parseDouble(fila.querySelector(".haber").textContent) || 0;
-            
-            // Calcular saldo acumulado
-            saldoAcumulado += (debe - haber);
-            
-            // Mostrar saldo en la columna correspondiente
-            fila.querySelector(".saldo").textContent = saldoAcumulado.toFixed(2);
-        });
     });
-</script>
-        -->
-       
-
+</script>   
+     
 
 <script>
     //Enviar error para mostrar el modal

@@ -4,6 +4,7 @@
  */
 package Bulonera.Servlet;
 
+import Bulonera.logica.cliente;
 import Bulonera.logica.controladoraLogica;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,9 +31,19 @@ public class sVeliminarCliente extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
         int idBorrar = Integer.parseInt(request.getParameter("idCliente"));
-        ctrl.eliminarCliente(idBorrar);
-        response.sendRedirect("clientes.jsp#client");
+        cliente cli = ctrl.consultarCliente(idBorrar);
+        if (cli != null){
+        
+            ctrl.eliminarCliente(idBorrar);
+            response.sendRedirect("clientes.jsp#client");
+            
+        } else {
+            request.setAttribute("error", "No se encontro el cliente que desea eliminar");
+            request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
+        }
     }
     
     @Override
