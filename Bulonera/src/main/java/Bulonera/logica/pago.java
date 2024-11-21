@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,24 +22,24 @@ import javax.persistence.TemporalType;
 @Entity
 public class pago implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_pago;
     @Basic
-    private int num_pago;
-    private int importe_pago;
+    private double importe_pago;
     @Temporal(TemporalType.DATE)
     private Date fecha_pago;
-    @OneToMany
+    
+    @ManyToOne
     private cliente cliente_pago;
+    @ManyToOne
     private cuenta_corriente cc_pago;
 
     public pago()
     {
     }
 
-    public pago(int id_pago, int num_pago, int importe_pago, Date fecha_pago, cliente cliente_pago, cuenta_corriente cc_pago) {
+    public pago(int id_pago, double importe_pago, Date fecha_pago, cliente cliente_pago, cuenta_corriente cc_pago) {
         this.id_pago = id_pago;
-        this.num_pago = num_pago;
         this.importe_pago = importe_pago;
         this.fecha_pago = fecha_pago;
         this.cliente_pago = cliente_pago;
@@ -70,19 +70,11 @@ public class pago implements Serializable {
         this.id_pago = id_pago;
     }
 
-    public int getNum_pago() {
-        return num_pago;
-    }
-
-    public void setNum_pago(int num_pago) {
-        this.num_pago = num_pago;
-    }
-
-    public int getImporte_pago() {
+    public double getImporte_pago() {
         return importe_pago;
     }
 
-    public void setImporte_pago(int importe_pago) {
+    public void setImporte_pago(double importe_pago) {
         this.importe_pago = importe_pago;
     }
 

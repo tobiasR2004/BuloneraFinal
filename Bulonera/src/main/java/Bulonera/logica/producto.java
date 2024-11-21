@@ -5,7 +5,7 @@
 package Bulonera.logica;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,36 +21,35 @@ import javax.persistence.OneToMany;
 public class producto implements Serializable
 {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_prod;
     @Basic
-    private int cod_prod;
-    private int precio_compra, precio_venta;
+    private String cod_prod;
+    private double precio_compra, precio_venta;
     private String nomb_prod, categoria_prod;
     
-    @OneToMany(mappedBy ="prod")
-    private ArrayList<detalle_remito> listadetalles;
+    @OneToMany(mappedBy="producDetalle")
+      private List<detalle_remito> detalles;
 
     public producto()
     {
     }
 
-    public producto(int id_prod, int cod_prod, int precio_compra, int precio_venta, String nomb_prod, String categoria_prod, ArrayList<detalle_remito> listadetalles) {
+    public producto(int id_prod, String cod_prod, double precio_compra, double precio_venta, String nomb_prod, String categoria_prod) {
         this.id_prod = id_prod;
         this.cod_prod = cod_prod;
         this.precio_compra = precio_compra;
         this.precio_venta = precio_venta;
         this.nomb_prod = nomb_prod;
         this.categoria_prod = categoria_prod;
-        this.listadetalles = listadetalles;
     }
 
-    public ArrayList<detalle_remito> getListadetalles() {
-        return listadetalles;
+    public List<detalle_remito> getDetalles() {
+        return detalles;
     }
 
-    public void setListadetalles(ArrayList<detalle_remito> listadetalles) {
-        this.listadetalles = listadetalles;
+    public void setDetalles(List<detalle_remito> detalles) {
+        this.detalles = detalles;
     }
 
     public int getId_prod() {
@@ -61,27 +60,27 @@ public class producto implements Serializable
         this.id_prod = id_prod;
     }
     
-    public int getCod_prod() {
+    public String getCod_prod() {
         return cod_prod;
     }
 
-    public void setCod_prod(int cod_prod) {
+    public void setCod_prod(String cod_prod) {
         this.cod_prod = cod_prod;
     }
 
-    public int getPrecio_compra() {
+    public double getPrecio_compra() {
         return precio_compra;
     }
 
-    public void setPrecio_compra(int precio_compra) {
+    public void setPrecio_compra(double precio_compra) {
         this.precio_compra = precio_compra;
     }
 
-    public int getPrecio_venta() {
+    public double getPrecio_venta() {
         return precio_venta;
     }
 
-    public void setPrecio_venta(int precio_venta) {
+    public void setPrecio_venta(double precio_venta) {
         this.precio_venta = precio_venta;
     }
 

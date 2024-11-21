@@ -10,22 +10,24 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.cliente;
 import Bulonera.logica.pago;
 import java.util.List;
-import javax.persistence.Persistence;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
- * @author Alumno
+ * @author tobi2
  */
 public class pagoJpaController implements Serializable {
 
     public pagoJpaController() {
-        emf = Persistence.createEntityManagerFactory("buloneraPU");
+         emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
+
     
     public pagoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
@@ -41,12 +43,21 @@ public class pagoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            cuenta_corriente cc_pago = pago.getCc_pago();
+            if (cc_pago != null) {
+                cc_pago = em.getReference(cc_pago.getClass(), cc_pago.getId_cc());
+                pago.setCc_pago(cc_pago);
+            }
             cliente cliente_pago = pago.getCliente_pago();
             if (cliente_pago != null) {
-                cliente_pago = em.getReference(cliente_pago.getClass(), cliente_pago.getNro_client());
+                cliente_pago = em.getReference(cliente_pago.getClass(), cliente_pago.getNroClient());
                 pago.setCliente_pago(cliente_pago);
             }
             em.persist(pago);
+            if (cc_pago != null) {
+                cc_pago.getListaPagos_cc().add(pago);
+                cc_pago = em.merge(cc_pago);
+            }
             if (cliente_pago != null) {
                 cliente_pago.getListaPagos_c().add(pago);
                 cliente_pago = em.merge(cliente_pago);
@@ -65,13 +76,27 @@ public class pagoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             pago persistentpago = em.find(pago.class, pago.getId_pago());
+            cuenta_corriente cc_pagoOld = persistentpago.getCc_pago();
+            cuenta_corriente cc_pagoNew = pago.getCc_pago();
             cliente cliente_pagoOld = persistentpago.getCliente_pago();
             cliente cliente_pagoNew = pago.getCliente_pago();
+            if (cc_pagoNew != null) {
+                cc_pagoNew = em.getReference(cc_pagoNew.getClass(), cc_pagoNew.getId_cc());
+                pago.setCc_pago(cc_pagoNew);
+            }
             if (cliente_pagoNew != null) {
-                cliente_pagoNew = em.getReference(cliente_pagoNew.getClass(), cliente_pagoNew.getNro_client());
+                cliente_pagoNew = em.getReference(cliente_pagoNew.getClass(), cliente_pagoNew.getNroClient());
                 pago.setCliente_pago(cliente_pagoNew);
             }
             pago = em.merge(pago);
+            if (cc_pagoOld != null && !cc_pagoOld.equals(cc_pagoNew)) {
+                cc_pagoOld.getListaPagos_cc().remove(pago);
+                cc_pagoOld = em.merge(cc_pagoOld);
+            }
+            if (cc_pagoNew != null && !cc_pagoNew.equals(cc_pagoOld)) {
+                cc_pagoNew.getListaPagos_cc().add(pago);
+                cc_pagoNew = em.merge(cc_pagoNew);
+            }
             if (cliente_pagoOld != null && !cliente_pagoOld.equals(cliente_pagoNew)) {
                 cliente_pagoOld.getListaPagos_c().remove(pago);
                 cliente_pagoOld = em.merge(cliente_pagoOld);
@@ -108,6 +133,11 @@ public class pagoJpaController implements Serializable {
                 pago.getId_pago();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The pago with id " + id + " no longer exists.", enfe);
+            }
+            cuenta_corriente cc_pago = pago.getCc_pago();
+            if (cc_pago != null) {
+                cc_pago.getListaPagos_cc().remove(pago);
+                cc_pago = em.merge(cc_pago);
             }
             cliente cliente_pago = pago.getCliente_pago();
             if (cliente_pago != null) {

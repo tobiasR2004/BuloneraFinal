@@ -19,7 +19,7 @@ import javax.persistence.Id;
 public class usuario implements Serializable
 {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int idUsuario;
     @Basic
     private String nombUsuario;

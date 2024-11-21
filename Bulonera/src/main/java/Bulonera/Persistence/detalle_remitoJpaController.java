@@ -5,27 +5,29 @@
 package Bulonera.Persistence;
 
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
-import Bulonera.logica.detalle_remito;
 import java.io.Serializable;
+import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import Bulonera.logica.cabecera_remito;
+import Bulonera.logica.detalle_remito;
+import Bulonera.logica.producto;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Alumno
+ * @author tobi2
  */
 public class detalle_remitoJpaController implements Serializable {
 
     public detalle_remitoJpaController() {
-         emf = Persistence.createEntityManagerFactory("buloneraPU");
+        emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
-    
+   
     public detalle_remitoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -40,7 +42,25 @@ public class detalle_remitoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            cabecera_remito cabecdetalleremito = detalle_remito.getCabecdetalleremito();
+            if (cabecdetalleremito != null) {
+                cabecdetalleremito = em.getReference(cabecdetalleremito.getClass(), cabecdetalleremito.getIdRemito());
+                detalle_remito.setCabecdetalleremito(cabecdetalleremito);
+            }
+            producto producDetalle = detalle_remito.getProducDetalle();
+            if (producDetalle != null) {
+                producDetalle = em.getReference(producDetalle.getClass(), producDetalle.getId_prod());
+                detalle_remito.setProducDetalle(producDetalle);
+            }
             em.persist(detalle_remito);
+            if (cabecdetalleremito != null) {
+                cabecdetalleremito.getListadetalles().add(detalle_remito);
+                cabecdetalleremito = em.merge(cabecdetalleremito);
+            }
+            if (producDetalle != null) {
+                producDetalle.getDetalles().add(detalle_remito);
+                producDetalle = em.merge(producDetalle);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -54,7 +74,36 @@ public class detalle_remitoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            detalle_remito persistentdetalle_remito = em.find(detalle_remito.class, detalle_remito.getId_remito());
+            cabecera_remito cabecdetalleremitoOld = persistentdetalle_remito.getCabecdetalleremito();
+            cabecera_remito cabecdetalleremitoNew = detalle_remito.getCabecdetalleremito();
+            producto producDetalleOld = persistentdetalle_remito.getProducDetalle();
+            producto producDetalleNew = detalle_remito.getProducDetalle();
+            if (cabecdetalleremitoNew != null) {
+                cabecdetalleremitoNew = em.getReference(cabecdetalleremitoNew.getClass(), cabecdetalleremitoNew.getIdRemito());
+                detalle_remito.setCabecdetalleremito(cabecdetalleremitoNew);
+            }
+            if (producDetalleNew != null) {
+                producDetalleNew = em.getReference(producDetalleNew.getClass(), producDetalleNew.getId_prod());
+                detalle_remito.setProducDetalle(producDetalleNew);
+            }
             detalle_remito = em.merge(detalle_remito);
+            if (cabecdetalleremitoOld != null && !cabecdetalleremitoOld.equals(cabecdetalleremitoNew)) {
+                cabecdetalleremitoOld.getListadetalles().remove(detalle_remito);
+                cabecdetalleremitoOld = em.merge(cabecdetalleremitoOld);
+            }
+            if (cabecdetalleremitoNew != null && !cabecdetalleremitoNew.equals(cabecdetalleremitoOld)) {
+                cabecdetalleremitoNew.getListadetalles().add(detalle_remito);
+                cabecdetalleremitoNew = em.merge(cabecdetalleremitoNew);
+            }
+            if (producDetalleOld != null && !producDetalleOld.equals(producDetalleNew)) {
+                producDetalleOld.getDetalles().remove(detalle_remito);
+                producDetalleOld = em.merge(producDetalleOld);
+            }
+            if (producDetalleNew != null && !producDetalleNew.equals(producDetalleOld)) {
+                producDetalleNew.getDetalles().add(detalle_remito);
+                producDetalleNew = em.merge(producDetalleNew);
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -83,6 +132,16 @@ public class detalle_remitoJpaController implements Serializable {
                 detalle_remito.getId_remito();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The detalle_remito with id " + id + " no longer exists.", enfe);
+            }
+            cabecera_remito cabecdetalleremito = detalle_remito.getCabecdetalleremito();
+            if (cabecdetalleremito != null) {
+                cabecdetalleremito.getListadetalles().remove(detalle_remito);
+                cabecdetalleremito = em.merge(cabecdetalleremito);
+            }
+            producto producDetalle = detalle_remito.getProducDetalle();
+            if (producDetalle != null) {
+                producDetalle.getDetalles().remove(detalle_remito);
+                producDetalle = em.merge(producDetalle);
             }
             em.remove(detalle_remito);
             em.getTransaction().commit();
