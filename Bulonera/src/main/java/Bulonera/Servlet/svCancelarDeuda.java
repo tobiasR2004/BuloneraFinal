@@ -132,6 +132,8 @@ public class svCancelarDeuda extends HttpServlet {
             
             ctrl.crearCc(cC1);
             
+            pago pago1 = new pago();
+            
             pago1.setCc_pago(cC1);
             pago1.setCliente_pago(cliente1);
             pago1.setFecha_pago(fechaSQL);

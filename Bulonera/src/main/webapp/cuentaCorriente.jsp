@@ -177,7 +177,6 @@
 
                 <!-- Tabla -->
                 <div class="table-responsive"> 
-                       <table class="table table-bordered" id="tabla-remito">
                         <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>
@@ -274,7 +273,24 @@
             </div>
         </div>
     </div>
-</body>
+                
+<script>
+    //Agregar fila al modal de remito
+    document.getElementById('agregarFila').addEventListener('click', function() {
+        var tabla = document.getElementById('tabla-remito');
+        var fila = document.getElementById('fila-producto');
+        var nuevaFila = fila.cloneNode(true);
+
+        // Resetear los valores de los campos para la nueva fila
+        var inputs = nuevaFila.getElementsByTagName('input');
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].value = '';
+        }
+        
+        var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
+        tablaCuerpo.appendChild(nuevaFila);
+    });
+</script>
 
 <script>
     window.onload = function() {
@@ -305,26 +321,8 @@
         }
     });
 </script>
-    
 
-<script>
-    //Agregar fila al modal de remito
-document.getElementById('agregarFila').addEventListener('click', function() {
-    var tabla = document.getElementById('tabla-remito');
-    var fila = document.getElementById('fila-producto');
-    var nuevaFila = fila.cloneNode(true);
 
-        // Resetear los valores de los campos para la nueva fila
-        var inputs = nuevaFila.getElementsByTagName('input');
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].value = '';
-        }
-        
-        var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
-        tablaCuerpo.appendChild(nuevaFila);
-    });
-</script>   
-     
 
 <script>
     //Enviar error para mostrar el modal

@@ -59,22 +59,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
-
-    //Agregar fila al modal de remito
-    document.getElementById('agregarFila').addEventListener('click', function() {
-        var tabla = document.getElementById('tabla-remito');
-        var fila = document.getElementById('fila-producto');
-        var nuevaFila = fila.cloneNode(true);
-
-        // Resetear los valores de los campos para la nueva fila
-        var inputs = nuevaFila.getElementsByTagName('input');
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].value = '';
-        }
-        
-        var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
-        tablaCuerpo.appendChild(nuevaFila);
-    });
     
     function calcularImporte() {
     const filas = document.querySelectorAll('#tabla-remito tbody tr');
@@ -123,20 +107,4 @@ function completarProducto(input) {
         alert("Por favor ingresa un ID de producto válido.");
     }
 }
-
-    //Agregar fila al modal de remito
-    document.getElementById('agregarFila').addEventListener('click', function() {
-        var tabla = document.getElementById('tabla-remito');
-        var fila = document.getElementById('fila-producto');
-        var nuevaFila = fila.cloneNode(true);
-
-        // Resetear los valores de los campos para la nueva fila
-        var inputs = nuevaFila.getElementsByTagName('input');
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].value = '';
-        }
-        
-        var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
-        tablaCuerpo.appendChild(nuevaFila);
-    });
 

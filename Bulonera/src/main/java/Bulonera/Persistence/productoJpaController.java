@@ -24,10 +24,10 @@ import javax.persistence.Persistence;
  */
 public class productoJpaController implements Serializable {
 
-    public productoJpaController() {
+        public productoJpaController() {
         emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
-
+    
     public productoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
