@@ -116,6 +116,7 @@ public class svCancelarDeuda extends HttpServlet {
             cC1.setSaldo_cc(saldoAcumulado);
             cC1.setCabeceraremito(ultimaCabecera);
             cC1.setFecha_cc(fechaSQL);
+            cC1.setDebe_cc(0.0);
             cC1.setHaber_cc(importepago);
             
               if (listaCC.size() <= 0 ) {

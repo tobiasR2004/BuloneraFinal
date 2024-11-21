@@ -8,11 +8,11 @@
 
     <input type="text" id="searchInput" placeholder="Buscar por Razon Social" onkeyup="buscarRazonSocial()">
     
-<li> 
+    <li> 
         <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#modalEliminar" id="boton9">
-             Eliminar cliente  </button>
-       
-</li>
+            Eliminar cliente  </button>
+
+    </li>
 
 <li>
     <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#alta"
@@ -124,7 +124,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" id="btnAlta">Cargar</button>
+                            <button type="submit" class="btn btn-primary" id="btnAlta">Cargar</button>
                     </div>
                 </div>
             </form>

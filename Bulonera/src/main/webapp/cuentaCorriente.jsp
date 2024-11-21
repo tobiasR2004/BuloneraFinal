@@ -383,29 +383,6 @@ function completarProducto(input) {
     });
 </script>  
 
-  <!--
-<script>
-      //CALCULAR SALDO Total.
-    document.addEventListener("DOMContentLoaded", function () {
-        let tabla = document.getElementById("tablaCC");
-        let filas = tabla.querySelectorAll("tbody tr");
-        let saldoAcumulado = 0;
-
-        filas.forEach(fila => {
-            let debe = parseDouble(fila.querySelector(".debe").textContent) || 0;
-            let haber = parseDouble(fila.querySelector(".haber").textContent) || 0;
-            
-            // Calcular saldo acumulado
-            saldoAcumulado += (debe - haber);
-            
-            // Mostrar saldo en la columna correspondiente
-            fila.querySelector(".saldo").textContent = saldoAcumulado.toFixed(2);
-        });
-    });
-</script>
-        -->
-       
-
 
 <script>
     //Enviar error para mostrar el modal
