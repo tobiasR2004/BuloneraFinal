@@ -134,7 +134,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         ctrl.crearCc(cuentaCorr);
 
         misesion.removeAttribute("clienteIdSeleccionado");
-        response.sendRedirect("menu.jsp");
+        response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + nombCli);
     }
 
 }
