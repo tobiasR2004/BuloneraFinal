@@ -14,9 +14,7 @@
             <%@include file="componentes/body.jsp"%>
             
             <!--BOTONES NAVBAR-->
-            <li class="nav-item">
-                <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
-            </li>
+
             <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>

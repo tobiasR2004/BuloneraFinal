@@ -140,7 +140,7 @@ public class svCancelarDeuda extends HttpServlet {
             pago1.setImporte_pago(importepago);
             ctrl.crearPago(pago1);
             
-            response.sendRedirect("cuentaCorriente.jsp");
+            response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + idCabec);
         }  
         }
     }
