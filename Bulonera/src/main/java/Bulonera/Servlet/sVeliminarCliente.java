@@ -4,14 +4,17 @@
  */
 package Bulonera.Servlet;
 
+import Bulonera.logica.cliente;
 import Bulonera.logica.controladoraLogica;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "sVeliminarCliente", urlPatterns = {"/sVeliminarCliente"})
 public class sVeliminarCliente extends HttpServlet {
@@ -32,6 +35,10 @@ public class sVeliminarCliente extends HttpServlet {
             throws ServletException, IOException {
         int idBorrar = Integer.parseInt(request.getParameter("idCliente"));
         ctrl.eliminarCliente(idBorrar);
+        
+        List<cliente> listaClientesActualizada = ctrl.consultarClienteList();
+        HttpSession session = request.getSession();
+        session.setAttribute("listaCliente", listaClientesActualizada);
         response.sendRedirect("clientes.jsp#client");
     }
     

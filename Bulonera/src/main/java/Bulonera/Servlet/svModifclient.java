@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -65,7 +66,7 @@ public class svModifclient extends HttpServlet {
         
         if (contra == null  || contraIng == null){
            request.setAttribute("error", "Complete el campo de contraseña");
-           request.getRequestDispatcher("clientes.jsp#clsient").forward(request, response);
+           request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
            validacionContra = false;
         
         } else if(contra.equals(contraIng)) {
@@ -122,6 +123,11 @@ public class svModifclient extends HttpServlet {
             cliente1.setDomicilio_cliente(domicilio);
                     
             ctrl.modifCliente(cliente1);
+            
+            List<cliente> listaClientesActualizada = ctrl.consultarClienteList();
+            HttpSession session = request.getSession();
+            session.setAttribute("listaCliente", listaClientesActualizada);
+            
             response.sendRedirect("clientes.jsp#client");
             
         } catch (ParseException ex) {
