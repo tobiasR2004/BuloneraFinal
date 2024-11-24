@@ -33,13 +33,23 @@ public class sVeliminarCliente extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
         int idBorrar = Integer.parseInt(request.getParameter("idCliente"));
         ctrl.eliminarCliente(idBorrar);
-        
-        List<cliente> listaClientesActualizada = ctrl.consultarClienteList();
-        HttpSession session = request.getSession();
-        session.setAttribute("listaCliente", listaClientesActualizada);
-        response.sendRedirect("clientes.jsp#client");
+
+        cliente cli = ctrl.consultarCliente(idBorrar);
+        if (cli != null){
+            ctrl.eliminarCliente(idBorrar);
+            List<cliente> listaClientesActualizada = ctrl.consultarClienteList();
+            HttpSession session = request.getSession();
+            session.setAttribute("listaCliente", listaClientesActualizada);
+            response.sendRedirect("clientes.jsp#client");
+            
+        } else {
+            request.setAttribute("error", "No se encontro el cliente que desea eliminar");
+            request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
+        }
     }
     
     @Override

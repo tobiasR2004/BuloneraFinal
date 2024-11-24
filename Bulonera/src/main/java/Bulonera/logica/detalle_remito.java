@@ -22,10 +22,9 @@ public class detalle_remito implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_remito;
     @Basic
-    private int cant_prod;
     private double precio_unit, importe, importe_total;
     private String nomb_prod;
-    
+    private int cant_prod;
     @ManyToOne
     private cabecera_remito cabecdetalleremito;
     
@@ -36,32 +35,14 @@ public class detalle_remito implements Serializable {
     {
     }
 
-    public detalle_remito(int id_remito, int cant_prod, double precio_unit, double importe, double importe_total, String nomb_prod, cabecera_remito cabecdetalleremito, producto producDetalle) {
+    public detalle_remito(int id_remito, double precio_unit, double importe, double importe_total, String nomb_prod, int cant_prod, cabecera_remito cabecdetalleremito, producto producDetalle) {
         this.id_remito = id_remito;
-        this.cant_prod = cant_prod;
         this.precio_unit = precio_unit;
         this.importe = importe;
         this.importe_total = importe_total;
         this.nomb_prod = nomb_prod;
+        this.cant_prod = cant_prod;
         this.cabecdetalleremito = cabecdetalleremito;
-        this.producDetalle = producDetalle;
-    }
-
-    
-
-    public cabecera_remito getCabecdetalleremito() {
-        return cabecdetalleremito;
-    }
-
-    public void setCabecdetalleremito(cabecera_remito cabecdetalleremito) {
-        this.cabecdetalleremito = cabecdetalleremito;
-    }
-
-    public producto getProducDetalle() {
-        return producDetalle;
-    }
-
-    public void setProducDetalle(producto producDetalle) {
         this.producDetalle = producDetalle;
     }
 
@@ -71,14 +52,6 @@ public class detalle_remito implements Serializable {
 
     public void setId_remito(int id_remito) {
         this.id_remito = id_remito;
-    }
-
-    public int getCant_prod() {
-        return cant_prod;
-    }
-
-    public void setCant_prod(int cant_prod) {
-        this.cant_prod = cant_prod;
     }
 
     public double getPrecio_unit() {
@@ -112,7 +85,30 @@ public class detalle_remito implements Serializable {
     public void setNomb_prod(String nomb_prod) {
         this.nomb_prod = nomb_prod;
     }
-    
-    
+
+    public int getCant_prod() {
+        return cant_prod;
+    }
+
+    public void setCant_prod(int cant_prod) {
+        this.cant_prod = cant_prod;
+    }
+
+    public cabecera_remito getCabecdetalleremito() {
+        return cabecdetalleremito;
+    }
+
+    public void setCabecdetalleremito(cabecera_remito cabecdetalleremito) {
+        this.cabecdetalleremito = cabecdetalleremito;
+    }
+
+    public producto getProducDetalle() {
+        return producDetalle;
+    }
+
+    public void setProducDetalle(producto producDetalle) {
+        this.producDetalle = producDetalle;
+    }
+      
     
 }

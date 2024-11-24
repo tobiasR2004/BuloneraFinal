@@ -59,3 +59,52 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+    
+    function calcularImporte() {
+    const filas = document.querySelectorAll('#tabla-remito tbody tr');
+    filas.forEach(fila => {
+        const cantidad = fila.querySelector('.cantProd').value || 0;
+        const precio = fila.querySelector('.precioProd').value || 0;
+        const importe = fila.querySelector('.importeProd');
+        importe.value = (precio * cantidad).toFixed(2);
+    });
+    calcularImporteTotal();
+}
+
+function calcularImporteTotal() {
+    // Seleccionar todos los elementos de importeProd en las filas
+    const importeProdElements = document.querySelectorAll("input.importeProd");
+
+    // Sumar todos los valores de importeProd
+    let total = 0;
+    importeProdElements.forEach(input => {
+        total += parseFloat(input.value) || 0;
+    });
+
+    // Mostrar el total en el campo importe-total
+    document.getElementById("importe-total").value = total.toFixed(2);
+}
+
+function completarProducto(input) {    
+    const idProd = input.value.trim();
+    if (idProd !== "") {
+        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
+            .then(response => response.json())
+            .then(data => {
+                if (data.nombre && data.precio) {
+                    const fila = input.closest('tr');
+                    fila.querySelector('input[name="nombreProd"]').value = data.nombre;
+                    fila.querySelector('input[name="precioProd"]').value = data.precio;
+                } else {
+                    alert(data.error || "Producto no encontrado.");
+                }
+            })
+            .catch(error => {
+                console.error("Error al obtener los datos:", error);
+                alert("Error al obtener los datos del producto.");
+            });
+    } else {
+        alert("Por favor ingresa un ID de producto válido.");
+    }
+}
+

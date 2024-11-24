@@ -111,6 +111,7 @@ public class svCancelarDeuda extends HttpServlet {
             LocalDate fechaActual = LocalDate.now();
             java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
 
+            cliente cliente1 = ctrl.consultarCliente(nroClient);
             cuenta_corriente cC1 = new cuenta_corriente();
             
             cC1.setSaldo_cc(saldoAcumulado);
@@ -130,6 +131,15 @@ public class svCancelarDeuda extends HttpServlet {
                }
             
             ctrl.crearCc(cC1);
+            
+            pago pago1 = new pago();
+            
+            pago1.setCc_pago(cC1);
+            pago1.setCliente_pago(cliente1);
+            pago1.setFecha_pago(fechaSQL);
+            pago1.setImporte_pago(importepago);
+            ctrl.crearPago(pago1);
+            
             response.sendRedirect("cuentaCorriente.jsp");
         }  
         }

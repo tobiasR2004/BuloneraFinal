@@ -15,16 +15,7 @@
             
             <!--BOTONES NAVBAR-->
             <li class="nav-item">
-            <form action="svModifclient" method="GET" class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Ingrese el dni" aria-label="Search" name="buscarCl">
-                <button class="btn btn-outline-success" type="submit">BUSCAR</button>
-            </form>    
-            </li>
-            <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
-            </li>
-            <li class="nav-item">
-                <button type="button" class="btn btn-navbar" id="boton5">Imprimir deuda</button>
             </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
@@ -71,8 +62,8 @@
         if (listaCC != null) {
         double saldoAcumulado = 0;
             for (cuenta_corriente cc : listaCC) {
-            double debe = cc.getDebe_cc() != null ? cc.getDebe_cc() : 0; 
-            double haber = cc.getHaber_cc() != null ? cc.getHaber_cc() : 0; 
+            double debe = cc.getDebe_cc(); 
+            double haber = cc.getHaber_cc(); 
             saldoAcumulado += (debe - haber);
     %>
     
@@ -87,7 +78,7 @@
                 }
             %>
 </TABLE>    
-</div>
+</div>    
 
 <!--Botón para abrir el modal -->
 <form action="svCrearCabeceraRem" method="GET">
@@ -185,7 +176,7 @@
                 </div>
 
                 <!-- Tabla -->
-                <div class="table-responsive">  
+                <div class="table-responsive"> 
                         <table class="table table-bordered" id="tabla-remito">
                         <thead>
                             <tr>
@@ -225,7 +216,7 @@
     </div>
 </div>    
                     
-                    <!-- Modal CANCELAR DEUDA -->
+ <!-- Modal CANCELAR DEUDA -->
 <div class="modal fade" id="CancelarDeuda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -282,8 +273,7 @@
             </div>
         </div>
     </div>
-</body>
-
+                
 <script>
     //Agregar fila al modal de remito
     document.getElementById('agregarFila').addEventListener('click', function() {
@@ -301,59 +291,6 @@
         tablaCuerpo.appendChild(nuevaFila);
     });
 </script>
-
-<script>
-function calcularImporte() {
-    const filas = document.querySelectorAll('#tabla-remito tbody tr');
-    filas.forEach(fila => {
-        const cantidad = fila.querySelector('.cantProd').value || 0;
-        const precio = fila.querySelector('.precioProd').value || 0;
-        const importe = fila.querySelector('.importeProd');
-        importe.value = (precio * cantidad).toFixed(2);
-    });
-    calcularImporteTotal();
-}
-
-function calcularImporteTotal() {
-    // Seleccionar todos los elementos de importeProd en las filas
-    const importeProdElements = document.querySelectorAll("input.importeProd");
-
-    // Sumar todos los valores de importeProd
-    let total = 0;
-    importeProdElements.forEach(input => {
-        total += parseFloat(input.value) || 0;
-    });
-
-    // Mostrar el total en el campo importe-total
-    document.getElementById("importe-total").value = total.toFixed(2);
-}
-</script> 
-                
-                
-<script>
-function completarProducto(input) {    
-    const idProd = input.value.trim();
-    if (idProd !== "") {
-        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
-            .then(response => response.json())
-            .then(data => {
-                if (data.nombre && data.precio) {
-                    const fila = input.closest('tr');
-                    fila.querySelector('input[name="nombreProd"]').value = data.nombre;
-                    fila.querySelector('input[name="precioProd"]').value = data.precio;
-                } else {
-                    alert(data.error || "Producto no encontrado.");
-                }
-            })
-            .catch(error => {
-                console.error("Error al obtener los datos:", error);
-                alert("Error al obtener los datos del producto.");
-            });
-    } else {
-        alert("Por favor ingresa un ID de producto válido.");
-    }
-}
-</script>          
 
 <script>
     window.onload = function() {
@@ -383,7 +320,8 @@ function completarProducto(input) {
             modalElement.show();
         }
     });
-</script>  
+</script>
+
 
 
 <script>
@@ -397,5 +335,6 @@ window.onload = function () {
     }
 };
 </script>
+
 </body>
 </html>

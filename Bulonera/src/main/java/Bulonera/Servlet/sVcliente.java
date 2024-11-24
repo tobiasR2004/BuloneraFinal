@@ -87,7 +87,7 @@ public class sVcliente extends HttpServlet {
             cabecera_remito cabec = new cabecera_remito();
             List<detalle_remito> listaCabec = new ArrayList<>();
             listaCabec = (List<detalle_remito>) ctrl.consultarDetalleList();
-            
+             
             cabec.setListadetalles((ArrayList<detalle_remito>) listaCabec);
             cabec.setCuit_cliente(cuit);
             cabec.setRazon_social(razonSoc);
