@@ -255,6 +255,17 @@ public class controladoraPersistencia {
        return listadetalle;
     }
     
+    public List<detalle_remito> consultarDetalleListCabec(int nroCliente) {
+     EntityManager em = detalle_remitoJpa.getEntityManager();
+      String query = "SELECT dr FROM detalle_remito dr " +
+                    "JOIN dr.cabecdetalleremito cr " +
+                     "WHERE cr.clienteCabecera.nroClient = :nroCliente ";
+      
+           TypedQuery<detalle_remito> typedQuery = em.createQuery(query, detalle_remito.class);
+           typedQuery.setParameter("nroCliente", nroCliente); // Usa nroCliente directamente
+           return typedQuery.getResultList();
+    }
+    
     
     //CRUD PAGO
     public void crearPago(pago pago1) {

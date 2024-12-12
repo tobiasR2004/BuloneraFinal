@@ -536,7 +536,7 @@ td {
 }
 
 .cabecRemito{
- padding: 2%
+ padding: 2%;
 }
 
 .cabecRemito label{
@@ -549,10 +549,11 @@ td {
 
 .fondoRem{
  margin-top: 70px;
- margin-left: 25%;
+ margin-left: 29%;
  width: 800px;
  height: 150px;
  display: flex;
+ position: fixed;
  background-color: rgba(20, 75, 110, 0.5);
  border-radius: 10px;
  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); 
@@ -587,6 +588,10 @@ td {
     margin-top: 10px;
     margin-left: 20px
     
+}
+
+#tablaDr{
+    top: 40%;
 }
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
