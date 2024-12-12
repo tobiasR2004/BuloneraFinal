@@ -7,6 +7,8 @@ import Bulonera.logica.usuario;
 import Bulonera.Persistence.controladoraPersistencia;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -165,6 +167,18 @@ public class controladoraLogica {
     
     public ArrayList<producto> consultarProductosList(){
         return ctrlpersis.consultarProductosList();
+    }
+    
+    public void guardarProduct(List<producto> productos){
+        try {
+            ctrlpersis.guardarProduct(productos);
+        } catch (Exception ex) {
+            Logger.getLogger(controladoraLogica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void vaciarProd(){
+        ctrlpersis.vaciarProductos();
     }
     
     //CRUD USUARIO

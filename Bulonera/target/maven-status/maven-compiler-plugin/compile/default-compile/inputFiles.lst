@@ -15,12 +15,14 @@ C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\control
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svProductos.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\NonexistentEntityException.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\PreexistingEntityException.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\service\excelService.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\pagoJpaController.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svModifUs.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svLogin.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCancelarDeuda.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\com\mycompany\bulonera\JakartaRestConfiguration.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\sVeliminarCliente.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\cargarProductos.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\com\mycompany\bulonera\resources\JakartaEE8Resource.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCabeceraRemito.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\producto.java

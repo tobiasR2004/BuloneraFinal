@@ -566,6 +566,28 @@ td {
     margin: 2%;
     width: 25%;
 }
+
+.selecExcel{
+    margin: 10px;
+    background-color: white;
+    border: solid 1px #000000;
+    color: black;
+    border-radius: 2%;
+}
+
+#boton10{
+    height: 37px;
+    margin-top: 8.5px;
+    
+}
+
+.buscarProd{
+    height: 35px;
+    width: 200px;
+    margin-top: 10px;
+    margin-left: 20px
+    
+}
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
   .MenuPrincipal {
