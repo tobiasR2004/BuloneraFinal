@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
@@ -254,6 +255,17 @@ public class controladoraPersistencia {
        return listadetalle;
     }
     
+    public List<detalle_remito> consultarDetalleListCabec(int nroCliente) {
+     EntityManager em = detalle_remitoJpa.getEntityManager();
+      String query = "SELECT dr FROM detalle_remito dr " +
+                    "JOIN dr.cabecdetalleremito cr " +
+                     "WHERE cr.clienteCabecera.nroClient = :nroCliente ";
+      
+           TypedQuery<detalle_remito> typedQuery = em.createQuery(query, detalle_remito.class);
+           typedQuery.setParameter("nroCliente", nroCliente); // Usa nroCliente directamente
+           return typedQuery.getResultList();
+    }
+    
     
     //CRUD PAGO
     public void crearPago(pago pago1) {
@@ -330,6 +342,42 @@ public class controladoraPersistencia {
         ArrayList<producto> listaProductos = new ArrayList<producto>(listaPr);
         return listaProductos;
     }
+    
+    public void guardarProduct(List<producto> productos)  throws Exception {
+        EntityManager em = productoJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            for (producto prod : productos) {
+                em.persist(prod); // Persiste cada producto en la base de datos
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new Exception("Error guardando productos: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+    
+    public void vaciarProductos(){
+    EntityManager em = productoJpa.getEntityManager();
+    EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            
+            em.createQuery("DELETE FROM producto").executeUpdate();
+             transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+              transaction.rollback();
+            }
+            throw new RuntimeException("Error al limpiar la base de datos", e);
+        } finally {
+            em.close();
+        }
+    }
+    
+    //CRUD USUARIO
 
     public void crearUsuario(usuario user1) {
         usuarioJpa.create(user1);

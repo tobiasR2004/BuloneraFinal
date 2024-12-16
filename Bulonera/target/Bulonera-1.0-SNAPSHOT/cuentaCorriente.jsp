@@ -14,16 +14,16 @@
             <%@include file="componentes/body.jsp"%>
             
             <!--BOTONES NAVBAR-->
-            <li class="nav-item">
-                <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
-            </li>
+
             <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-            <li>
-                <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
-            </li>
+             <form action="svVerRemito"  method="GET">
+                <li>
+                    <button type="submit" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
+                </li>
+             </form> 
             </ul>
         </div>
     </div>
@@ -221,7 +221,7 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel" style="margin-left: 10%;">IMPORTE A INGRESAR</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel" style="margin-left: 10%;">INGRESAR IMPORTE</h1>
             </div>
             <form action="svCancelarDeuda" method="POST">
             <div class="modal-body">
@@ -290,18 +290,6 @@
         var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
         tablaCuerpo.appendChild(nuevaFila);
     });
-</script>
-
-<script>
-    window.onload = function() {
-        // Verificar si hay un mensaje de error
-        const error = '<%= request.getAttribute("errorCabec") != null ? "true" : "false" %>';
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-
-        if (error === "true") {
-            errorModal.show();
-        }
-    };
 </script>
 
 <% 
