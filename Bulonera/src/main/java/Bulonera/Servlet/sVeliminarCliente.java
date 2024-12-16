@@ -36,7 +36,6 @@ public class sVeliminarCliente extends HttpServlet {
         
         
         int idBorrar = Integer.parseInt(request.getParameter("idCliente"));
-        ctrl.eliminarCliente(idBorrar);
 
         cliente cli = ctrl.consultarCliente(idBorrar);
         if (cli != null){
@@ -45,7 +44,6 @@ public class sVeliminarCliente extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("listaCliente", listaClientesActualizada);
             response.sendRedirect("clientes.jsp#client");
-            
         } else {
             request.setAttribute("error", "No se encontro el cliente que desea eliminar");
             request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
