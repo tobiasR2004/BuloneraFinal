@@ -17,13 +17,14 @@ C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\excepti
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\PreexistingEntityException.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\service\excelService.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\pagoJpaController.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCargarProductos.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svModifUs.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svLogin.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCancelarDeuda.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\com\mycompany\bulonera\JakartaRestConfiguration.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\sVeliminarCliente.java
-C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\cargarProductos.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\com\mycompany\bulonera\resources\JakartaEE8Resource.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svPdfdetalle.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCabeceraRemito.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\producto.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cliente.java
@@ -31,6 +32,7 @@ C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\excepti
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cabecera_remito.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svRemito.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\cuenta_corrienteJpaController.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svVerRemito.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\pago.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\usuarioService.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\cabecera_remitoJpaController.java
