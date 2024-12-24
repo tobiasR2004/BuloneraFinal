@@ -13,7 +13,6 @@ Bulonera\Persistence\cuenta_corrienteJpaController.class
 Bulonera\Servlet\svCabeceraRemito.class
 Bulonera\Persistence\exceptions\NonexistentEntityException.class
 Bulonera\Persistence\pagoJpaController.class
-Bulonera\Servlet\cargarProductos.class
 Bulonera\logica\usuario.class
 Bulonera\logica\detalle_remito.class
 Bulonera\Persistence\usuarioJpaController.class
@@ -30,7 +29,9 @@ Bulonera\logica\controladoraLogica.class
 Bulonera\logica\cuenta_corriente.class
 Bulonera\logica\usuarioService.class
 Bulonera\Persistence\clienteJpaController.class
+Bulonera\Servlet\svCargarProductos.class
 Bulonera\Servlet\svCancelarDeuda.class
 Bulonera\Persistence\detalle_remitoJpaController.class
 Bulonera\Servlet\svRemito.class
+Bulonera\Servlet\svVerRemito.class
 Bulonera\Servlet\svUsuario.class

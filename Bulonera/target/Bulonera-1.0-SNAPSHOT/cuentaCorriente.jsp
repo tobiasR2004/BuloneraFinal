@@ -14,16 +14,19 @@
             <%@include file="componentes/body.jsp"%>
             
             <!--BOTONES NAVBAR-->
-
+            <li class="nav-item">
+                <button type="button" class="btn btn-navbar" id="boton4" style="margin-left: 50px">Eliminar</button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="btn btn-navbar" id="boton5">Imprimir deuda</button>
+            </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-             <form action="svVerRemito"  method="GET">
-                <li>
-                    <button type="submit" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
-                </li>
-             </form> 
+            <li>
+                <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
+            </li>
             </ul>
         </div>
     </div>

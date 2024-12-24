@@ -6,6 +6,7 @@ C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulo
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cabecera_remito.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svModifUs.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\controladoraPersistencia.java
+C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svVerRemito.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\com\mycompany\bulonera\JakartaRestConfiguration.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\clienteJpaController.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCancelarDeuda.java
@@ -22,6 +23,7 @@ C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulo
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cliente.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\usuarioJpaController.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\NonexistentEntityException.java
+C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCargarProductos.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\usuarioService.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\sVeliminarCliente.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCabeceraRemito.java
@@ -32,3 +34,4 @@ C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulo
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svProductos.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\producto.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svModifclient.java
+C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\service\excelService.java
