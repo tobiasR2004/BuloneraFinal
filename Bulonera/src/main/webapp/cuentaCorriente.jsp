@@ -18,15 +18,22 @@
                 <button type="button" class="btn btn-navbar" id="boton4" style="margin-left: 50px">Eliminar</button>
             </li>
             <li class="nav-item">
-                <button type="button" class="btn btn-navbar" id="boton5">Imprimir deuda</button>
+                <button type="button" class="btn btn-navbar" id="boton5">Ver detalle</button>
             </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-            <li>
-                <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
-            </li>
+            <form action="svEliminarRemito" method="post">
+                <li>
+                    <button type="submit" id="confirmarEliminacion" class="btn btn-danger" style="display: none;">Confirmar eliminación</button>
+                </li>
+            </form>
+            <form action="svVerRemito" method="get">
+                <li>
+                    <button type="submit" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
+                </li>
+            </form>
             </ul>
         </div>
     </div>
@@ -58,6 +65,7 @@
         <th class="Columnas">Debe</th>
         <th class="Columnas">Haber</th>
         <th class="Columnas">Saldo</th>
+        <th style="display: none; width: 120px" id="checkboxHeader">Seleccionar</th>
     </tr>
     
     <%
@@ -75,6 +83,9 @@
         <td><%= cc.getDebe_cc()%></td>
         <td><%= cc.getHaber_cc()%></td>
         <td class="saldo" name="saldoCc"><%=saldoAcumulado%></td>
+        <td style="display: none;" class="checkboxColumn">
+            <input type="checkbox" name="remitosSeleccionados" value="<%= cc.getCabeceraremito()%>">
+        </td>
     </tr>
             <%
                     }
@@ -276,6 +287,20 @@
             </div>
         </div>
     </div>
+
+<script>
+    document.getElementById("boton4").addEventListener("click", function () {
+        // Mostrar la columna de checkboxes
+        const checkboxes = document.querySelectorAll(".checkboxColumn");
+        const checkboxHeader = document.getElementById("checkboxHeader");
+        
+        checkboxes.forEach(checkbox => checkbox.style.display = "table-cell");
+        checkboxHeader.style.display = "table-cell";
+
+        // Mostrar el botón de confirmación
+        document.getElementById("confirmarEliminacion").style.display = "inline-block";
+    });
+</script>
                 
 <script>
     //Agregar fila al modal de remito

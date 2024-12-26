@@ -9,8 +9,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
+                <li>
+                    <form action="svPdfdetalle" method="POST">
+                    <button type="submit" class="btn btn-navbar" id="boton12">
+                     Imprimir detalle  </button>  
+                    </form>
+                    
+                </li>
             </ul>
-
         </div>
     </div>
 </nav>
@@ -94,7 +100,7 @@
     <script>
     window.onload = function() {
         // Verificar si hay un mensaje de error
-        const error = '<%= request.getAttribute("errorCabec") != null ? "true" : "false" %>';
+        const error = '<%= request.getAttribute("error") != null ? "true" : "false" %>';
         const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
 
         if (error === "true") {

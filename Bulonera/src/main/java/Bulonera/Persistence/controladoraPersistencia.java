@@ -237,6 +237,25 @@ public class controladoraPersistencia {
         }
     }
 
+    public void eliminarPorIdCabecera(int idCabecera) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM detalle_remito d WHERE d.cabecera.id = :idCabecera");
+            query.setParameter("idCabecera", idCabecera);
+            query.executeUpdate();
+            em.getTransaction().commit();
+            System.out.println("Registros eliminados con idCabecera: " + idCabecera); // LOG
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
     public void modifDetalle(detalle_remito detalle1) {
         try {
             detalle_remitoJpa.edit(detalle1);

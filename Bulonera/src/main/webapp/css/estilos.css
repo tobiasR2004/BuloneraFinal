@@ -569,25 +569,24 @@ td {
 }
 
 .selecExcel{
-    margin: 10px;
+    margin: 10px 35px;
     background-color: white;
     border: solid 1px #000000;
     color: black;
     border-radius: 2%;
 }
 
-#boton10{
-    height: 37px;
+#boton10, #boton7{
+    width: 140px;
+    height: 58px;
     margin-top: 8.5px;
-    
 }
 
 .buscarProd{
     height: 35px;
-    width: 200px;
+    width: 170px;
     margin-top: 10px;
     margin-left: 20px
-    
 }
 
 #tablaDr{
