@@ -7,7 +7,9 @@ import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.detalle_remito;
 import Bulonera.logica.producto;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -76,6 +78,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         String[] cantidades = request.getParameterValues("cantProd");
         String[] precios = request.getParameterValues("precioProd");
         String[] importes = request.getParameterValues("importeProd");
+        Date fechaStr = new java.util.Date();
         double importe_total = Double.parseDouble(request.getParameter("importeTotal"));
         String[] nombres = request.getParameterValues("nombreProd");
         String[] idsProd = request.getParameterValues("idProd");
@@ -103,6 +106,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
 
             
         detalle_remito detalleRem = new detalle_remito();
+        detalleRem.setFechaDet(fechaStr);
         detalleRem.setCant_prod(cant_prod);
         detalleRem.setPrecio_unit(precio_unit);
         detalleRem.setImporte(importe);
@@ -122,6 +126,9 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cuentaCorr.setFecha_cc(fechaSQL);
         cuentaCorr.setHaber_cc(0.0);
         
+        
+        
+
         if (listaCC.size() <= 0 ) {
          cuentaCorr.setSaldo_cc(importe_total);
         } else {
@@ -129,6 +136,9 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
          double ultimoSaldo = ultimoElemento.getSaldo_cc();
          
          double saldototal = ultimoSaldo + importe_total;
+         
+         saldototal = Math.round(saldototal * 100.0) / 100.0;
+         
          cuentaCorr.setSaldo_cc(saldototal);
         }
         ctrl.crearCc(cuentaCorr);

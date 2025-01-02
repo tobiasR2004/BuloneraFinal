@@ -17,6 +17,9 @@ import com.itextpdf.layout.property.UnitValue;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -90,7 +93,7 @@ ByteArrayOutputStream baos = new ByteArrayOutputStream();
 PdfWriter writer = new PdfWriter(baos);
 PdfDocument pdf = new PdfDocument(writer);
 Document document = new Document(pdf, PageSize.A4.rotate());
-document.setMargins(20, 20, 20, 20);
+document.setMargins(10, 10, 10, 10);
 
 int num_cli = cli.getNroClient();
 String nomb_cli = cli.getRazon_social();
@@ -102,10 +105,11 @@ document.add(new Paragraph("CUIT: " + cuit));
 document.add(new Paragraph("\n"));
 
 // Crear la tabla con un número fijo de columnas
-Table table = new Table(UnitValue.createPercentArray(new float[]{5,5,5,5}));
+Table table = new Table(UnitValue.createPercentArray(new float[]{4,4,4,4,4}));
 table.setWidth(UnitValue.createPercentValue(100));
 
 // Agregar encabezados de la tabla
+table.addHeaderCell("Fecha");
 table.addHeaderCell("Producto");
 table.addHeaderCell("Cantidad");
 table.addHeaderCell("Precio unit");
@@ -113,10 +117,17 @@ table.addHeaderCell("Importe");
 
 // Llenar la tabla con datos desde listDet (suponiendo que detalle_remito tiene estos campos)
 for (detalle_remito remito : listDet) {
+    //Formato de Fecha
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    String fechaFormateada = formato.format(remito.getFechaDet());
+    //Formato de Precio Unit
+    DecimalFormat df = new DecimalFormat("#.00");
+    String precioFormateado = df.format(remito.getPrecio_unit());
     // Supongamos que detalle_remito tiene los métodos getProducto(), getCantidad(), etc.
+    table.addCell(String.valueOf(fechaFormateada));
     table.addCell(remito.getNomb_prod());
     table.addCell(String.valueOf(remito.getCant_prod()));
-    table.addCell(String.valueOf(remito.getPrecio_unit()));
+    table.addCell(String.valueOf(precioFormateado));
     table.addCell(String.valueOf(remito.getImporte()));
 }
 
