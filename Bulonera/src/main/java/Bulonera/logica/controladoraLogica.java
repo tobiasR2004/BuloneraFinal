@@ -88,6 +88,10 @@ public class controladoraLogica {
         ctrlpersis.eliminarCc(id);
     }
     
+    public void eliminarCCPorCabecera(cabecera_remito cabecera) {
+        ctrlpersis.eliminarCCPorCabecera(cabecera);
+    }
+    
     public void modifCc(cuenta_corriente cC1) {
         ctrlpersis.modifCc(cC1);
     }
@@ -108,6 +112,14 @@ public class controladoraLogica {
     
     public void eliminarDetalle(int id){
         ctrlpersis.eliminarDetalle(id);
+    }
+    
+    public cabecera_remito obtenerCabeceraRemitoPorId(int idCabecera) {
+        return ctrlpersis.obtenerCabeceraRemitoPorId(idCabecera);
+    }
+
+    public void eliminarDetallesPorCabecera(cabecera_remito cabecera) {
+        ctrlpersis.eliminarDetallesPorCabecera(cabecera);
     }
     
     public void eliminarDetallePorIdCabecera(int idCabecera) {
