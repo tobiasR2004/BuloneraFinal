@@ -194,6 +194,25 @@ public class controladoraPersistencia {
             Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void eliminarCCPorCabecera(cabecera_remito cabecera) {
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            // Eliminar los detalles asociados a la cabecera
+            Query query = em.createQuery("DELETE FROM cuenta_corriente c WHERE c.cabeceraremito = :cabecera");
+            query.setParameter("cabecera", cabecera);
+            query.executeUpdate();
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
 
     public void modifCc(cuenta_corriente cC1) {
         try {
@@ -234,6 +253,34 @@ public class controladoraPersistencia {
             detalle_remitoJpa.destroy(id);
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public cabecera_remito obtenerCabeceraRemitoPorId(int idCabecera) {
+        EntityManager em = cabecera_remitoJpa.getEntityManager();
+        try {
+            return em.find(cabecera_remito.class, idCabecera);
+        } finally {
+            em.close();
+        }
+    }
+    
+    public void eliminarDetallesPorCabecera(cabecera_remito cabecera) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            // Eliminar los detalles asociados a la cabecera
+            Query query = em.createQuery("DELETE FROM detalle_remito d WHERE d.cabecdetalleremito = :cabecera");
+            query.setParameter("cabecera", cabecera);
+            query.executeUpdate();
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
         }
     }
 
