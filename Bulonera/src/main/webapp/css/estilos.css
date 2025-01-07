@@ -592,6 +592,13 @@ td {
 #tablaDr{
     top: 40%;
 }
+
+#confirmarEliminacion {
+    display: flex;
+    position: fixed;
+    top: 80%;
+    left: 55%;
+}
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
   .MenuPrincipal {
