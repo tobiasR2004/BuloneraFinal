@@ -24,11 +24,6 @@
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-            <form action="svEliminarRemito" method="post">
-                <li>
-                    <button type="submit" id="confirmarEliminacion" class="btn btn-danger" style="display: none;">Confirmar eliminación</button>
-                </li>
-            </form>
             <form action="svVerRemito" method="get">
                 <li>
                     <button type="submit" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
@@ -58,41 +53,43 @@
 </div>
 
 <!-- TABLA CUENTA CORRIENTE -->
-<div id="cuentaCorrienteTabla">
-    <TABLE class="table tablaCC" id="tablaCC">
-    <tr class="Columnas ">
-        <th class="Columnas">Fecha operación</th>
-        <th class="Columnas">Debe</th>
-        <th class="Columnas">Haber</th>
-        <th class="Columnas">Saldo</th>
-        <th style="display: none; width: 120px" id="checkboxHeader">Seleccionar</th>
-    </tr>
-    
-    <%
-        List<cuenta_corriente> listaCC = (List<cuenta_corriente>) request.getSession().getAttribute("listaCC");
-        if (listaCC != null) {
-        double saldoAcumulado = 0;
-            for (cuenta_corriente cc : listaCC) {
-            double debe = cc.getDebe_cc(); 
-            double haber = cc.getHaber_cc(); 
-            saldoAcumulado += (debe - haber);
-    %>
-    
-    <tr style="text-align: center">
-        <td><fmt:formatDate value="<%= cc.getFecha_cc()%>" pattern="dd/MM/yyyy" /></td>
-        <td><%= cc.getDebe_cc()%></td>
-        <td><%= cc.getHaber_cc()%></td>
-        <td class="saldo" name="saldoCc"><%=saldoAcumulado%></td>
-        <td style="display: none;" class="checkboxColumn">
-            <input type="checkbox" name="remitosSeleccionados" value="<%= cc.getCabeceraremito()%>">
-        </td>
-    </tr>
+<form action="svEliminarRemito" method="post">
+        <TABLE class="table tablaCC" id="tablaCC">
+            <tr class="Columnas ">
+                <th class="Columnas">Fecha operación</th>
+                <th class="Columnas">Debe</th>
+                <th class="Columnas">Haber</th>
+                <th class="Columnas">Saldo</th>
+                <th style="display: none; width: 120px" id="checkboxHeader">Seleccionar</th>
+            </tr>
+            <%
+                List<cuenta_corriente> listaCC = (List<cuenta_corriente>) request.getSession().getAttribute("listaCC");
+                if (listaCC != null) {
+                    double saldoAcumulado = 0;
+                    for (cuenta_corriente cc : listaCC) {
+                        double debe = cc.getDebe_cc();
+                        double haber = cc.getHaber_cc();
+                        saldoAcumulado += (debe - haber);
+            %>
+            <c:forEach var="cc" items="${listaCC}">
+            <tr style="text-align: center">
+                <td><fmt:formatDate value="<%= cc.getFecha_cc()%>" pattern="dd/MM/yyyy" /></td>
+                <td><%= cc.getDebe_cc()%></td>
+                <td><%= cc.getHaber_cc()%></td>
+                <td class="saldo" name="saldoCc"><%=saldoAcumulado%></td>
+                <td style="display: none;" class="checkboxColumn">
+                    <input type="checkbox" name="remitosSeleccionados" value="<%= cc.getCabeceraremito().getIdRemito() %>">
+                </td>
+            </tr>
+            </c:forEach>
             <%
                     }
                 }
             %>
-</TABLE>    
-</div>    
+        </TABLE>
+        <button type="submit" id="confirmarEliminacion" class="btn btn-danger" style="display: none;">Confirmar eliminación</button>
+    </form>
+</div>      
 
 <!--Botón para abrir el modal -->
 <form action="svCrearCabeceraRem" method="GET">
