@@ -156,9 +156,9 @@ public class controladoraPersistencia {
         cliente client2 = null;
 
             try {
-                String jpql = "SELECT c FROM cliente c WHERE c.razonSocial = razonSoc";
+                String jpql = "SELECT c FROM cliente c WHERE c.razonSocial = :razonSoc";
                 Query query = em.createQuery(jpql);
-                query.setParameter("cliente", razonSoc);
+                query.setParameter("razonSoc", razonSoc);
 
                 client2 = (cliente) query.getSingleResult();
             } catch (NoResultException e) {
@@ -321,15 +321,17 @@ public class controladoraPersistencia {
        return listadetalle;
     }
     
-    public List<detalle_remito> consultarDetalleListCabec(int nroCliente) {
-     EntityManager em = detalle_remitoJpa.getEntityManager();
-      String query = "SELECT dr FROM detalle_remito dr " +
-                    "JOIN dr.cabecdetalleremito cr " +
-                     "WHERE cr.clienteCabecera.nroClient = :nroCliente ";
-      
-           TypedQuery<detalle_remito> typedQuery = em.createQuery(query, detalle_remito.class);
-           typedQuery.setParameter("nroCliente", nroCliente); // Usa nroCliente directamente
-           return typedQuery.getResultList();
+    public List<detalle_remito> consultarDetalleListCabec(List<Integer> remitosSeleccionados) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
+
+        // Consulta JPQL para filtrar solo por los remitos seleccionados
+        String query = "SELECT dr FROM detalle_remito dr " +
+                       "WHERE dr.cabecdetalleremito IN :remitosSeleccionados";
+
+        TypedQuery<detalle_remito> typedQuery = em.createQuery(query, detalle_remito.class);
+        typedQuery.setParameter("remitosSeleccionados", remitosSeleccionados);  // Lista de remitos seleccionados
+
+        return typedQuery.getResultList();
     }
     
     

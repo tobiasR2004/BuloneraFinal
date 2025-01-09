@@ -435,16 +435,7 @@ td {
   margin-bottom: 0; /* Elimina el margen inferior del label */
 }
 
-#boton8{
-  border: 0px;
-  margin-left: 60px;
-  padding: 7px 15px;
-}
 
-#boton8:hover{
-  background-color: #0d6d00;
-  border-color: #0d6d00;
-}
 
 #boton9{
   border: 0px;
@@ -593,11 +584,28 @@ td {
     top: 40%;
 }
 
+#boton8{
+  display: flex;
+  position: fixed;
+  left: 45%;
+  top: 90%;
+  font-size: 16px;
+  padding: 10px 20px;
+  
+}
+
+#boton8:hover{
+  background-color: #0d6d00;
+  border-color: #0d6d00;
+}
+
 #confirmarEliminacion {
     display: flex;
     position: fixed;
-    top: 80%;
+    top: 78.9%;
     left: 55%;
+    font-size: 16px;
+    padding: 10px 20px;
 }
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
