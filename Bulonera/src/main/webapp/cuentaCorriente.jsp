@@ -83,8 +83,8 @@
             </c:forEach>
         </tbody>
     </table>
-            <button type="submit" id="confirmarEliminacion" class="btn btn-danger" style="display: none;">Confirmar eliminación</button>
-</form>
+            <button type="submit" id="confirmarEliminacion" class="btn btn-success" style="display: none;">Confirmar eliminación</button>
+</form>     <button type="submit" id="cancelarEliminacion" class="btn btn-danger" style="display: none;">Cancelar</button>
 </div>      
 
 <!--Botón para abrir el modal -->
@@ -290,8 +290,21 @@
         checkboxes.forEach(checkbox => checkbox.style.display = "table-cell");
         checkboxHeader.style.display = "table-cell";
 
-        // Mostrar el botón de confirmación
+        // Mostrar los botónes de confirmación y cancelacion
         document.getElementById("confirmarEliminacion").style.display = "inline-block";
+        document.getElementById("cancelarEliminacion").style.display = "inline-block";
+    });
+    
+    document.getElementById("cancelarEliminacion").addEventListener("click", function () {
+        // Ocultar la columna de checkboxes y los botones
+        const checkboxes = document.querySelectorAll(".checkboxColumn");
+        const checkboxHeader = document.getElementById("checkboxHeader");
+
+        checkboxes.forEach(checkbox => checkbox.style.display = "none");
+        checkboxHeader.style.display = "none";
+
+        document.getElementById("confirmarEliminacion").style.display = "none";
+        document.getElementById("cancelarEliminacion").style.display = "none";
     });
 </script>
                 

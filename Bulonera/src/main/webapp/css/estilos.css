@@ -314,7 +314,6 @@ section:target {
     max-height: 90vh; 
     overflow-y: auto;
     overflow-x: auto;
-    border: 1px solid #ddd;
 }
 .tablita tbody tr:nth-of-type(odd) {
   background-color: #184463;
@@ -593,10 +592,18 @@ td {
     top: 40%;
 }
 
-#confirmarEliminacion {
+#cancelarEliminacion{
+    width: 13%;
     display: flex;
     position: fixed;
     top: 80%;
+    left: 36.2%;
+}
+
+#confirmarEliminacion {
+    display: flex;
+    position: fixed;
+    top: 90.5%;
     left: 55%;
 }
 /* Consultas de medios para hacer el diseño responsivo */
