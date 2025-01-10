@@ -11,7 +11,6 @@
     <li> 
         <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#modalEliminar" id="boton9">
             Eliminar cliente  </button>
-
     </li>
 
 <li>
@@ -141,7 +140,7 @@
                 </div>
                 <form action="svModifclient" method="GET">
                 <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Ingrese su contraseña para poder modificar"
+                    <input type="text" class="form-control" id="esconderText" placeholder="Ingrese su contraseña para poder modificar"
                            aria-label="Username" aria-describedby="addon-wrapping" minlength="3" name="confirmContra">
                 </div>
                     <div class="input-group mb-3">

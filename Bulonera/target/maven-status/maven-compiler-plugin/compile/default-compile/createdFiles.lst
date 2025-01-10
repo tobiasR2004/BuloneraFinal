@@ -37,4 +37,3 @@ Bulonera\Persistence\detalle_remitoJpaController.class
 Bulonera\Servlet\svRemito.class
 Bulonera\Servlet\svVerRemito.class
 Bulonera\Servlet\svUsuario.class
-Bulonera\Servlet\svEliminarRemito.class

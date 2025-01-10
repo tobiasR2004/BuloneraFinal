@@ -14,8 +14,11 @@
   border-radius: 5px;
   border: 1px solid #6c757d;
   color: #6c757d;
-  transition: background-color 0.3s, color 0.3s;
-    
+  transition: background-color 0.3s, color 0.3s;   
+}
+
+#esconderText{
+    -webkit-text-security: disc;
 }
 
 .bodyIndex {
@@ -314,7 +317,6 @@ section:target {
     max-height: 90vh; 
     overflow-y: auto;
     overflow-x: auto;
-    border: 1px solid #ddd;
 }
 .tablita tbody tr:nth-of-type(odd) {
   background-color: #184463;
@@ -451,6 +453,10 @@ td {
 
 #boton5, #boton6, #boton9{
   width: 150px;
+}
+
+#dniModi{
+    margin-left: 2.5%;
 }
 
 .form-modif {
@@ -591,21 +597,52 @@ td {
     left: 55%;
     font-size: 16px;
     padding: 10px 20px;
-  
 }
 
-#boton8:hover{
-  background-color: #0d6d00;
-  border-color: #0d6d00;
+#cancelarEliminacion{
+    display: flex;
+    position: fixed;
+    top: 90%;
+    left: 45%;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.cancel{
+    background-color:gray;
+    border-color: gray;
+    color: white;
+}
+
+.cancel:hover{
+  background-color:#0d6efd;
+  border-color: #0d6efd;
 }
 
 #confirmarEliminacion {
     display: flex;
     position: fixed;
-    top: 78.9%;
+    top: 79.5%;
     left: 55%;
     font-size: 16px;
     padding: 10px 20px;
+}
+
+#boton8{
+  display: flex;
+  position: fixed;
+  left: 55%;
+  top: 90%;
+  font-size: 16px;
+  padding: 10px 20px;
+  background-color: #0d6d00;
+  border-color: #0d6d00;
+  color: white;
+}
+
+#boton8:hover{
+  background-color: #0d6d00;
+  border-color: #0d6d00;
 }
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
