@@ -584,17 +584,29 @@ td {
 }
 
 #cancelarEliminacion{
-    width: 13%;
     display: flex;
     position: fixed;
-    top: 80%;
-    left: 36.2%;
+    top: 90%;
+    left: 45%;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.cancel{
+    background-color:gray;
+    border-color: gray;
+    color: white;
+}
+
+.cancel:hover{
+  background-color:#0d6efd;
+  border-color: #0d6efd;
 }
 
 #confirmarEliminacion {
     display: flex;
     position: fixed;
-    top: 90.5%;
+    top: 79.5%;
     left: 55%;
     font-size: 16px;
     padding: 10px 20px;
@@ -603,18 +615,19 @@ td {
 #boton8{
   display: flex;
   position: fixed;
-  left: 45%;
+  left: 55%;
   top: 90%;
   font-size: 16px;
   padding: 10px 20px;
-  
+  background-color: #0d6d00;
+  border-color: #0d6d00;
+  color: white;
 }
 
 #boton8:hover{
   background-color: #0d6d00;
   border-color: #0d6d00;
 }
-
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
   .MenuPrincipal {

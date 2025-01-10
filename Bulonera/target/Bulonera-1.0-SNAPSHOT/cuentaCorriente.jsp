@@ -85,18 +85,18 @@
                 </tr>
             </c:forEach>
         </tbody>
-    </table>    
+    </table>
 
-    <!-- Botones -->
     <button type="submit" name="action" id="confirmarEliminacion" value="eliminar" class="btn btn-danger" style="display: none;"><i class="bi bi-trash3"></i></button>
-    <button type="submit" id="cancelarEliminacion" class="btn btn-danger" style="display: none;">Cancelar</button>
-
+    
     <!-- Botón para Ver Remito -->
     <button type="submit" name="action" id="boton8" value="ver" class="btn btn-outline-secondary" style="display: none;">
         <i class="bi bi-eye"></i>
     </button>
 </form>
 </div>      
+
+<button type="submit" id="cancelarEliminacion" class="btn btn-outline-success cancel" style="display: none;"><i class="bi bi-backspace"></i></button>
 
 <!--Botón para abrir el modal -->
 <form action="svCrearCabeceraRem" method="GET">
@@ -286,6 +286,7 @@
         // Mostrar los botónes de confirmación y cancelacion
         document.getElementById("confirmarEliminacion").style.display = "inline-block";
         document.getElementById("cancelarEliminacion").style.display = "inline-block";
+        document.getElementById("boton8").style.display = "none";
     });
     
     document.getElementById("cancelarEliminacion").addEventListener("click", function () {
@@ -310,8 +311,21 @@
         checkboxes.forEach(checkbox => checkbox.style.display = "table-cell");
         checkboxHeader.style.display = "table-cell";
 
-        // Mostrar el botón de confirmación
+        // Mostrar el botón de ver
         document.getElementById("boton8").style.display = "inline-block";
+        document.getElementById("cancelarEliminacion").style.display = "inline-block";
+    });
+    
+    document.getElementById("cancelarEliminacion").addEventListener("click", function () {
+        // Ocultar la columna de checkboxes y los botones
+        const checkboxes = document.querySelectorAll(".checkboxColumn");
+        const checkboxHeader = document.getElementById("checkboxHeader");
+
+        checkboxes.forEach(checkbox => checkbox.style.display = "none");
+        checkboxHeader.style.display = "none";
+
+        document.getElementById("boton8").style.display = "none";
+        document.getElementById("cancelarEliminacion").style.display = "none";
     });
 </script>
         
