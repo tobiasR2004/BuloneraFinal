@@ -80,7 +80,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
     
 cliente cli = (cliente) request.getSession().getAttribute("clientCabec");    
-List<detalle_remito> listDet = (List<detalle_remito>) request.getSession().getAttribute("Detalles");
+List<detalle_remito> listDet = (List<detalle_remito>) request.getSession().getAttribute("DetallesList");
 
 if (listDet == null) {
     request.setAttribute("error", "No hay detalles para mostrar");

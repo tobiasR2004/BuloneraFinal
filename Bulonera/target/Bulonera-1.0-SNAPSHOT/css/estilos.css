@@ -585,12 +585,12 @@ td {
 }
 
 #boton8{
-  display: flex;
-  position: fixed;
-  left: 45%;
-  top: 90%;
-  font-size: 16px;
-  padding: 10px 20px;
+    display: flex;
+    position: fixed;
+    top: 90%;
+    left: 55%;
+    font-size: 16px;
+    padding: 10px 20px;
   
 }
 

@@ -63,6 +63,7 @@
                 <th style="display: none; width: 120px" id="checkboxHeader">Seleccionar</th>
             </tr>
         </thead>
+        
         <tbody>
             <c:set var="saldoAcumulado" value="0" />
             <c:forEach var="cc" items="${listaCC}">
@@ -88,10 +89,10 @@
     </table>
 
     <!-- Botón para Confirmar Eliminación -->
-    <button type="submit" name="action" id="confirmarEliminacion" value="eliminar" class="btn btn-danger" style="display: none;"><i class="bi bi-trash3"></i></button>
+    <button type="submit" name="action" id="confirmarEliminacion" value="eliminar" class="btn btn-danger" style="display: none"><i class="bi bi-trash3"></i></button>
 
     <!-- Botón para Ver Remito -->
-    <button type="submit" name="action" id="boton8" value="ver" class="btn btn-outline-secondary" style="display: none;">
+    <button type="submit" name="action" id="boton8" value="ver" class="btn btn-outline-secondary" style="display: none">
         <i class="bi bi-eye"></i>
     </button>
 </form>
@@ -284,6 +285,7 @@
 
         // Mostrar el botón de confirmación
         document.getElementById("confirmarEliminacion").style.display = "inline-block";
+        document.getElementById("boton5").disabled = true;
     });
 </script>
 
@@ -298,6 +300,8 @@
 
         // Mostrar el botón de confirmación
         document.getElementById("boton8").style.display = "inline-block";
+        document.getElementById("boton4").disabled = true;
+        
     });
 </script>
         
