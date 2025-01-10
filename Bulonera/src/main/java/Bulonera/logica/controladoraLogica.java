@@ -7,6 +7,8 @@ import Bulonera.logica.usuario;
 import Bulonera.Persistence.controladoraPersistencia;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -86,6 +88,10 @@ public class controladoraLogica {
         ctrlpersis.eliminarCc(id);
     }
     
+    public void eliminarCCPorCabecera(cabecera_remito cabecera) {
+        ctrlpersis.eliminarCCPorCabecera(cabecera);
+    }
+    
     public void modifCc(cuenta_corriente cC1) {
         ctrlpersis.modifCc(cC1);
     }
@@ -108,6 +114,19 @@ public class controladoraLogica {
         ctrlpersis.eliminarDetalle(id);
     }
     
+    public cabecera_remito obtenerCabeceraRemitoPorId(int idCabecera) {
+        return ctrlpersis.obtenerCabeceraRemitoPorId(idCabecera);
+    }
+    public void eliminarDetallesPorCabecera(cabecera_remito cabecera) {
+        ctrlpersis.eliminarDetallesPorCabecera(cabecera);
+    }
+    
+    public void eliminarDetallePorIdCabecera(int idCabecera) {
+        System.out.println("Intentando eliminar detalles con idCabecera: " + idCabecera); // LOG
+        ctrlpersis.eliminarPorIdCabecera(idCabecera);
+        System.out.println("Detalle con ID: " + idCabecera + " eliminado correctamente."); // LOG
+}
+    
     public void modifDetalle(detalle_remito detalle1){
         ctrlpersis.modifDetalle(detalle1);
     }
@@ -118,6 +137,10 @@ public class controladoraLogica {
     
     public ArrayList<detalle_remito> consultarDetalleList(){
         return ctrlpersis.consultarDetalleList();
+    }
+    
+    public List<detalle_remito> consultarDetalleListCabec(List<Integer> remitosSeleccionados) {
+        return ctrlpersis.consultarDetalleListCabec(remitosSeleccionados);
     }
     
     //CRUD PAGO
@@ -167,6 +190,18 @@ public class controladoraLogica {
         return ctrlpersis.consultarProductosList();
     }
     
+    public void guardarProduct(List<producto> productos){
+        try {
+            ctrlpersis.guardarProduct(productos);
+        } catch (Exception ex) {
+            Logger.getLogger(controladoraLogica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void vaciarProd(){
+        ctrlpersis.vaciarProductos();
+    }
+    
     //CRUD USUARIO
     public void crearUsuario(usuario user1){
         ctrlpersis.crearUsuario(user1);
@@ -204,8 +239,4 @@ public class controladoraLogica {
     // Si no es válido, marcamos que falló la autenticación
     request.setAttribute("usuarioValido", false);
 }
-
-    public producto buscarProductoPorCodProd(int parseInt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

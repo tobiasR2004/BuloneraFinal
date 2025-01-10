@@ -15,15 +15,19 @@
             
             <!--BOTONES NAVBAR-->
             <li class="nav-item">
-                <button type="button" class="btn btn-navbar" id="boton4">Eliminar</button>
+                <button type="button" class="btn btn-navbar" id="boton4" style="margin-left: 50px">Eliminar</button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="btn btn-navbar" id="boton5">Ver detalle</button>
             </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-            <li>
-                <button type="button" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
-            </li>
+            
+
+                
+            
             </ul>
         </div>
     </div>
@@ -48,37 +52,51 @@
 </div>
 
 <!-- TABLA CUENTA CORRIENTE -->
-<div id="cuentaCorrienteTabla">
-    <TABLE class="table tablaCC" id="tablaCC">
-    <tr class="Columnas ">
-        <th class="Columnas">Fecha operación</th>
-        <th class="Columnas">Debe</th>
-        <th class="Columnas">Haber</th>
-        <th class="Columnas">Saldo</th>
-    </tr>
-    
-    <%
-        List<cuenta_corriente> listaCC = (List<cuenta_corriente>) request.getSession().getAttribute("listaCC");
-        if (listaCC != null) {
-        double saldoAcumulado = 0;
-            for (cuenta_corriente cc : listaCC) {
-            double debe = cc.getDebe_cc(); 
-            double haber = cc.getHaber_cc(); 
-            saldoAcumulado += (debe - haber);
-    %>
-    
-    <tr style="text-align: center">
-        <td><fmt:formatDate value="<%= cc.getFecha_cc()%>" pattern="dd/MM/yyyy" /></td>
-        <td><%= cc.getDebe_cc()%></td>
-        <td><%= cc.getHaber_cc()%></td>
-        <td class="saldo" name="saldoCc"><%=saldoAcumulado%></td>
-    </tr>
-            <%
-                    }
-                }
-            %>
-</TABLE>    
-</div>    
+<form action="svVerRemito" method="post">
+    <table class="table tablaCC" id="tablaCC">
+        <thead>
+            <tr class="Columnas">
+                <th class="Columnas">Fecha operación</th>
+                <th class="Columnas">Debe</th>
+                <th class="Columnas">Haber</th>
+                <th class="Columnas">Saldo</th>
+                <th style="display: none; width: 120px" id="checkboxHeader">Seleccionar</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <c:set var="saldoAcumulado" value="0" />
+            <c:forEach var="cc" items="${listaCC}">
+                <c:set var="saldoAcumulado" value="${saldoAcumulado + (cc.debe_cc - cc.haber_cc)}" />
+                <tr style="text-align: center">
+                    <td><fmt:formatDate value="${cc.fecha_cc}" pattern="dd/MM/yyyy" /></td>
+                    <td>${cc.debe_cc}</td>
+                    <td>${cc.haber_cc}</td>
+                    <td class="saldo" name="saldoCc">${saldoAcumulado}</td>
+                    <td style="display: none;" class="checkboxColumn">
+                        <c:if test="${cc.cabeceraremito != null}">
+                            <input type="checkbox" name="remitosSeleccionados" value="${cc.cabeceraremito.idRemito}">
+                        </c:if>
+                    </td>
+                    <td style="display: none;" class="checkboxRemito">
+                        <c:if test="${cc.cabeceraremito != null}">
+                            <input type="checkbox" name="verRemitoSelecc[]" value="${cc.cabeceraremito.idRemito}">
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+
+    <!-- Botón para Confirmar Eliminación -->
+    <button type="submit" name="action" id="confirmarEliminacion" value="eliminar" class="btn btn-danger" style="display: none"><i class="bi bi-trash3"></i></button>
+
+    <!-- Botón para Ver Remito -->
+    <button type="submit" name="action" id="boton8" value="ver" class="btn btn-outline-secondary" style="display: none">
+        <i class="bi bi-eye"></i>
+    </button>
+</form>
+</div>      
 
 <!--Botón para abrir el modal -->
 <form action="svCrearCabeceraRem" method="GET">
@@ -221,7 +239,7 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel" style="margin-left: 10%;">IMPORTE A INGRESAR</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel" style="margin-left: 10%;">INGRESAR IMPORTE</h1>
             </div>
             <form action="svCancelarDeuda" method="POST">
             <div class="modal-body">
@@ -235,26 +253,8 @@
             </div>
         </div>
     </div>
-</div>
-                    
-<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <%= request.getAttribute("errorCabec") != null ? request.getAttribute("errorCabec") : "" %>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>    
-                
-                
+</div>  
+            
 
 <!-- Modal de Error -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
@@ -273,6 +273,40 @@
             </div>
         </div>
     </div>
+
+<script>
+    document.getElementById("boton4").addEventListener("click", function () {
+        // Mostrar la columna de checkboxes
+        const checkboxes = document.querySelectorAll(".checkboxColumn");
+        const checkboxHeader = document.getElementById("checkboxHeader");
+        
+        checkboxes.forEach(checkbox => checkbox.style.display = "table-cell");
+        checkboxHeader.style.display = "table-cell";
+
+        // Mostrar el botón de confirmación
+        document.getElementById("confirmarEliminacion").style.display = "inline-block";
+        document.getElementById("boton5").disabled = true;
+    });
+</script>
+
+<script>   
+    document.getElementById("boton5").addEventListener("click", function () {
+        // Mostrar la columna de checkboxes
+        const checkboxes = document.querySelectorAll(".checkboxRemito");
+        const checkboxHeader = document.getElementById("checkboxHeader");
+        
+        checkboxes.forEach(checkbox => checkbox.style.display = "table-cell");
+        checkboxHeader.style.display = "table-cell";
+
+        // Mostrar el botón de confirmación
+        document.getElementById("boton8").style.display = "inline-block";
+        document.getElementById("boton4").disabled = true;
+        
+    });
+</script>
+        
+ </script>
+
                 
 <script>
     //Agregar fila al modal de remito
@@ -290,18 +324,6 @@
         var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
         tablaCuerpo.appendChild(nuevaFila);
     });
-</script>
-
-<script>
-    window.onload = function() {
-        // Verificar si hay un mensaje de error
-        const error = '<%= request.getAttribute("errorCabec") != null ? "true" : "false" %>';
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-
-        if (error === "true") {
-            errorModal.show();
-        }
-    };
 </script>
 
 <% 

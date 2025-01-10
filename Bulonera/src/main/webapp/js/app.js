@@ -106,5 +106,14 @@ function completarProducto(input) {
     } else {
         alert("Por favor ingresa un ID de producto válido.");
     }
-}
-
+    }
+    
+    
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("boton5").addEventListener("click", function() {
+        const checkboxes = document.querySelectorAll(".checkboxRemito");
+        checkboxes.forEach(column => {
+            column.style.display = column.style.display === "none" ? "" : "none";
+        });
+    });
+});

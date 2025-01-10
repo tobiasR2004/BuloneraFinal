@@ -17,6 +17,38 @@
     </properties>
     
     <dependencies>
+            <!-- ITEXT -->
+       <dependency>
+          <groupId>com.itextpdf</groupId>
+          <artifactId>kernel</artifactId>
+          <version>7.0.4</version>
+      </dependency>
+      <dependency>
+          <groupId>com.itextpdf</groupId>
+          <artifactId>io</artifactId>
+          <version>7.0.4</version>
+      </dependency>
+      <dependency>
+          <groupId>com.itextpdf</groupId>
+          <artifactId>layout</artifactId>
+          <version>7.0.4</version>
+      </dependency>  
+      <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>pdfa</artifactId>
+        <version>7.0.4</version>
+      </dependency>     
+        <!-- Apache POI -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
+        </dependency>
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>

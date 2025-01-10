@@ -77,21 +77,20 @@
 
 <script>
     window.onload = function() {
-        
-        // Verificar si hay un mensaje de error
-        const error = "<%= request.getAttribute("UsInvalido") != null ? "true" : "false" %>";
-        const usuarioValido = "<%= session.getAttribute("usuarioVal") != null ? "true" : "false" %>";
-        
-        const adminModal = new bootstrap.Modal(document.getElementById('adminUs'));
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    // Verificar si hay un mensaje de error
+    const error = "<%= request.getAttribute("UsInvalido") != null ? "true" : "false" %>";
+    const usuarioValido = "<%= session.getAttribute("usuarioVal") != null ? "true" : "false" %>";
+    
+    const adminModal = new bootstrap.Modal(document.getElementById('adminUs'));
+    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
 
-        if (error === "true") {
-            errorModal.show();
-        } else if (usuarioValido === "true") {
-            adminModal.show();
-            session.removeAttribute("usuarioValido");
-        }
-    };
- </script>
+    if (error === "true") {
+        errorModal.show();  // Si hay un error, muestra el modal de error
+    } else if (usuarioValido === "true") {
+        adminModal.show();
+        <% session.removeAttribute("usuarioVal"); %>
+    }
+};
+ </script>  
 </body>
 </html>

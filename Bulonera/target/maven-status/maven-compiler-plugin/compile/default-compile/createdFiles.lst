@@ -17,6 +17,7 @@ Bulonera\logica\usuario.class
 .netbeans_automatic_build
 Bulonera\logica\detalle_remito.class
 Bulonera\Persistence\usuarioJpaController.class
+service\excelService.class
 Bulonera\Servlet\sVcuentaCorrienteRemito.class
 Bulonera\logica\producto.class
 Bulonera\Servlet\svModifUs.class
@@ -29,7 +30,11 @@ Bulonera\logica\controladoraLogica.class
 Bulonera\logica\cuenta_corriente.class
 Bulonera\logica\usuarioService.class
 Bulonera\Persistence\clienteJpaController.class
+Bulonera\Servlet\svCargarProductos.class
+Bulonera\Servlet\svPdfdetalle.class
 Bulonera\Servlet\svCancelarDeuda.class
 Bulonera\Persistence\detalle_remitoJpaController.class
 Bulonera\Servlet\svRemito.class
+Bulonera\Servlet\svVerRemito.class
 Bulonera\Servlet\svUsuario.class
+Bulonera\Servlet\svEliminarRemito.class

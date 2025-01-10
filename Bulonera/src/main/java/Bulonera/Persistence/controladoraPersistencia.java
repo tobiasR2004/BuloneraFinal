@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
@@ -155,9 +156,9 @@ public class controladoraPersistencia {
         cliente client2 = null;
 
             try {
-                String jpql = "SELECT c FROM cliente c WHERE c.razonSocial = razonSoc";
+                String jpql = "SELECT c FROM cliente c WHERE c.razonSocial = :razonSoc";
                 Query query = em.createQuery(jpql);
-                query.setParameter("cliente", razonSoc);
+                query.setParameter("razonSoc", razonSoc);
 
                 client2 = (cliente) query.getSingleResult();
             } catch (NoResultException e) {
@@ -222,6 +223,24 @@ public class controladoraPersistencia {
     return typedQuery.getResultList();
 }
 
+   
+       
+    public void eliminarCCPorCabecera(cabecera_remito cabecera) {
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            // Eliminar los detalles asociados a la cabecera
+            Query query = em.createQuery("DELETE FROM cuenta_corriente c WHERE c.cabeceraremito = :cabecera");
+            query.setParameter("cabecera", cabecera);
+            query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
     //CRUD DETALLE REMITO
     
     public void crearDetalle(detalle_remito detalle1) {
@@ -236,6 +255,54 @@ public class controladoraPersistencia {
         }
     }
 
+    public void eliminarPorIdCabecera(int idCabecera) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM detalle_remito d WHERE d.cabecera.id = :idCabecera");
+            query.setParameter("idCabecera", idCabecera);
+            query.executeUpdate();
+            em.getTransaction().commit();
+            System.out.println("Registros eliminados con idCabecera: " + idCabecera); // LOG
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+        public cabecera_remito obtenerCabeceraRemitoPorId(int idCabecera) {
+        EntityManager em = cabecera_remitoJpa.getEntityManager();
+        try {
+            return em.find(cabecera_remito.class, idCabecera);
+        } finally {
+            em.close();
+        }
+    }
+    
+    public void eliminarDetallesPorCabecera(cabecera_remito cabecera) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            // Eliminar los detalles asociados a la cabecera
+            Query query = em.createQuery("DELETE FROM detalle_remito d WHERE d.cabecdetalleremito = :cabecera");
+            query.setParameter("cabecera", cabecera);
+            query.executeUpdate();
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
     public void modifDetalle(detalle_remito detalle1) {
         try {
             detalle_remitoJpa.edit(detalle1);
@@ -252,6 +319,19 @@ public class controladoraPersistencia {
        List<detalle_remito> listadet = detalle_remitoJpa.finddetalle_remitoEntities();
        ArrayList<detalle_remito> listadetalle = new ArrayList<detalle_remito>(listadet);
        return listadetalle;
+    }
+    
+    public List<detalle_remito> consultarDetalleListCabec(List<Integer> remitosSeleccionados) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
+
+        // Consulta JPQL para filtrar solo por los remitos seleccionados
+        String query = "SELECT dr FROM detalle_remito dr " +
+                       "WHERE dr.cabecdetalleremito IN :remitosSeleccionados";
+
+        TypedQuery<detalle_remito> typedQuery = em.createQuery(query, detalle_remito.class);
+        typedQuery.setParameter("remitosSeleccionados", remitosSeleccionados);  // Lista de remitos seleccionados
+
+        return typedQuery.getResultList();
     }
     
     
@@ -330,6 +410,42 @@ public class controladoraPersistencia {
         ArrayList<producto> listaProductos = new ArrayList<producto>(listaPr);
         return listaProductos;
     }
+    
+    public void guardarProduct(List<producto> productos)  throws Exception {
+        EntityManager em = productoJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            for (producto prod : productos) {
+                em.persist(prod); // Persiste cada producto en la base de datos
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new Exception("Error guardando productos: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+    
+    public void vaciarProductos(){
+    EntityManager em = productoJpa.getEntityManager();
+    EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            
+            em.createQuery("DELETE FROM producto").executeUpdate();
+             transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+              transaction.rollback();
+            }
+            throw new RuntimeException("Error al limpiar la base de datos", e);
+        } finally {
+            em.close();
+        }
+    }
+    
+    //CRUD USUARIO
 
     public void crearUsuario(usuario user1) {
         usuarioJpa.create(user1);

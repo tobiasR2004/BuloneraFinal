@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -65,23 +66,28 @@ public class svModifclient extends HttpServlet {
         
         if (contra == null  || contraIng == null){
            request.setAttribute("error", "Complete el campo de contraseña");
-           request.getRequestDispatcher("clientes.jsp#clsient").forward(request, response);
+           request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
            validacionContra = false;
         
         } else if(contra.equals(contraIng)) {
             int dniModif = Integer.parseInt(request.getParameter("buscarCl"));
         
             cliente cliente1 = ctrl.buscarDniCliente(dniModif);
-        
+            if(cliente1 != null) {
             HttpSession misesion = request.getSession();
             misesion.setAttribute("clienModif", cliente1);
             validacionContra = true;
             response.sendRedirect("modifCliente.jsp");
+        } else {
+            request.setAttribute("error", "cliente no encontrado");
+            request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
+            } 
         } else{
             request.setAttribute("error", "contraseña incorrecta.");
             request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
             validacionContra = false;
         }
+
        HttpSession sesionBool = request.getSession();
        sesionBool.setAttribute("validac", validacionContra );
        
@@ -122,6 +128,11 @@ public class svModifclient extends HttpServlet {
             cliente1.setDomicilio_cliente(domicilio);
                     
             ctrl.modifCliente(cliente1);
+            
+            List<cliente> listaClientesActualizada = ctrl.consultarClienteList();
+            HttpSession session = request.getSession();
+            session.setAttribute("listaCliente", listaClientesActualizada);
+            
             response.sendRedirect("clientes.jsp#client");
             
         } catch (ParseException ex) {
