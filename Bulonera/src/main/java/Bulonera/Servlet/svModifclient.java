@@ -73,16 +73,21 @@ public class svModifclient extends HttpServlet {
             int dniModif = Integer.parseInt(request.getParameter("buscarCl"));
         
             cliente cliente1 = ctrl.buscarDniCliente(dniModif);
-        
+            if(cliente1 != null) {
             HttpSession misesion = request.getSession();
             misesion.setAttribute("clienModif", cliente1);
             validacionContra = true;
             response.sendRedirect("modifCliente.jsp");
+        } else {
+            request.setAttribute("error", "cliente no encontrado");
+            request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
+            } 
         } else{
             request.setAttribute("error", "contraseña incorrecta.");
             request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
             validacionContra = false;
         }
+
        HttpSession sesionBool = request.getSession();
        sesionBool.setAttribute("validac", validacionContra );
        
