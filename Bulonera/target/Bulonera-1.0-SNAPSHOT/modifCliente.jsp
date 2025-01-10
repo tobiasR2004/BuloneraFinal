@@ -55,8 +55,9 @@
                     <input type="text" name="domicilioClModif" class="form-control" aria-label="Sizing example input"
                            aria-describedby="inputGroup-sizing-sm" required pattern="[a-zA-Z0-9 ]+" 
                            value="<%= (cliente1 != null) ? cliente1.getDomicilio_cliente() : ""%>">
-                </div>
+                </div>  
                 <div>
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back();">Volver</button>
                     <button type="submit" class="btn btn-primary" id="btnmodificar">Modificar</button>  
                 </div>
     </form>

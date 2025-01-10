@@ -77,7 +77,6 @@
 
 <script>
     window.onload = function() {
-        
         // Verificar si hay un mensaje de error
         const error = "<%= request.getAttribute("UsInvalido") != null ? "true" : "false" %>";
         const usuarioValido = "<%= session.getAttribute("usuarioVal") != null ? "true" : "false" %>";

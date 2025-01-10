@@ -14,8 +14,11 @@
   border-radius: 5px;
   border: 1px solid #6c757d;
   color: #6c757d;
-  transition: background-color 0.3s, color 0.3s;
-    
+  transition: background-color 0.3s, color 0.3s;   
+}
+
+#esconderText{
+    -webkit-text-security: disc;
 }
 
 .bodyIndex {
@@ -450,6 +453,10 @@ td {
 
 #boton5, #boton6, #boton9{
   width: 150px;
+}
+
+#dniModi{
+    margin-left: 2.5%;
 }
 
 .form-modif {
