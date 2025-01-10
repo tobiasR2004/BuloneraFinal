@@ -139,8 +139,8 @@ public class controladoraLogica {
         return ctrlpersis.consultarDetalleList();
     }
     
-    public List<detalle_remito> consultarDetalleListCabec(int nroClient) {
-        return ctrlpersis.consultarDetalleListCabec(nroClient);
+    public List<detalle_remito> consultarDetalleListCabec(List<Integer> remitosSeleccionados) {
+        return ctrlpersis.consultarDetalleListCabec(remitosSeleccionados);
     }
     
     //CRUD PAGO

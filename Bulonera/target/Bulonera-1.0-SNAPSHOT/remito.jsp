@@ -50,14 +50,11 @@
              </tr>
 
              <%
-                 List<detalle_remito> listaDr = (List<detalle_remito>) request.getSession().getAttribute("Detalles");
+                 List<detalle_remito> listaDr = (List<detalle_remito>) request.getSession().getAttribute("DetallesList");
                  if (listaDr != null) {
+                 
                  double saldoAcumulado = 0;
                      for (detalle_remito dr : listaDr) {
-                     String nomb = dr.getNomb_prod();
-                     int prod = dr.getCant_prod();
-                     double unit = dr.getPrecio_unit();
-                     double importe = dr.getImporte();
              %>
 
              <tr style="text-align: center">

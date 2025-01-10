@@ -25,11 +25,9 @@
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
             
-            <form action="svVerRemito" method="get">
-                <li>
-                    <button type="submit" class="btn btn-outline-secondary" id="boton8"><i class="bi bi-eye"></i></button>
-                </li>
-            </form>
+
+                
+            
             </ul>
         </div>
     </div>
@@ -54,7 +52,7 @@
 </div>
 
 <!-- TABLA CUENTA CORRIENTE -->
-<form action="svEliminarRemito" method="post">
+<form action="svVerRemito" method="post">
     <table class="table tablaCC" id="tablaCC">
         <thead>
             <tr class="Columnas">
@@ -79,12 +77,25 @@
                             <input type="checkbox" name="remitosSeleccionados" value="${cc.cabeceraremito.idRemito}">
                         </c:if>
                     </td>
+                    <td style="display: none;" class="checkboxRemito">
+                        <c:if test="${cc.cabeceraremito != null}">
+                            <input type="checkbox" name="verRemitoSelecc[]" value="${cc.cabeceraremito.idRemito}">
+                        </c:if>
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>
-    </table>
-            <button type="submit" id="confirmarEliminacion" class="btn btn-success" style="display: none;">Confirmar eliminación</button>
-</form>     <button type="submit" id="cancelarEliminacion" class="btn btn-danger" style="display: none;">Cancelar</button>
+    </table>    
+
+    <!-- Botones -->
+    <button type="submit" name="action" id="confirmarEliminacion" value="eliminar" class="btn btn-danger" style="display: none;"><i class="bi bi-trash3"></i></button>
+    <button type="submit" id="cancelarEliminacion" class="btn btn-danger" style="display: none;">Cancelar</button>
+
+    <!-- Botón para Ver Remito -->
+    <button type="submit" name="action" id="boton8" value="ver" class="btn btn-outline-secondary" style="display: none;">
+        <i class="bi bi-eye"></i>
+    </button>
+</form>
 </div>      
 
 <!--Botón para abrir el modal -->
@@ -242,26 +253,8 @@
             </div>
         </div>
     </div>
-</div>
-                    
-<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <%= request.getAttribute("errorCabec") != null ? request.getAttribute("errorCabec") : "" %>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>    
-                
-                
+</div>  
+            
 
 <!-- Modal de Error -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
@@ -307,6 +300,23 @@
         document.getElementById("cancelarEliminacion").style.display = "none";
     });
 </script>
+
+<script>   
+    document.getElementById("boton5").addEventListener("click", function () {
+        // Mostrar la columna de checkboxes
+        const checkboxes = document.querySelectorAll(".checkboxRemito");
+        const checkboxHeader = document.getElementById("checkboxHeader");
+        
+        checkboxes.forEach(checkbox => checkbox.style.display = "table-cell");
+        checkboxHeader.style.display = "table-cell";
+
+        // Mostrar el botón de confirmación
+        document.getElementById("boton8").style.display = "inline-block";
+    });
+</script>
+        
+ </script>
+
                 
 <script>
     //Agregar fila al modal de remito
