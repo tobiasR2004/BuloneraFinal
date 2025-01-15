@@ -24,10 +24,12 @@
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
                         data-bs-toggle="modal">Cancelar deuda</button>
             </li>
-            
-
-                
-            
+            <form action="svActualizarDetalle" method="Post">
+            <li class="nav-item">
+                <button type="submit" class="btn btn-navbar" id="boton5">Actualizar precios</button>
+            </li>
+            </form>
+  
             </ul>
         </div>
     </div>
@@ -300,6 +302,7 @@
         checkboxes.forEach(checkbox => checkbox.style.display = "none");
         checkboxHeader.style.display = "none";
 
+        document.getElementById("boton5").disabled = false; 
         document.getElementById("confirmarEliminacion").style.display = "none";
         document.getElementById("cancelarEliminacion").style.display = "none";
     });
@@ -323,12 +326,13 @@
     
     document.getElementById("cancelarEliminacion").addEventListener("click", function () {
         // Ocultar la columna de checkboxes y los botones
-        const checkboxes = document.querySelectorAll(".checkboxColumn");
+        const checkboxes = document.querySelectorAll(".checkboxRemito");
         const checkboxHeader = document.getElementById("checkboxHeader");
 
         checkboxes.forEach(checkbox => checkbox.style.display = "none");
         checkboxHeader.style.display = "none";
 
+        document.getElementById("boton4").disabled = false;
         document.getElementById("boton8").style.display = "none";
         document.getElementById("cancelarEliminacion").style.display = "none";
     });

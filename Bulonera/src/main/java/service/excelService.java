@@ -26,14 +26,17 @@ public class excelService {
             if (row.getRowNum() == 0) continue; // Salta la fila de encabezados
             
             // Lee las celdas del archivo Excel
-            String codProd = row.getCell(0).getStringCellValue();
-            String nombProd = row.getCell(1).getStringCellValue();
-            String categoriaProd = row.getCell(2).getStringCellValue();
-            double precioCompra = row.getCell(3).getNumericCellValue();
-            double precioVenta = row.getCell(4).getNumericCellValue();
+            int idprod = (int) row.getCell(0).getNumericCellValue();
+            String codProd = row.getCell(1).getStringCellValue();
+            String nombProd = row.getCell(2).getStringCellValue();
+            String categoriaProd = row.getCell(3).getStringCellValue();
+            double precioCompra = row.getCell(4).getNumericCellValue();
+            double precioVenta = row.getCell(5).getNumericCellValue();
 
             // Crea un objeto producto
+            
             producto prod = new producto();
+            prod.setId_prod(idprod);
             prod.setCod_prod(codProd);
             prod.setNomb_prod(nombProd);
             prod.setCategoria_prod(categoriaProd);

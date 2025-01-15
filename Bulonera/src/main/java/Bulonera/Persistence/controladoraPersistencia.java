@@ -315,10 +315,15 @@ public class controladoraPersistencia {
       return detalle_remitoJpa.finddetalle_remito(id);
     }
 
-    public ArrayList<detalle_remito> consultarDetalleList() {
-       List<detalle_remito> listadet = detalle_remitoJpa.finddetalle_remitoEntities();
-       ArrayList<detalle_remito> listadetalle = new ArrayList<detalle_remito>(listadet);
-       return listadetalle;
+    public List<detalle_remito> consultarDetalleList() {
+          EntityManager em = detalle_remitoJpa.getEntityManager();
+         try {
+             String jpql = "SELECT dr FROM detalle_remito dr JOIN FETCH dr.producDetalle";
+             Query query = em.createQuery(jpql);
+             return query.getResultList();
+         } finally {
+             em.close();
+         }
     }
     
     public List<detalle_remito> consultarDetalleListCabec(List<Integer> remitosSeleccionados) {
@@ -333,6 +338,48 @@ public class controladoraPersistencia {
 
         return typedQuery.getResultList();
     }
+    
+    public void actualizarPreciosDetalleRemito(int idProducto, double nuevoPrecioVenta, double nuevoImporte, double importetotal, cabecera_remito cabecdetrem) {
+    EntityManager em = detalle_remitoJpa.getEntityManager();
+    EntityTransaction transaction = em.getTransaction();
+    try {
+        transaction.begin();
+
+        // Consulta JPQL para actualizar los precios en detalle_remito
+        String query = "UPDATE detalle_remito dr " +
+                       "SET dr.precio_unit = :nuevoPrecio, dr.importe = :nuevoimporte, dr.importe_total = :importetotal " +
+                       "WHERE dr.producDetalle.id_prod = :idProducto";
+        
+        //consulta jpql2 para actualizar el importe total en todos los remitos con igual cabecera
+        String query1 = "UPDATE detalle_remito dr " +
+                       "SET dr.importe_total = :importetotal " +
+                       "WHERE dr.cabecdetalleremito = :cabeceradetalleremito";
+        Query updateQuery1 = em.createQuery(query1);
+        
+        Query updateQuery = em.createQuery(query);
+        updateQuery.setParameter("nuevoPrecio", nuevoPrecioVenta);
+        updateQuery.setParameter("idProducto", idProducto);
+        updateQuery.setParameter("nuevoimporte", nuevoImporte);
+        updateQuery.setParameter("importetotal", importetotal);
+        updateQuery1.setParameter("importetotal", importetotal);
+        updateQuery1.setParameter("cabeceradetalleremito", cabecdetrem);
+
+        // Ejecutar la consulta de actualización
+        int filasActualizadas = updateQuery.executeUpdate();
+        int filasActualizadas1 = updateQuery1.executeUpdate();
+        System.out.println("Filas actualizadas en detalle_remito: " + filasActualizadas);
+
+        // Confirmar transacción
+        transaction.commit();
+    } catch (Exception e) {
+        if (transaction.isActive()) {
+            transaction.rollback();
+        }
+        throw new RuntimeException("Error al actualizar los precios en detalle_remito: " + e.getMessage());
+    } finally {
+        em.close();
+    }
+}
     
     
     //CRUD PAGO

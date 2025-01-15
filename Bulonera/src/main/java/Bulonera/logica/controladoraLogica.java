@@ -135,13 +135,18 @@ public class controladoraLogica {
         return ctrlpersis.consultarDetalle(id);
     }
     
-    public ArrayList<detalle_remito> consultarDetalleList(){
+    public List<detalle_remito> consultarDetalleList(){
         return ctrlpersis.consultarDetalleList();
     }
     
     public List<detalle_remito> consultarDetalleListCabec(List<Integer> remitosSeleccionados) {
         return ctrlpersis.consultarDetalleListCabec(remitosSeleccionados);
     }
+    
+    public void actPrecioDetalle(int idprod, double nuevoprecio, double importe, double importetotal, cabecera_remito cabecdetrem ){
+        ctrlpersis.actualizarPreciosDetalleRemito(idprod, nuevoprecio, importe, importetotal, cabecdetrem);
+    }
+    
     
     //CRUD PAGO
     public void crearPago(pago pago1){
