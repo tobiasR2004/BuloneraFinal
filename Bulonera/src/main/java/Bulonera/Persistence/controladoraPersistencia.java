@@ -339,7 +339,7 @@ public class controladoraPersistencia {
         return typedQuery.getResultList();
     }
     
-    public void actualizarPreciosDetalleRemito(int idProducto, double nuevoPrecioVenta, double nuevoImporte, double importetotal, cabecera_remito cabecdetrem) {
+    public void actualizarPreciosDetalleRemito(int idProducto, double nuevoPrecioVenta, double nuevoImporte) {
     EntityManager em = detalle_remitoJpa.getEntityManager();
     EntityTransaction transaction = em.getTransaction();
     try {
@@ -347,26 +347,18 @@ public class controladoraPersistencia {
 
         // Consulta JPQL para actualizar los precios en detalle_remito
         String query = "UPDATE detalle_remito dr " +
-                       "SET dr.precio_unit = :nuevoPrecio, dr.importe = :nuevoimporte, dr.importe_total = :importetotal " +
+                       "SET dr.precio_unit = :nuevoPrecio, dr.importe = :nuevoimporte " +
                        "WHERE dr.producDetalle.id_prod = :idProducto";
         
-        //consulta jpql2 para actualizar el importe total en todos los remitos con igual cabecera
-        String query1 = "UPDATE detalle_remito dr " +
-                       "SET dr.importe_total = :importetotal " +
-                       "WHERE dr.cabecdetalleremito = :cabeceradetalleremito";
-        Query updateQuery1 = em.createQuery(query1);
+
         
         Query updateQuery = em.createQuery(query);
         updateQuery.setParameter("nuevoPrecio", nuevoPrecioVenta);
         updateQuery.setParameter("idProducto", idProducto);
         updateQuery.setParameter("nuevoimporte", nuevoImporte);
-        updateQuery.setParameter("importetotal", importetotal);
-        updateQuery1.setParameter("importetotal", importetotal);
-        updateQuery1.setParameter("cabeceradetalleremito", cabecdetrem);
 
         // Ejecutar la consulta de actualización
         int filasActualizadas = updateQuery.executeUpdate();
-        int filasActualizadas1 = updateQuery1.executeUpdate();
         System.out.println("Filas actualizadas en detalle_remito: " + filasActualizadas);
 
         // Confirmar transacción
@@ -376,6 +368,49 @@ public class controladoraPersistencia {
             transaction.rollback();
         }
         throw new RuntimeException("Error al actualizar los precios en detalle_remito: " + e.getMessage());
+    } finally {
+        em.close();
+    }
+}
+    
+public void actualizarImporteTotal( int cabecdetalle) {
+    EntityManager em = detalle_remitoJpa.getEntityManager();
+    EntityTransaction transaction = em.getTransaction();
+
+    try {
+        transaction.begin();
+
+        // Consulta para obtener la suma de los importes de todos los detalles asociados a la cabecera
+        String sumaImportesQuery = "SELECT SUM(dr.importe) FROM detalle_remito dr WHERE dr.cabecdetalleremito.idRemito = :idCabecera";
+        Query querySuma = em.createQuery(sumaImportesQuery);
+        querySuma.setParameter("idCabecera", cabecdetalle);
+
+        Double importeTotalCabecera = (Double) querySuma.getSingleResult();
+
+        if (importeTotalCabecera == null) {
+            importeTotalCabecera = 0.0; // Asegurarse de que no sea nulo
+        }
+
+        // Actualizar el importe_total en todos los detalles de la misma cabecera
+        String actualizarDetallesQuery = "UPDATE detalle_remito dr SET dr.importe_total = :importeTotalCabecera WHERE dr.cabecdetalleremito.idRemito = :idCabecera";
+        Query queryActualizarDetalles = em.createQuery(actualizarDetallesQuery);
+        queryActualizarDetalles.setParameter("importeTotalCabecera", importeTotalCabecera);
+        queryActualizarDetalles.setParameter("idCabecera", cabecdetalle);
+        queryActualizarDetalles.executeUpdate();
+
+        // Actualizar el importe_total en la cabecera
+        String actualizarCabeceraQuery = "UPDATE cabecera_remito cr SET cr.importe_total = :importeTotalCabecera WHERE cr.idRemito = :idCabecera";
+        Query queryActualizarCabecera = em.createQuery(actualizarCabeceraQuery);
+        queryActualizarCabecera.setParameter("importeTotalCabecera", importeTotalCabecera);
+        queryActualizarCabecera.setParameter("idCabecera", cabecdetalle);
+        queryActualizarCabecera.executeUpdate();
+
+        transaction.commit();
+    } catch (Exception e) {
+        if (transaction.isActive()) {
+            transaction.rollback();
+        }
+        throw new RuntimeException("Error al actualizar el importe total de la cabecera y sus detalles: " + e.getMessage());
     } finally {
         em.close();
     }

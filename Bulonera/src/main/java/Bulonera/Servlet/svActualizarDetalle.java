@@ -86,23 +86,17 @@ public class svActualizarDetalle extends HttpServlet {
             cabecera_remito cabec = detalle.getCabecdetalleremito();
             
             int cantprod = detalle.getCant_prod();
-            double importetotal = detalle.getImporte_total();
-            double importeviejo = detalle.getImporte();
             
             // Obtener el id y precio del producto
             int intIdCabec = cabec.getIdRemito();
             intIdProd[i] = prod.getId_prod();
             Double precio = prod.getPrecio_venta();
             Double importenuevo = precio * cantprod;
-            
-            
-            
-            double importetotalnuevo = importetotal - importeviejo + importenuevo;
-            
-            System.out.print("el nuevo importe es: " + importetotalnuevo);
+
             
             // Llamar al controlador para actualizar el precio
-            ctrl.actPrecioDetalle(intIdProd[i], precio, importenuevo, importetotalnuevo, cabec);
+            ctrl.actPrecioDetalle(intIdProd[i], precio, importenuevo);
+            ctrl.actimportetotal( intIdCabec);
             
             // Indicar que se ha realizado una actualización exitosa
             actexitosa = true;
