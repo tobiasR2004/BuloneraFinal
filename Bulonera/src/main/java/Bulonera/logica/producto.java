@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
 public class producto implements Serializable
 {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_prod;
     @Basic
     private String cod_prod;

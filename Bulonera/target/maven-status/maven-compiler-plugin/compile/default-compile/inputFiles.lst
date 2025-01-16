@@ -13,6 +13,7 @@ C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\usuario.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\productoJpaController.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\controladoraPersistencia.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svProductos.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svActualizarDetalle.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\NonexistentEntityException.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\PreexistingEntityException.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\service\excelService.java
@@ -29,7 +30,6 @@ C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCabeceraR
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\producto.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cliente.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\IllegalOrphanException.java
-C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svEliminarRemito.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cabecera_remito.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svRemito.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\cuenta_corrienteJpaController.java
