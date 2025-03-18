@@ -143,8 +143,12 @@ public class controladoraLogica {
         return ctrlpersis.consultarDetalleListCabec(remitosSeleccionados);
     }
     
-    public void actPrecioDetalle(int idprod, double nuevoprecio, double importe){
+    public void actPrecioDetalle(String idprod, double nuevoprecio, double importe){
         ctrlpersis.actualizarPreciosDetalleRemito(idprod, nuevoprecio, importe);
+    }
+    
+    public void actrefDetalle(){
+     ctrlpersis.actualizarReferenciasPorCodProd();
     }
     
     public void actimportetotal( int cabec){

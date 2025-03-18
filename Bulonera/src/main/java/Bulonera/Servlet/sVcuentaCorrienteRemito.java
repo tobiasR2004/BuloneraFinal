@@ -108,6 +108,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         detalle_remito detalleRem = new detalle_remito();
         detalleRem.setFechaDet(fechaStr);
         detalleRem.setCant_prod(cant_prod);
+        detalleRem.setCod_prod(productoId);
         detalleRem.setPrecio_unit(precio_unit);
         detalleRem.setImporte(importe);
         detalleRem.setImporte_total(importe_total);

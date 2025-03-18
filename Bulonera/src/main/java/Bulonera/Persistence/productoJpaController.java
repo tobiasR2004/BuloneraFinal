@@ -5,6 +5,7 @@
 package Bulonera.Persistence;
 
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
+import Bulonera.Persistence.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -27,7 +28,7 @@ public class productoJpaController implements Serializable {
     public productoJpaController() {
         emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
-
+    
     public productoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -37,7 +38,7 @@ public class productoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(producto producto) {
+    public void create(producto producto) throws PreexistingEntityException, Exception {
         if (producto.getDetalles() == null) {
             producto.setDetalles(new ArrayList<detalle_remito>());
         }
@@ -62,6 +63,11 @@ public class productoJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (findproducto(producto.getId_prod()) != null) {
+                throw new PreexistingEntityException("producto " + producto + " already exists.", ex);
+            }
+            throw ex;
         } finally {
             if (em != null) {
                 em.close();
