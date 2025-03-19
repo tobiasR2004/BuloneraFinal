@@ -69,7 +69,7 @@
         <tbody>
             <c:set var="saldoAcumulado" value="0" />
             <c:forEach var="cc" items="${listaCC}">
-                <c:set var="saldoAcumulado" value="${saldoAcumulado + (cc.debe_cc - cc.haber_cc)}" />
+                <c:set var="saldoAcumulado" value="${(cc.saldo_cc)}" />
                 <tr style="text-align: center">
                     <td><fmt:formatDate value="${cc.fecha_cc}" pattern="dd/MM/yyyy" /></td>
                     <td>${cc.debe_cc}</td>
@@ -248,7 +248,7 @@
             <form action="svCancelarDeuda" method="POST">
             <div class="modal-body">
                 <span class="currency-symbol">$</span>
-                <input class="importe" name="cancelDeuda" type="text" placeholder="0.00" minlength="3" required pattern="^\d+(\.\d{1,2})?$">
+                <input class="importe" name="cancelDeuda" type="text" placeholder="0.00" required pattern="^\d+(\.\d{1,2})?$">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>

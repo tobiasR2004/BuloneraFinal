@@ -117,8 +117,9 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         detalleRem.setProducDetalle(producDetalle);
         
         ctrl.crearDetalle(detalleRem);
+
+            
         }
-        
         LocalDate fechaActual = LocalDate.now();
         java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
         cuenta_corriente cuentaCorr = new cuenta_corriente();
@@ -127,12 +128,13 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cuentaCorr.setFecha_cc(fechaSQL);
         cuentaCorr.setHaber_cc(0.0);
         
-        
+        cuenta_corriente cC1 = ctrl.consultarCcporCabec(cabecdetalleremito);
         
 
         if (listaCC.size() <= 0 ) {
          cuentaCorr.setSaldo_cc(importe_total);
-        } else {
+         ctrl.crearCc(cuentaCorr); 
+        } else if (cC1 == null) {
          cuenta_corriente ultimoElemento = listaCC.get(listaCC.size() - 1);
          double ultimoSaldo = ultimoElemento.getSaldo_cc();
          
@@ -141,8 +143,15 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
          saldototal = Math.round(saldototal * 100.0) / 100.0;
          
          cuentaCorr.setSaldo_cc(saldototal);
+         ctrl.crearCc(cuentaCorr); 
+        } else {
+            double totalant = cC1.getSaldo_cc();
+            cC1.setDebe_cc(totalant + importe_total);
+            cC1.setSaldo_cc(totalant + importe_total);
+            
+           ctrl.modifCc(cC1);
         }
-        ctrl.crearCc(cuentaCorr);
+        
 
         misesion.removeAttribute("clienteIdSeleccionado");
         response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + nombCli);

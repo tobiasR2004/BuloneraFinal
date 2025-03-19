@@ -206,6 +206,28 @@ public class controladoraPersistencia {
         }
     }
 
+    public cuenta_corriente consultarCcporcabec(cabecera_remito idcabec){
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        cuenta_corriente resultado = null;
+
+      try {
+          String query = "SELECT cc FROM cuenta_corriente cc WHERE cc.cabeceraremito = :idcabec";
+          TypedQuery<cuenta_corriente> typedQuery = em.createQuery(query, cuenta_corriente.class);
+          typedQuery.setParameter("idcabec", idcabec);
+
+          List<cuenta_corriente> resultados = typedQuery.getResultList();
+          if (!resultados.isEmpty()) {
+              resultado = resultados.get(0); // Retorna el primer resultado si existe
+          }
+      } catch (Exception e) {
+          e.printStackTrace(); // O usa un logger
+      } finally {
+          em.close(); // Cierra el EntityManager
+      }
+
+      return resultado;
+    }
+    
     public cuenta_corriente consultarCc(int id) {
         return cuenta_corrienteJpa.findcuenta_corriente(id);
     }
@@ -240,6 +262,45 @@ public class controladoraPersistencia {
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+    public void actualizarSaldoCuentaCorriente(int idCuentaCorriente) {
+        
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+
+            // Sumar los importes de los remitos asociados a la cuenta corriente
+            String sumaImportesQuery = "SELECT SUM(cr.importe_total) FROM cabecera_remito cr " +
+                                       "WHERE cr.idRemito IN (SELECT cc.cabeceraremito.idRemito FROM cuenta_corriente cc WHERE cc.id_cc = :idCuenta)";
+            Query querySuma = em.createQuery(sumaImportesQuery);
+            querySuma.setParameter("idCuenta", idCuentaCorriente);
+
+            Double saldoTotal = (Double) querySuma.getSingleResult();
+
+            if (saldoTotal == null) {
+                saldoTotal = 0.0; // Evitar valores nulos
+            }
+
+            // Actualizar el saldo en la cuenta corriente
+            String actualizarCuentaQuery = "UPDATE cuenta_corriente cc SET cc.saldo_cc = :saldoTotal, cc.debe_cc = :saldoTotal WHERE cc.id_cc = :idCuenta";
+            Query queryActualizarCuenta = em.createQuery(actualizarCuentaQuery);
+            queryActualizarCuenta.setParameter("saldoTotal", saldoTotal);
+            queryActualizarCuenta.setParameter("idCuenta", idCuentaCorriente);
+            queryActualizarCuenta.executeUpdate();
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Error al actualizar el saldo de la cuenta corriente: " + e.getMessage());
         } finally {
             em.close();
         }
@@ -329,6 +390,10 @@ public class controladoraPersistencia {
          }
     }
     
+    public List<detalle_remito> consultarListaDetalles(){
+        return detalle_remitoJpa.finddetalle_remitoEntities();
+    }
+    
     public List<detalle_remito> consultarDetalleListCabec(List<Integer> remitosSeleccionados) {
         EntityManager em = detalle_remitoJpa.getEntityManager();
 
@@ -391,11 +456,7 @@ public class controladoraPersistencia {
     }
 }
     
-    
-    
-    
-    
-        public void actualizarPreciosDetalleRemito(String codProducto, double nuevoPrecioVenta, double nuevoImporte) {
+         public void actualizarPreciosDetalleRemito(String codProducto, double nuevoPrecioVenta, double nuevoImporte) {
            EntityManager em = detalle_remitoJpa.getEntityManager();
            EntityTransaction transaction = em.getTransaction();
 
