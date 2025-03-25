@@ -5,6 +5,7 @@
 package Bulonera.Persistence;
 
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
+import Bulonera.Persistence.exceptions.PreexistingEntityException;
 import Bulonera.logica.cabecera_remito;
 import Bulonera.logica.cliente;
 import Bulonera.logica.cuenta_corriente;
@@ -13,7 +14,9 @@ import Bulonera.logica.pago;
 import Bulonera.logica.producto;
 import Bulonera.logica.usuario;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -203,6 +206,28 @@ public class controladoraPersistencia {
         }
     }
 
+    public cuenta_corriente consultarCcporcabec(cabecera_remito idcabec){
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        cuenta_corriente resultado = null;
+
+      try {
+          String query = "SELECT cc FROM cuenta_corriente cc WHERE cc.cabeceraremito = :idcabec";
+          TypedQuery<cuenta_corriente> typedQuery = em.createQuery(query, cuenta_corriente.class);
+          typedQuery.setParameter("idcabec", idcabec);
+
+          List<cuenta_corriente> resultados = typedQuery.getResultList();
+          if (!resultados.isEmpty()) {
+              resultado = resultados.get(0); // Retorna el primer resultado si existe
+          }
+      } catch (Exception e) {
+          e.printStackTrace(); // O usa un logger
+      } finally {
+          em.close(); // Cierra el EntityManager
+      }
+
+      return resultado;
+    }
+    
     public cuenta_corriente consultarCc(int id) {
         return cuenta_corrienteJpa.findcuenta_corriente(id);
     }
@@ -237,6 +262,45 @@ public class controladoraPersistencia {
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+    public void actualizarSaldoCuentaCorriente(int idCuentaCorriente) {
+        
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+
+            // Sumar los importes de los remitos asociados a la cuenta corriente
+            String sumaImportesQuery = "SELECT SUM(cr.importe_total) FROM cabecera_remito cr " +
+                                       "WHERE cr.idRemito IN (SELECT cc.cabeceraremito.idRemito FROM cuenta_corriente cc WHERE cc.id_cc = :idCuenta)";
+            Query querySuma = em.createQuery(sumaImportesQuery);
+            querySuma.setParameter("idCuenta", idCuentaCorriente);
+
+            Double saldoTotal = (Double) querySuma.getSingleResult();
+
+            if (saldoTotal == null) {
+                saldoTotal = 0.0; // Evitar valores nulos
+            }
+
+            // Actualizar el saldo en la cuenta corriente
+            String actualizarCuentaQuery = "UPDATE cuenta_corriente cc SET cc.saldo_cc = :saldoTotal, cc.debe_cc = :saldoTotal WHERE cc.id_cc = :idCuenta";
+            Query queryActualizarCuenta = em.createQuery(actualizarCuentaQuery);
+            queryActualizarCuenta.setParameter("saldoTotal", saldoTotal);
+            queryActualizarCuenta.setParameter("idCuenta", idCuentaCorriente);
+            queryActualizarCuenta.executeUpdate();
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Error al actualizar el saldo de la cuenta corriente: " + e.getMessage());
         } finally {
             em.close();
         }
@@ -326,6 +390,10 @@ public class controladoraPersistencia {
          }
     }
     
+    public List<detalle_remito> consultarListaDetalles(){
+        return detalle_remitoJpa.finddetalle_remitoEntities();
+    }
+    
     public List<detalle_remito> consultarDetalleListCabec(List<Integer> remitosSeleccionados) {
         EntityManager em = detalle_remitoJpa.getEntityManager();
 
@@ -339,40 +407,85 @@ public class controladoraPersistencia {
         return typedQuery.getResultList();
     }
     
-    public void actualizarPreciosDetalleRemito(int idProducto, double nuevoPrecioVenta, double nuevoImporte) {
+    
+    
+    public void actualizarReferenciasPorCodProd() {
     EntityManager em = detalle_remitoJpa.getEntityManager();
     EntityTransaction transaction = em.getTransaction();
     try {
         transaction.begin();
 
-        // Consulta JPQL para actualizar los precios en detalle_remito
-        String query = "UPDATE detalle_remito dr " +
-                       "SET dr.precio_unit = :nuevoPrecio, dr.importe = :nuevoimporte " +
-                       "WHERE dr.producDetalle.id_prod = :idProducto";
+        // 1. Obtener todos los productos de la base de datos
+        List<producto> productos = em.createQuery("SELECT p FROM producto p", producto.class).getResultList();
+        Map<String, producto> productosMap = new HashMap<>();
         
+        // 2. Cargar los productos en el mapa por cod_prod
+        for (producto prod : productos) {
+            productosMap.put(prod.getCod_prod(), prod);
+        }
 
-        
-        Query updateQuery = em.createQuery(query);
-        updateQuery.setParameter("nuevoPrecio", nuevoPrecioVenta);
-        updateQuery.setParameter("idProducto", idProducto);
-        updateQuery.setParameter("nuevoimporte", nuevoImporte);
+        // 3. Obtener todos los detalles de remitos
+        List<detalle_remito> detalles = em.createQuery("SELECT d FROM detalle_remito d", detalle_remito.class).getResultList();
 
-        // Ejecutar la consulta de actualización
-        int filasActualizadas = updateQuery.executeUpdate();
-        System.out.println("Filas actualizadas en detalle_remito: " + filasActualizadas);
+        // 4. Actualizar las referencias de producto en detalle_remito
+        for (detalle_remito detalle : detalles) {
+            if (detalle.getProducDetalle() != null) {
+                // Recuperamos el producto usando su cod_prod
+                producto nuevoProducto = productosMap.get(detalle.getProducDetalle().getCod_prod());
+                
+                if (nuevoProducto != null) {
+                    // Actualizamos la referencia en detalle_remito
+                    detalle.setProducDetalle(nuevoProducto);
+                    em.merge(detalle);  // Persistir el detalle con la nueva referencia
+                } else {
+                    // Log de error si no se encuentra el producto
+                    System.out.println("Producto no encontrado para cod_prod: " + detalle.getProducDetalle().getCod_prod());
+                }
+            }
+        }
 
-        // Confirmar transacción
+        // 5. Confirmar la transacción
         transaction.commit();
     } catch (Exception e) {
         if (transaction.isActive()) {
             transaction.rollback();
         }
-        throw new RuntimeException("Error al actualizar los precios en detalle_remito: " + e.getMessage());
+        e.printStackTrace();  // Log de errores
     } finally {
         em.close();
     }
 }
     
+         public void actualizarPreciosDetalleRemito(String codProducto, double nuevoPrecioVenta, double nuevoImporte) {
+           EntityManager em = detalle_remitoJpa.getEntityManager();
+           EntityTransaction transaction = em.getTransaction();
+
+           try {
+               transaction.begin();
+
+               String query = "UPDATE detalle_remito dr " +
+                              "SET dr.precio_unit = :nuevoPrecio, dr.importe = :nuevoImporte " +
+                              "WHERE dr.cod_prod = :codProducto";
+
+               Query updateQuery = em.createQuery(query);
+               updateQuery.setParameter("nuevoPrecio", nuevoPrecioVenta);
+               updateQuery.setParameter("nuevoImporte", nuevoImporte);
+               updateQuery.setParameter("codProducto", codProducto);
+
+               int filasActualizadas = updateQuery.executeUpdate();
+               System.out.println("Filas actualizadas en detalle_remito: " + filasActualizadas);
+
+               transaction.commit();
+           } catch (Exception e) {
+               if (transaction.isActive()) {
+                   transaction.rollback();
+               }
+               throw new RuntimeException("Error al actualizar los precios en detalle_remito: " + e.getMessage());
+           } finally {
+               em.close();
+           }
+       }
+ 
 public void actualizarImporteTotal( int cabecdetalle) {
     EntityManager em = detalle_remitoJpa.getEntityManager();
     EntityTransaction transaction = em.getTransaction();
@@ -451,9 +564,13 @@ public void actualizarImporteTotal( int cabecdetalle) {
     
     //CRUD PRODUCTO
     public void crearProducto(producto prod1) {
-        productoJpa.create(prod1);
+            try {
+                productoJpa.create(prod1);
+            } catch (Exception ex) {
+                Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
-
+    
     public void eliminarProducto(int id) {
         try {
             productoJpa.destroy(id);

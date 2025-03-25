@@ -96,12 +96,19 @@ public class controladoraLogica {
         ctrlpersis.modifCc(cC1);
     }
     
+    public cuenta_corriente consultarCcporCabec(cabecera_remito idcabec){
+        return ctrlpersis.consultarCcporcabec(idcabec);
+    }
     public cuenta_corriente consultarCc(int id){
         return ctrlpersis.consultarCc(id);
     }
     
     public List<cuenta_corriente> consultarCcList(cabecera_remito cab){
         return ctrlpersis.consultarCcList(cab);
+    }
+    
+    public void actualizarImportesCc(int idCc){
+       ctrlpersis.actualizarSaldoCuentaCorriente(idCc);
     }
     
     //CRUD DETALLE
@@ -119,6 +126,10 @@ public class controladoraLogica {
     }
     public void eliminarDetallesPorCabecera(cabecera_remito cabecera) {
         ctrlpersis.eliminarDetallesPorCabecera(cabecera);
+    }
+    
+    public List<detalle_remito> consultarListaDetalles(){
+        return ctrlpersis.consultarListaDetalles();
     }
     
     public void eliminarDetallePorIdCabecera(int idCabecera) {
@@ -143,8 +154,12 @@ public class controladoraLogica {
         return ctrlpersis.consultarDetalleListCabec(remitosSeleccionados);
     }
     
-    public void actPrecioDetalle(int idprod, double nuevoprecio, double importe){
+    public void actPrecioDetalle(String idprod, double nuevoprecio, double importe){
         ctrlpersis.actualizarPreciosDetalleRemito(idprod, nuevoprecio, importe);
+    }
+    
+    public void actrefDetalle(){
+     ctrlpersis.actualizarReferenciasPorCodProd();
     }
     
     public void actimportetotal( int cabec){

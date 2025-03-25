@@ -140,6 +140,16 @@ public class svCancelarDeuda extends HttpServlet {
             pago1.setImporte_pago(importepago);
             ctrl.crearPago(pago1);
             
+            cabecera_remito cabec1 = new cabecera_remito();
+            cabec1.setClienteCabecera(cliente1);
+            cabec1.setCuit_cliente(cliente1.getCuit_cliente());
+            cabec1.setFecha_Rem(fechaSQL);
+            cabec1.setImporte_total(0);
+            cabec1.setRazon_social(cliente1.getRazon_social());
+            
+            ctrl.crearcabecremito(cabec1);
+            
+            
             response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + idCabec);
         }  
         }

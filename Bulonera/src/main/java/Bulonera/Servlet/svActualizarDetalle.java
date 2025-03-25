@@ -6,6 +6,7 @@ package Bulonera.Servlet;
 
 import Bulonera.logica.cabecera_remito;
 import Bulonera.logica.controladoraLogica;
+import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.detalle_remito;
 import Bulonera.logica.producto;
 import java.io.IOException;
@@ -65,60 +66,71 @@ public class svActualizarDetalle extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-         processRequest(request, response);
-
-    // Obtener la lista de detalles de remitos
-    List<detalle_remito> detalleList = ctrl.consultarDetalleList();
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    processRequest(request, response);
+// 1. Actualizar las referencias de productos en detalle_remito
+    ctrl.actrefDetalle();
     
-    // Arreglos para almacenar los productos e ids
-    producto[] idprod = new producto[detalleList.size()];
-    int[] intIdProd = new int[detalleList.size()];
-    
-    int i = 0;
-    boolean actexitosa = false;  // Se inicializa como false
+    // 2. Obtener la lista de detalles de remito
+    List<detalle_remito> detalleList = ctrl.consultarListaDetalles();
+    boolean actexitosa = false;
 
-    // Recorrer cada detalle de remito
+    if (detalleList == null || detalleList.isEmpty()) {
+        request.setAttribute("error", "No hay detalles de remito para actualizar.");
+        request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+        return;
+    }
+
     for (detalle_remito detalle : detalleList) {
-        if (detalle.getProducDetalle() != null) {  // Verificar si tiene un producto asociado
-            producto prod = detalle.getProducDetalle();
+        if (detalle.getCod_prod() != null) {
+            producto prod = ctrl.consultarProductoStr(detalle.getCod_prod());
+
+            if (prod == null) {
+                System.out.println("Producto no encontrado para código: " + detalle.getCod_prod());
+                continue; // Salta al siguiente detalle
+            }
+
             cabecera_remito cabec = detalle.getCabecdetalleremito();
-            
+            if (cabec == null) {
+                System.out.println("Cabecera remito es null para detalle ID: " + detalle.getId_remito());
+                continue;
+            }
+
+            cuenta_corriente cC1 = ctrl.consultarCcporCabec(cabec);
+            if (cC1 == null) {
+                System.out.println("Cuenta corriente no encontrada para remito ID: " + cabec.getIdRemito());
+                continue;
+            }
+
             int cantprod = detalle.getCant_prod();
-            
-            // Obtener el id y precio del producto
-            int intIdCabec = cabec.getIdRemito();
-            intIdProd[i] = prod.getId_prod();
+            String codProducto = prod.getCod_prod();
             Double precio = prod.getPrecio_venta();
             Double importenuevo = precio * cantprod;
 
-            
-            // Llamar al controlador para actualizar el precio
-            ctrl.actPrecioDetalle(intIdProd[i], precio, importenuevo);
-            ctrl.actimportetotal( intIdCabec);
-            
-            // Indicar que se ha realizado una actualización exitosa
+            // Actualizar precios
+            ctrl.actPrecioDetalle(codProducto, precio, importenuevo);
+
+            // Actualizar el importe total del remito
+            ctrl.actimportetotal(cabec.getIdRemito());
+
+            // Actualizar los importes en cuenta corriente
+            ctrl.actualizarImportesCc(cC1.getId_cc());
+
             actexitosa = true;
-        } else {
-            // Si no tiene producto asociado, mostrar mensaje en consola
-            System.out.println("No se encontró producto para el detalle de remito ID: " + detalle.getId_remito());
         }
-        
-        i++;  // Avanzar al siguiente índice del arreglo
     }
 
-    // Dependiendo si hubo actualizaciones exitosas, establecer el mensaje adecuado
+    // Mensaje para la respuesta
     if (actexitosa) {
         request.setAttribute("error", "Actualización exitosa");
     } else {
-        request.setAttribute("error", "No se encontraron remitos con productos para actualizar");
+        request.setAttribute("error", "No se encontraron remitos con productos para actualizar.");
     }
-    
+
     // Redirigir a la página correspondiente
     request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
 }
-
     /**
      * Returns a short description of the servlet.
      *
