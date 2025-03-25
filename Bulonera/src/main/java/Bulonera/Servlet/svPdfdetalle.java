@@ -7,14 +7,19 @@ package Bulonera.Servlet;
 import Bulonera.logica.cliente;
 import Bulonera.logica.controladoraLogica;
 import Bulonera.logica.detalle_remito;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -79,6 +84,7 @@ public class svPdfdetalle extends HttpServlet {
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
     
+
 cliente cli = (cliente) request.getSession().getAttribute("clientCabec");    
 List<detalle_remito> listDet = (List<detalle_remito>) request.getSession().getAttribute("DetallesList");
 
@@ -88,12 +94,38 @@ if (listDet == null) {
     return;
 }
 
+// Ruta de la imagen
+String imagePath = getServletContext().getRealPath("/img/LogoBulonera.jpg");
+
 // Crear el PDF en un buffer de memoria (sin guardarlo en el servidor)
 ByteArrayOutputStream baos = new ByteArrayOutputStream();
 PdfWriter writer = new PdfWriter(baos);
 PdfDocument pdf = new PdfDocument(writer);
 Document document = new Document(pdf, PageSize.A4.rotate());
 document.setMargins(10, 10, 10, 10);
+
+
+// Verificar si el archivo existe antes de usarlo
+File imgFile = new File(imagePath);
+if (!imgFile.exists()) {
+    System.out.println("Error: El archivo no existe en " + imagePath);
+    request.setAttribute("error", "La imagen no fue encontrada.");
+    request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+    return;
+}
+
+try {
+    ImageData imageData = ImageDataFactory.create(imagePath);
+    Image logo = new Image(imageData);
+    logo.scaleToFit(300, 200);  // Ajusta tamaño si es necesario
+    logo.setFixedPosition(pdf.getDefaultPageSize().getWidth() - 350, pdf.getDefaultPageSize().getHeight() - 95);
+    document.add(logo);
+} catch (IOException e) {
+    request.setAttribute("error", "Error al cargar la imagen: " + e.getMessage());
+    request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+    return;
+}
+
 
 int num_cli = cli.getNroClient();
 String nomb_cli = cli.getRazon_social();
@@ -133,6 +165,23 @@ for (detalle_remito remito : listDet) {
 
 // Agregar la tabla al documento
 document.add(table);
+
+double totalImporte = 0;
+for (detalle_remito remito : listDet) {
+    totalImporte += remito.getImporte();
+}
+
+// Agregar espacio antes del total
+document.add(new Paragraph("\n"));
+
+// Mostrar el total en la parte inferior de la página
+DecimalFormat dfTotal = new DecimalFormat("#.00");
+document.add(new Paragraph("TOTAL: $" + dfTotal.format(totalImporte))
+        .setBold()
+        .setFontSize(12)
+        .setTextAlignment(TextAlignment.RIGHT));
+
+
 document.close();
 
 // Establecer encabezado de tipo de contenido para PDF
