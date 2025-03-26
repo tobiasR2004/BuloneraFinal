@@ -262,4 +262,5 @@ public class controladoraLogica {
     // Si no es válido, marcamos que falló la autenticación
     request.setAttribute("usuarioValido", false);
 }
+    
 }

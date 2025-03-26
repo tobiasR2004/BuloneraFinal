@@ -37,7 +37,7 @@
         <groupId>com.itextpdf</groupId>
         <artifactId>pdfa</artifactId>
         <version>7.0.4</version>
-      </dependency>     
+      </dependency>   
         <!-- Apache POI -->
         <dependency>
             <groupId>org.apache.poi</groupId>

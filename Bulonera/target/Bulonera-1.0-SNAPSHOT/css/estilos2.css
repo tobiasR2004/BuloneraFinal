@@ -52,8 +52,7 @@
 }
 
 .sinBorde{
-    border: none;
-    outline: none;
+    border: 1px solid rgba(169, 169, 169, 0.6) ;
 }
 
 
