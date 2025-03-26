@@ -8,6 +8,8 @@ import Bulonera.logica.producto;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,9 @@ public class excelService {
             String categoriaProd = row.getCell(2).getStringCellValue();
             double precioCompra = row.getCell(3).getNumericCellValue();
             double precioVenta = row.getCell(4).getNumericCellValue();
+            
+            BigDecimal precioCompraRedondeado = BigDecimal.valueOf(precioCompra).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal precioVentaRedondeado = BigDecimal.valueOf(precioVenta).setScale(2, RoundingMode.HALF_UP);
 
             // Crea un objeto producto
             
@@ -38,8 +43,10 @@ public class excelService {
             prod.setCod_prod(codProd);
             prod.setNomb_prod(nombProd);
             prod.setCategoria_prod(categoriaProd);
-            prod.setPrecio_compra(precioCompra);
-            prod.setPrecio_venta(precioVenta);
+            prod.setPrecio_compra(precioCompraRedondeado.doubleValue());
+            prod.setPrecio_venta(precioVentaRedondeado.doubleValue());
+            
+            
 
             productos.add(prod);
         }
