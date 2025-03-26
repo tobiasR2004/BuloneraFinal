@@ -523,11 +523,6 @@ td {
     background-color:yellowgreen;
 }
 
-.sinBorde{
-    border: none;
-    outline: none;
-}
-
 #ancho{
     width: 60px;
 }
@@ -542,6 +537,26 @@ td {
     padding: 4px;
     border: solid 2px rgba(66,66,66);
     border-radius: 10px;
+}
+
+#listaResultados{
+    margin-top: 1%;
+    margin-left: 3%;
+    position: relative;
+    width: 94%;
+    border: 1px solid rgba(169, 169, 169, 0.6) ;
+}
+
+#buscarProducto{
+    position: relative;
+    margin-left: 3%;
+    border: 1px solid rgba(169, 169, 169, 0.6) ;
+}
+
+#codigoProducto{
+    position: relative;
+    margin-left: 21%;
+    border: 1px solid rgba(169, 169, 169, 0.6) ;
 }
 
 .fondoRem{

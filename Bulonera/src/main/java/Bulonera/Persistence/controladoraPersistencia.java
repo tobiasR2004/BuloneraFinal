@@ -477,5 +477,15 @@ public class controladoraPersistencia {
         return listaUsuarios;
     }
 
- 
+    public List<producto> buscarProductoPorNombre(String nombre) {
+        EntityManager em = productoJpa.getEntityManager();
+    try {
+        List<producto> productos = em.createQuery("SELECT p FROM producto p WHERE p.nomb_prod LIKE :nombre", producto.class)
+                 .setParameter("nombre", "%" + nombre + "%")
+                 .getResultList();
+        return productos;
+    } finally {
+        em.close();
+    }
+    }
 }

@@ -144,7 +144,7 @@
                            aria-label="Username" aria-describedby="addon-wrapping" minlength="3" name="confirmContra">
                 </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="DNI del cliente que desea modificar" aria-label="DNI" aria-describedby="button-addon2" minlength="8" maxlength="8" required pattern="[0-9]+" name="buscarCl"">
+                        <input type="text" class="form-control" placeholder="DNI del cliente que desea modificar" id="dniModi" aria-label="DNI" aria-describedby="button-addon2" minlength="8" maxlength="8" required pattern="[0-9]+" name="buscarCl"">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
                     </div>
                 </form>                  

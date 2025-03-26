@@ -198,6 +198,11 @@
                 <!-- Tabla -->
                 <div class="table-responsive"> 
                         <table class="table table-bordered" id="tabla-remito">
+                            
+                        <input type="text" id="buscarProducto" placeholder="Buscar producto..." autocomplete="off">
+                        <input type="text" id="codigoProducto" placeholder="Código del producto" readonly>
+                        <select id="listaResultados" size="3"></select>
+                            
                         <thead>
                             <tr>
                                 <th scope="col">ID-Producto</th>
@@ -274,8 +279,38 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>       
 
+<script>
+    document.getElementById("buscarProducto").addEventListener("keyup", function() {
+    let query = this.value.trim();
+    let lista = document.getElementById("listaResultados");
+    
+    if (query.length > 1) { // Para evitar búsquedas vacías
+        fetch("sVbusquedaProductos?query=" + query)
+        .then(response => response.json())
+        .then(data => {
+            lista.innerHTML = "";
+            lista.style.display = "block"; // Mostrar la lista
+            
+            data.forEach(prod => {
+                let option = document.createElement("option");
+                option.value = prod.cod_prod;
+                option.textContent = prod.nomb_prod;
+                lista.appendChild(option);
+                });
+            })
+            .catch(error => console.error("Error en la búsqueda:", error));
+    }
+    });
+
+    // Al seleccionar un producto de la lista, se actualiza el campo de código de producto
+    document.getElementById("listaResultados").addEventListener("change", function() {
+    let selectedOption = this.options[this.selectedIndex];
+    document.getElementById("codigoProducto").value = selectedOption.value;
+    });
+</script>
+                
 <script>
     document.getElementById("boton4").addEventListener("click", function () {
         // Mostrar la columna de checkboxes
@@ -302,6 +337,7 @@
 
         document.getElementById("confirmarEliminacion").style.display = "none";
         document.getElementById("cancelarEliminacion").style.display = "none";
+        document.getElementById("boton5").disabled = false;
     });
 </script>
 
@@ -323,7 +359,7 @@
     
     document.getElementById("cancelarEliminacion").addEventListener("click", function () {
         // Ocultar la columna de checkboxes y los botones
-        const checkboxes = document.querySelectorAll(".checkboxColumn");
+        const checkboxes = document.querySelectorAll(".checkboxRemito");
         const checkboxHeader = document.getElementById("checkboxHeader");
 
         checkboxes.forEach(checkbox => checkbox.style.display = "none");
@@ -331,6 +367,7 @@
 
         document.getElementById("boton8").style.display = "none";
         document.getElementById("cancelarEliminacion").style.display = "none";
+        document.getElementById("boton4").disabled = false;
     });
 </script>
         
