@@ -56,41 +56,42 @@ public class svModifclient extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-        HttpSession miSesion = request.getSession(false);
-        
-        String contra = request.getParameter("confirmContra");
-        String contraIng = (String) miSesion.getAttribute("contraValida");
-        
-        boolean validacionContra = false;
-        
-        
-        if (contra == null  || contraIng == null){
-           request.setAttribute("error", "Complete el campo de contraseña");
-           request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
-           validacionContra = false;
-        
-        } else if(contra.equals(contraIng)) {
-            int dniModif = Integer.parseInt(request.getParameter("buscarCl"));
-        
-            cliente cliente1 = ctrl.buscarDniCliente(dniModif);
-            if(cliente1 != null) {
+      
+    HttpSession miSesion = request.getSession(false);
+
+    String contra = request.getParameter("confirmContra");
+    String contraIng = (String) miSesion.getAttribute("contraValida");
+
+    if (contra == null || contraIng == null) {
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("errorModif", "Ingrese su Contraseña");
+        sesion.setAttribute("validac", false);
+        response.sendRedirect("clientes.jsp#client");
+        return;
+    }
+
+    if (contra.equals(contraIng)) {
+        int dniModif = Integer.parseInt(request.getParameter("buscarCl"));
+        cliente cliente1 = ctrl.buscarDniCliente(dniModif);
+
+        if (cliente1 != null) {
             HttpSession misesion = request.getSession();
             misesion.setAttribute("clienModif", cliente1);
-            validacionContra = true;
+            misesion.setAttribute("validac", true);
             response.sendRedirect("modifCliente.jsp");
         } else {
-            request.setAttribute("error", "cliente no encontrado");
-            request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
-            } 
-        } else{
-            request.setAttribute("error", "contraseña incorrecta.");
-            request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
-            validacionContra = false;
+            HttpSession sesion = request.getSession();
+            sesion.setAttribute("errorModif", "Cliente no encontrado");
+            sesion.setAttribute("validac", false);
+            response.sendRedirect("clientes.jsp#client");
         }
+    } else {
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("errorModif", "Contraseña incorrecta");
+        sesion.setAttribute("validac", false);
+        response.sendRedirect("clientes.jsp#client");
+    }
 
-       HttpSession sesionBool = request.getSession();
-       sesionBool.setAttribute("validac", validacionContra );
-       
     }
 
     /**     

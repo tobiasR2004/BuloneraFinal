@@ -16,7 +16,7 @@ C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svProductos
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svActualizarDetalle.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\NonexistentEntityException.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\PreexistingEntityException.java
-C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\service\excelService.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\service\ExcelService.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\pagoJpaController.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCargarProductos.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svModifUs.java
