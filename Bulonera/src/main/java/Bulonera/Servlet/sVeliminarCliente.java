@@ -33,21 +33,53 @@ public class sVeliminarCliente extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        int idBorrar = Integer.parseInt(request.getParameter("idCliente"));
+     HttpSession miSesion = request.getSession(false);
 
-        cliente cli = ctrl.consultarCliente(idBorrar);
-        if (cli != null){
+    String contra = request.getParameter("confirmContraElim");
+    String contraIng = (String) miSesion.getAttribute("contraValida");
+
+    String idClienteStr = (request.getParameter("idCliente"));
+    
+     if (idClienteStr == null || idClienteStr.isEmpty()) {
+    // Manejar el caso de parámetro faltante o vacío
+    HttpSession session = request.getSession();
+    session.setAttribute("errorModif", "Debe ingresar un Nro de cliente");
+    response.sendRedirect("clientes.jsp#client");
+    } else {
+    int idBorrar = Integer.parseInt(idClienteStr);
+    
+    cliente cli = ctrl.consultarCliente(idBorrar);
+
+    if (contra == null || contraIng == null) {
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("errorModif", "Ingrese su contraseña");
+        sesion.setAttribute("validac", false);
+        response.sendRedirect("clientes.jsp#client");
+        return;
+    }
+
+    if (contra.equals(contraIng)) {
+        if (cli != null) {
             ctrl.eliminarCliente(idBorrar);
+
             List<cliente> listaClientesActualizada = ctrl.consultarClienteList();
             HttpSession session = request.getSession();
             session.setAttribute("listaCliente", listaClientesActualizada);
+            session.setAttribute("validac", true);
             response.sendRedirect("clientes.jsp#client");
         } else {
-            request.setAttribute("error", "No se encontro el cliente que desea eliminar");
-            request.getRequestDispatcher("clientes.jsp#client").forward(request, response);
+            HttpSession session = request.getSession();
+            session.setAttribute("errorModif", "No se encontró el cliente que desea eliminar");
+            session.setAttribute("validac", false);
+            response.sendRedirect("clientes.jsp#client");
         }
+    } else {
+        HttpSession session = request.getSession();
+        session.setAttribute("errorModif", "Contraseña incorrecta");
+        session.setAttribute("validac", false);
+        response.sendRedirect("clientes.jsp#client");
+    }
+    }
     }
     
     @Override

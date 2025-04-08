@@ -71,11 +71,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
         <form action="sVeliminarCliente" method="POST">
-        <div class="input-group input-group-sm mb-3">
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Contraseña</span>
+              <input type="text" name ="confirmContraElim" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"">
+            </div>
+            <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="inputGroup-sizing-sm">Nro Cliente</span>
               <input type="text" name ="idCliente" class="form-control" aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-sm"">
-                  </div>
+            </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-primary">Eliminar</button>
