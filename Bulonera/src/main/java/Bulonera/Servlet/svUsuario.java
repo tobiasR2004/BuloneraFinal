@@ -68,23 +68,20 @@ public class svUsuario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession miSesion = request.getSession(false);
-        //Login
-        String usVal = (String) miSesion.getAttribute("usValid");
-        String contraVal = (String) miSesion.getAttribute("contraValida");
+            HttpSession miSesion = request.getSession(false);
 
-        
-        String usConfig = request.getParameter("nombreUsConfig");
-        String contraConfig = request.getParameter("contraConfig");
-        
-        if(usVal.equals(usConfig) && contraVal.equals(contraConfig)){
-            miSesion.setAttribute("usuarioVal", true); 
-            response.sendRedirect("configCuenta.jsp");
-        } else {
-            request.setAttribute("UsInvalido", "Usuario o contraseña incorrectos.");
-            request.getRequestDispatcher("configCuenta.jsp").forward(request, response);
-        }
-        
+          String usVal = (String) miSesion.getAttribute("usValid");
+          String contraVal = (String) miSesion.getAttribute("contraValida");
+          String usConfig = request.getParameter("nombreUsConfig");
+          String contraConfig = request.getParameter("contraConfig");
+
+          if (usVal != null && contraVal != null && usVal.equals(usConfig) && contraVal.equals(contraConfig)) {
+              miSesion.setAttribute("usuarioVal", true);  // Aquí agregamos el atributo a la sesión
+              response.sendRedirect("configCuenta.jsp");
+          } else {
+              request.setAttribute("UsInvalido", "Usuario o contraseña incorrectos.");
+              request.getRequestDispatcher("configCuenta.jsp").forward(request, response);
+          }
     }
 
     /**

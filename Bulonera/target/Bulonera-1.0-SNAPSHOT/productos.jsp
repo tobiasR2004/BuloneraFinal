@@ -21,7 +21,7 @@
 
      <button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>
      
-     <input type="text" class="buscarProd" id="searchProd" placeholder="Buscar por Razon Social" onkeyup="buscarProd()">
+     <input type="text" class="buscarProd" id="searchProd" placeholder="Buscar por producto" onkeyup="buscarProd()">
     </li>
 </ul>
 </div>
@@ -72,7 +72,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <p>Seguro que desea vaciar la lista de productos</p>
+          <p>¿Seguro que desea vaciar la lista de productos?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

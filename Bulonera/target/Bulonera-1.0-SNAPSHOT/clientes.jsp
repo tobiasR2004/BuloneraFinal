@@ -11,7 +11,6 @@
     <li> 
         <button type="button" class="btn btn-navbar" data-bs-toggle="modal" data-bs-target="#modalEliminar" id="boton9">
             Eliminar cliente  </button>
-
     </li>
 
 <li>
@@ -72,11 +71,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
         <form action="sVeliminarCliente" method="POST">
-        <div class="input-group input-group-sm mb-3">
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Contraseña</span>
+              <input type="text" name ="confirmContraElim" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"">
+            </div>
+            <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="inputGroup-sizing-sm">Nro Cliente</span>
               <input type="text" name ="idCliente" class="form-control" aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-sm"">
-                  </div>
+            </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-primary">Eliminar</button>
@@ -141,11 +145,11 @@
                 </div>
                 <form action="svModifclient" method="GET">
                 <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Ingrese su contraseña para poder modificar"
+                    <input type="text" class="form-control" id="esconderText" placeholder="Ingrese su contraseña para poder modificar"
                            aria-label="Username" aria-describedby="addon-wrapping" minlength="3" name="confirmContra">
                 </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="DNI del cliente que desea modificar" aria-label="DNI" aria-describedby="button-addon2" name="buscarCl"">
+                        <input type="text" class="form-control" placeholder="DNI del cliente que desea modificar" id="dniModi" aria-label="DNI" aria-describedby="button-addon2" minlength="8" maxlength="8" required pattern="[0-9]+" name="buscarCl"">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
                     </div>
                 </form>                  
@@ -154,7 +158,7 @@
     </div>
 
 
-    <!-- Modal de Error -->
+    <!----------------------------------------------------------- Modal de Error ------------------------------------------------------->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -171,6 +175,47 @@
             </div>
         </div>
     </div>
+                
+  <!-- ------------------------------------------------- MODAL ERRROR MODIFICICACION --------------------------------------------------------->
+    <div class="modal fade" id="errorModifModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Atencion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <%= session.getAttribute("errorModif") != null ? session.getAttribute("errorModif") : "" %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <%
+        String error = (String) session.getAttribute("errorModif");
+        if (error != null) {
+    %>
+        <script>
+            const errorModal = new bootstrap.Modal(document.getElementById('errorModifModal'));
+            document.addEventListener("DOMContentLoaded", () => {
+                errorModal.show();
+            });
+        </script>
+    <%
+        session.removeAttribute("errorModif"); // Para que no se repita en recarga
+        }
+    %>   
+    <script>
+        window.onload = function() {
+            if (window.location.hash === "#client") {
+                location.href = window.location.hash;
+            }
+        };
+    </script>
+ <!-- ------------------------------------------------------------------------------------------------------------- -->
+    
     <script>
     window.onload = function() {
         
@@ -203,6 +248,7 @@
                 }
             }
 </script>
+
 </body>
 
 </html>

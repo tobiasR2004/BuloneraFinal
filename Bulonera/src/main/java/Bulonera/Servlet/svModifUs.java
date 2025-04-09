@@ -92,8 +92,9 @@ public class svModifUs extends HttpServlet {
         
         if (usuario1 != null) {
             ctrl.modifUsuario(usuario1);
-          
-            
+            miSesion.setAttribute("usValid", usNombre);
+            miSesion.setAttribute("contraValida", usContra1);
+
             request.getRequestDispatcher("configCuenta.jsp").forward(request, response);
         } else {
             

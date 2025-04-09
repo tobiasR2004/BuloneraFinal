@@ -88,16 +88,27 @@ public class controladoraLogica {
         ctrlpersis.eliminarCc(id);
     }
     
+    public void eliminarCCPorCabecera(cabecera_remito cabecera) {
+        ctrlpersis.eliminarCCPorCabecera(cabecera);
+    }
+    
     public void modifCc(cuenta_corriente cC1) {
         ctrlpersis.modifCc(cC1);
     }
     
+    public cuenta_corriente consultarCcporCabec(cabecera_remito idcabec){
+        return ctrlpersis.consultarCcporcabec(idcabec);
+    }
     public cuenta_corriente consultarCc(int id){
         return ctrlpersis.consultarCc(id);
     }
     
     public List<cuenta_corriente> consultarCcList(cabecera_remito cab){
         return ctrlpersis.consultarCcList(cab);
+    }
+    
+    public void actualizarImportesCc(int idCc){
+       ctrlpersis.actualizarSaldoCuentaCorriente(idCc);
     }
     
     //CRUD DETALLE
@@ -110,6 +121,23 @@ public class controladoraLogica {
         ctrlpersis.eliminarDetalle(id);
     }
     
+    public cabecera_remito obtenerCabeceraRemitoPorId(int idCabecera) {
+        return ctrlpersis.obtenerCabeceraRemitoPorId(idCabecera);
+    }
+    public void eliminarDetallesPorCabecera(cabecera_remito cabecera) {
+        ctrlpersis.eliminarDetallesPorCabecera(cabecera);
+    }
+    
+    public List<detalle_remito> consultarListaDetalles(){
+        return ctrlpersis.consultarListaDetalles();
+    }
+    
+    public void eliminarDetallePorIdCabecera(int idCabecera) {
+        System.out.println("Intentando eliminar detalles con idCabecera: " + idCabecera); // LOG
+        ctrlpersis.eliminarPorIdCabecera(idCabecera);
+        System.out.println("Detalle con ID: " + idCabecera + " eliminado correctamente."); // LOG
+}
+    
     public void modifDetalle(detalle_remito detalle1){
         ctrlpersis.modifDetalle(detalle1);
     }
@@ -118,8 +146,24 @@ public class controladoraLogica {
         return ctrlpersis.consultarDetalle(id);
     }
     
-    public ArrayList<detalle_remito> consultarDetalleList(){
+    public List<detalle_remito> consultarDetalleList(){
         return ctrlpersis.consultarDetalleList();
+    }
+    
+    public List<detalle_remito> consultarDetalleListCabec(List<Integer> remitosSeleccionados) {
+        return ctrlpersis.consultarDetalleListCabec(remitosSeleccionados);
+    }
+    
+    public void actPrecioDetalle(String idprod, double nuevoprecio, double importe){
+        ctrlpersis.actualizarPreciosDetalleRemito(idprod, nuevoprecio, importe);
+    }
+    
+    public void actrefDetalle(){
+     ctrlpersis.actualizarReferenciasPorCodProd();
+    }
+    
+    public void actimportetotal( int cabec){
+        ctrlpersis.actualizarImporteTotal(cabec);
     }
     
     //CRUD PAGO
@@ -218,8 +262,5 @@ public class controladoraLogica {
     // Si no es válido, marcamos que falló la autenticación
     request.setAttribute("usuarioValido", false);
 }
-
-    public producto buscarProductoPorCodProd(int parseInt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 }

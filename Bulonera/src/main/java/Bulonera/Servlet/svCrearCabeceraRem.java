@@ -107,6 +107,9 @@ public class svCrearCabeceraRem extends HttpServlet {
             String nroClientStr = (String) misesion.getAttribute("clienteIdSeleccionado");
             Date fechaStr = new java.util.Date();
             
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            Date fechaFormateada = formato.parse(formato.format(fechaStr));
+            
             misesion.setAttribute("nroClientStr", nroClientStr);
             
             int nroClient = Integer.parseInt(nroClientStr);
@@ -120,7 +123,7 @@ public class svCrearCabeceraRem extends HttpServlet {
             cabec.setCuit_cliente(cli.getCuit_cliente());
             cabec.setListadetalles((ArrayList<detalle_remito>) listaCabec);
             cabec.setRazon_social(cli.getRazon_social());
-            cabec.setFecha_Rem(fechaStr);
+            cabec.setFecha_Rem(fechaFormateada);
             cabec.setImporte_total(0);
             cabec.setClienteCabecera(cli);
             

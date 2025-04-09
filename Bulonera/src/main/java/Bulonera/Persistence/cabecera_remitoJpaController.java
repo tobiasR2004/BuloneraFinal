@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 
 /**
@@ -24,11 +23,11 @@ import javax.persistence.Persistence;
  * @author tobi2
  */
 public class cabecera_remitoJpaController implements Serializable {
-    
+
     public cabecera_remitoJpaController() {
-         emf = Persistence.createEntityManagerFactory("buloneraPU");
+        emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
-    
+
     public cabecera_remitoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -173,10 +172,6 @@ public class cabecera_remitoJpaController implements Serializable {
     public cabecera_remito findcabecera_remito(int id) {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("SELECT c FROM cabecera_remito c WHERE c.cliente_cabecera.nroClient = :id", cabecera_remito.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-        } catch (NoResultException e) {
             return em.find(cabecera_remito.class, id);
         } finally {
             em.close();

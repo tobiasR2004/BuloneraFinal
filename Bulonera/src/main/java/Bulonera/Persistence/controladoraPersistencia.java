@@ -5,6 +5,7 @@
 package Bulonera.Persistence;
 
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
+import Bulonera.Persistence.exceptions.PreexistingEntityException;
 import Bulonera.logica.cabecera_remito;
 import Bulonera.logica.cliente;
 import Bulonera.logica.cuenta_corriente;
@@ -13,7 +14,9 @@ import Bulonera.logica.pago;
 import Bulonera.logica.producto;
 import Bulonera.logica.usuario;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -156,9 +159,9 @@ public class controladoraPersistencia {
         cliente client2 = null;
 
             try {
-                String jpql = "SELECT c FROM cliente c WHERE c.razonSocial = razonSoc";
+                String jpql = "SELECT c FROM cliente c WHERE c.razonSocial = :razonSoc";
                 Query query = em.createQuery(jpql);
-                query.setParameter("cliente", razonSoc);
+                query.setParameter("razonSoc", razonSoc);
 
                 client2 = (cliente) query.getSingleResult();
             } catch (NoResultException e) {
@@ -203,6 +206,28 @@ public class controladoraPersistencia {
         }
     }
 
+    public cuenta_corriente consultarCcporcabec(cabecera_remito idcabec){
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        cuenta_corriente resultado = null;
+
+      try {
+          String query = "SELECT cc FROM cuenta_corriente cc WHERE cc.cabeceraremito = :idcabec";
+          TypedQuery<cuenta_corriente> typedQuery = em.createQuery(query, cuenta_corriente.class);
+          typedQuery.setParameter("idcabec", idcabec);
+
+          List<cuenta_corriente> resultados = typedQuery.getResultList();
+          if (!resultados.isEmpty()) {
+              resultado = resultados.get(0); // Retorna el primer resultado si existe
+          }
+      } catch (Exception e) {
+          e.printStackTrace(); // O usa un logger
+      } finally {
+          em.close(); // Cierra el EntityManager
+      }
+
+      return resultado;
+    }
+    
     public cuenta_corriente consultarCc(int id) {
         return cuenta_corrienteJpa.findcuenta_corriente(id);
     }
@@ -223,6 +248,63 @@ public class controladoraPersistencia {
     return typedQuery.getResultList();
 }
 
+   
+       
+    public void eliminarCCPorCabecera(cabecera_remito cabecera) {
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            // Eliminar los detalles asociados a la cabecera
+            Query query = em.createQuery("DELETE FROM cuenta_corriente c WHERE c.cabeceraremito = :cabecera");
+            query.setParameter("cabecera", cabecera);
+            query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+    public void actualizarSaldoCuentaCorriente(int idCuentaCorriente) {
+        
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+
+            // Sumar los importes de los remitos asociados a la cuenta corriente
+            String sumaImportesQuery = "SELECT SUM(cr.importe_total) FROM cabecera_remito cr " +
+                                       "WHERE cr.idRemito IN (SELECT cc.cabeceraremito.idRemito FROM cuenta_corriente cc WHERE cc.id_cc = :idCuenta)";
+            Query querySuma = em.createQuery(sumaImportesQuery);
+            querySuma.setParameter("idCuenta", idCuentaCorriente);
+
+            Double saldoTotal = (Double) querySuma.getSingleResult();
+
+            if (saldoTotal == null) {
+                saldoTotal = 0.0; // Evitar valores nulos
+            }
+
+            // Actualizar el saldo en la cuenta corriente
+            String actualizarCuentaQuery = "UPDATE cuenta_corriente cc SET cc.saldo_cc = :saldoTotal, cc.debe_cc = :saldoTotal WHERE cc.id_cc = :idCuenta";
+            Query queryActualizarCuenta = em.createQuery(actualizarCuentaQuery);
+            queryActualizarCuenta.setParameter("saldoTotal", saldoTotal);
+            queryActualizarCuenta.setParameter("idCuenta", idCuentaCorriente);
+            queryActualizarCuenta.executeUpdate();
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Error al actualizar el saldo de la cuenta corriente: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
     //CRUD DETALLE REMITO
     
     public void crearDetalle(detalle_remito detalle1) {
@@ -237,6 +319,54 @@ public class controladoraPersistencia {
         }
     }
 
+    public void eliminarPorIdCabecera(int idCabecera) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM detalle_remito d WHERE d.cabecera.id = :idCabecera");
+            query.setParameter("idCabecera", idCabecera);
+            query.executeUpdate();
+            em.getTransaction().commit();
+            System.out.println("Registros eliminados con idCabecera: " + idCabecera); // LOG
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+        public cabecera_remito obtenerCabeceraRemitoPorId(int idCabecera) {
+        EntityManager em = cabecera_remitoJpa.getEntityManager();
+        try {
+            return em.find(cabecera_remito.class, idCabecera);
+        } finally {
+            em.close();
+        }
+    }
+    
+    public void eliminarDetallesPorCabecera(cabecera_remito cabecera) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            // Eliminar los detalles asociados a la cabecera
+            Query query = em.createQuery("DELETE FROM detalle_remito d WHERE d.cabecdetalleremito = :cabecera");
+            query.setParameter("cabecera", cabecera);
+            query.executeUpdate();
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
     public void modifDetalle(detalle_remito detalle1) {
         try {
             detalle_remitoJpa.edit(detalle1);
@@ -249,11 +379,155 @@ public class controladoraPersistencia {
       return detalle_remitoJpa.finddetalle_remito(id);
     }
 
-    public ArrayList<detalle_remito> consultarDetalleList() {
-       List<detalle_remito> listadet = detalle_remitoJpa.finddetalle_remitoEntities();
-       ArrayList<detalle_remito> listadetalle = new ArrayList<detalle_remito>(listadet);
-       return listadetalle;
+    public List<detalle_remito> consultarDetalleList() {
+          EntityManager em = detalle_remitoJpa.getEntityManager();
+         try {
+             String jpql = "SELECT dr FROM detalle_remito dr JOIN FETCH dr.producDetalle";
+             Query query = em.createQuery(jpql);
+             return query.getResultList();
+         } finally {
+             em.close();
+         }
     }
+    
+    public List<detalle_remito> consultarListaDetalles(){
+        return detalle_remitoJpa.finddetalle_remitoEntities();
+    }
+    
+    public List<detalle_remito> consultarDetalleListCabec(List<Integer> remitosSeleccionados) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
+
+        // Consulta JPQL para filtrar solo por los remitos seleccionados
+        String query = "SELECT dr FROM detalle_remito dr " +
+                       "WHERE dr.cabecdetalleremito IN :remitosSeleccionados";
+
+        TypedQuery<detalle_remito> typedQuery = em.createQuery(query, detalle_remito.class);
+        typedQuery.setParameter("remitosSeleccionados", remitosSeleccionados);  // Lista de remitos seleccionados
+
+        return typedQuery.getResultList();
+    }
+    
+    
+    
+    public void actualizarReferenciasPorCodProd() {
+    EntityManager em = detalle_remitoJpa.getEntityManager();
+    EntityTransaction transaction = em.getTransaction();
+    try {
+        transaction.begin();
+
+        // 1. Obtener todos los productos de la base de datos
+        List<producto> productos = em.createQuery("SELECT p FROM producto p", producto.class).getResultList();
+        Map<String, producto> productosMap = new HashMap<>();
+        
+        // 2. Cargar los productos en el mapa por cod_prod
+        for (producto prod : productos) {
+            productosMap.put(prod.getCod_prod(), prod);
+        }
+
+        // 3. Obtener todos los detalles de remitos
+        List<detalle_remito> detalles = em.createQuery("SELECT d FROM detalle_remito d", detalle_remito.class).getResultList();
+
+        // 4. Actualizar las referencias de producto en detalle_remito
+        for (detalle_remito detalle : detalles) {
+            if (detalle.getProducDetalle() != null) {
+                // Recuperamos el producto usando su cod_prod
+                producto nuevoProducto = productosMap.get(detalle.getProducDetalle().getCod_prod());
+                
+                if (nuevoProducto != null) {
+                    // Actualizamos la referencia en detalle_remito
+                    detalle.setProducDetalle(nuevoProducto);
+                    em.merge(detalle);  // Persistir el detalle con la nueva referencia
+                } else {
+                    // Log de error si no se encuentra el producto
+                    System.out.println("Producto no encontrado para cod_prod: " + detalle.getProducDetalle().getCod_prod());
+                }
+            }
+        }
+
+        // 5. Confirmar la transacción
+        transaction.commit();
+    } catch (Exception e) {
+        if (transaction.isActive()) {
+            transaction.rollback();
+        }
+        e.printStackTrace();  // Log de errores
+    } finally {
+        em.close();
+    }
+}
+    
+         public void actualizarPreciosDetalleRemito(String codProducto, double nuevoPrecioVenta, double nuevoImporte) {
+           EntityManager em = detalle_remitoJpa.getEntityManager();
+           EntityTransaction transaction = em.getTransaction();
+
+           try {
+               transaction.begin();
+
+               String query = "UPDATE detalle_remito dr " +
+                              "SET dr.precio_unit = :nuevoPrecio, dr.importe = :nuevoImporte " +
+                              "WHERE dr.cod_prod = :codProducto";
+
+               Query updateQuery = em.createQuery(query);
+               updateQuery.setParameter("nuevoPrecio", nuevoPrecioVenta);
+               updateQuery.setParameter("nuevoImporte", nuevoImporte);
+               updateQuery.setParameter("codProducto", codProducto);
+
+               int filasActualizadas = updateQuery.executeUpdate();
+               System.out.println("Filas actualizadas en detalle_remito: " + filasActualizadas);
+
+               transaction.commit();
+           } catch (Exception e) {
+               if (transaction.isActive()) {
+                   transaction.rollback();
+               }
+               throw new RuntimeException("Error al actualizar los precios en detalle_remito: " + e.getMessage());
+           } finally {
+               em.close();
+           }
+       }
+ 
+public void actualizarImporteTotal( int cabecdetalle) {
+    EntityManager em = detalle_remitoJpa.getEntityManager();
+    EntityTransaction transaction = em.getTransaction();
+
+    try {
+        transaction.begin();
+
+        // Consulta para obtener la suma de los importes de todos los detalles asociados a la cabecera
+        String sumaImportesQuery = "SELECT SUM(dr.importe) FROM detalle_remito dr WHERE dr.cabecdetalleremito.idRemito = :idCabecera";
+        Query querySuma = em.createQuery(sumaImportesQuery);
+        querySuma.setParameter("idCabecera", cabecdetalle);
+
+        Double importeTotalCabecera = (Double) querySuma.getSingleResult();
+
+        if (importeTotalCabecera == null) {
+            importeTotalCabecera = 0.0; // Asegurarse de que no sea nulo
+        }
+
+        // Actualizar el importe_total en todos los detalles de la misma cabecera
+        String actualizarDetallesQuery = "UPDATE detalle_remito dr SET dr.importe_total = :importeTotalCabecera WHERE dr.cabecdetalleremito.idRemito = :idCabecera";
+        Query queryActualizarDetalles = em.createQuery(actualizarDetallesQuery);
+        queryActualizarDetalles.setParameter("importeTotalCabecera", importeTotalCabecera);
+        queryActualizarDetalles.setParameter("idCabecera", cabecdetalle);
+        queryActualizarDetalles.executeUpdate();
+
+        // Actualizar el importe_total en la cabecera
+        String actualizarCabeceraQuery = "UPDATE cabecera_remito cr SET cr.importe_total = :importeTotalCabecera WHERE cr.idRemito = :idCabecera";
+        Query queryActualizarCabecera = em.createQuery(actualizarCabeceraQuery);
+        queryActualizarCabecera.setParameter("importeTotalCabecera", importeTotalCabecera);
+        queryActualizarCabecera.setParameter("idCabecera", cabecdetalle);
+        queryActualizarCabecera.executeUpdate();
+
+        transaction.commit();
+    } catch (Exception e) {
+        if (transaction.isActive()) {
+            transaction.rollback();
+        }
+        throw new RuntimeException("Error al actualizar el importe total de la cabecera y sus detalles: " + e.getMessage());
+    } finally {
+        em.close();
+    }
+}
     
     
     //CRUD PAGO
@@ -290,9 +564,13 @@ public class controladoraPersistencia {
     
     //CRUD PRODUCTO
     public void crearProducto(producto prod1) {
-        productoJpa.create(prod1);
+            try {
+                productoJpa.create(prod1);
+            } catch (Exception ex) {
+                Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
-
+    
     public void eliminarProducto(int id) {
         try {
             productoJpa.destroy(id);
@@ -398,5 +676,15 @@ public class controladoraPersistencia {
         return listaUsuarios;
     }
 
- 
+    public List<producto> buscarProductoPorNombre(String nombre) {
+        EntityManager em = productoJpa.getEntityManager();
+    try {
+        List<producto> productos = em.createQuery("SELECT p FROM producto p WHERE p.nomb_prod LIKE :nombre", producto.class)
+                 .setParameter("nombre", "%" + nombre + "%")
+                 .getResultList();
+        return productos;
+    } finally {
+        em.close();
+    }
+    }
 }

@@ -11,8 +11,10 @@ import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.pago;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -74,12 +76,20 @@ public class svCancelarDeuda extends HttpServlet {
         
         HttpSession misesion = request.getSession();
         String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado"); 
+
+        
+        if(idCabec == null){
+            request.setAttribute("error", "por favor, seleccione un cliente");
+           request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+        } else {
+        
         int nroClient = Integer.parseInt(idCabec);
         List<cabecera_remito> cabecList = (List<cabecera_remito>) ctrl.consultarCabecNroClient(nroClient);
         cabecera_remito cabecdetalleremito = cabecList.get(cabecList.size() - 1);
         List<cuenta_corriente> listaCC = ctrl.consultarCcList(cabecdetalleremito);
+        
         if(listaCC.isEmpty()){
-           request.setAttribute("errorCabec", "No se encontro deuda para cancelar");
+           request.setAttribute("error", "No se encontro deuda para cancelar");
            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
         } else 
         {
@@ -93,29 +103,41 @@ public class svCancelarDeuda extends HttpServlet {
         
         if (importePago == null || importePago.trim().isEmpty()) {
              // Manejar el caso de valor no válido
-            request.setAttribute("errorCabec", "Seleccione un cliente");
+            request.setAttribute("error", "Seleccione un cliente");
             request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
         } else if (idCabec == null || "".equals(idCabec) || "Elegir...".equals(idCabec)) {
-            request.setAttribute("errorCabec", "Por favor... seleccione un Cliente");
+            request.setAttribute("error", "Por favor... seleccione un Cliente");
             request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
             
         } else if (cabecList.isEmpty()) {
            
-        request.setAttribute("errorCabec", "Por favor... seleccione un Cliente");
+        request.setAttribute("error", "Por favor... seleccione un Cliente");
          request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
             
         } else {
 
-            cabecera_remito ultimaCabecera = cabecList.get(cabecList.size() - 1);
-
+            
             LocalDate fechaActual = LocalDate.now();
             java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
+            
+            
+            cliente client1 = ctrl.consultarCliente(nroClient);
+            
+            cabecera_remito newcc = new cabecera_remito();
+            
+            newcc.setCuit_cliente(client1.getCuit_cliente());
+            newcc.setFecha_Rem(fechaSQL);
+            newcc.setImporte_total(importepago);
+            newcc.setRazon_social(client1.getRazon_social());
+            newcc.setListadetalles(null);
+            newcc.setClienteCabecera(client1);
+            ctrl.crearcabecremito(newcc);
 
             cliente cliente1 = ctrl.consultarCliente(nroClient);
             cuenta_corriente cC1 = new cuenta_corriente();
             
             cC1.setSaldo_cc(saldoAcumulado);
-            cC1.setCabeceraremito(ultimaCabecera);
+            cC1.setCabeceraremito(newcc);
             cC1.setFecha_cc(fechaSQL);
             cC1.setDebe_cc(0.0);
             cC1.setHaber_cc(importepago);
@@ -140,8 +162,19 @@ public class svCancelarDeuda extends HttpServlet {
             pago1.setImporte_pago(importepago);
             ctrl.crearPago(pago1);
             
+            cabecera_remito cabec1 = new cabecera_remito();
+            cabec1.setClienteCabecera(cliente1);
+            cabec1.setCuit_cliente(cliente1.getCuit_cliente());
+            cabec1.setFecha_Rem(fechaSQL);
+            cabec1.setImporte_total(0);
+            cabec1.setRazon_social(cliente1.getRazon_social());
+            
+            ctrl.crearcabecremito(cabec1);
+            
+            
             response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + idCabec);
         }  
+        }
         }
     }
 
