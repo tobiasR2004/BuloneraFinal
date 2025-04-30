@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.servlet.annotation.MultipartConfig;
-import service.ExcelService;
+import service.excelService;
 
 
 
@@ -101,7 +101,7 @@ public class svCargarProductos extends HttpServlet {
         Part filePart = request.getPart("file"); // Recoge el archivo enviado desde el JSP
         if (filePart != null && filePart.getSize() > 0) {
             InputStream fileContent = filePart.getInputStream();
-            ExcelService excelService = new ExcelService();
+            excelService excelService = new excelService();
 
             try {
                 // Lee los productos desde el archivo Excel
