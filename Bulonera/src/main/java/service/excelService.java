@@ -50,8 +50,8 @@ public class excelService {
             prod.setCod_prod(codProd);
             prod.setNomb_prod(nombProd);
             prod.setCategoria_prod(categoriaProd);
-            prod.setPrecio_compra(precioCompraRedondeado.doubleValue());
-            prod.setPrecio_venta(precioVentaRedondeado.doubleValue());
+            prod.setPrecio_compra(precioCompra);
+            prod.setPrecio_venta(precioVenta);
             
             
 
