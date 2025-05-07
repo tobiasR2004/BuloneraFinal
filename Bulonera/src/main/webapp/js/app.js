@@ -108,6 +108,24 @@ function completarProducto(input) {
     }
     }
     
+    //NUEVA FUNCION DE AL HACER DOBLE CLICK SE COMPLETE EL PRODUCTO
+    document.getElementById('listaResultados').addEventListener('dblclick', function(e) {
+    const optionSeleccionada = e.target;
+    if (optionSeleccionada.tagName.toLowerCase() === 'option') {
+        const id = optionSeleccionada.value;
+
+        const filaProducto = document.getElementById('fila-producto');
+        const inputIdProd = filaProducto.querySelector('input[name="idProd"]');
+        
+        // Poner el ID directamente
+        inputIdProd.value = id;
+
+        // ⚠️ Ejecutar la función que ya tenés para completar
+        completarProducto(inputIdProd);
+    }
+});
+
+    
     
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("boton5").addEventListener("click", function() {

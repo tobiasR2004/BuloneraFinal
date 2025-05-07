@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +29,8 @@ public class producto implements Serializable
     private double precio_compra, precio_venta;
     private String nomb_prod, categoria_prod;
     
-    @OneToMany(mappedBy="producDetalle")
+    //@OneToMany(mappedBy="producDetalle")
+    @OneToMany(mappedBy="producDetalle", fetch = FetchType.LAZY)
       private List<detalle_remito> detalles;
 
     public producto()

@@ -9,6 +9,7 @@ import Bulonera.logica.producto;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -62,11 +63,16 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
             
             List<cabecera_remito> cabecList = (List<cabecera_remito>) ctrl.consultarCabecNroClient(clienteId);
             
-            cabecera_remito cabecdetalleremito = cabecList.get(cabecList.size() - 1);
-            
-            List<cuenta_corriente> listaCC = ctrl.consultarCcList(cabecdetalleremito);
-            System.out.println("Número de cuentas corrientes obtenidas: " + listaCC.size());
-            misesion.setAttribute("listaCC", listaCC);
+            if (cabecList != null && !cabecList.isEmpty()) {
+                cabecera_remito cabecdetalleremito = cabecList.get(cabecList.size() - 1);
+
+                List<cuenta_corriente> listaCC = ctrl.consultarCcList(cabecdetalleremito);
+                System.out.println("Número de cuentas corrientes obtenidas: " + listaCC.size());
+                misesion.setAttribute("listaCC", listaCC);
+            } else {
+                System.out.println("No hay cabeceras de remitos para este cliente.");
+                misesion.setAttribute("listaCC", new ArrayList<>()); // opcional: para evitar otros errores en el JSP
+            }
         }
 
         // Reenvía la solicitud al JSP

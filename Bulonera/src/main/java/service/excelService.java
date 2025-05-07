@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author tobi2
  */
-public class ExcelService {
+public class excelService {
     public List<producto> leerProductosDesdeExcel(InputStream inputStream) throws Exception {
         List<producto> productos = new ArrayList<>();
         Workbook workbook = new XSSFWorkbook(inputStream);
@@ -50,8 +50,8 @@ public class ExcelService {
             prod.setCod_prod(codProd);
             prod.setNomb_prod(nombProd);
             prod.setCategoria_prod(categoriaProd);
-            prod.setPrecio_compra(precioCompraRedondeado.doubleValue());
-            prod.setPrecio_venta(precioVentaRedondeado.doubleValue());
+            prod.setPrecio_compra(precioCompra);
+            prod.setPrecio_venta(precioVenta);
             
             
 
