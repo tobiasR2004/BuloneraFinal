@@ -215,10 +215,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr id="fila-producto">
+                            <tr class="fila-producto">
                                 <td><input class="sinBorde ancho" minlength="1" type="text" name="idProd" onchange="completarProducto(this)"></td>
                                 <td><input class="sinBorde" type="text" minlength="1" name="nombreProd" readonly></td>
-                                <td><input class="sinBorde ancho cantProd" minlength="1" required pattern="[0-9]+" type="number" name="cantProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde ancho cantProd" minlength="1" required pattern="[0-9]+([.,][0-9]+)?" type="text" name="cantProd" oninput="calcularImporte()"></td>
                                 <td><input class="sinBorde ancho precioProd" minlength="1" type="number" name="precioProd" readonly></td>
                                 <td><input class="sinBorde importeProd" minlength="1" type="number" name="importeProd" readonly></td>
                             </tr>
@@ -379,19 +379,15 @@
 
                 
 <script>
-    //Agregar fila al modal de remito
     document.getElementById('agregarFila').addEventListener('click', function() {
-        var tabla = document.getElementById('tabla-remito');
-        var fila = document.getElementById('fila-producto');
-        var nuevaFila = fila.cloneNode(true);
+        const tablaCuerpo = document.querySelector("#tabla-remito tbody");
+        const filaBase = document.querySelector('.fila-producto'); // Usamos class en lugar de ID
+        const nuevaFila = filaBase.cloneNode(true);
 
-        // Resetear los valores de los campos para la nueva fila
-        var inputs = nuevaFila.getElementsByTagName('input');
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].value = '';
-        }
-        
-        var tablaCuerpo = document.getElementById("tabla-remito").getElementsByTagName("tbody")[0];
+        // Limpiar los inputs de la nueva fila
+        const inputs = nuevaFila.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
+
         tablaCuerpo.appendChild(nuevaFila);
     });
 </script>
@@ -426,6 +422,25 @@ window.onload = function () {
         errorModal.show();
     }
 };
+</script>
+
+<script> 
+//NUEVA FUNCION DE AL HACER DOBLE CLICK SE COMPLETE EL PRODUCTO
+    document.getElementById('listaResultados').addEventListener('dblclick', function(e) {
+        const optionSeleccionada = e.target;
+        if (optionSeleccionada.tagName.toLowerCase() === 'option') {
+            const id = optionSeleccionada.value;
+
+            // Buscar todas las filas de producto
+            const filas = document.querySelectorAll('.fila-producto');
+            const ultimaFila = filas[filas.length - 1]; // Usa la última fila como destino
+
+            const inputIdProd = ultimaFila.querySelector('input[name="idProd"]');
+            inputIdProd.value = id;
+
+            completarProducto(inputIdProd);
+        }
+    });
 </script>
 
 </body>
