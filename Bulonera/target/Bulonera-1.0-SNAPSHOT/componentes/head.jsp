@@ -22,4 +22,12 @@
         <!--JS-->
         <script src="js/app.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- jQuery (requerido por DataTables) -->
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+       <!-- DataTables CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+        <!-- DataTables JS -->
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        
     </head>
