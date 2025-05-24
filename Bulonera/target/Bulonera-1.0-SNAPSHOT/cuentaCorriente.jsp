@@ -347,7 +347,7 @@
 <script>   
     document.getElementById("boton5").addEventListener("click", function () {
         // Mostrar la columna de checkboxes
-        const checkboxes = document.querySelectorAll(".checkboxRemito");
+        const checkboxes = document.querySelectorAll("checkboxRemito");
         const checkboxHeader = document.getElementById("checkboxHeader");
         
         checkboxes.forEach(checkbox => checkbox.style.display = "table-cell");

@@ -62,7 +62,15 @@ public class excelService {
                     String categoriaProd = obtenerValorCeldaComoTexto(row.getCell(indices.get("categoria")));
                     double precioCompra = obtenerValorCeldaComoNumero(row.getCell(indices.get("precio compra")), evaluator);
                     double precioVenta = obtenerValorCeldaComoNumero(row.getCell(indices.get("precio venta")), evaluator);
-
+                    
+                    if (codProd == null || codProd.trim().isEmpty()) {
+                        continue;
+                    }
+                    
+                    if (productos.stream().anyMatch(p -> p.getCod_prod().equals(codProd))) {
+                        continue; // código ya agregado
+                    }
+                    
                     producto prod = new producto();
                     prod.setCod_prod(codProd);
                     prod.setNomb_prod(nombProd);
