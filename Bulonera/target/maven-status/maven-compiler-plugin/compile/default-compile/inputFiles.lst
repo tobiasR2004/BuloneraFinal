@@ -4,6 +4,7 @@ C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulo
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\pago.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\exceptions\IllegalOrphanException.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\sVbusquedaProductos.java
+C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svLogout.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\cabecera_remito.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svModifUs.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\controladoraPersistencia.java
@@ -18,6 +19,7 @@ C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulo
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCrearCabeceraRem.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svUsuario.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\com\mycompany\bulonera\resources\JakartaEE8Resource.java
+C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Filters\FiltroSesion.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\productoJpaController.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svRemito.java
 C:\Users\Lichi\OneDrive\Escritorio\Programacion\BuloneraFinal\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\sVcuentaCorrienteRemito.java
