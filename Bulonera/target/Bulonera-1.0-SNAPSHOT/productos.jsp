@@ -21,7 +21,6 @@
 
 <button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>
 
-<input type="text" class="buscarProd" id="searchProd" placeholder="Buscar por producto" onkeyup="buscarProd()">
 </li>
 </ul>
 </div>

@@ -281,6 +281,11 @@ section:target {
     table-layout: fixed;
 }
 
+.table-container .tablaProd {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
 .tablaProd {
     border: solid 2px black;
     border-collapse: collapse;
@@ -316,13 +321,18 @@ section:target {
   table-layout: fixed;
   border: solid 2px black;
   text-align: center;
-  width: 200px;
+  width: 190px;
 }
 .ColumnaNomb {
   table-layout: fixed;
   border: solid 2px black;
   text-align: center;
-  width: 750px;
+  width: 400px;
+}
+
+#tablaProd th.Columnas,
+#tablaProd td.Columnas {
+    width: 150px;
 }
 
 #searchInput {

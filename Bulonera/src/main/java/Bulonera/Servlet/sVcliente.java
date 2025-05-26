@@ -44,13 +44,16 @@ public class sVcliente extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            
 
+            
             //MUESTRA
             List<cliente> listaCliente = new ArrayList<>();
             listaCliente = (List<cliente>) ctrl.consultarClienteList();
             
             HttpSession sessionMuestraCli = request.getSession();
             sessionMuestraCli.setAttribute("listaCliente", listaCliente);
+            
             
             response.sendRedirect("clientes.jsp#client");   
             processRequest(request, response);
