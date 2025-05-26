@@ -407,8 +407,6 @@ public class controladoraPersistencia {
         return typedQuery.getResultList();
     }
     
-    
-    
     public void actualizarReferenciasPorCodProd() {
     EntityManager em = detalle_remitoJpa.getEntityManager();
     EntityTransaction transaction = em.getTransaction();

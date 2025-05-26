@@ -131,6 +131,7 @@ public class controladoraLogica {
     public List<detalle_remito> consultarListaDetalles(){
         return ctrlpersis.consultarListaDetalles();
     }
+
     
     public void eliminarDetallePorIdCabecera(int idCabecera) {
         System.out.println("Intentando eliminar detalles con idCabecera: " + idCabecera); // LOG
