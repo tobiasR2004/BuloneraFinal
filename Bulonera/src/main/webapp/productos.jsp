@@ -15,54 +15,51 @@
 
 <form action="svCargarProductos" method="post" enctype="multipart/form-data">
     <li class="nav-item">
-        <input class="selecExcel" type="file" id="file" name="file" accept=".xlsx">
-        <button type="submit" class="btn btn-navbar" id="boton7">Importar productos</button>
-</form>
+    <input class="selecExcel" type="file" id="file" name="file" accept=".xlsx">
+     <button type="submit" class="btn btn-navbar" id="boton7">Importar productos</button>
+    </form>
 
-<button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>
-
-</li>
+     <button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>
+     
+     <input type="text" class="buscarProd" id="searchProd" placeholder="Buscar por producto" onkeyup="buscarProd()">
+    </li>
 </ul>
 </div>
 </div>
 </nav>
 <section id="produc">
     <div class="table-container">
-        <table id="tablaProd" class="table tablaProd">
-            <thead>
-                <tr class="Columnas">
-                    <th class="ColumnaCod">Código</th>
-                    <th class="ColumnaCat">Categoría</th>
-                    <th class="ColumnaNomb">Descripción</th>
-                    <th class="Columnas">Precio compra</th>
-                    <th class="Columnas">Precio venta</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%
-                    List<producto> listaProducto = (List<producto>) request.getSession().getAttribute("listaProducto");
-                    if (listaProducto != null) {
-                        for (producto prod : listaProducto) {
-                            double precioCompraTruncado = new BigDecimal(prod.getPrecio_compra())
-                                    .setScale(2, java.math.RoundingMode.DOWN)
-                                    .doubleValue();
-                            double precioVentaTruncado = new BigDecimal(prod.getPrecio_venta())
-                                    .setScale(2, java.math.RoundingMode.DOWN)
-                                    .doubleValue();
-                %>
-                <tr>
-                    <td><%= prod.getCod_prod()%></td>
-                    <td><%= prod.getCategoria_prod()%></td>
-                    <td><%= prod.getNomb_prod()%></td>
-                    <td><%= precioCompraTruncado%></td>
-                    <td><%= precioVentaTruncado%></td>
-                </tr>
-                <%
-                        }
-                    }
-                %>
-            </tbody>
-        </table>
+        <TABLE class="table tablita">
+            <tr class="Columnas ">
+                <th class="Columnas">Código</th>
+                <th class="Columnas">Categoría</th>
+                <th class="Columnas">Descripcion</th>
+                <th class="Columnas">Precio compra</th>
+                <th class="Columnas">Precio venta</th>
+            </tr>
+            <%
+                List<producto> listaProducto = (List<producto>) request.getSession().getAttribute("listaProducto");
+                if (listaProducto != null) {
+                    for (producto prod : listaProducto) {
+                      double precioCompraTruncado = new BigDecimal(prod.getPrecio_compra())
+                      .setScale(2, java.math.RoundingMode.DOWN)
+                      .doubleValue();
+                      double precioVentaTruncado = new BigDecimal(prod.getPrecio_venta())
+                      .setScale(2, java.math.RoundingMode.DOWN)
+                      .doubleValue();
+            %>
+                    <tr>
+                        <td><%= prod.getCod_prod() %></td>
+                        <td><%= prod.getCategoria_prod() %></td>
+                        <td><%= prod.getNomb_prod() %></td>
+                        <td><%= precioCompraTruncado %></td>
+                        <td><%= precioVentaTruncado %></td>
+                    </tr>
+            <%
+                    }   
+                }
+            %>
+        </TABLE>
     </div>
 </section>
         
@@ -104,7 +101,7 @@
             </div>
         </div>
     </div>
-             
+                
     <script>
             function buscarProd() {
                 // Obtén el valor ingresado por el usuario
@@ -124,18 +121,25 @@
                 }
             }
     </script>
-                 
     <script>
     window.onload = function() {
-        
         // Verificar si hay un mensaje de error
         const error = "<%= request.getAttribute("error") != null ? "true" : "false" %>";
-        
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
 
+        const errorModalEl = document.getElementById('errorModal');
+        const errorModal = new bootstrap.Modal(errorModalEl);
+
+        // Mostrar modal si hay error
         if (error === "true") {
             errorModal.show();
         }
+
+        // Solución para evitar foco en un modal oculto (accesibilidad)
+        errorModalEl.addEventListener('hidden.bs.modal', () => {
+            if (document.activeElement && errorModalEl.contains(document.activeElement)) {
+                document.activeElement.blur(); // quita el foco si sigue dentro del modal
+            }
+        });
     };
     </script>
 </body>
