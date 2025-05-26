@@ -34,7 +34,7 @@ function mostrarBotones(ids) {
         if (boton) boton.style.display = 'block';
     });
 }
-document.addEventListener("DOMContentLoaded", function() {
+
         document.getElementById('btnAlta').addEventListener('click', function() {
             const tablaClientes = document.querySelector('#tablaClientes tbody');
             const fila = document.createElement('tr');
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             tablaClientes.appendChild(fila);
         });
-        });
+        
 document.addEventListener("DOMContentLoaded", function() {
     const errorModal = document.getElementById('errorModal');
     if (errorModal) {
@@ -88,7 +88,7 @@ function calcularImporteTotal() {
 function completarProducto(input) {    
     const idProd = input.value.trim();
     if (idProd !== "") {
-        fetch("svRemito?idProd=" + idProd)
+        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
             .then(response => response.json())
             .then(data => {
                 if (data.nombre && data.precio) {

@@ -106,48 +106,36 @@
     </div>
              
     <script>
-            $(document).ready(function() {
-             $('#tablaProd').DataTable({
-                 pageLength: 10, // Filas por página
-                 language: {
-                     // Usa la traducción base en español
-                     url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-                     // Sobrescribe solo los textos que quieras cambiar
-                     search: "🔍 Buscar producto:",
-                     lengthMenu: "Mostrar _MENU_ productos por página",
-                     paginate: {
-                         first: "Primera",
-                         last: "Última",
-                         next: "Siguiente →",
-                         previous: "← Anterior"
-                     },
-                     info: "Mostrando _START_ a _END_ de _TOTAL_ productos",
-                     emptyTable: "No hay productos disponibles",
-                     zeroRecords: "No se encontraron productos coincidentes"
-                 }
-             });
-         });
-     </script>
-             
+            function buscarProd() {
+                // Obtén el valor ingresado por el usuario
+                let input = document.getElementById("searchProd").value.toLowerCase();
+
+                // Obtén todas las filas de la tabla, excepto la de encabezado
+                let table = document.querySelector(".tablita");
+                let rows = table.getElementsByTagName("tr");
+
+                // Recorre todas las filas y oculta las que no coincidan con la búsqueda
+                for (let i = 1; i < rows.length; i++) { // Empieza en 1 para saltar el encabezado
+                    let razonSocialCell = rows[i].getElementsByTagName("td")[2]; // Columna de Razon Social
+                    if (razonSocialCell) {
+                        let razonSocialText = razonSocialCell.textContent || razonSocialCell.innerText;
+                        rows[i].style.display = razonSocialText.toLowerCase().includes(input) ? "" : "none";
+                    }
+                }
+            }
+    </script>
+                 
     <script>
     window.onload = function() {
+        
         // Verificar si hay un mensaje de error
         const error = "<%= request.getAttribute("error") != null ? "true" : "false" %>";
+        
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
 
-        const errorModalEl = document.getElementById('errorModal');
-        const errorModal = new bootstrap.Modal(errorModalEl);
-
-        // Mostrar modal si hay error
         if (error === "true") {
             errorModal.show();
         }
-
-        // Solución para evitar foco en un modal oculto (accesibilidad)
-        errorModalEl.addEventListener('hidden.bs.modal', () => {
-            if (document.activeElement && errorModalEl.contains(document.activeElement)) {
-                document.activeElement.blur(); // quita el foco si sigue dentro del modal
-            }
-        });
     };
     </script>
 </body>
