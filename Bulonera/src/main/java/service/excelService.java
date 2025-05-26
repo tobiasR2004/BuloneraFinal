@@ -11,51 +11,80 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
  *
  * @author tobi2
  */
-public class ExcelService {
+public class excelService {
+
     public List<producto> leerProductosDesdeExcel(InputStream inputStream) throws Exception {
         List<producto> productos = new ArrayList<>();
         Workbook workbook = new XSSFWorkbook(inputStream);
-        Sheet sheet = workbook.getSheetAt(0); // Primera hoja del archivo Excel
+        FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 
-        for (Row row : sheet) {
-            if (row.getRowNum() == 0) continue; // Salta la fila de encabezados
-
-            // Verifica si la fila está completamente vacía
-            boolean filaVacia = true;
-            for (int i = 0; i < 5; i++) { // Suponiendo 5 columnas mínimas
-                Cell cell = row.getCell(i, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
-                if (cell != null) {
-                    filaVacia = false;
-                    break;
+        for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            Sheet sheet = workbook.getSheetAt(i);
+            try {
+                Row headerRow = sheet.getRow(4); // encabezados en fila 5
+                if (headerRow == null) {
+                    continue;
                 }
+
+                // Leer encabezados
+                Map<String, Integer> indices = new HashMap<>();
+                for (Cell cell : headerRow) {
+                    String encabezado = obtenerValorCeldaComoTexto(cell).toLowerCase().trim();
+                    indices.put(encabezado, cell.getColumnIndex());
+                }
+
+                // Verifica columnas requeridas
+                if (!indices.containsKey("codigo") || !indices.containsKey("nombre")
+                        || !indices.containsKey("categoria") || !indices.containsKey("precio compra")
+                        || !indices.containsKey("precio venta")) {
+                    System.out.println("⚠️  Hoja ignorada por columnas faltantes: " + sheet.getSheetName());
+                    continue;
+                }
+
+                // Leer filas de datos
+                for (int j = 5; j <= sheet.getLastRowNum(); j++) {
+                    Row row = sheet.getRow(j);
+                    if (row == null) {
+                        continue;
+                    }
+
+                    String codProd = obtenerValorCeldaComoTexto(row.getCell(indices.get("codigo")));
+                    String nombProd = obtenerValorCeldaComoTexto(row.getCell(indices.get("nombre")));
+                    String categoriaProd = obtenerValorCeldaComoTexto(row.getCell(indices.get("categoria")));
+                    double precioCompra = obtenerValorCeldaComoNumero(row.getCell(indices.get("precio compra")), evaluator);
+                    double precioVenta = obtenerValorCeldaComoNumero(row.getCell(indices.get("precio venta")), evaluator);
+                    
+                    if (codProd == null || codProd.trim().isEmpty()) {
+                        continue;
+                    }
+                    
+                    if (productos.stream().anyMatch(p -> p.getCod_prod().equals(codProd))) {
+                        continue; // código ya agregado
+                    }
+                    
+                    producto prod = new producto();
+                    prod.setCod_prod(codProd);
+                    prod.setNomb_prod(nombProd);
+                    prod.setCategoria_prod(categoriaProd);
+                    prod.setPrecio_compra(precioCompra);
+                    prod.setPrecio_venta(precioVenta);
+
+                    productos.add(prod);
+                }
+
+            } catch (Exception e) {
+                System.out.println("⚠️  Error en hoja: " + sheet.getSheetName() + " → " + e.getMessage());
+                // Aquí podrías loguear más detalles si es necesario
             }
-            if (filaVacia) continue;
-
-            // Lee las celdas del archivo Excel con verificación de null
-            String codProd = obtenerValorCeldaComoTexto(row.getCell(0));
-            String nombProd = obtenerValorCeldaComoTexto(row.getCell(1));
-            String categoriaProd = obtenerValorCeldaComoTexto(row.getCell(2));
-            double precioCompra = obtenerValorCeldaComoNumero(row.getCell(3));
-            double precioVenta = obtenerValorCeldaComoNumero(row.getCell(4));
-
-            // Crea un objeto producto
-            producto prod = new producto();
-            prod.setCod_prod(codProd);
-            prod.setNomb_prod(nombProd);
-            prod.setCategoria_prod(categoriaProd);
-            prod.setPrecio_compra(precioCompraRedondeado.doubleValue());
-            prod.setPrecio_venta(precioVentaRedondeado.doubleValue());
-            
-            
-
-            productos.add(prod);
         }
 
         workbook.close(); // Cierra el workbook para liberar memoria
@@ -63,13 +92,14 @@ public class ExcelService {
     }
 
     private String obtenerValorCeldaComoTexto(Cell cell) {
-        if (cell == null) return ""; // Evita NullPointerException
-        
+        if (cell == null) {
+            return "";
+        }
         switch (cell.getCellType()) {
             case STRING:
                 return cell.getStringCellValue().trim();
             case NUMERIC:
-                return String.valueOf((long) cell.getNumericCellValue()); // Convierte números a String
+                return String.valueOf((long) cell.getNumericCellValue());
             case FORMULA:
                 return cell.getCellFormula();
             default:
@@ -78,17 +108,43 @@ public class ExcelService {
     }
 
     private double obtenerValorCeldaComoNumero(Cell cell) {
-        if (cell == null) return 0.0; // Evita NullPointerException
-        
+        if (cell == null) {
+            return 0.0;
+        }
         if (cell.getCellType() == CellType.NUMERIC) {
             return cell.getNumericCellValue();
         } else if (cell.getCellType() == CellType.STRING) {
             try {
-                return Double.parseDouble(cell.getStringCellValue().trim()); // Intenta convertir un texto en número
+                return Double.parseDouble(cell.getStringCellValue().trim());
             } catch (NumberFormatException e) {
-                return 0.0; // Si no es convertible, devuelve 0
+                return 0.0;
             }
         }
         return 0.0;
     }
+    
+    private double obtenerValorCeldaComoNumero(Cell cell, FormulaEvaluator evaluator) {
+    if (cell == null) {
+        return 0.0;
+    }
+
+    CellValue cellValue = evaluator.evaluate(cell);
+
+    if (cellValue == null) {
+        return 0.0;
+    }
+
+    switch (cellValue.getCellType()) {
+        case NUMERIC:
+            return cellValue.getNumberValue();
+        case STRING:
+            try {
+                return Double.parseDouble(cellValue.getStringValue().trim());
+            } catch (NumberFormatException e) {
+                return 0.0;
+            }
+        default:
+            return 0.0;
+    }
+}
 }

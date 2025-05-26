@@ -121,18 +121,25 @@
                 }
             }
     </script>
-                 
     <script>
     window.onload = function() {
-        
         // Verificar si hay un mensaje de error
         const error = "<%= request.getAttribute("error") != null ? "true" : "false" %>";
-        
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
 
+        const errorModalEl = document.getElementById('errorModal');
+        const errorModal = new bootstrap.Modal(errorModalEl);
+
+        // Mostrar modal si hay error
         if (error === "true") {
             errorModal.show();
         }
+
+        // Solución para evitar foco en un modal oculto (accesibilidad)
+        errorModalEl.addEventListener('hidden.bs.modal', () => {
+            if (document.activeElement && errorModalEl.contains(document.activeElement)) {
+                document.activeElement.blur(); // quita el foco si sigue dentro del modal
+            }
+        });
     };
     </script>
 </body>

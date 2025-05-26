@@ -280,6 +280,61 @@ section:target {
     color: aliceblue;
     table-layout: fixed;
 }
+
+.table-container .tablaProd {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.tablaProd {
+    border: solid 2px black;
+    border-collapse: collapse;
+    width: 100%; 
+    background-color: #003053;
+    color: aliceblue;
+    table-layout: fixed;
+}
+
+.tablaProd th{
+    position: sticky;
+    top: 0;
+    background-color: #cbbfff;
+    color: #000000;
+    z-index: 2;
+    border: 2px solid black;
+    text-align: center;
+    padding: 8px;
+}
+
+.tablaProd tr,
+.tablitaProd td{
+    border: 1px solid  black;
+}
+
+.ColumnaCod {
+  table-layout: fixed;
+  border: solid 2px black;
+  text-align: center;
+  width: 150px;
+}
+.ColumnaCat {
+  table-layout: fixed;
+  border: solid 2px black;
+  text-align: center;
+  width: 190px;
+}
+.ColumnaNomb {
+  table-layout: fixed;
+  border: solid 2px black;
+  text-align: center;
+  width: 400px;
+}
+
+#tablaProd th.Columnas,
+#tablaProd td.Columnas {
+    width: 150px;
+}
+
 #searchInput {
     margin-left: 12%;
 }
@@ -659,6 +714,79 @@ td {
   background-color: #0d6d00;
   border-color: #0d6d00;
 }
+
+.dataTables_filter input:focus {
+    border-color: #02274d !important;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(2, 39, 77, 0.2);
+}
+
+.dataTables_filter label {
+    color: #02274d !important;
+    font-weight: 450 !important;
+    font-size: 1rem !important;
+}
+
+/* ===== SELECTOR DE LONGITUD (Mostrar X registros) ===== */
+.dataTables_length label {
+    color: #02274d !important;
+    font-weight: 450 !important;
+}
+
+.dataTables_length select {
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid #003053 !important;
+    background-color: #fff !important;
+    color: #212529 !important;
+    margin: 0 5px;
+}
+
+/* ===== INFORMACIÓN (Mostrando X de Y registros) ===== */
+.dataTables_info {
+    color: #02274d !important;
+    font-size: 0.9rem !important;
+    margin-top: 10px !important;
+}
+
+/* ===== PAGINACIÓN ===== */
+.dataTables_paginate {
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+}
+
+/* --- Botones INACTIVOS (normales y hover) --- */
+.dataTables_paginate .paginate_button:not(.current):not(.disabled),
+.dataTables_paginate .paginate_button:not(.current):not(.disabled):hover {
+    background-color: white !important;
+    color: #02274d !important; /* Texto azul */
+    border: 1px solid #02274d !important;
+    padding: 6px 12px !important;
+    margin: 0 3px !important;
+    border-radius: 6px !important;
+    transition: all 0.3s !important;
+}
+
+/* --- Botón ACTIVO (página actual) --- */
+.dataTables_paginate .paginate_button.current {
+    background-color: #02274d !important;
+    color: white !important;
+    border-color: #02274d !important;
+}
+
+/* --- Botones DESHABILITADOS (flechas) --- */
+.dataTables_paginate .paginate_button.disabled,
+.dataTables_paginate .paginate_button.disabled:hover {
+    color: #adb5bd !important; /* Gris claro */
+    background-color: white !important;
+    cursor: not-allowed;
+}
+
+/* --- Efecto Hover (opcional) --- */
+.dataTables_paginate .paginate_button:not(.current):not(.disabled):hover {
+    background-color: #f0f0f0 !important; /* Gris muy claro */
+}
+
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
   .MenuPrincipal {
