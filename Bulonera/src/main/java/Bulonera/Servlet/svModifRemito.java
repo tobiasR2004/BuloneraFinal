@@ -6,6 +6,7 @@ package Bulonera.Servlet;
 
 import Bulonera.logica.cabecera_remito;
 import Bulonera.logica.controladoraLogica;
+import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.detalle_remito;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -69,6 +70,7 @@ public class svModifRemito extends HttpServlet {
                         // Buscar el detalle_remito desde la base de datos
                         detalle_remito dr = ctrl.verDetalle(id);
                         cabecera_remito idCabecdr = dr.getCabecdetalleremito();
+                        cuenta_corriente idCc = ctrl.consultarCcporCabec(idCabecdr);
                         double nuevImporte = (dr.getPrecio_unit()*nuevaCantidad);
                         double nuevImporteTot = (dr.getImporte_total() - dr.getImporte());
                         nuevImporteTot = nuevImporte + nuevImporteTot;
@@ -80,6 +82,7 @@ public class svModifRemito extends HttpServlet {
                             dr.setCant_prod(nuevaCantidad);
                             ctrl.modifDetalle(dr); // este método debe hacer em.merge(dr)
                             ctrl.actimportetotal( idCabecdr.getIdRemito());
+                            ctrl.actualizarImportesCc(idCc.getId_cc());
                         }
                     }
                 } catch (NumberFormatException e) {
