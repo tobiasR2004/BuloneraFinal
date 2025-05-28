@@ -65,7 +65,7 @@ public class svModifRemito extends HttpServlet {
                     String cantidadParam = request.getParameter("cantidad_" + id);
 
                     if (cantidadParam != null && !cantidadParam.isEmpty()) {
-                        int nuevaCantidad = Integer.parseInt(cantidadParam);
+                        double nuevaCantidad = Double.parseDouble(cantidadParam);
 
                         // Buscar el detalle_remito desde la base de datos
                         detalle_remito dr = ctrl.verDetalle(id);
@@ -80,7 +80,7 @@ public class svModifRemito extends HttpServlet {
                             
                             dr.setImporte(nuevImporte);
                             dr.setCant_prod(nuevaCantidad);
-                            ctrl.modifDetalle(dr); // este método debe hacer em.merge(dr)
+                            ctrl.modifDetalle(dr);
                             ctrl.actimportetotal( idCabecdr.getIdRemito());
                             ctrl.actualizarImportesCc(idCc.getId_cc());
                         }

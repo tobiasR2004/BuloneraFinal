@@ -9,19 +9,24 @@ import Bulonera.logica.controladoraLogica;
 import Bulonera.logica.detalle_remito;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.color.DeviceGray;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
+import com.itextpdf.layout.property.VerticalAlignment;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -130,39 +135,39 @@ try {
 int num_cli = cli.getNroClient();
 String nomb_cli = cli.getRazon_social();
 String cuit = cli.getCuit_cliente();
-
+            
 document.add(new Paragraph("Número de Cliente: " + num_cli));
 document.add(new Paragraph("Nombre del Cliente: " + nomb_cli));
 document.add(new Paragraph("CUIT: " + cuit));
 document.add(new Paragraph("\n"));
 
 // Crear la tabla con un número fijo de columnas
-Table table = new Table(UnitValue.createPercentArray(new float[]{4,4,4,4,4}));
+Table table = new Table(UnitValue.createPercentArray(new float[]{3,7,1,3,3}));
 table.setWidth(UnitValue.createPercentValue(100));
 
 // Agregar encabezados de la tabla
-table.addHeaderCell("Fecha");
-table.addHeaderCell("Producto");
-table.addHeaderCell("Cantidad");
-table.addHeaderCell("Precio unit");
-table.addHeaderCell("Importe");
+table.addHeaderCell(crearCeldaHeader("Fecha"));
+table.addHeaderCell(crearCeldaHeader("Producto"));
+table.addHeaderCell(crearCeldaHeader("Cantidad"));
+table.addHeaderCell(crearCeldaHeader("Precio unit"));
+table.addHeaderCell(crearCeldaHeader("Importe"));
 
 // Llenar la tabla con datos desde listDet (suponiendo que detalle_remito tiene estos campos)
 for (detalle_remito remito : listDet) {
-    //Formato de Fecha
+    // Formato de Fecha
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     String fechaFormateada = formato.format(remito.getFechaDet());
-    //Formato de Precio Unit
-    DecimalFormat df = new DecimalFormat("#.00");
-    String precioFormateado = df.format(remito.getPrecio_unit());
-    // Supongamos que detalle_remito tiene los métodos getProducto(), getCantidad(), etc.
-    table.addCell(String.valueOf(fechaFormateada));
-    table.addCell(remito.getNomb_prod());
-    table.addCell(String.valueOf(remito.getCant_prod()));
-    table.addCell(String.valueOf(precioFormateado));
-    table.addCell(String.valueOf(remito.getImporte()));
-}
 
+    // Precio Unitario y Importe truncados a 2 decimales (sin redondear)
+    BigDecimal precioTruncado = new BigDecimal(remito.getPrecio_unit()).setScale(2, RoundingMode.DOWN);
+    BigDecimal importeTruncado = new BigDecimal(remito.getImporte()).setScale(2, RoundingMode.DOWN);
+
+    table.addCell(crearCelda(fechaFormateada, TextAlignment.CENTER));
+    table.addCell(crearCelda(remito.getNomb_prod(), TextAlignment.LEFT));
+    table.addCell(crearCelda(String.valueOf(remito.getCant_prod()), TextAlignment.CENTER));
+    table.addCell(crearCelda(precioTruncado.toString(), TextAlignment.RIGHT));
+    table.addCell(crearCelda(importeTruncado.toString(), TextAlignment.RIGHT));
+}
 // Agregar la tabla al documento
 document.add(table);
 
@@ -196,7 +201,23 @@ try {
     request.setAttribute("error", "Error al mostrar el archivo PDF: " + e.getMessage());
     request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
 }
-}   
+}  
+
+private Cell crearCelda(String texto, TextAlignment alineacion) {
+    return new Cell()
+        .add(new Paragraph(texto).setFontSize(9))
+        .setTextAlignment(alineacion)
+        .setVerticalAlignment(VerticalAlignment.MIDDLE)
+        .setPadding(2);
+}
+
+private Cell crearCeldaHeader(String texto) {
+    return new Cell()
+        .add(new Paragraph(texto).setFontSize(10).setBold())
+        .setTextAlignment(TextAlignment.CENTER)
+        .setBackgroundColor(new DeviceGray(0.85f))
+        .setPadding(3);
+}
 
     /**
      * Returns a short description of the servlet.

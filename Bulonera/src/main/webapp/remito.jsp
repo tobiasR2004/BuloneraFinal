@@ -49,55 +49,55 @@
     <li class="nav-item">
         <button type="submit" class="btn btn-navbar" id="boton13"  style="display: none">Confirmar</button>
     </li>    
-<div class="table-container" style="margin-top: 15%">    
-    <div id="cuentaCorrienteTabla">
-        <TABLE class="table tablita" id="tablaDr" >
-            <tr class="Columnas ">
-                <th class="Columnas">Producto</th>
-                <th class="Columnas">cantidad</th>
-                <th class="Columnas">Precio Unitario</th>
-                <th class="Columnas">Importe</th>
-                <th style="display: none; width: 120px" id="checkboxHeader">Seleccionar</th>
-            </tr>
+    <div class="table-container" style="margin-top: 15%">    
+        <div id="cuentaCorrienteTabla">
+            <TABLE class="table tablita" id="tablaDr" >
+                <tr class="Columnas ">
+                    <th class="Columnas">Producto</th>
+                    <th class="Columnas">cantidad</th>
+                    <th class="Columnas">Precio Unitario</th>
+                    <th class="Columnas">Importe</th>
+                    <th style="display: none; width: 120px" id="checkboxHeader">Seleccionar</th>
+                </tr>
 
-            <%
-                List<detalle_remito> listaDr = (List<detalle_remito>) request.getSession().getAttribute("DetallesList");
-                if (listaDr != null) {
+                <%
+                    List<detalle_remito> listaDr = (List<detalle_remito>) request.getSession().getAttribute("DetallesList");
+                    if (listaDr != null) {
 
-                    double saldoAcumulado = 0;
-                    for (detalle_remito dr : listaDr) {
-            %>
+                        double saldoAcumulado = 0;
+                        for (detalle_remito dr : listaDr) {
+                %>
 
-            <tr style="text-align: center">
-                <td><%= dr.getNomb_prod()%></td>
-                <td>
-                    <input 
-                        type="number" 
-                        name="cantidad_<%= dr.getId_remito()%>" 
-                        value="<%= dr.getCant_prod()%>" 
-                        disabled 
-                        class="cantidadInput" 
-                        data-id="<%= dr.getId_remito()%>">
-                </td>
-                <td><%=dr.getPrecio_unit()%></td>
-                <td><%=dr.getImporte()%></td>
-                <td style="display: none;" class="checkboxRemito">
-                    <input 
-                        type="checkbox" 
-                        name="remitosSeleccionados" 
-                        class="checkboxModificar" 
-                        value="<%= dr.getId_remito()%>" 
-                        data-id="<%= dr.getId_remito()%>">
-                </td>
-                </td>
-            </tr>
-            <%
+                <tr style="text-align: center">
+                    <td><%= dr.getNomb_prod()%></td>
+                    <td>
+                        <input 
+                            type="number" 
+                            name="cantidad_<%= dr.getId_remito()%>" 
+                            value="<%= String.format(java.util.Locale.US, "%.2f", dr.getCant_prod()) %>"
+                            disabled 
+                            class="cantidadInput" 
+                            data-id="<%= dr.getId_remito()%>"
+                            step="0.01">
+                    </td>
+                    <td><%= String.format("%.2f", dr.getPrecio_unit())%></td>
+                    <td><%= String.format("%.2f", dr.getImporte())%></td>
+                    <td style="display: none;" class="checkboxRemito">
+                        <input 
+                            type="checkbox" 
+                            name="remitosSeleccionados" 
+                            class="checkboxModificar" 
+                            value="<%= dr.getId_remito()%>" 
+                            data-id="<%= dr.getId_remito()%>">
+                    </td>
+                </tr>
+                <%
+                        }
                     }
-                }
-            %>
-        </TABLE>    
-    </div>    
-</div>
+                %>
+            </TABLE>
+        </div>    
+    </div>
 
 </form>
 <!-- Modal de Error -->
@@ -176,6 +176,8 @@ document.querySelectorAll('.checkboxModificar').forEach(function(checkbox) {
         }
     };
 </script>
+
+
 </body>
 
 

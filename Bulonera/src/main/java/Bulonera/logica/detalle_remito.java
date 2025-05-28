@@ -26,7 +26,7 @@ public class detalle_remito implements Serializable {
     @Basic
     private double precio_unit, importe, importe_total;
     private String nomb_prod;
-    private int cant_prod;
+    private double cant_prod;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaDet;
     private String cod_prod;
@@ -40,7 +40,7 @@ public class detalle_remito implements Serializable {
     {
     }
 
-    public detalle_remito(int id_remito, double precio_unit, double importe, double importe_total, String nomb_prod, int cant_prod, Date fechaDet, String cod_prod, cabecera_remito cabecdetalleremito, producto producDetalle) {
+    public detalle_remito(int id_remito, double precio_unit, double importe, double importe_total, String nomb_prod, double cant_prod, Date fechaDet, String cod_prod, cabecera_remito cabecdetalleremito, producto producDetalle) {
         this.id_remito = id_remito;
         this.precio_unit = precio_unit;
         this.importe = importe;
@@ -109,11 +109,11 @@ public class detalle_remito implements Serializable {
         this.nomb_prod = nomb_prod;
     }
 
-    public int getCant_prod() {
+    public double getCant_prod() {
         return cant_prod;
     }
 
-    public void setCant_prod(int cant_prod) {
+    public void setCant_prod(double cant_prod) {
         this.cant_prod = cant_prod;
     }
 

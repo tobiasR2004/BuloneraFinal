@@ -41,22 +41,22 @@
                 List<producto> listaProducto = (List<producto>) request.getSession().getAttribute("listaProducto");
                 if (listaProducto != null) {
                     for (producto prod : listaProducto) {
-                      double precioCompraTruncado = new BigDecimal(prod.getPrecio_compra())
-                      .setScale(2, java.math.RoundingMode.DOWN)
-                      .doubleValue();
-                      double precioVentaTruncado = new BigDecimal(prod.getPrecio_venta())
-                      .setScale(2, java.math.RoundingMode.DOWN)
-                      .doubleValue();
+                        double precioCompraTruncado = new BigDecimal(prod.getPrecio_compra())
+                                .setScale(2, java.math.RoundingMode.DOWN)
+                                .doubleValue();
+                        double precioVentaTruncado = new BigDecimal(prod.getPrecio_venta())
+                                .setScale(2, java.math.RoundingMode.DOWN)
+                                .doubleValue();
             %>
-                    <tr>
-                        <td><%= prod.getCod_prod() %></td>
-                        <td><%= prod.getCategoria_prod() %></td>
-                        <td><%= prod.getNomb_prod() %></td>
-                        <td><%= precioCompraTruncado %></td>
-                        <td><%= precioVentaTruncado %></td>
-                    </tr>
+            <tr>
+                <td><%= prod.getCod_prod()%></td>
+                <td><%= prod.getCategoria_prod()%></td>
+                <td><%= prod.getNomb_prod()%></td>
+                <td><%= String.format("%.2f", precioCompraTruncado)%></td>
+                <td><%= String.format("%.2f", precioVentaTruncado)%></td>
+            </tr>
             <%
-                    }   
+                    }
                 }
             %>
         </TABLE>

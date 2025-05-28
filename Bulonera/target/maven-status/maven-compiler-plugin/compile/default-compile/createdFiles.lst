@@ -33,6 +33,7 @@ Bulonera\logica\cuenta_corriente.class
 Bulonera\logica\usuarioService.class
 Bulonera\Persistence\clienteJpaController.class
 Bulonera\Servlet\svCargarProductos.class
+Bulonera\Servlet\svModifRemito.class
 Bulonera\Servlet\svPdfdetalle.class
 Bulonera\Servlet\svCancelarDeuda.class
 Bulonera\Persistence\detalle_remitoJpaController.class

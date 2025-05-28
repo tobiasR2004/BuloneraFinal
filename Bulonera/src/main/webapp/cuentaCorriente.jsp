@@ -65,16 +65,18 @@
                 <th style="display: none; width: 120px" id="checkboxHeader">Seleccionar</th>
             </tr>
         </thead>
-        
+
         <tbody>
             <c:set var="saldoAcumulado" value="0" />
             <c:forEach var="cc" items="${listaCC}">
-                <c:set var="saldoAcumulado" value="${(cc.saldo_cc)}" />
+                <c:set var="saldoAcumulado" value="${cc.saldo_cc}" />
                 <tr style="text-align: center">
                     <td><fmt:formatDate value="${cc.fecha_cc}" pattern="dd/MM/yyyy" /></td>
-                    <td>${cc.debe_cc}</td>
-                    <td>${cc.haber_cc}</td>
-                    <td class="saldo" name="saldoCc">${saldoAcumulado}</td>
+                    <td><fmt:formatNumber value="${cc.debe_cc}" type="number" maxFractionDigits="2" minFractionDigits="2" /></td>
+                    <td><fmt:formatNumber value="${cc.haber_cc}" type="number" maxFractionDigits="2" minFractionDigits="2" /></td>
+                    <td class="saldo" name="saldoCc">
+                        <fmt:formatNumber value="${saldoAcumulado}" type="number" maxFractionDigits="2" minFractionDigits="2" />
+                    </td>
                     <td style="display: none;" class="checkboxColumn">
                         <c:if test="${cc.cabeceraremito != null}">
                             <input type="checkbox" name="remitosSeleccionados" value="${cc.cabeceraremito.idRemito}">
@@ -218,7 +220,7 @@
                             <tr class="fila-producto">
                                 <td><input class="sinBorde ancho" minlength="1" type="text" name="idProd" onchange="completarProducto(this)"></td>
                                 <td><input class="sinBorde" type="text" minlength="1" name="nombreProd" readonly></td>
-                                <td><input class="sinBorde ancho cantProd" minlength="1" required pattern="[0-9]+([.,][0-9]+)?" type="text" name="cantProd" oninput="calcularImporte()"></td>
+                                <td><input class="sinBorde ancho cantProd" name="cantProd" type="number" step="any" min="0" required oninput="calcularImporte()"></td>
                                 <td><input class="sinBorde ancho precioProd" minlength="1" type="number" name="precioProd" readonly></td>
                                 <td><input class="sinBorde importeProd" minlength="1" type="number" name="importeProd" readonly></td>
                             </tr>
