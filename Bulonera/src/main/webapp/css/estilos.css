@@ -518,7 +518,7 @@ td {
     position: fixed;
     z-index: 10;
     margin-top: 8px;
-    margin-left: 58%;
+    margin-left: 63%;
 }
 #dniModi{
     margin-left: 2.5%;
@@ -653,7 +653,13 @@ td {
     border-radius: 2%;
 }
 
-#boton10, #boton7{
+#boton7{
+    width: 140px;
+    height: 58px;
+    margin-top: 1px;
+}
+
+#boton10, #botonImportar{
     width: 140px;
     height: 58px;
     margin-top: 8.5px;
