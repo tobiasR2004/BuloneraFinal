@@ -103,7 +103,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
                 continue;
             }
 
-            double cantprod = detalle.getCant_prod();
+            int cantprod = detalle.getCant_prod();
             String codProducto = prod.getCod_prod();
             Double precio = prod.getPrecio_venta();
             Double importenuevo = precio * cantprod;

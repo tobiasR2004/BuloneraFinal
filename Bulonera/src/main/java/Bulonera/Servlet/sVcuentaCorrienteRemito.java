@@ -102,7 +102,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cabecera_remito cabecdetalleremito =  cabecList.get(cabecList.size() - 1);
         
         for (int i = 0; i < cantidades.length; i++) {
-        double cant_prod = Double.parseDouble(cantidades[i]);
+        int cant_prod = Integer.parseInt(cantidades[i]);
         double precio_unit = Double.parseDouble(precios[i]);
         double importe = Double.parseDouble(importes[i]);
         String nomb_prod = nombres[i];
