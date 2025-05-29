@@ -48,7 +48,7 @@
 
             <div class="enlace">
                 <i class="bi bi-box-arrow-left"></i>
-                <a href="index.jsp" style="text-decoration: none;"><span>Salir</span></a>
+                <a href="svLogout" style="text-decoration: none;"><span>Salir</span></a>
             </div>
         </div>
     </div>

@@ -26,7 +26,7 @@
             </li>
             <form action="svActualizarDetalle" method="Post">
             <li class="nav-item">
-                <button type="submit" class="btn btn-navbar" id="boton5">Actualizar precios</button>
+                <button type="submit" class="btn btn-navbar" id="boton7">Actualizar precios</button>
             </li>
             </form>
   
@@ -346,10 +346,10 @@
     });
 </script>
 
-<script>   
+<script>
     document.getElementById("boton5").addEventListener("click", function () {
         // Mostrar la columna de checkboxes
-        const checkboxes = document.querySelectorAll(".checkboxRemito");
+        const checkboxes = document.querySelectorAll("checkboxRemito");
         const checkboxHeader = document.getElementById("checkboxHeader");
         
         checkboxes.forEach(checkbox => checkbox.style.display = "table-cell");
@@ -377,7 +377,6 @@
     });
 </script>
         
- </script>
 
                 
 <script>

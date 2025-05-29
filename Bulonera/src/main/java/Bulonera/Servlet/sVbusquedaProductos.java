@@ -49,7 +49,9 @@ public class sVbusquedaProductos extends HttpServlet {
         // Convertir lista a JSON y enviarla al frontend
         Gson gson = new Gson();
         String json = gson.toJson(productosEncontrados);
-        response.getWriter().write(json);
+            try (PrintWriter out = response.getWriter()) {
+                out.write(json);
+            }
 
     } catch (Exception e) {
         e.printStackTrace(); // Registra el error en la consola del servidor
