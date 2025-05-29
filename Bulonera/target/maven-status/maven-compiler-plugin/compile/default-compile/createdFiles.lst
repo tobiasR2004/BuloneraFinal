@@ -36,6 +36,7 @@ Bulonera\Servlet\svCargarProductos.class
 Bulonera\Servlet\svModifRemito.class
 Bulonera\Servlet\svPdfdetalle.class
 Bulonera\Servlet\svCancelarDeuda.class
+service\CorsFilter.class
 Bulonera\Persistence\detalle_remitoJpaController.class
 Bulonera\Servlet\svRemito.class
 Bulonera\Servlet\svVerRemito.class

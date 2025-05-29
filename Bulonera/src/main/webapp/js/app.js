@@ -5,6 +5,7 @@ const enlacemenu = document.querySelectorAll(".enlace");
 const modal = document.getElementById('confirmodif');
 const cerrarBtn = document.getElementsByClassName('close')[0];
 const btnmodificar = document.getElementById('btnmodificar');
+const baseUrl = "http://srv803937.hstgr.cloud:8080";
 
 /* Romani Tobias */
 
@@ -88,7 +89,7 @@ function calcularImporteTotal() {
 function completarProducto(input) {    
     const idProd = input.value.trim();
     if (idProd !== "") {
-        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
+        fetch(baseUrl + "/Bulonera-1.0-SNAPSHOT/svRemito?idProd=" + idProd)
             .then(response => response.json())
             .then(data => {
                 if (data.nombre && data.precio) {
