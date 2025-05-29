@@ -282,15 +282,46 @@ public class controladoraPersistencia {
             Query querySuma = em.createQuery(sumaImportesQuery);
             querySuma.setParameter("idCuenta", idCuentaCorriente);
 
-            Double saldoTotal = (Double) querySuma.getSingleResult();
+            Double ccDebe = (Double) querySuma.getSingleResult();
+            
+            //Trae el id del cliente
+            String jpqlRemito = "SELECT cc.cabeceraremito.idRemito, cc.cabeceraremito.clienteCabecera.nroClient  FROM cuenta_corriente cc WHERE cc.id_cc = :idCuenta";
+            Query queryRemito = em.createQuery(jpqlRemito);
+            queryRemito.setParameter("idCuenta", idCuentaCorriente);
+            Object[] result = (Object[]) queryRemito.getSingleResult();
+            Integer idRemitoActual = (Integer) result[0];
+            Integer idCliente = (Integer) result[1];
 
-            if (saldoTotal == null) {
-                saldoTotal = 0.0; // Evitar valores nulos
+            // 2. Traer todas las cuentas corrientes asociadas a ese cliente
+            String jpql = "SELECT cc.saldo_cc FROM cuenta_corriente cc " +
+              "WHERE cc.cabeceraremito.clienteCabecera.nroClient = :idCliente " +
+              "AND cc.cabeceraremito.idRemito < :idRemitoActual " +
+              "ORDER BY cc.cabeceraremito.idRemito DESC";
+
+            Query query = em.createQuery(jpql);
+            query.setParameter("idCliente", idCliente);
+            query.setParameter("idRemitoActual", idRemitoActual);  // el idRemito de la cuenta que estás trabajando
+            query.setMaxResults(1);  // Solo la anterior
+
+            
+            // Ejecutar la consulta
+            List<Double> resultados = query.getResultList();
+            
+            double saldoTotal;
+            Double saldoAnterior = 0.0;  // valor por defecto si no hay saldo previo
+            if (!resultados.isEmpty()) {
+                saldoAnterior = resultados.get(0);  // saldo de la cuenta corriente anterior
+            }
+            if (ccDebe == null) {
+                ccDebe = 0.0; // Evitar valores nulos
             }
 
+            saldoTotal = saldoAnterior + ccDebe;
+            
             // Actualizar el saldo en la cuenta corriente
-            String actualizarCuentaQuery = "UPDATE cuenta_corriente cc SET cc.saldo_cc = :saldoTotal, cc.debe_cc = :saldoTotal WHERE cc.id_cc = :idCuenta";
+            String actualizarCuentaQuery = "UPDATE cuenta_corriente cc SET cc.saldo_cc = :saldoTotal, cc.debe_cc = :ccDebe WHERE cc.id_cc = :idCuenta";
             Query queryActualizarCuenta = em.createQuery(actualizarCuentaQuery);
+            queryActualizarCuenta.setParameter("ccDebe", ccDebe);
             queryActualizarCuenta.setParameter("saldoTotal", saldoTotal);
             queryActualizarCuenta.setParameter("idCuenta", idCuentaCorriente);
             queryActualizarCuenta.executeUpdate();
