@@ -506,10 +506,20 @@ td {
   border-color: #bd2130;
 }
 
-#boton5, #boton6, #boton9{
+#boton5, #boton6, #boton9, #boton11{
   width: 150px;
 }
 
+#boton14{
+    background-color: #c82333;
+}
+
+#boton13{
+    position: fixed;
+    z-index: 10;
+    margin-top: 8px;
+    margin-left: 58%;
+}
 #dniModi{
     margin-left: 2.5%;
 }

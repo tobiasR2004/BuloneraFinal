@@ -376,7 +376,7 @@ public class controladoraPersistencia {
     }
 
     public detalle_remito consultarDetalle(int id) {
-      return detalle_remitoJpa.finddetalle_remito(id);
+       return detalle_remitoJpa.finddetalle_remito(id);
     }
 
     public List<detalle_remito> consultarDetalleList() {
@@ -406,8 +406,6 @@ public class controladoraPersistencia {
 
         return typedQuery.getResultList();
     }
-    
-    
     
     public void actualizarReferenciasPorCodProd() {
     EntityManager em = detalle_remitoJpa.getEntityManager();
