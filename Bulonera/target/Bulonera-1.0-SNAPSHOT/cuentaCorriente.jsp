@@ -43,7 +43,8 @@
         <select name="buscarCli" class="form-select" aria-label="Default select example">
             <option value="-1" selected>Elegir...</option>
             <c:forEach var="clie" items="${listaClientes}">
-                <option value="${clie.nroClient}"<c:if test="${clienteIdSeleccionado == clie.nroClient}">selected</c:if>>
+                <option value="${clie.nroClient}"
+                <c:if test="${clie.nroClient == sessionScope.clienteIdSeleccionado}">selected</c:if>>
                 ${clie.razon_social}
             </option>
             </c:forEach>
@@ -54,6 +55,7 @@
 </div>
 
 <!-- TABLA CUENTA CORRIENTE -->
+<c:if test="${not empty sessionScope.listaCC}">
 <form action="svVerRemito" method="post">
     <table class="table tablaCC" id="tablaCC">
         <thead>
@@ -100,6 +102,7 @@
         <i class="bi bi-eye"></i>
     </button>
 </form>
+</c:if>
 </div>      
 
 <button type="submit" id="cancelarEliminacion" class="btn btn-outline-success cancel" style="display: none;"><i class="bi bi-backspace"></i></button>

@@ -31,15 +31,9 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession misesion = request.getSession();
-        misesion.removeAttribute("clienteIdSeleccionado");
         
         //TRAER LISTA DE CLIENTES
         List<cliente> listaClientes = ctrl.obtenerClientes();
-        if (listaClientes != null && !listaClientes.isEmpty()) {
-            System.out.println("Clientes en el Servlet: " + listaClientes);
-        } else {
-            System.out.println("No se encontraron clientes.");
-        }
         request.setAttribute("listaClientes", listaClientes);
 
         //TRAER CLIENTE
@@ -47,8 +41,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         
         if (nombCli == null || nombCli.equals("-1")) {
             request.setAttribute("errorCabec", "Seleccione un cliente");
-      
-          request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
             return;
         }
         else{
@@ -67,11 +60,9 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
                 cabecera_remito cabecdetalleremito = cabecList.get(cabecList.size() - 1);
 
                 List<cuenta_corriente> listaCC = ctrl.consultarCcList(cabecdetalleremito);
-                System.out.println("Número de cuentas corrientes obtenidas: " + listaCC.size());
                 misesion.setAttribute("listaCC", listaCC);
             } else {
-                System.out.println("No hay cabeceras de remitos para este cliente.");
-                misesion.setAttribute("listaCC", new ArrayList<>()); // opcional: para evitar otros errores en el JSP
+                misesion.setAttribute("listaCC", new ArrayList<>());
             }
         }
 

@@ -16,7 +16,7 @@
 <form action="svCargarProductos" method="post" enctype="multipart/form-data">
     <li class="nav-item">
     <input class="selecExcel" type="file" id="file" name="file" accept=".xlsx">
-     <button type="submit" class="btn btn-navbar" id="boton7">Importar productos</button>
+     <button type="submit" class="btn btn-navbar" id="botonImportar">Importar productos</button>
     </form>
 
      <button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>

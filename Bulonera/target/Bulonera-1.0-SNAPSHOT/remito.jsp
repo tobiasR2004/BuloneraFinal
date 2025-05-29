@@ -11,7 +11,7 @@
 <%@include file="componentes/body.jsp"%>
 <li>
     <form action="svPdfdetalle" method="POST">
-        <button type="submit" class="btn btn-navbar" id="boton12">
+        <button type="submit" class="btn btn-navbar" id="boton12" style="margin-left: 50px">
             Imprimir detalle  </button>  
     </form>
 </li>
@@ -47,7 +47,7 @@
 <form action="svModifRemito" method="get">
     
     <li class="nav-item">
-        <button type="submit" class="btn btn-navbar" id="boton13"  style="display: none">Confirmar</button>
+        <button type="submit" class="btn btn-success" id="boton13"  style="display: none">Confirmar</button>
     </li>    
     <div class="table-container" style="margin-top: 15%">    
         <div id="cuentaCorrienteTabla">
@@ -139,7 +139,7 @@
         // Ocultar la columna de checkboxes y los botones
         const checkboxes = document.querySelectorAll(".checkboxRemito");
         const checkboxHeader = document.getElementById("checkboxHeader");
-
+        
         checkboxes.forEach(checkbox => checkbox.style.display = "none");
         checkboxHeader.style.display = "none";
 
@@ -161,6 +161,13 @@ document.querySelectorAll('.checkboxModificar').forEach(function(checkbox) {
         } else {
             input.disabled = true;
         }
+    });
+});
+
+//Deshabilitar los input cuando apreta el boton cancelar
+document.getElementById('boton14').addEventListener('click', function() {
+    document.querySelectorAll('.cantidadInput').forEach(function(input) {
+        input.disabled = true;
     });
 });
 </script>
