@@ -277,7 +277,7 @@ public class controladoraPersistencia {
             transaction.begin();
 
             // Sumar los importes de los remitos asociados a la cuenta corriente
-            String sumaImportesQuery = "SELECT SUM(cr.importe_total) FROM cabecera_remito cr " +
+            String sumaImportesQuery = "SELECT SUM(cr.importe_total)FROM cabecera_remito cr " +
                                        "WHERE cr.idRemito IN (SELECT cc.cabeceraremito.idRemito FROM cuenta_corriente cc WHERE cc.id_cc = :idCuenta)";
             Query querySuma = em.createQuery(sumaImportesQuery);
             querySuma.setParameter("idCuenta", idCuentaCorriente);
@@ -302,7 +302,19 @@ public class controladoraPersistencia {
             query.setParameter("idCliente", idCliente);
             query.setParameter("idRemitoActual", idRemitoActual);  // el idRemito de la cuenta que estás trabajando
             query.setMaxResults(1);  // Solo la anterior
+            
+            
+            //SELECT DE HABER
+            String sumaHaberQuery = "SELECT SUM(cc.haber_cc) FROM cuenta_corriente cc " +
+                            "WHERE cc.cabeceraremito.clienteCabecera.nroClient = :idCliente " +
+                            "AND cc.cabeceraremito.idRemito < :idRemitoActual";
+            Query queryHaber = em.createQuery(sumaHaberQuery);
+            queryHaber.setParameter("idCliente", idCliente);
+            queryHaber.setParameter("idRemitoActual", idRemitoActual);
+            
+            Double haberAnterior = (Double) queryHaber.getSingleResult();
 
+            System.out.println(haberAnterior);
             
             // Ejecutar la consulta
             List<Double> resultados = query.getResultList();
@@ -312,11 +324,14 @@ public class controladoraPersistencia {
             if (!resultados.isEmpty()) {
                 saldoAnterior = resultados.get(0);  // saldo de la cuenta corriente anterior
             }
+            if (haberAnterior == null){
+                haberAnterior = 0.0;
+            }
             if (ccDebe == null) {
                 ccDebe = 0.0; // Evitar valores nulos
             }
 
-            saldoTotal = saldoAnterior + ccDebe;
+            saldoTotal = saldoAnterior + ccDebe - haberAnterior;
             
             // Actualizar el saldo en la cuenta corriente
             String actualizarCuentaQuery = "UPDATE cuenta_corriente cc SET cc.saldo_cc = :saldoTotal, cc.debe_cc = :ccDebe WHERE cc.id_cc = :idCuenta";

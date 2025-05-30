@@ -28,8 +28,7 @@ public class CorsFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         
-        // Línea de prueba para verificar que el filtro se está ejecutando
-        System.out.println("Filtro CORS activo");
+
 
         HttpServletResponse res = (HttpServletResponse) response;
         res.setHeader("Access-Control-Allow-Origin", "*"); // Permite cualquier dominio
