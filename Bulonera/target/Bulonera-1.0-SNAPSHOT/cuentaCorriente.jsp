@@ -33,10 +33,9 @@
             </ul>
         </div>
     </div>
-</nav>
-
-
-<!-- SELECT - COMBOBOX -->
+    
+    
+</nav><!-- SELECT - COMBOBOX -->
 <div class="comboBox">
     <form action="sVcuentaCorrienteRemito" method="get">
         <label class="lblCli">CLIENTE: </label>
@@ -50,9 +49,16 @@
             </c:forEach>
         </select>
         
+        <c:if test="${not empty errorCabec and desdeRemito == true}">
+            <div style="color:red">${errorCabec}</div>
+        </c:if>
+        
         <button class="btnSel" type="submit">Seleccionar</button>
     </form>
 </div>
+
+
+
 
 <!-- TABLA CUENTA CORRIENTE -->
 <c:if test="${not empty sessionScope.listaCC}">

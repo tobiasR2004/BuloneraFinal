@@ -58,37 +58,36 @@ public class svCrearCabeceraRem extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            processRequest(request, response);
-            HttpSession misesion = request.getSession();
-            String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado");   
-            misesion.setAttribute("idCabec", idCabec);
+        processRequest(request, response);
+
+        HttpSession misesion = request.getSession();
+        String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado");
+
+        if (idCabec == null || idCabec.equals("-1")) {
+            List<cliente> listaClientes = ctrl.obtenerClientes(); // <<=== Agregá esta línea
+            request.setAttribute("listaClientes", listaClientes);
+            request.setAttribute("errorCabec", "Por favor... seleccione un Cliente");
+            request.setAttribute("desdeRemito",true);
+            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+            return;
+        }
+        
+        try {
+            int idCabecint = Integer.parseInt(idCabec);
             
+            // Guarda el booleano en la sesión para abrir el modal
+            cliente cli = ctrl.consultarCliente(idCabecint);
+            misesion.setAttribute("clienteCabec", cli);
+            misesion.setAttribute("abrirModal", true); // para que el modal se active
 
-            if (idCabec == null || "".equals(idCabec) || "Elegir...".equals(idCabec)) {
-                request.setAttribute("errorCabec", "Por favor... seleccione un Cliente");
-                request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
-            } else {
-                try {
-                    int idCabecint = Integer.parseInt(idCabec);
-                    // Guarda el booleano en la sesión para abrir el modal
-                    misesion.setAttribute("abrirModal", true);
-
-                    // Ejecuta la consulta del cliente
-                    cliente cli = ctrl.consultarCliente(idCabecint);
-                    misesion.setAttribute("clienteCabec", cli);
-                    
-                    // Redirige a cuentaCorriente.jsp para abrir el modal
-                    misesion.setAttribute("abrirModal", true);
-                    response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + idCabec);
-                    
-                } catch (NumberFormatException e) {
-                    request.setAttribute("errorCabec", "El ID de cliente no es válido.");
-                    request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
-                }
-            }
-        
-        
-    }
+            // Redirige al servlet que muestra cuenta corriente
+            response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + idCabec);
+        }
+        catch(NumberFormatException e){
+            request.setAttribute("errorCabec", "El ID de cliente no es válido.");
+            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+        }
+}
 
     /**
      * Handles the HTTP <code>POST</code> method.
