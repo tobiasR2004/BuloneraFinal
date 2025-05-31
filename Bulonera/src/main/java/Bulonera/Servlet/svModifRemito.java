@@ -94,14 +94,30 @@ public class svModifRemito extends HttpServlet {
             }
         }
         
-        // 🔄 ACTUALIZAR la lista antes de mostrarla en el JSP
-        List<detalle_remito> listaDetalles = ctrl.consultarDetalleList();
+        List<detalle_remito> listaDet = (List<detalle_remito>) request.getSession().getAttribute("DetallesList");
+        List<Integer> idsDetalle = new ArrayList<>();
+        List<detalle_remito> listaDetalles = new ArrayList<>();
 
-        // Enviar a JSP con los datos cargados
+        if (listaDet != null && !listaDet.isEmpty()) {
+            for (detalle_remito detalle : listaDet) {
+                idsDetalle.add(detalle.getId_remito());
+            }
+            for (Integer id : idsDetalle) {
+                detalle_remito detalle = ctrl.verDetalle(id);
+                if (detalle != null) {
+                    listaDetalles.add(detalle);
+                } else {
+                    // Opcional: log o manejar IDs no encontrados
+                    System.out.println("No se encontró detalle con ID: " + id);
+                }
+            }
+        } else {
+            System.out.println("La lista recuperada de sesión está vacía o es nula.");
+        }
+
         request.getSession().setAttribute("DetallesList", listaDetalles);
         response.sendRedirect("remito.jsp");
     }
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
