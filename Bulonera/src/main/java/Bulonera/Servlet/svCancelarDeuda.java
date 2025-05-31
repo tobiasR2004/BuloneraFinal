@@ -112,7 +112,7 @@ public class svCancelarDeuda extends HttpServlet {
         } else if (cabecList.isEmpty()) {
            
         request.setAttribute("error", "Por favor... seleccione un Cliente");
-         request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+        request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
             
         } else {
 
