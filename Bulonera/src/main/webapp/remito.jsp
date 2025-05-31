@@ -54,7 +54,7 @@
             <TABLE class="table tablita" id="tablaDr" >
                 <tr class="Columnas ">
                     <th class="Columnas">Producto</th>
-                    <th class="Columnas">cantidad</th>
+                    <th class="Columnas">Cantidad</th>
                     <th class="Columnas">Precio Unitario</th>
                     <th class="Columnas">Importe</th>
                     <th style="display: none; width: 120px" id="checkboxHeader">Seleccionar</th>

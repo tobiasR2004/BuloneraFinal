@@ -10,6 +10,8 @@ import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.detalle_remito;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -91,7 +93,12 @@ public class svModifRemito extends HttpServlet {
                 }
             }
         }
+        
+        // 🔄 ACTUALIZAR la lista antes de mostrarla en el JSP
+        List<detalle_remito> listaDetalles = ctrl.consultarDetalleList();
 
+        // Enviar a JSP con los datos cargados
+        request.getSession().setAttribute("DetallesList", listaDetalles);
         response.sendRedirect("remito.jsp");
     }
 
