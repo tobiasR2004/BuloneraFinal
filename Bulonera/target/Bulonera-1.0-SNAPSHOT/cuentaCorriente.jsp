@@ -264,10 +264,11 @@
             <form action="svCancelarDeuda" method="POST">
             <div class="modal-body">
                 <span class="currency-symbol">$</span>
-                <input class="importe" name="cancelDeuda" type="text" placeholder="0.00" required pattern="^\d+(\.\d{1,2})?$">
+                <input class="importe" name="cancelDeuda" id="importePago" type="text" placeholder="0.00" required pattern="^\d+(\.\d{1,2})?$">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        onclick="document.getElementById('importePago').value = '';" >CANCELAR</button>
                 <button type="Submit" class="btn btn-primary" style="margin-left: 10%;">CONFIRMAR</button>
             </form>
             </div>
