@@ -264,6 +264,7 @@ section:target {
   color: white;
 }
 
+
 #opcion5 {
   width: 100px;
 }
@@ -455,6 +456,10 @@ td {
   position: relative;
   display: block;
   margin-left: 2%;
+}
+
+#cargarRem{
+    width: 105%;
 }
 
 .ancho{
