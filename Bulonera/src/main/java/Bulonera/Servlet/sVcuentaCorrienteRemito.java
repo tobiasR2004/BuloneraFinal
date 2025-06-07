@@ -40,9 +40,10 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         String nombCli = request.getParameter("buscarCli");
         
         if (nombCli == null || nombCli.equals("-1")) {
-            request.setAttribute("errorCabec", "Seleccione un cliente");
-            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
-            return;
+            Object clienteGuardado = misesion.getAttribute("clienteIdSeleccionado");
+            if (clienteGuardado != null) {
+                nombCli = String.valueOf(clienteGuardado);
+            }
         }
         else{
             cliente cliente1 = ctrl.buscarNombCliente(nombCli);
