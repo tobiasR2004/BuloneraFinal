@@ -88,7 +88,7 @@ function calcularImporteTotal() {
 function completarProducto(input) {    
     const idProd = input.value.trim();
     if (idProd !== "") {
-        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
+        fetch("svRemito?idProd=" + idProd)
             .then(response => response.json())
             .then(data => {
                 if (data.nombre && data.precio) {

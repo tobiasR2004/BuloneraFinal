@@ -301,7 +301,7 @@
     let lista = document.getElementById("listaResultados");
     
     if (query.length > 1) { // Para evitar búsquedas vacías
-        fetch("sVbusquedaProductos?query=" + query)
+        fetch("sVbusquedaProductos?query=" + encodeURIComponent(query))
         .then(response => response.json())
         .then(data => {
             lista.innerHTML = "";

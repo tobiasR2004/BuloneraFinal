@@ -20,6 +20,7 @@ Bulonera\logica\usuario.class
 Bulonera\logica\detalle_remito.class
 Bulonera\Persistence\usuarioJpaController.class
 service\excelService.class
+Bulonera\Filters\CorsFilter.class
 Bulonera\Servlet\sVcuentaCorrienteRemito.class
 Bulonera\logica\producto.class
 Bulonera\Servlet\svModifUs.class

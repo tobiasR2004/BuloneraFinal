@@ -108,7 +108,8 @@ public class controladoraLogica {
     }
     
     public void actualizarImportesCc(int idCc){
-       ctrlpersis.actualizarSaldoCuentaCorriente(idCc);
+       ctrlpersis.actualizarCuentaCorriente(idCc);
+       
     }
     
     //CRUD DETALLE
