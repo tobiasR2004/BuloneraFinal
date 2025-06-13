@@ -214,7 +214,7 @@
                             
                         <input type="text" id="buscarProducto" placeholder="Buscar producto..." autocomplete="off">
                         <input type="text" id="codigoProducto" placeholder="Código del producto" readonly>
-                        <select id="listaResultados" size="3" style="display: none;"></select>
+                        <select id="listaResultados" size="10" style="display: none;"></select>
                             
                         <thead>
                             <tr>
