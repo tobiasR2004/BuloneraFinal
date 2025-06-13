@@ -58,6 +58,23 @@ public class controladoraPersistencia {
             Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE,null, ex);
        }
     }
+    
+    public void eliminarcCabecPorCliente(int idCli){
+            EntityManager em = cabecera_remitoJpa.getEntityManager();
+        try {
+            System.out.println("ENTRO");
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM cabecera_remito c WHERE c.clienteCabecera.nroClient = :idCli");
+            query.setParameter("idCli", idCli);
+            query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
 
     public void modifcabecremito(cabecera_remito idcabec) {
         try {

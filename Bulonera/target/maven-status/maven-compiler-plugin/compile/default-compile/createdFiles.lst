@@ -27,6 +27,7 @@ Bulonera\Servlet\svModifUs.class
 Bulonera\Persistence\exceptions\PreexistingEntityException.class
 Bulonera\Servlet\sVcliente.class
 com\mycompany\bulonera\JakartaRestConfiguration.class
+Bulonera\logica\productoDTO.class
 Bulonera\Servlet\svLogin.class
 Bulonera\Servlet\svProductos.class
 Bulonera\logica\controladoraLogica.class

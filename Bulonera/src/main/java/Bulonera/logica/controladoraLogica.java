@@ -39,6 +39,10 @@ public class controladoraLogica {
     public ArrayList<cabecera_remito> cosultarCabeceraRemList(){
         return ctrlpersis.consultarcabecerarem();
     }
+    
+    public void eliminarCabecIdCli(int idCli){
+        ctrlpersis.eliminarcCabecPorCliente(idCli);
+    }
    
     public List<cabecera_remito> consultarCabecNroClient(int nroClient){
         return ctrlpersis.consultarCabecNroClient(nroClient);
