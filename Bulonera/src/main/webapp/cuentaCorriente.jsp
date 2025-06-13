@@ -172,7 +172,7 @@
 <div class="modal fade" id="remito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content" id="cargarRem">
-            <div class="modal-header">
+            <div class="modal-header cabeceraCargaRemito">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">REMITO</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
@@ -185,7 +185,7 @@
                 List<cliente> listaCliente = (List<cliente>) request.getSession().getAttribute("listaCliente");
                 
                     %>
-                <div class="row mb-3">
+                <div class="row mb-3 detCargaRemito">
                     <div class="col">
                         <label for="numero-cliente" class="form-label">Numero de cliente</label>
                         <c:forEach var="clie" items="${listaClientes}">
@@ -194,7 +194,6 @@
                                        disabled value="${clie.nroClient}">
                             </c:if>
                         </c:forEach>
-                        
                     </div>
                     
                     <div class="col">
@@ -228,7 +227,7 @@
                         </thead>
                         <tbody>
                             <tr class="fila-producto">
-                                <td><input class="sinBorde ancho" minlength="1" type="text" name="idProd" onchange="completarProducto(this)"></td>
+                                <td><input class="sinBorde anchoId" minlength="1" type="text" name="idProd" onchange="completarProducto(this)"></td>
                                 <td><input class="sinBorde" type="text" minlength="1" name="nombreProd" readonly></td>
                                 <td><input class="sinBorde ancho cantProd" name="cantProd" type="number" step="any" min="0" required oninput="calcularImporte()"></td>
                                 <td><input class="sinBorde ancho precioProd" minlength="1" type="number" name="precioProd" readonly></td>
