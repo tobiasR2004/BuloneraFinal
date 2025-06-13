@@ -171,7 +171,7 @@
 <!-- Estructura del modal -->
 <div class="modal fade" id="remito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content" id="cargarRem">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">REMITO</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -214,7 +214,7 @@
                             
                         <input type="text" id="buscarProducto" placeholder="Buscar producto..." autocomplete="off">
                         <input type="text" id="codigoProducto" placeholder="Código del producto" readonly>
-                        <select id="listaResultados" size="3"></select>
+                        <select id="listaResultados" size="3" style="display: none;"></select>
                             
                         <thead>
                             <tr>
@@ -223,6 +223,7 @@
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Precio/u</th>
                                 <th scope="col">Importe</th>
+                                <th></th> <!-- Agregamos columna para utilizar el boton de eliminar linea -->
                             </tr>
                         </thead>
                         <tbody>
@@ -232,6 +233,7 @@
                                 <td><input class="sinBorde ancho cantProd" name="cantProd" type="number" step="any" min="0" required oninput="calcularImporte()"></td>
                                 <td><input class="sinBorde ancho precioProd" minlength="1" type="number" name="precioProd" readonly></td>
                                 <td><input class="sinBorde importeProd" minlength="1" type="number" name="importeProd" readonly></td>
+                                <td><button type="button" class="btnEliminarLinea">❌</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -296,32 +298,56 @@
     </div>       
 
 <script>
-    document.getElementById("buscarProducto").addEventListener("keyup", function() {
-    let query = this.value.trim();
-    let lista = document.getElementById("listaResultados");
+    const buscarInput = document.getElementById("buscarProducto");
+    const listaResultados = document.getElementById("listaResultados");
+    const codigoProducto = document.getElementById("codigoProducto");
     
-    if (query.length > 1) { // Para evitar búsquedas vacías
-        fetch("sVbusquedaProductos?query=" + encodeURIComponent(query))
-        .then(response => response.json())
-        .then(data => {
-            lista.innerHTML = "";
-            lista.style.display = "block"; // Mostrar la lista
-            
-            data.forEach(prod => {
-                let option = document.createElement("option");
-                option.value = prod.cod_prod;
-                option.textContent = prod.nomb_prod;
-                lista.appendChild(option);
-                });
-            })
-            .catch(error => console.error("Error en la búsqueda:", error));
-    }
-    });
+    // Inicialmente ocultar el select
+    listaResultados.style.display = "none";
+    
+     buscarInput.addEventListener("keyup", function () {
+        let query = this.value.trim();
 
-    // Al seleccionar un producto de la lista, se actualiza el campo de código de producto
-    document.getElementById("listaResultados").addEventListener("change", function() {
-    let selectedOption = this.options[this.selectedIndex];
-    document.getElementById("codigoProducto").value = selectedOption.value;
+        if (query.length > 1) {
+            fetch("sVbusquedaProductos?query=" + query)
+                .then(response => response.json())
+                .then(data => {
+                    listaResultados.innerHTML = ""; // Limpiar resultados anteriores
+
+                    if (data.length === 0) {
+                        let option = document.createElement("option");
+                        option.textContent = "Producto no encontrado";
+                        option.disabled = true;
+                        listaResultados.appendChild(option);
+                    } else {
+                        data.forEach(prod => {
+                            let option = document.createElement("option");
+                            option.value = prod.cod_prod;
+                            option.textContent = prod.nomb_prod;
+                            listaResultados.appendChild(option);
+                        });
+                    }
+
+                    listaResultados.style.display = "block"; // Mostrar select con resultados
+                })
+                .catch(error => {
+                    console.error("Error en la búsqueda:", error);
+                    listaResultados.style.display = "none";
+                });
+        } else {
+            // Si el input está vacío o es muy corto
+            listaResultados.innerHTML = "";
+            listaResultados.style.display = "none";
+            codigoProducto.value = "";
+        }
+    });
+    
+    // Al seleccionar un producto, mostrar su código
+    listaResultados.addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
+        if (!selectedOption.disabled) {
+            codigoProducto.value = selectedOption.value;
+        }
     });
 </script>
                 
@@ -450,6 +476,21 @@ window.onload = function () {
             inputIdProd.value = id;
 
             completarProducto(inputIdProd);
+        }
+    });
+</script>
+
+<script>
+//FUNCION PARA ELIMINAR LINEAS DE REMITO EXCEPTO SI ES LA UNICA
+    document.querySelector("#tabla-remito").addEventListener("click", function(e){
+        if (e.target && e.target.classList.contains("btnEliminarLinea")){
+            const todasfilas = document.querySelectorAll(".fila-producto");
+            if (todasfilas.length > 1){
+                e.target.closest("tr").remove();
+                calcularImporteTotal();
+            }else{
+                alert("El remito debe contener al menos una línea");
+            }
         }
     });
 </script>
