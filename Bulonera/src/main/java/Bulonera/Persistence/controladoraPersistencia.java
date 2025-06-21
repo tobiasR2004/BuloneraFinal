@@ -748,6 +748,34 @@ public class controladoraPersistencia {
             em.close();
         }
     }
+    
+    public List<producto> obtenerProductosPaginados(int offset, int limite, String filtro) {
+        EntityManager em = productoJpa.getEntityManager();
+        try {
+            String jpql = "SELECT p FROM producto p WHERE LOWER(p.nomb_prod) LIKE :filtro";
+            return em.createQuery(jpql, producto.class)
+                    .setParameter("filtro", "%" + filtro.toLowerCase() + "%")
+                    .setFirstResult(offset)
+                    .setMaxResults(limite)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public int contarProductos(String filtro) {
+        EntityManager em = productoJpa.getEntityManager();
+        try {
+            String jpql = "SELECT COUNT(p) FROM producto p WHERE LOWER(p.nomb_prod) LIKE :filtro";
+            return ((Long) em.createQuery(jpql)
+                    .setParameter("filtro", "%" + filtro.toLowerCase() + "%")
+                    .getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+    
+    //CRUD USUARIO
 
     //CRUD USUARIO
     public void crearUsuario(usuario user1) {

@@ -33,7 +33,7 @@
                 </div>
             </form>
 
-            <form action="svProductos" method="get">
+            <form action="svProductosPaginados" method="get">
                 <div class="enlace">
                     <i class="bi bi-screwdriver"></i>
                     <button type="submit" class="onlyTXT"><a href="productos.jsp#produc" style="text-decoration: none;"
