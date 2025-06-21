@@ -35,6 +35,7 @@ public class detalle_remito implements Serializable {
     
     @ManyToOne
     private producto producDetalle;
+    
 
     public detalle_remito()
     {

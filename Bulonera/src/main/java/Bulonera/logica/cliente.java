@@ -7,7 +7,9 @@ package Bulonera.logica;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,6 +42,10 @@ public class cliente implements Serializable {
     
     @OneToMany(mappedBy = "cliente_pago")
     private ArrayList<pago> listaPagos_c;
+    
+        // ✅ Agregar relación en cascada con remitos
+    @OneToMany(mappedBy = "clienteCabecera", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<cabecera_remito> remitos = new ArrayList<>();
 
     public cliente(){
         
@@ -113,14 +119,13 @@ public class cliente implements Serializable {
         this.fecha_ingreso = fecha_ingreso;
     }
 
-    public void add(cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<cabecera_remito> getRemitos() {
+        return remitos;
     }
 
-    public void remove(cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setRemitos(List<cabecera_remito> remitos) {
+        this.remitos = remitos;
     }
-    
     
     
 }

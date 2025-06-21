@@ -62,9 +62,6 @@ public class sVeliminarCliente extends HttpServlet {
     if (contra.equals(contraIng)) {
         if (cli != null) {
 
-           /* ctrl.eliminarDetPorCliente(idBorrar);
-            ctrl.eliminarCcporIdClient(idBorrar);*/
-            ctrl.eliminarCabecIdCli(idBorrar);
             ctrl.eliminarCliente(idBorrar);
 
             List<cliente> listaClientesActualizada = ctrl.consultarClienteList();

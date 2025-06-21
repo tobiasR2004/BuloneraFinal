@@ -147,12 +147,12 @@ public class controladoraLogica {
         ctrlpersis.eliminarPorIdCabecera(idCabecera);
         System.out.println("Detalle con ID: " + idCabecera + " eliminado correctamente."); // LOG
 }
-  /* 
+  
     public void eliminarDetPorCliente(int idClient){
         ctrlpersis.eliminarDetPorCliente(idClient);
         
     }
-   */ 
+    
     public void modifDetalle(detalle_remito detalle1){
         ctrlpersis.modifDetalle(detalle1);
     }
