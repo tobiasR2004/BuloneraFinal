@@ -15,13 +15,13 @@
 
 <form action="svCargarProductos" method="post" enctype="multipart/form-data">
     <li class="nav-item">
-    <input class="selecExcel" type="file" id="file" name="file" accept=".xlsx">
-     <button type="submit" class="btn btn-navbar" id="botonImportar">Importar productos</button>
-    </form>
+        <input class="selecExcel" type="file" id="file" name="file" accept=".xlsx">
+         <button type="submit" class="btn btn-navbar" id="botonImportar">Importar productos</button>
+        </form>
 
-     <button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>
-     
-     <input type="text" class="buscarProd" id="searchProd" placeholder="Buscar por producto" onkeyup="buscarProd()">
+         <button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>
+
+         <input type="text" class="buscarProd" id="searchProd" placeholder="Buscar por producto" onkeyup="buscarProd()">
     </li>
 </ul>
 </div>

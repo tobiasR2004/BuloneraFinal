@@ -95,7 +95,11 @@ public class controladoraLogica {
     public void eliminarCCPorCabecera(cabecera_remito cabecera) {
         ctrlpersis.eliminarCCPorCabecera(cabecera);
     }
-    
+   /* 
+    public void eliminarCcporIdClient(int idClient){
+        ctrlpersis.eliminarCcPorIdClient(idClient);
+    }
+    */
     public void modifCc(cuenta_corriente cC1) {
         ctrlpersis.modifCc(cC1);
     }
@@ -143,7 +147,12 @@ public class controladoraLogica {
         ctrlpersis.eliminarPorIdCabecera(idCabecera);
         System.out.println("Detalle con ID: " + idCabecera + " eliminado correctamente."); // LOG
 }
-    
+  /* 
+    public void eliminarDetPorCliente(int idClient){
+        ctrlpersis.eliminarDetPorCliente(idClient);
+        
+    }
+   */ 
     public void modifDetalle(detalle_remito detalle1){
         ctrlpersis.modifDetalle(detalle1);
     }

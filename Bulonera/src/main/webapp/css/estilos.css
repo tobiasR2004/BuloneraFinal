@@ -368,12 +368,18 @@ section:target {
 .table-container {
     position: relative;
     width: 90%; 
-    margin: 0 auto; 
-    margin-right: 0px;
+    margin: 5% auto; 
+    margin-right: 5px;
     max-height: 90vh; 
     overflow-y: auto;
     overflow-x: auto;
 }
+
+.table-container #tablaDr{
+    margin-right: 10px;
+    margin-bottom: 10%;    
+}    
+
 .tablita tbody tr:nth-of-type(odd) {
   background-color: #184463;
 }
