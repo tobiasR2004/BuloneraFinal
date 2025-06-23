@@ -49,7 +49,7 @@
     <li class="nav-item">
         <button type="submit" class="btn btn-success" id="boton13"  style="display: none">Confirmar</button>
     </li>    
-    <div class="table-container" style="margin-top: 15%">    
+    <div class="table-container" style="margin-top: 13%">    
         <div id="cuentaCorrienteTabla">
             <TABLE class="table tablita" id="tablaDr" >
                 <tr class="Columnas ">

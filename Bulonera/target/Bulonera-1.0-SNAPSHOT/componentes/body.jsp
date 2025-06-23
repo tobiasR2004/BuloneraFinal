@@ -27,12 +27,13 @@
             <form action="sVcuentaCorrienteRemito" method="get">
                 <div class="enlace">
                     <i class="bi bi-cart"></i>
-                    <button type="submit" class="onlyTXT"><a href="cuentaCorriente.jsp" style="text-decoration: none;"
-                        onclick="cambiarBotones('opcion2')"><span>C/corrientes</span></a></button>
+                    <button type="submit" class="onlyTXT" onclick="cambiarBotones('opcion2')">
+                        <span>C/corrientes</span>
+                    </button>
                 </div>
             </form>
 
-            <form action="svProductos" method="get">
+            <form action="svProductosPaginados" method="get">
                 <div class="enlace">
                     <i class="bi bi-screwdriver"></i>
                     <button type="submit" class="onlyTXT"><a href="productos.jsp#produc" style="text-decoration: none;"

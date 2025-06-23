@@ -88,10 +88,7 @@ public class sVcliente extends HttpServlet {
             client = ctrl.buscarDniCliente(dni);
             Date fechaCabec = new java.util.Date(); 
             cabecera_remito cabec = new cabecera_remito();
-            List<detalle_remito> listaCabec = new ArrayList<>();
-            listaCabec = (List<detalle_remito>) ctrl.consultarDetalleList();
              
-            cabec.setListadetalles(new ArrayList<>(listaCabec));
             cabec.setCuit_cliente(cuit);
             cabec.setRazon_social(razonSoc);
             cabec.setClienteCabecera(client);

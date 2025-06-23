@@ -52,6 +52,7 @@ public class sVeliminarCliente extends HttpServlet {
 
     if (contra == null || contraIng == null) {
         HttpSession sesion = request.getSession();
+        System.out.println("su contraseña es :"+ contra);
         sesion.setAttribute("errorModif", "Ingrese su contraseña");
         sesion.setAttribute("validac", false);
         response.sendRedirect("clientes.jsp#client");
@@ -60,6 +61,7 @@ public class sVeliminarCliente extends HttpServlet {
 
     if (contra.equals(contraIng)) {
         if (cli != null) {
+
             ctrl.eliminarCliente(idBorrar);
 
             List<cliente> listaClientesActualizada = ctrl.consultarClienteList();

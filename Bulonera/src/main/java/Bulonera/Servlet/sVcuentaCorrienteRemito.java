@@ -40,9 +40,10 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         String nombCli = request.getParameter("buscarCli");
         
         if (nombCli == null || nombCli.equals("-1")) {
-            request.setAttribute("errorCabec", "Seleccione un cliente");
-            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
-            return;
+            Object clienteGuardado = misesion.getAttribute("clienteIdSeleccionado");
+            if (clienteGuardado != null) {
+                nombCli = String.valueOf(clienteGuardado);
+            }
         }
         else{
             cliente cliente1 = ctrl.buscarNombCliente(nombCli);
@@ -93,7 +94,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cabecera_remito cabecdetalleremito =  cabecList.get(cabecList.size() - 1);
         
         for (int i = 0; i < cantidades.length; i++) {
-        int cant_prod = Integer.parseInt(cantidades[i]);
+        double cant_prod = Double.parseDouble(cantidades[i]);
         double precio_unit = Double.parseDouble(precios[i]);
         double importe = Double.parseDouble(importes[i]);
         String nomb_prod = nombres[i];

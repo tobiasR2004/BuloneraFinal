@@ -11,25 +11,31 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <form action="svCargarProductos" method="post" enctype="multipart/form-data">
-    <li class="nav-item">
     <input class="selecExcel" type="file" id="file" name="file" accept=".xlsx">
-     <button type="submit" class="btn btn-navbar" id="botonImportar">Importar productos</button>
-    </form>
+    <button type="submit" class="btn btn-navbar" id="botonImportar">Importar productos</button>
+</form>
 
-     <button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>
-     
-     <input type="text" class="buscarProd" id="searchProd" placeholder="Buscar por producto" onkeyup="buscarProd()">
-    </li>
+<button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>
+
+<form method="get" action="svProductosPaginados">
+    <input type="text" name="busqueda" value="${busqueda != null ? busqueda : ''}" class="inputBusquedaProd" placeholder="Buscar producto...">
+    <button type="submit">Buscar</button>
+</form>
+    
 </ul>
 </div>
 </div>
 </nav>
-<section id="produc">
+
+<div id="produc">
     <div class="table-container">
-        <TABLE class="table tablita">
+        <table class="table tablita">
+            <thead>
             <tr class="Columnas ">
                 <th class="Columnas">Código</th>
                 <th class="Columnas">Categoría</th>
@@ -37,31 +43,64 @@
                 <th class="Columnas">Precio compra</th>
                 <th class="Columnas">Precio venta</th>
             </tr>
-            <%
-                List<producto> listaProducto = (List<producto>) request.getSession().getAttribute("listaProducto");
-                if (listaProducto != null) {
-                    for (producto prod : listaProducto) {
-                        double precioCompraTruncado = new BigDecimal(prod.getPrecio_compra())
-                                .setScale(2, java.math.RoundingMode.DOWN)
-                                .doubleValue();
-                        double precioVentaTruncado = new BigDecimal(prod.getPrecio_venta())
-                                .setScale(2, java.math.RoundingMode.DOWN)
-                                .doubleValue();
-            %>
-            <tr>
-                <td><%= prod.getCod_prod()%></td>
-                <td><%= prod.getCategoria_prod()%></td>
-                <td><%= prod.getNomb_prod()%></td>
-                <td><%= String.format("%.2f", precioCompraTruncado)%></td>
-                <td><%= String.format("%.2f", precioVentaTruncado)%></td>
-            </tr>
-            <%
-                    }
-                }
-            %>
-        </TABLE>
+            </thead>
+            <tbody>
+            <c:choose>
+                <c:when test="${empty productos}">
+                    <tr><td colspan="5">No se encontraron productos.</td></tr>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="prod" items="${productos}">
+                        <tr>
+                            <td>${prod.cod_prod}</td>
+                            <td>${prod.categoria_prod}</td>
+                            <td>${prod.nomb_prod}</td>
+                            <td><fmt:formatNumber value="${prod.precio_compra}" type="number" minFractionDigits="2"/></td>
+                        <td><fmt:formatNumber value="${prod.precio_venta}" type="number" minFractionDigits="2"/></td>
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+            </tbody>
+        </table>
     </div>
-</section>
+    
+    <div class="paginacion">
+    <!-- Botón primera página -->
+    <c:if test="${paginaActual > 1}">
+        <a href="svProductosPaginados?pagina=1&busqueda=${busqueda}">«</a>
+        <a href="svProductosPaginados?pagina=${paginaActual - 1}&busqueda=${busqueda}">‹</a>
+    </c:if>
+
+    <!-- Números de página dinámicos -->
+    <c:set var="startPage" value="${paginaActual - 4}" />
+    <c:set var="endPage" value="${paginaActual + 4}" />
+    <c:if test="${startPage < 1}">
+        <c:set var="endPage" value="${endPage + (1 - startPage)}" />
+        <c:set var="startPage" value="1" />
+    </c:if>
+    <c:if test="${endPage > totalPaginas}">
+        <c:set var="endPage" value="${totalPaginas}" />
+    </c:if>
+
+    <c:forEach begin="${startPage}" end="${endPage}" var="i">
+        <c:choose>
+            <c:when test="${i == paginaActual}">
+                <span class="pagina-activa">${i}</span>
+            </c:when>
+            <c:otherwise>
+                <a href="svProductosPaginados?pagina=${i}&busqueda=${busqueda}">${i}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+
+    <!-- Botón siguiente/última -->
+    <c:if test="${paginaActual < totalPaginas}">
+        <a href="svProductosPaginados?pagina=${paginaActual + 1}&busqueda=${busqueda}">›</a>
+        <a href="svProductosPaginados?pagina=${totalPaginas}&busqueda=${busqueda}">»</a>
+    </c:if>
+</div>
+</div>
         
         <!-- Modal -->
 <div class="modal fade" id="vaciarProd" tabindex="-1" aria-labelledby="vaciarProd" aria-hidden="true">

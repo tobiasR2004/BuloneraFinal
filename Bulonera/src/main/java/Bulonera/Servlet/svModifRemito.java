@@ -11,6 +11,8 @@ import Bulonera.logica.detalle_remito;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,43 +59,49 @@ public class svModifRemito extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         String[] seleccionados = request.getParameterValues("remitosSeleccionados");
+if (seleccionados != null) {
+    // ✅ Ordenar los IDs en orden ascendente
+    Arrays.sort(seleccionados, Comparator.comparingInt(Integer::parseInt));
 
-        if (seleccionados != null) {
-            for (String idStr : seleccionados) {
-                try {
-                    int id = Integer.parseInt(idStr);
+    for (String idStr : seleccionados) {
+        try {
+            int id = Integer.parseInt(idStr);
 
-                    // Nombre del parámetro: cantidad_ + id
-                    String cantidadParam = request.getParameter("cantidad_" + id);
+            // Nombre del parámetro: cantidad_ + id
+            String cantidadParam = request.getParameter("cantidad_" + id);
 
-                    if (cantidadParam != null && !cantidadParam.isEmpty()) {
-                        double nuevaCantidad = Double.parseDouble(cantidadParam);
+            if (cantidadParam != null && !cantidadParam.isEmpty()) {
+                double nuevaCantidad = Double.parseDouble(cantidadParam);
 
-                        // Buscar el detalle_remito desde la base de datos
-                        detalle_remito dr = ctrl.verDetalle(id);
-                        cabecera_remito idCabecdr = dr.getCabecdetalleremito();
-                        cuenta_corriente idCc = ctrl.consultarCcporCabec(idCabecdr);
-                        double nuevImporte = (dr.getPrecio_unit()*nuevaCantidad);
-                        double nuevImporteTot = (dr.getImporte_total() - dr.getImporte());
-                        nuevImporteTot = nuevImporte + nuevImporteTot;
+                // Buscar el detalle_remito desde la base de datos
+                detalle_remito dr = ctrl.verDetalle(id);
+                cabecera_remito idCabecdr = dr.getCabecdetalleremito();
+                cuenta_corriente idCc = ctrl.consultarCcporCabec(idCabecdr);
+                
+                double nuevoImporte = dr.getPrecio_unit() * nuevaCantidad;
+                double nuevoImporteTotal = dr.getImporte_total() - dr.getImporte();
+                nuevoImporteTotal = nuevoImporte + nuevoImporteTotal;
 
+                if (dr != null) {
+                    // Actualizar detalle
+                    dr.setImporte(nuevoImporte);
+                    dr.setCant_prod(nuevaCantidad);
+                    ctrl.modifDetalle(dr);
 
-                        if (dr != null) {
-                            
-                            dr.setImporte(nuevImporte);
-                            dr.setCant_prod(nuevaCantidad);
-                            ctrl.modifDetalle(dr);
-                            ctrl.actimportetotal( idCabecdr.getIdRemito());
-                            ctrl.actualizarImportesCc(idCc.getId_cc());
-                        }
-                    }
-                } catch (NumberFormatException e) {
-                    // manejar error en id o cantidad
-                    e.printStackTrace();
+                    // Actualizar cabecera (importe total)
+                    ctrl.actimportetotal(idCabecdr.getIdRemito());
+
+                    // ✅ Actualizar cuenta corriente (orden ya garantizado)
+                    ctrl.actualizarImportesCc(idCc.getId_cc());
                 }
             }
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); // Manejo simple, podés mejorarlo
         }
+    }
+}
         
+        // 🔄 ACTUALIZAR la lista antes de mostrarla en el JSP
         List<detalle_remito> listaDet = (List<detalle_remito>) request.getSession().getAttribute("DetallesList");
         List<Integer> idsDetalle = new ArrayList<>();
         List<detalle_remito> listaDetalles = new ArrayList<>();
