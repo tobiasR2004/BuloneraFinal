@@ -9,6 +9,7 @@ import Bulonera.logica.producto;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -30,25 +31,19 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession misesion = request.getSession();
-        misesion.removeAttribute("clienteIdSeleccionado");
         
         //TRAER LISTA DE CLIENTES
         List<cliente> listaClientes = ctrl.obtenerClientes();
-        if (listaClientes != null && !listaClientes.isEmpty()) {
-            System.out.println("Clientes en el Servlet: " + listaClientes);
-        } else {
-            System.out.println("No se encontraron clientes.");
-        }
         request.setAttribute("listaClientes", listaClientes);
 
         //TRAER CLIENTE
         String nombCli = request.getParameter("buscarCli");
         
         if (nombCli == null || nombCli.equals("-1")) {
-            request.setAttribute("errorCabec", "Seleccione un cliente");
-      
-          request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
-            return;
+            Object clienteGuardado = misesion.getAttribute("clienteIdSeleccionado");
+            if (clienteGuardado != null) {
+                nombCli = String.valueOf(clienteGuardado);
+            }
         }
         else{
             cliente cliente1 = ctrl.buscarNombCliente(nombCli);
@@ -62,11 +57,14 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
             
             List<cabecera_remito> cabecList = (List<cabecera_remito>) ctrl.consultarCabecNroClient(clienteId);
             
-            cabecera_remito cabecdetalleremito = cabecList.get(cabecList.size() - 1);
-            
-            List<cuenta_corriente> listaCC = ctrl.consultarCcList(cabecdetalleremito);
-            System.out.println("Número de cuentas corrientes obtenidas: " + listaCC.size());
-            misesion.setAttribute("listaCC", listaCC);
+            if (cabecList != null && !cabecList.isEmpty()) {
+                cabecera_remito cabecdetalleremito = cabecList.get(cabecList.size() - 1);
+
+                List<cuenta_corriente> listaCC = ctrl.consultarCcList(cabecdetalleremito);
+                misesion.setAttribute("listaCC", listaCC);
+            } else {
+                misesion.setAttribute("listaCC", new ArrayList<>());
+            }
         }
 
         // Reenvía la solicitud al JSP
@@ -96,7 +94,7 @@ public class sVcuentaCorrienteRemito extends HttpServlet {
         cabecera_remito cabecdetalleremito =  cabecList.get(cabecList.size() - 1);
         
         for (int i = 0; i < cantidades.length; i++) {
-        int cant_prod = Integer.parseInt(cantidades[i]);
+        double cant_prod = Double.parseDouble(cantidades[i]);
         double precio_unit = Double.parseDouble(precios[i]);
         double importe = Double.parseDouble(importes[i]);
         String nomb_prod = nombres[i];

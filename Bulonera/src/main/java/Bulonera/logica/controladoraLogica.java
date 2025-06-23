@@ -39,6 +39,10 @@ public class controladoraLogica {
     public ArrayList<cabecera_remito> cosultarCabeceraRemList(){
         return ctrlpersis.consultarcabecerarem();
     }
+    
+    public void eliminarCabecIdCli(int idCli){
+        ctrlpersis.eliminarcCabecPorCliente(idCli);
+    }
    
     public List<cabecera_remito> consultarCabecNroClient(int nroClient){
         return ctrlpersis.consultarCabecNroClient(nroClient);
@@ -91,7 +95,11 @@ public class controladoraLogica {
     public void eliminarCCPorCabecera(cabecera_remito cabecera) {
         ctrlpersis.eliminarCCPorCabecera(cabecera);
     }
-    
+   /* 
+    public void eliminarCcporIdClient(int idClient){
+        ctrlpersis.eliminarCcPorIdClient(idClient);
+    }
+    */
     public void modifCc(cuenta_corriente cC1) {
         ctrlpersis.modifCc(cC1);
     }
@@ -108,7 +116,8 @@ public class controladoraLogica {
     }
     
     public void actualizarImportesCc(int idCc){
-       ctrlpersis.actualizarSaldoCuentaCorriente(idCc);
+       ctrlpersis.actualizarCuentaCorriente(idCc);
+       
     }
     
     //CRUD DETALLE
@@ -131,12 +140,18 @@ public class controladoraLogica {
     public List<detalle_remito> consultarListaDetalles(){
         return ctrlpersis.consultarListaDetalles();
     }
+
     
     public void eliminarDetallePorIdCabecera(int idCabecera) {
         System.out.println("Intentando eliminar detalles con idCabecera: " + idCabecera); // LOG
         ctrlpersis.eliminarPorIdCabecera(idCabecera);
         System.out.println("Detalle con ID: " + idCabecera + " eliminado correctamente."); // LOG
 }
+  
+    public void eliminarDetPorCliente(int idClient){
+        ctrlpersis.eliminarDetPorCliente(idClient);
+        
+    }
     
     public void modifDetalle(detalle_remito detalle1){
         ctrlpersis.modifDetalle(detalle1);

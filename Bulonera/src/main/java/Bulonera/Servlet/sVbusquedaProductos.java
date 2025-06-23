@@ -8,6 +8,7 @@ import Bulonera.Persistence.controladoraPersistencia;
 import Bulonera.logica.cliente;
 import Bulonera.logica.controladoraLogica;
 import Bulonera.logica.producto;
+import Bulonera.logica.productoDTO;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,19 +39,25 @@ public class sVbusquedaProductos extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         
         String query = request.getParameter("query");
-        List<producto> productosEncontrados = new ArrayList<>();
         
-        try {
+        try (PrintWriter out = response.getWriter()) {
         if (query != null && !query.trim().isEmpty()) {
             controladoraPersistencia ctrlP = new controladoraPersistencia();
-            productosEncontrados = ctrlP.buscarProductoPorNombre(query);
-        }
+             List<producto> productosEncontrados = ctrlP.buscarProductoPorNombre(query);
         
-        // Convertir lista a JSON y enviarla al frontend
-        Gson gson = new Gson();
-        String json = gson.toJson(productosEncontrados);
-        response.getWriter().write(json);
-
+        
+             //CONVERSION A DTO
+             List<productoDTO> productosDTO = new ArrayList<>();
+             for (producto prod : productosEncontrados) {
+                 productosDTO.add(new productoDTO(prod.getCod_prod(), prod.getNomb_prod()));
+             }
+             
+             Gson gson = new Gson();
+             String json = gson.toJson(productosDTO);
+             out.write(json);
+        } else {
+            out.write("[]"); //Envia lista vacia si query es invalido
+        }
     } catch (Exception e) {
         e.printStackTrace(); // Registra el error en la consola del servidor
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error en la búsqueda de productos.");

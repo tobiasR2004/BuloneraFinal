@@ -5,7 +5,6 @@
 package Bulonera.Persistence;
 
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
-import Bulonera.logica.cliente;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -13,6 +12,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Bulonera.logica.pago;
 import java.util.ArrayList;
+import Bulonera.logica.cabecera_remito;
+import Bulonera.logica.cliente;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,6 +42,9 @@ public class clienteJpaController implements Serializable {
         if (cliente.getListaPagos_c() == null) {
             cliente.setListaPagos_c(new ArrayList<pago>());
         }
+        if (cliente.getRemitos() == null) {
+            cliente.setRemitos(new ArrayList<cabecera_remito>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -51,6 +55,12 @@ public class clienteJpaController implements Serializable {
                 attachedListaPagos_c.add(listaPagos_cpagoToAttach);
             }
             cliente.setListaPagos_c(attachedListaPagos_c);
+            List<cabecera_remito> attachedRemitos = new ArrayList<cabecera_remito>();
+            for (cabecera_remito remitoscabecera_remitoToAttach : cliente.getRemitos()) {
+                remitoscabecera_remitoToAttach = em.getReference(remitoscabecera_remitoToAttach.getClass(), remitoscabecera_remitoToAttach.getIdRemito());
+                attachedRemitos.add(remitoscabecera_remitoToAttach);
+            }
+            cliente.setRemitos(attachedRemitos);
             em.persist(cliente);
             for (pago listaPagos_cpago : cliente.getListaPagos_c()) {
                 cliente oldCliente_pagoOfListaPagos_cpago = listaPagos_cpago.getCliente_pago();
@@ -59,6 +69,15 @@ public class clienteJpaController implements Serializable {
                 if (oldCliente_pagoOfListaPagos_cpago != null) {
                     oldCliente_pagoOfListaPagos_cpago.getListaPagos_c().remove(listaPagos_cpago);
                     oldCliente_pagoOfListaPagos_cpago = em.merge(oldCliente_pagoOfListaPagos_cpago);
+                }
+            }
+            for (cabecera_remito remitoscabecera_remito : cliente.getRemitos()) {
+                cliente oldClienteCabeceraOfRemitoscabecera_remito = remitoscabecera_remito.getClienteCabecera();
+                remitoscabecera_remito.setClienteCabecera(cliente);
+                remitoscabecera_remito = em.merge(remitoscabecera_remito);
+                if (oldClienteCabeceraOfRemitoscabecera_remito != null) {
+                    oldClienteCabeceraOfRemitoscabecera_remito.getRemitos().remove(remitoscabecera_remito);
+                    oldClienteCabeceraOfRemitoscabecera_remito = em.merge(oldClienteCabeceraOfRemitoscabecera_remito);
                 }
             }
             em.getTransaction().commit();
@@ -77,6 +96,8 @@ public class clienteJpaController implements Serializable {
             cliente persistentcliente = em.find(cliente.class, cliente.getNroClient());
             ArrayList<pago> listaPagos_cOld = persistentcliente.getListaPagos_c();
             ArrayList<pago> listaPagos_cNew = cliente.getListaPagos_c();
+            List<cabecera_remito> remitosOld = persistentcliente.getRemitos();
+            List<cabecera_remito> remitosNew = cliente.getRemitos();
             ArrayList<pago> attachedListaPagos_cNew = new ArrayList<pago>();
             for (pago listaPagos_cNewpagoToAttach : listaPagos_cNew) {
                 listaPagos_cNewpagoToAttach = em.getReference(listaPagos_cNewpagoToAttach.getClass(), listaPagos_cNewpagoToAttach.getId_pago());
@@ -84,6 +105,13 @@ public class clienteJpaController implements Serializable {
             }
             listaPagos_cNew = attachedListaPagos_cNew;
             cliente.setListaPagos_c(listaPagos_cNew);
+            List<cabecera_remito> attachedRemitosNew = new ArrayList<cabecera_remito>();
+            for (cabecera_remito remitosNewcabecera_remitoToAttach : remitosNew) {
+                remitosNewcabecera_remitoToAttach = em.getReference(remitosNewcabecera_remitoToAttach.getClass(), remitosNewcabecera_remitoToAttach.getIdRemito());
+                attachedRemitosNew.add(remitosNewcabecera_remitoToAttach);
+            }
+            remitosNew = attachedRemitosNew;
+            cliente.setRemitos(remitosNew);
             cliente = em.merge(cliente);
             for (pago listaPagos_cOldpago : listaPagos_cOld) {
                 if (!listaPagos_cNew.contains(listaPagos_cOldpago)) {
@@ -99,6 +127,23 @@ public class clienteJpaController implements Serializable {
                     if (oldCliente_pagoOfListaPagos_cNewpago != null && !oldCliente_pagoOfListaPagos_cNewpago.equals(cliente)) {
                         oldCliente_pagoOfListaPagos_cNewpago.getListaPagos_c().remove(listaPagos_cNewpago);
                         oldCliente_pagoOfListaPagos_cNewpago = em.merge(oldCliente_pagoOfListaPagos_cNewpago);
+                    }
+                }
+            }
+            for (cabecera_remito remitosOldcabecera_remito : remitosOld) {
+                if (!remitosNew.contains(remitosOldcabecera_remito)) {
+                    remitosOldcabecera_remito.setClienteCabecera(null);
+                    remitosOldcabecera_remito = em.merge(remitosOldcabecera_remito);
+                }
+            }
+            for (cabecera_remito remitosNewcabecera_remito : remitosNew) {
+                if (!remitosOld.contains(remitosNewcabecera_remito)) {
+                    cliente oldClienteCabeceraOfRemitosNewcabecera_remito = remitosNewcabecera_remito.getClienteCabecera();
+                    remitosNewcabecera_remito.setClienteCabecera(cliente);
+                    remitosNewcabecera_remito = em.merge(remitosNewcabecera_remito);
+                    if (oldClienteCabeceraOfRemitosNewcabecera_remito != null && !oldClienteCabeceraOfRemitosNewcabecera_remito.equals(cliente)) {
+                        oldClienteCabeceraOfRemitosNewcabecera_remito.getRemitos().remove(remitosNewcabecera_remito);
+                        oldClienteCabeceraOfRemitosNewcabecera_remito = em.merge(oldClienteCabeceraOfRemitosNewcabecera_remito);
                     }
                 }
             }
@@ -135,6 +180,11 @@ public class clienteJpaController implements Serializable {
             for (pago listaPagos_cpago : listaPagos_c) {
                 listaPagos_cpago.setCliente_pago(null);
                 listaPagos_cpago = em.merge(listaPagos_cpago);
+            }
+            List<cabecera_remito> remitos = cliente.getRemitos();
+            for (cabecera_remito remitoscabecera_remito : remitos) {
+                remitoscabecera_remito.setClienteCabecera(null);
+                remitoscabecera_remito = em.merge(remitoscabecera_remito);
             }
             em.remove(cliente);
             em.getTransaction().commit();

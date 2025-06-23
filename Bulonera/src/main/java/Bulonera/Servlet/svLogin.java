@@ -7,6 +7,7 @@ package Bulonera.Servlet;
 import Bulonera.logica.controladoraLogica;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -79,10 +80,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         // Almacenar atributos de usuario en la sesión
         miSesion.setAttribute("usValid", usuario);
         miSesion.setAttribute("contraValida", contrasenia);
-        miSesion.setAttribute("idUsuario", request.getAttribute("idUsuario"));
+
         // Redirigir al menú principal
         response.sendRedirect("menu.jsp");
-        request.setAttribute("usuarioValido", false);
+        return; 
     } else {
         // Si el usuario no es válido, mostrar mensaje de error
         request.setAttribute("error", "Usuario o contraseña incorrectos.");

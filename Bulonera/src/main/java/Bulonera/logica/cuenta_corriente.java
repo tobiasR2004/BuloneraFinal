@@ -35,6 +35,7 @@ public class cuenta_corriente implements Serializable {
     
     @OneToMany(mappedBy = "cc_pago")
     private ArrayList<pago> listaPagos_cc;
+    
     @ManyToOne
     @JoinColumn(name = "CABECERAREMITO_ID_REMITO") 
     private cabecera_remito cabeceraremito;

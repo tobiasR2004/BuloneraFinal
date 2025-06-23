@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,8 +38,13 @@ public class cabecera_remito implements Serializable {
     @ManyToOne
     @JoinColumn(name = "ID_CLIENTE")
     private cliente clienteCabecera;
-    @OneToMany(mappedBy = "cabecdetalleremito")
+    
+    @OneToMany(mappedBy = "cabeceraremito", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ArrayList<cuenta_corriente> listaCc;
+    
+    @OneToMany(mappedBy = "cabecdetalleremito", cascade = CascadeType.ALL, orphanRemoval = true)
     private ArrayList<detalle_remito> listadetalles;
+    
 
     public cabecera_remito(int idRemito, String cuit_cliente, String razon_social, double importe_total, Date fecha_Rem, cliente clienteCabecera, ArrayList<detalle_remito> listadetalles) {
         this.idRemito = idRemito;
@@ -108,9 +114,13 @@ public class cabecera_remito implements Serializable {
     public void setListadetalles(ArrayList<detalle_remito> listadetalles) {
         this.listadetalles = listadetalles;
     }
-    
 
-    
-    
+    public ArrayList<cuenta_corriente> getListaCc() {
+        return listaCc;
+    }
+
+    public void setListaCc(ArrayList<cuenta_corriente> listaCc) {
+        this.listaCc = listaCc;
+    }
     
 }

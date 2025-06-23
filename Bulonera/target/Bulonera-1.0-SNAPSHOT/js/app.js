@@ -5,6 +5,7 @@ const enlacemenu = document.querySelectorAll(".enlace");
 const modal = document.getElementById('confirmodif');
 const cerrarBtn = document.getElementsByClassName('close')[0];
 const btnmodificar = document.getElementById('btnmodificar');
+const baseUrl = "http://srv803937.hstgr.cloud:8080";
 
 /* Romani Tobias */
 
@@ -88,7 +89,7 @@ function calcularImporteTotal() {
 function completarProducto(input) {    
     const idProd = input.value.trim();
     if (idProd !== "") {
-        fetch("http://localhost:8080/Bulonera/svRemito?idProd=" + idProd)
+        fetch("svRemito?idProd=" + idProd)
             .then(response => response.json())
             .then(data => {
                 if (data.nombre && data.precio) {
@@ -107,6 +108,24 @@ function completarProducto(input) {
         alert("Por favor ingresa un ID de producto válido.");
     }
     }
+    
+    //NUEVA FUNCION DE AL HACER DOBLE CLICK SE COMPLETE EL PRODUCTO
+    document.getElementById('listaResultados').addEventListener('dblclick', function(e) {
+    const optionSeleccionada = e.target;
+    if (optionSeleccionada.tagName.toLowerCase() === 'option') {
+        const id = optionSeleccionada.value;
+
+        const filaProducto = document.getElementById('fila-producto');
+        const inputIdProd = filaProducto.querySelector('input[name="idProd"]');
+        
+        // Poner el ID directamente
+        inputIdProd.value = id;
+
+        // ⚠️ Ejecutar la función que ya tenés para completar
+        completarProducto(inputIdProd);
+    }
+});
+
     
     
 document.addEventListener("DOMContentLoaded", function() {

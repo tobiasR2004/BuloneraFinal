@@ -264,12 +264,17 @@ section:target {
   color: white;
 }
 
+
 #opcion5 {
   width: 100px;
 }
 
 .nav-item{
   list-style-type: none;
+}
+
+.inputBusquedaProd{
+    margin-top: 6.5%;
 }
 
 .tablita {
@@ -283,7 +288,7 @@ section:target {
 
 .table-container .tablaProd {
     overflow-x: auto;
-    max-width: 100%;
+    width: 100%;
 }
 
 .tablaProd {
@@ -367,12 +372,18 @@ section:target {
 .table-container {
     position: relative;
     width: 90%; 
-    margin: 0 auto; 
-    margin-right: 0px;
+    margin: 5% auto; 
+    margin-right: 5px;
     max-height: 90vh; 
     overflow-y: auto;
     overflow-x: auto;
 }
+
+.table-container #tablaDr{
+    margin-right: 10px;
+    margin-bottom: 10%;    
+}    
+
 .tablita tbody tr:nth-of-type(odd) {
   background-color: #184463;
 }
@@ -457,8 +468,31 @@ td {
   margin-left: 2%;
 }
 
+#cargarRem{
+    width: 105%;
+}
+
 .ancho{
     width: 60px;
+} 
+
+.anchoId{
+    width: 100px;
+}
+
+.importeProd{
+    width: 150px
+}
+
+.btnEliminarLinea{
+    border-radius: 5px;
+    border-color: #1c1c1c;
+}
+
+.btnEliminarLinea:hover{
+background-color: red;
+color: white;
+transition: background-color 0.4s, color 0.4s;   
 }
 
 .currency-symbol {
@@ -492,7 +526,42 @@ td {
   margin-bottom: 0; /* Elimina el margen inferior del label */
 }
 
+.paginacion {
+    position: absolute;
+    display: flex;
+    left: 6.5%;
+    bottom: -0.5%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 94%;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    margin-top: 0px;
+    border-top: 1px solid #ccc;
+}
 
+.paginacion a,
+.paginacion span {
+    padding: 3px 8px;
+    font-size: 12px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: #003053;
+    background-color: white;
+    font-weight: bold;
+}
+
+.paginacion a:hover {
+    background-color: #dceeff;
+}
+
+.paginacion .pagina-activa {
+    background-color: #003053;
+    color: white;
+}
 
 #boton9{
   border: 0px;
@@ -506,10 +575,20 @@ td {
   border-color: #bd2130;
 }
 
-#boton5, #boton6, #boton9{
+#boton5, #boton6, #boton9, #boton11{
   width: 150px;
 }
 
+#boton14{
+    background-color: #c82333;
+}
+
+#boton13{
+    position: fixed;
+    z-index: 10;
+    margin-top: 8px;
+    margin-left: 63%;
+}
 #dniModi{
     margin-left: 2.5%;
 }
@@ -636,15 +715,22 @@ td {
 }
 
 .selecExcel{
-    margin: 10px 35px;
+    margin-top: 10px;
+    margin-left: 35px;
     background-color: white;
     border: solid 1px #000000;
     color: black;
     border-radius: 2%;
 }
 
-#boton10, #boton7{
+#boton7{
     width: 140px;
+    height: 58px;
+    margin-top: 1px;
+}
+
+#boton10, #botonImportar{
+    width: 113px;
     height: 58px;
     margin-top: 8.5px;
 }
@@ -653,7 +739,7 @@ td {
     height: 35px;
     width: 170px;
     margin-top: 10px;
-    margin-left: 20px
+    margin-left: 0px
 }
 
 #tablaDr{
@@ -715,77 +801,15 @@ td {
   border-color: #0d6d00;
 }
 
-.dataTables_filter input:focus {
-    border-color: #02274d !important;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(2, 39, 77, 0.2);
+.detCargaRemito{
+    padding-top: 0px !important;
 }
 
-.dataTables_filter label {
-    color: #02274d !important;
-    font-weight: 450 !important;
-    font-size: 1rem !important;
+.cabeceraCargaRemito{
+    padding-bottom: 0px !important;
 }
 
-/* ===== SELECTOR DE LONGITUD (Mostrar X registros) ===== */
-.dataTables_length label {
-    color: #02274d !important;
-    font-weight: 450 !important;
-}
 
-.dataTables_length select {
-    padding: 6px 12px !important;
-    border-radius: 6px !important;
-    border: 1px solid #003053 !important;
-    background-color: #fff !important;
-    color: #212529 !important;
-    margin: 0 5px;
-}
-
-/* ===== INFORMACIÓN (Mostrando X de Y registros) ===== */
-.dataTables_info {
-    color: #02274d !important;
-    font-size: 0.9rem !important;
-    margin-top: 10px !important;
-}
-
-/* ===== PAGINACIÓN ===== */
-.dataTables_paginate {
-    margin-top: 15px !important;
-    margin-bottom: 15px !important;
-}
-
-/* --- Botones INACTIVOS (normales y hover) --- */
-.dataTables_paginate .paginate_button:not(.current):not(.disabled),
-.dataTables_paginate .paginate_button:not(.current):not(.disabled):hover {
-    background-color: white !important;
-    color: #02274d !important; /* Texto azul */
-    border: 1px solid #02274d !important;
-    padding: 6px 12px !important;
-    margin: 0 3px !important;
-    border-radius: 6px !important;
-    transition: all 0.3s !important;
-}
-
-/* --- Botón ACTIVO (página actual) --- */
-.dataTables_paginate .paginate_button.current {
-    background-color: #02274d !important;
-    color: white !important;
-    border-color: #02274d !important;
-}
-
-/* --- Botones DESHABILITADOS (flechas) --- */
-.dataTables_paginate .paginate_button.disabled,
-.dataTables_paginate .paginate_button.disabled:hover {
-    color: #adb5bd !important; /* Gris claro */
-    background-color: white !important;
-    cursor: not-allowed;
-}
-
-/* --- Efecto Hover (opcional) --- */
-.dataTables_paginate .paginate_button:not(.current):not(.disabled):hover {
-    background-color: #f0f0f0 !important; /* Gris muy claro */
-}
 
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
