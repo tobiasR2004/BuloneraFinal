@@ -15,6 +15,7 @@ Bulonera\logica\controladoraLogica.class
 Bulonera\Servlet\svCargarProductos.class
 Bulonera\Servlet\svLogout.class
 Bulonera\Servlet\svModifRemito.class
+service\CorsFilter.class
 Bulonera\Servlet\svUsuario.class
 com\mycompany\bulonera\resources\JakartaEE8Resource.class
 Bulonera\Servlet\svCrearCabeceraRem.class
@@ -28,14 +29,9 @@ Bulonera\Persistence\cabecera_remitoJpaController.class
 Bulonera\Persistence\cuenta_corrienteJpaController.class
 Bulonera\Persistence\exceptions\NonexistentEntityException.class
 Bulonera\Persistence\pagoJpaController.class
-<<<<<<< HEAD
-Bulonera\logica\usuario.class
-service\ExcelService$1.class
-=======
->>>>>>> f3714bacee8e3dde44e32e64a177ce3f76b6b4a9
 Bulonera\logica\detalle_remito.class
-service\ExcelService.class
 Bulonera\Persistence\usuarioJpaController.class
+service\excelService.class
 Bulonera\Servlet\sVcuentaCorrienteRemito.class
 Bulonera\Filters\exceptions\NonexistentEntityException.class
 Bulonera\Servlet\svModifUs.class
@@ -45,17 +41,10 @@ Bulonera\Servlet\svProductos.class
 Bulonera\logica\cuenta_corriente.class
 Bulonera\logica\usuarioService.class
 Bulonera\Persistence\clienteJpaController.class
-<<<<<<< HEAD
-Bulonera\Servlet\svCargarProductos.class
-Bulonera\Servlet\svLogout.class
-Bulonera\Servlet\svModifRemito.class
-=======
 Bulonera\Filters\exceptions\PreexistingEntityException.class
 Bulonera\Filters\exceptions\IllegalOrphanException.class
->>>>>>> 903270777d2b9e1d76dda90d230b008aa53cf050
 Bulonera\Servlet\svPdfdetalle.class
 Bulonera\Servlet\svCancelarDeuda.class
-service\CorsFilter.class
 Bulonera\Filters\FiltroSesion.class
 Bulonera\Persistence\detalle_remitoJpaController.class
 Bulonera\Servlet\svRemito.class
