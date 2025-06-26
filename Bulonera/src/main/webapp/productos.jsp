@@ -165,26 +165,7 @@
             </div>
         </div>
     </div>
-                
-    <script>
-            function buscarProd() {
-                // Obtén el valor ingresado por el usuario
-                let input = document.getElementById("searchProd").value.toLowerCase();
 
-                // Obtén todas las filas de la tabla, excepto la de encabezado
-                let table = document.querySelector(".tablita");
-                let rows = table.getElementsByTagName("tr");
-
-                // Recorre todas las filas y oculta las que no coincidan con la búsqueda
-                for (let i = 1; i < rows.length; i++) { // Empieza en 1 para saltar el encabezado
-                    let razonSocialCell = rows[i].getElementsByTagName("td")[2]; // Columna de Razon Social
-                    if (razonSocialCell) {
-                        let razonSocialText = razonSocialCell.textContent || razonSocialCell.innerText;
-                        rows[i].style.display = razonSocialText.toLowerCase().includes(input) ? "" : "none";
-                    }
-                }
-            }
-    </script>
     <script>
     window.onload = function() {
         // Verificar si hay un mensaje de error

@@ -743,7 +743,7 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
     public List<producto> obtenerProductosPaginados(int offset, int limite, String filtro) {
         EntityManager em = productoJpa.getEntityManager();
         try {
-            String jpql = "SELECT p FROM producto p WHERE LOWER(p.nomb_prod) LIKE :filtro";
+            String jpql = "SELECT p FROM producto p WHERE LOWER(p.nomb_prod) LIKE :filtro OR LOWER(p.cod_prod) LIKE :filtro";
             return em.createQuery(jpql, producto.class)
                     .setParameter("filtro", "%" + filtro.toLowerCase() + "%")
                     .setFirstResult(offset)
