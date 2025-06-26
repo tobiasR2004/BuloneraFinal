@@ -721,13 +721,14 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
         }
     }
 
-    public void vaciarProductos() {
+    public void vaciarProductos(int idLista) {
         EntityManager em = productoJpa.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
 
-            em.createQuery("DELETE FROM producto").executeUpdate();
+            em.createQuery("DELETE FROM producto p WHERE p.codLista = :idLista").setParameter("idLista", idLista).executeUpdate();
+            
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {

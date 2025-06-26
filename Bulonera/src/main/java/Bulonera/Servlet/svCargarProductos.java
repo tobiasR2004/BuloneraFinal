@@ -66,11 +66,14 @@ public class svCargarProductos extends HttpServlet {
         processRequest(request, response);
         EntityManagerFactory emf = null;
         EntityManager em = null;
+        String listaElim = request.getParameter("CodListaProdEliminar");
         
+        if (listaElim != null && !listaElim.isEmpty()){
         try {
+            int listaElimInt = Integer.parseInt(listaElim);
             emf = Persistence.createEntityManagerFactory("buloneraPU");
             em = emf.createEntityManager();
-            ctrl.vaciarProd();
+            ctrl.vaciarProd(listaElimInt);
             
             response.sendRedirect("productos.jsp");
         } catch (Exception e) {
@@ -83,8 +86,15 @@ public class svCargarProductos extends HttpServlet {
             if (emf != null) {
                 emf.close();
             }
+        }
+    } 
+        else {                
+            request.setAttribute("error", "Ingrese el codigo de una lista existente");
+            request.getRequestDispatcher("productos.jsp").forward(request, response);
+            
+        }
     }
-    }
+    
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -98,27 +108,39 @@ public class svCargarProductos extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        Part filePart = request.getPart("file"); // Recoge el archivo enviado desde el JSP
-        if (filePart != null && filePart.getSize() > 0) {
-            InputStream fileContent = filePart.getInputStream();
-            excelService excelService = new excelService();
+        String codigoLista = request.getParameter("CodListaProdCarga");     
+        Part filePart = request.getPart("file");// Recoge el archivo enviado desde el JSP
+                                                        
+        if (codigoLista != null && !codigoLista.isEmpty()){ 
+            if (filePart != null && filePart.getSize() > 0) {
+                int codListaInt = Integer.parseInt(codigoLista);
+                InputStream fileContent = filePart.getInputStream();
+                excelService excelService = new excelService();
 
-            try {
-                // Lee los productos desde el archivo Excel
-                List<producto> productos = excelService.leerProductosDesdeExcel(fileContent);
+                try {
+                    // Lee los productos desde el archivo Excel
+                    List<producto> productos = excelService.leerProductosDesdeExcel(fileContent);
+                    
+                    for (producto p : productos) {
+                        p.setCodLista(codListaInt);
+                    }
 
-                // Guarda los productos en la base de datos
-                ctrl.guardarProduct(productos);
+                    // Guarda los productos en la base de datos
+                    ctrl.guardarProduct(productos);
 
-                // Responde al usuario
+                    // Responde al usuario
+                    request.getRequestDispatcher("productos.jsp").forward(request, response);
+
+                } catch (Exception e) {
+                    response.getWriter().write("Error al cargar productos: " + e.getMessage());
+                }
+            } else {
+                request.setAttribute("error", "Cargue un excel con el formato adecuado");
                 request.getRequestDispatcher("productos.jsp").forward(request, response);
-                
-            } catch (Exception e) {
-                response.getWriter().write("Error al cargar productos: " + e.getMessage());
             }
-        } else {
-            request.setAttribute("error", "Cargue un excel con el formato adecuado");
-            request.getRequestDispatcher("productos.jsp").forward(request, response);
+        } else{ 
+                request.setAttribute("error", "Ingrese un Codigo a la lista");
+                request.getRequestDispatcher("productos.jsp").forward(request, response);
         }
     }
 

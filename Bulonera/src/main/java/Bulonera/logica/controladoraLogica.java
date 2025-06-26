@@ -236,8 +236,8 @@ public class controladoraLogica {
         }
     }
     
-    public void vaciarProd(){
-        ctrlpersis.vaciarProductos();
+    public void vaciarProd(int idLista){
+        ctrlpersis.vaciarProductos(idLista);
     }
     
     //CRUD USUARIO
