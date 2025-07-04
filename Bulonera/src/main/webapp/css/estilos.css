@@ -104,6 +104,7 @@
 
 .menu-dashboard {
   max-width: 90px;
+  justify-content: space-between;
   height: 100vh;
   background-color: var(--menu);
   padding: 25px;
@@ -114,6 +115,7 @@
 }
 
 .top-menu {
+  margin-bottom: 30%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -186,6 +188,7 @@
 
 .menu-dashboard.open .top-menu .logo span {
   display: flex;
+  justify-content: space-between;
   margin-top: 0px;
 }
 
@@ -469,17 +472,12 @@ color: white;
 transition: background-color 0.4s, color 0.4s;   
 }
 
-.currency-symbol {
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-}
 
-.importe {
+.cancelDeuda-importe {
+  width: 30vh;
   padding-left: 25px; /* Espacio para el símbolo de peso */
   text-align: right;
+  border-radius: 3px;
 }
 
 .col{
@@ -799,7 +797,33 @@ transition: background-color 0.4s, color 0.4s;
     margin-top: 8px;
 }
 
+.select-formaPago{
+    width: 80%
+}
 
+.items-body-cancelDeuda{
+   margin-bottom: 1rem;
+   width: 30vh;
+   margin-left: 35px;
+}
+
+.form-select-formaPago{
+    width: 100%;
+    height: 30px;
+    display: inline-block;
+    vertical-align:middle;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+
+#chequeFields {
+  display: none; /* Fuerza que esté oculto al inicio */
+}
+.cancelDeuda-cheque {
+  width: 30vh;
+  margin-right: 15px;
+}
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
   .MenuPrincipal {
