@@ -26,8 +26,13 @@ public class pago implements Serializable {
     private int id_pago;
     @Basic
     private double importe_pago;
+    private String formaPago;
+    private int nroCheque;
+    private String bancoCheque;   
     @Temporal(TemporalType.DATE)
     private Date fecha_pago;
+    @Temporal(TemporalType.DATE)
+    private Date fechaPagoCheque;
     
     @ManyToOne
     private cliente cliente_pago;
@@ -38,10 +43,14 @@ public class pago implements Serializable {
     {
     }
 
-    public pago(int id_pago, double importe_pago, Date fecha_pago, cliente cliente_pago, cuenta_corriente cc_pago) {
+    public pago(int id_pago, double importe_pago, String formaPago, int nroCheque, String bancoCheque, Date fecha_pago, Date fechaPagoCheque, cliente cliente_pago, cuenta_corriente cc_pago) {
         this.id_pago = id_pago;
         this.importe_pago = importe_pago;
+        this.formaPago = formaPago;
+        this.nroCheque = nroCheque;
+        this.bancoCheque = bancoCheque;
         this.fecha_pago = fecha_pago;
+        this.fechaPagoCheque = fechaPagoCheque;
         this.cliente_pago = cliente_pago;
         this.cc_pago = cc_pago;
     }
@@ -85,6 +94,40 @@ public class pago implements Serializable {
     public void setFecha_pago(Date fecha_pago) {
         this.fecha_pago = fecha_pago;
     }
+
+    public String getFormaPago() {
+        return formaPago;
+    }
+
+    public void setFormaPago(String formaPago) {
+        this.formaPago = formaPago;
+    }
+
+    public long getNroCheque() {
+        return nroCheque;
+    }
+
+    public void setNroCheque(int nroCheque) {
+        this.nroCheque = nroCheque;
+    }
+
+    public String getBancoCheque() {
+        return bancoCheque;
+    }
+
+    public void setBancoCheque(String bancoCheque) {
+        this.bancoCheque = bancoCheque;
+    }
+
+    public Date getFechaPagoCheque() {
+        return fechaPagoCheque;
+    }
+
+    public void setFechaPagoCheque(Date fechaPagoCheque) {
+        this.fechaPagoCheque = fechaPagoCheque;
+    }
+    
+    
     
     
     

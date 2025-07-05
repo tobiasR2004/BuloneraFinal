@@ -288,7 +288,7 @@
             </div>
 
             <!-- COLUMNA DERECHA: Campos de Cheque -->
-            <div class="d-flex flex-column gap-2 items-body-canceldeuda-cheque" id="chequeFields">
+            <div class=" flex-column gap-2 items-body-canceldeuda-cheque" id="chequeFields">
               <input class="form-control form-control-sm cancelDeuda-cheque" name="Banco" id="Banco" type="text" placeholder="Banco">
               <input class="form-control form-control-sm cancelDeuda-cheque" name="nroCheque" id="nroCheque" type="text" placeholder="Nro. Cheque">
               <input class="form-control form-control-sm cancelDeuda-cheque" name="fechaDePago" id="fechaDePago" type="Date" placeholder="Fecha">
@@ -335,8 +335,7 @@
     const formaPago = document.getElementById("formaPago");
     const chequeFields = document.getElementById("chequeFields");
 
-    function toggleChequeInputs() {
-      console.log("Forma de pago:", formaPago.value); // 👈 depuración
+    function toggleChequeInputs() { // 👈 depuración
       if (formaPago.value == 3) {
         chequeFields.style.display = "flex";
       } else {

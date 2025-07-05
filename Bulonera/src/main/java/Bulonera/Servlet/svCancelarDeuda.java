@@ -11,11 +11,14 @@ import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.pago;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -75,7 +78,9 @@ public class svCancelarDeuda extends HttpServlet {
         
         
         HttpSession misesion = request.getSession();
-        String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado"); 
+        String idCabec = (String) misesion.getAttribute("clienteIdSeleccionado");
+        
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         
         if(idCabec == null){
@@ -94,6 +99,7 @@ public class svCancelarDeuda extends HttpServlet {
         } else 
         {
         String importePago = request.getParameter("cancelDeuda");
+        String formaPago = request.getParameter("formaPago");
 
 
         double importepago = Double.parseDouble(importePago);
@@ -154,13 +160,49 @@ public class svCancelarDeuda extends HttpServlet {
             
             ctrl.crearCc(cC1);
             
+            int formaPagoInt = Integer.parseInt(formaPago);
+            
             pago pago1 = new pago();
+            System.out.println("forma pago:" + formaPago);
+            
             
             pago1.setCc_pago(cC1);
             pago1.setCliente_pago(cliente1);
             pago1.setFecha_pago(fechaSQL);
             pago1.setImporte_pago(importepago);
-            ctrl.crearPago(pago1);
+            switch (formaPagoInt) {
+                case 3:
+                    String bancoCheque = request.getParameter("Banco");
+                    String nroChequeStr = request.getParameter("nroCheque");
+                    int nroCheque = Integer.parseInt(nroChequeStr);
+                    String fechaPagoChequeStr = request.getParameter("fechaDePago");
+                    try {
+                        Date fechaPagoCheque = format.parse(fechaPagoChequeStr);
+                        pago1.setFechaPagoCheque(fechaPagoCheque);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(svCancelarDeuda.class.getName()).log(Level.SEVERE, null, ex);
+                    }   pago1.setBancoCheque(bancoCheque);
+                    pago1.setNroCheque(nroCheque);
+                    pago1.setFormaPago("Cheque");
+                    break;
+                case 2:
+                    pago1.setBancoCheque(null);
+                    pago1.setNroCheque(0);
+                    pago1.setFormaPago("Transferencia");
+                    pago1.setFechaPagoCheque(null);
+                    break;
+                case 1:
+                    pago1.setBancoCheque(null);
+                    pago1.setNroCheque(0);
+                    pago1.setFormaPago("Efectivo");
+                    pago1.setFechaPagoCheque(null);
+                    break;
+                default:
+                    request.setAttribute("error", "Por favor... seleccione un metodo de Pago");
+                    request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+                    break;
+            }
+            
             
             cabecera_remito cabec1 = new cabecera_remito();
             cabec1.setClienteCabecera(cliente1);
@@ -170,6 +212,7 @@ public class svCancelarDeuda extends HttpServlet {
             cabec1.setRazon_social(cliente1.getRazon_social());
             
             ctrl.crearcabecremito(cabec1);
+            ctrl.crearPago(pago1);
             
             
             response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + idCabec);

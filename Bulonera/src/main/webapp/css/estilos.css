@@ -818,7 +818,9 @@ transition: background-color 0.4s, color 0.4s;
 
 
 #chequeFields {
-  display: none; /* Fuerza que esté oculto al inicio */
+  display: none;
+  border: 1px solid red;
+  min-width: 150px;/* Fuerza que esté oculto al inicio */
 }
 .cancelDeuda-cheque {
   width: 30vh;
