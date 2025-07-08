@@ -25,6 +25,7 @@ public class producto implements Serializable
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id_prod;
     @Basic
+    private int codLista;
     private String cod_prod;
     private double precio_compra, precio_venta;
     private String nomb_prod, categoria_prod;
@@ -37,13 +38,15 @@ public class producto implements Serializable
     {
     }
 
-    public producto(int id_prod, String cod_prod, double precio_compra, double precio_venta, String nomb_prod, String categoria_prod) {
+    public producto(int id_prod, int codLista, String cod_prod, double precio_compra, double precio_venta, String nomb_prod, String categoria_prod, List<detalle_remito> detalles) {
         this.id_prod = id_prod;
+        this.codLista = codLista;
         this.cod_prod = cod_prod;
         this.precio_compra = precio_compra;
         this.precio_venta = precio_venta;
         this.nomb_prod = nomb_prod;
         this.categoria_prod = categoria_prod;
+        this.detalles = detalles;
     }
 
     public List<detalle_remito> getDetalles() {
@@ -101,7 +104,13 @@ public class producto implements Serializable
     public void setCategoria_prod(String categoria_prod) {
         this.categoria_prod = categoria_prod;
     }
-    
-    
+
+    public int getCodLista() {
+        return codLista;
+    }
+
+    public void setCodLista(int codLista) {
+        this.codLista = codLista;
+    } 
     
 }

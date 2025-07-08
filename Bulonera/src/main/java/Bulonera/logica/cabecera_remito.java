@@ -45,16 +45,21 @@ public class cabecera_remito implements Serializable {
     @OneToMany(mappedBy = "cabecdetalleremito", cascade = CascadeType.ALL, orphanRemoval = true)
     private ArrayList<detalle_remito> listadetalles;
     
+    @OneToOne(mappedBy = "cabecRemitoAsociado", cascade = CascadeType.ALL, orphanRemoval = true)
+    private pago pagoAsociado;
 
-    public cabecera_remito(int idRemito, String cuit_cliente, String razon_social, double importe_total, Date fecha_Rem, cliente clienteCabecera, ArrayList<detalle_remito> listadetalles) {
+    public cabecera_remito(int idRemito, String cuit_cliente, String razon_social, double importe_total, Date fecha_Rem, cliente clienteCabecera, ArrayList<cuenta_corriente> listaCc, ArrayList<detalle_remito> listadetalles, pago pagoAsociado) {
         this.idRemito = idRemito;
         this.cuit_cliente = cuit_cliente;
         this.razon_social = razon_social;
         this.importe_total = importe_total;
         this.fecha_Rem = fecha_Rem;
         this.clienteCabecera = clienteCabecera;
+        this.listaCc = listaCc;
         this.listadetalles = listadetalles;
+        this.pagoAsociado = pagoAsociado;
     }
+
 
     public cabecera_remito() {
     }
@@ -121,6 +126,14 @@ public class cabecera_remito implements Serializable {
 
     public void setListaCc(ArrayList<cuenta_corriente> listaCc) {
         this.listaCc = listaCc;
+    }
+    
+    public pago getPagoAsociado() {
+        return pagoAsociado;
+    }
+
+    public void setPagoAsociado(pago pagoAsociado) {
+        this.pagoAsociado = pagoAsociado;
     }
     
 }

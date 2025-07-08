@@ -202,6 +202,10 @@ public class controladoraLogica {
         return ctrlpersis.consultarPagoList();
     }
     
+    public List<pago> consultarPagoXcabec(List<Integer> pagoIdCabec){
+        return ctrlpersis.consultarPagoXcabec(pagoIdCabec);
+    }
+    
     
     //CRUD PRODUCTO
     public void crearProducto(producto prod1){
@@ -236,8 +240,8 @@ public class controladoraLogica {
         }
     }
     
-    public void vaciarProd(){
-        ctrlpersis.vaciarProductos();
+    public void vaciarProd(int idLista){
+        ctrlpersis.vaciarProductos(idLista);
     }
     
     //CRUD USUARIO

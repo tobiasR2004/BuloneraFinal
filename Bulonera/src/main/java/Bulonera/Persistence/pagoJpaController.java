@@ -4,6 +4,7 @@
  */
 package Bulonera.Persistence;
 
+import Bulonera.Persistence.exceptions.IllegalOrphanException;
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -12,7 +13,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.cliente;
+import Bulonera.logica.cabecera_remito;
 import Bulonera.logica.pago;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,10 +28,9 @@ import javax.persistence.Persistence;
 public class pagoJpaController implements Serializable {
 
     public pagoJpaController() {
-         emf = Persistence.createEntityManagerFactory("buloneraPU");
+        emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
 
-    
     public pagoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -38,7 +40,21 @@ public class pagoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(pago pago) {
+    public void create(pago pago) throws IllegalOrphanException {
+        List<String> illegalOrphanMessages = null;
+        cabecera_remito cabecRemitoAsociadoOrphanCheck = pago.getCabecRemitoAsociado();
+        if (cabecRemitoAsociadoOrphanCheck != null) {
+            pago oldPagoAsociadoOfCabecRemitoAsociado = cabecRemitoAsociadoOrphanCheck.getPagoAsociado();
+            if (oldPagoAsociadoOfCabecRemitoAsociado != null) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("The cabecera_remito " + cabecRemitoAsociadoOrphanCheck + " already has an item of type pago whose cabecRemitoAsociado column cannot be null. Please make another selection for the cabecRemitoAsociado field.");
+            }
+        }
+        if (illegalOrphanMessages != null) {
+            throw new IllegalOrphanException(illegalOrphanMessages);
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -53,6 +69,11 @@ public class pagoJpaController implements Serializable {
                 cliente_pago = em.getReference(cliente_pago.getClass(), cliente_pago.getNroClient());
                 pago.setCliente_pago(cliente_pago);
             }
+            cabecera_remito cabecRemitoAsociado = pago.getCabecRemitoAsociado();
+            if (cabecRemitoAsociado != null) {
+                cabecRemitoAsociado = em.getReference(cabecRemitoAsociado.getClass(), cabecRemitoAsociado.getIdRemito());
+                pago.setCabecRemitoAsociado(cabecRemitoAsociado);
+            }
             em.persist(pago);
             if (cc_pago != null) {
                 cc_pago.getListaPagos_cc().add(pago);
@@ -62,6 +83,10 @@ public class pagoJpaController implements Serializable {
                 cliente_pago.getListaPagos_c().add(pago);
                 cliente_pago = em.merge(cliente_pago);
             }
+            if (cabecRemitoAsociado != null) {
+                cabecRemitoAsociado.setPagoAsociado(pago);
+                cabecRemitoAsociado = em.merge(cabecRemitoAsociado);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -70,7 +95,7 @@ public class pagoJpaController implements Serializable {
         }
     }
 
-    public void edit(pago pago) throws NonexistentEntityException, Exception {
+    public void edit(pago pago) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -80,6 +105,21 @@ public class pagoJpaController implements Serializable {
             cuenta_corriente cc_pagoNew = pago.getCc_pago();
             cliente cliente_pagoOld = persistentpago.getCliente_pago();
             cliente cliente_pagoNew = pago.getCliente_pago();
+            cabecera_remito cabecRemitoAsociadoOld = persistentpago.getCabecRemitoAsociado();
+            cabecera_remito cabecRemitoAsociadoNew = pago.getCabecRemitoAsociado();
+            List<String> illegalOrphanMessages = null;
+            if (cabecRemitoAsociadoNew != null && !cabecRemitoAsociadoNew.equals(cabecRemitoAsociadoOld)) {
+                pago oldPagoAsociadoOfCabecRemitoAsociado = cabecRemitoAsociadoNew.getPagoAsociado();
+                if (oldPagoAsociadoOfCabecRemitoAsociado != null) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("The cabecera_remito " + cabecRemitoAsociadoNew + " already has an item of type pago whose cabecRemitoAsociado column cannot be null. Please make another selection for the cabecRemitoAsociado field.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             if (cc_pagoNew != null) {
                 cc_pagoNew = em.getReference(cc_pagoNew.getClass(), cc_pagoNew.getId_cc());
                 pago.setCc_pago(cc_pagoNew);
@@ -87,6 +127,10 @@ public class pagoJpaController implements Serializable {
             if (cliente_pagoNew != null) {
                 cliente_pagoNew = em.getReference(cliente_pagoNew.getClass(), cliente_pagoNew.getNroClient());
                 pago.setCliente_pago(cliente_pagoNew);
+            }
+            if (cabecRemitoAsociadoNew != null) {
+                cabecRemitoAsociadoNew = em.getReference(cabecRemitoAsociadoNew.getClass(), cabecRemitoAsociadoNew.getIdRemito());
+                pago.setCabecRemitoAsociado(cabecRemitoAsociadoNew);
             }
             pago = em.merge(pago);
             if (cc_pagoOld != null && !cc_pagoOld.equals(cc_pagoNew)) {
@@ -104,6 +148,14 @@ public class pagoJpaController implements Serializable {
             if (cliente_pagoNew != null && !cliente_pagoNew.equals(cliente_pagoOld)) {
                 cliente_pagoNew.getListaPagos_c().add(pago);
                 cliente_pagoNew = em.merge(cliente_pagoNew);
+            }
+            if (cabecRemitoAsociadoOld != null && !cabecRemitoAsociadoOld.equals(cabecRemitoAsociadoNew)) {
+                cabecRemitoAsociadoOld.setPagoAsociado(null);
+                cabecRemitoAsociadoOld = em.merge(cabecRemitoAsociadoOld);
+            }
+            if (cabecRemitoAsociadoNew != null && !cabecRemitoAsociadoNew.equals(cabecRemitoAsociadoOld)) {
+                cabecRemitoAsociadoNew.setPagoAsociado(pago);
+                cabecRemitoAsociadoNew = em.merge(cabecRemitoAsociadoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -143,6 +195,11 @@ public class pagoJpaController implements Serializable {
             if (cliente_pago != null) {
                 cliente_pago.getListaPagos_c().remove(pago);
                 cliente_pago = em.merge(cliente_pago);
+            }
+            cabecera_remito cabecRemitoAsociado = pago.getCabecRemitoAsociado();
+            if (cabecRemitoAsociado != null) {
+                cabecRemitoAsociado.setPagoAsociado(null);
+                cabecRemitoAsociado = em.merge(cabecRemitoAsociado);
             }
             em.remove(pago);
             em.getTransaction().commit();

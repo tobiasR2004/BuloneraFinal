@@ -9,9 +9,11 @@ import Bulonera.logica.cliente;
 import Bulonera.logica.controladoraLogica;
 import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.detalle_remito;
+import Bulonera.logica.pago;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -85,14 +87,12 @@ public class svVerRemito extends HttpServlet {
                     cabecera_remito cabecera = ctrl.obtenerCabeceraRemitoPorId(idCabecera);
                     if (cabecera != null) {
                         // Eliminar los detalles asociados a esta cabecera
-                        System.out.println("SI SI se encontró la cabecera_remito con ID: " + idCabecera);
                         ctrl.eliminarDetallesPorCabecera(cabecera);
                         ctrl.eliminarCCPorCabecera(cabecera);
                         List<cuenta_corriente> listaCCActualizada = ctrl.consultarCcList(cabecera);
                         HttpSession session = request.getSession();
                         session.setAttribute("listaCC", listaCCActualizada);
                     } else {
-                        System.out.println("No se encontró la cabecera_remito con ID: " + idCabecera);
                         request.getRequestDispatcher("sVcuentaCorrienteRemito?buscarCli=" + nombCli).forward(request, response);
                     }
                 } catch (NumberFormatException e) {
@@ -114,6 +114,7 @@ public class svVerRemito extends HttpServlet {
             misesion.setAttribute("idCabec", idCabec);
             // Obtener los remitos seleccionados desde el formulario (checklist)
                 String[] remitosSeleccionados = request.getParameterValues("verRemitoSelecc[]");
+                System.out.println("los remitos seleccionados son: " + Arrays.toString(remitosSeleccionados));
 
             // Validar si se ha seleccionado un cliente
             if (idCabec == null || "".equals(idCabec) || "Elegir...".equals(idCabec)) {
@@ -130,7 +131,12 @@ public class svVerRemito extends HttpServlet {
 
                 // Obtener los detalles de los remitos seleccionados
                 List<detalle_remito> detalleList = ctrl.consultarDetalleListCabec(remitosList);
-                misesion.setAttribute("DetallesList", detalleList);  // Guardar en la sesión
+                
+                List<pago> pagoList = ctrl.consultarPagoXcabec(remitosList);
+                
+                
+                misesion.setAttribute("DetallesList", detalleList);// Guardar en la sesión
+                misesion.setAttribute("pagoList", pagoList);// Guardar en la sesión
 
                 for (detalle_remito detalle : detalleList) {
                     System.out.println(detalle.toString());
