@@ -163,12 +163,12 @@ public class svCancelarDeuda extends HttpServlet {
             int formaPagoInt = Integer.parseInt(formaPago);
             
             pago pago1 = new pago();
-            System.out.println("forma pago:" + formaPago);
             
             
             pago1.setCc_pago(cC1);
             pago1.setCliente_pago(cliente1);
             pago1.setFecha_pago(fechaSQL);
+            pago1.setCabecRemitoAsociado(newcc);
             pago1.setImporte_pago(importepago);
             switch (formaPagoInt) {
                 case 3:

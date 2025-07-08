@@ -4,6 +4,7 @@
  */
 package Bulonera.Persistence;
 
+import Bulonera.Persistence.exceptions.IllegalOrphanException;
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
 import Bulonera.Persistence.exceptions.PreexistingEntityException;
 import Bulonera.logica.cabecera_remito;
@@ -628,7 +629,11 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
 
     //CRUD PAGO
     public void crearPago(pago pago1) {
-        pagoJpa.create(pago1);
+        try {
+            pagoJpa.create(pago1);
+        } catch (IllegalOrphanException ex) {
+            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void eliminarPago(int id) {
@@ -657,6 +662,19 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
         return listaPagos;
     }
 
+    
+     public List<pago> consultarPagoXcabec(List<Integer> pagoIdCabec){
+         EntityManager em = detalle_remitoJpa.getEntityManager();
+
+        // Consulta JPQL para filtrar solo por los remitos seleccionados
+        String query = "SELECT p FROM pago p "
+                + "WHERE p.cabecRemitoAsociado IN :pagoIdCabec";
+
+        TypedQuery<pago> typedQuery = em.createQuery(query, pago.class);
+        typedQuery.setParameter("pagoIdCabec", pagoIdCabec);  // pago seleccionados
+
+        return typedQuery.getResultList();
+    } 
     //CRUD PRODUCTO
     public void crearProducto(producto prod1) {
         try {
@@ -766,7 +784,6 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
         }
     }
     
-    //CRUD USUARIO
 
     //CRUD USUARIO
     public void crearUsuario(usuario user1) {

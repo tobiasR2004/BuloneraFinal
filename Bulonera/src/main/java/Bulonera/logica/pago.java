@@ -11,7 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -28,7 +30,8 @@ public class pago implements Serializable {
     private double importe_pago;
     private String formaPago;
     private int nroCheque;
-    private String bancoCheque;   
+    private String bancoCheque; 
+   
     @Temporal(TemporalType.DATE)
     private Date fecha_pago;
     @Temporal(TemporalType.DATE)
@@ -38,17 +41,23 @@ public class pago implements Serializable {
     private cliente cliente_pago;
     @ManyToOne
     private cuenta_corriente cc_pago;
+    
+    @OneToOne
+    @JoinColumn(name = "id_cabecRemito")
+    private cabecera_remito cabecRemitoAsociado;
+    
 
     public pago()
     {
     }
 
-    public pago(int id_pago, double importe_pago, String formaPago, int nroCheque, String bancoCheque, Date fecha_pago, Date fechaPagoCheque, cliente cliente_pago, cuenta_corriente cc_pago) {
+    public pago(int id_pago, double importe_pago, String formaPago, int nroCheque, String bancoCheque, cabecera_remito cabecRemitoAsociado, Date fecha_pago, Date fechaPagoCheque, cliente cliente_pago, cuenta_corriente cc_pago) {
         this.id_pago = id_pago;
         this.importe_pago = importe_pago;
         this.formaPago = formaPago;
         this.nroCheque = nroCheque;
         this.bancoCheque = bancoCheque;
+        this.cabecRemitoAsociado = cabecRemitoAsociado;
         this.fecha_pago = fecha_pago;
         this.fechaPagoCheque = fechaPagoCheque;
         this.cliente_pago = cliente_pago;
@@ -126,9 +135,13 @@ public class pago implements Serializable {
     public void setFechaPagoCheque(Date fechaPagoCheque) {
         this.fechaPagoCheque = fechaPagoCheque;
     }
-    
-    
-    
-    
-    
+
+    public cabecera_remito getCabecRemitoAsociado() {
+        return cabecRemitoAsociado;
+    }
+
+    public void setCabecRemitoAsociado(cabecera_remito remitoAsociado) {
+        this.cabecRemitoAsociado = remitoAsociado;
+    }
+
 }
