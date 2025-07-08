@@ -15,43 +15,41 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<form action="svCargarProductos" method="post" enctype="multipart/form-data">
-    <input class="selecExcel" type="file" id="file" name="file" accept=".xlsx">
-    <button type="submit" class="btn btn-navbar" id="botonImportar">Importar productos</button>
-</form>
+<button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#importarProd">Importar productos</button>
 
 <button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>
 
 <form method="get" action="svProductosPaginados">
-    <input type="text" name="busqueda" value="${busqueda != null ? busqueda : ''}" class="inputBusquedaProd" placeholder="Buscar producto...">
-    <button type="submit">Buscar</button>
-</form>
-    
+        <input type="text" name="busqueda" value="${busqueda != null ? busqueda : ''}" class="inputBusquedaProd" placeholder="Buscar producto...">
+        <button type="submit">Buscar</button>
+</form>   
 </ul>
 </div>
 </div>
 </nav>
 
 <div id="produc">
-    <div class="table-container">
+    <div class="table-container-prod">
         <table class="table tablita">
             <thead>
             <tr class="Columnas ">
-                <th class="Columnas">Código</th>
-                <th class="Columnas">Categoría</th>
-                <th class="Columnas">Descripcion</th>
-                <th class="Columnas">Precio compra</th>
-                <th class="Columnas">Precio venta</th>
+                <th class="Col-cod-lista">Lista</th>
+                <th class="Col-cod-prod">Código</th>
+                <th class="Col-cat">Categoría</th>
+                <th class="Col-descrip">Descripcion</th>
+                <th class="Col-precio">Precio compra</th>
+                <th class="Col-precio">Precio venta</th>
             </tr>
             </thead>
             <tbody>
             <c:choose>
                 <c:when test="${empty productos}">
-                    <tr><td colspan="5">No se encontraron productos.</td></tr>
+                    <tr><td colspan="6">No se encontraron productos.</td></tr>
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="prod" items="${productos}">
                         <tr>
+                            <td>${prod.codLista}</td>
                             <td>${prod.cod_prod}</td>
                             <td>${prod.categoria_prod}</td>
                             <td>${prod.nomb_prod}</td>
@@ -101,6 +99,32 @@
     </c:if>
 </div>
 </div>
+    
+ <div class="modal fade" id="importarProd" tabindex="-1" aria-labelledby="vaciarProd" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ingrese ID de la lista que desea cargar</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body body-eliminar-prod">
+        <form action="svCargarProductos" method="post" enctype="multipart/form-data">
+        <div class="input-carga-cod-lista">    
+            <span class="input-group-text " id="inputGroup-sizing-sm">Ingrese un codigo para asignar a la lista</span> 
+             <input type="number" name="CodListaProdCarga" min="0" step="1"></input>
+        </div>
+            <input class="selecExcel" type="file" id="file" name="file" accept=".xlsx">
+            <button type="submit" class="btn btn-navbar" id="botonImportar">Importar productos</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+
+      </div>
+    </div>
+  </div>
+</div>
         
         <!-- Modal -->
 <div class="modal fade" id="vaciarProd" tabindex="-1" aria-labelledby="vaciarProd" aria-hidden="true">
@@ -110,14 +134,15 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">ATENCION!</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-          <p>¿Seguro que desea vaciar la lista de productos?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <form action="svCargarProductos" method="GET">
-            <button type="submit" class="btn btn-primary">Aceptar</button>
-        </form>
+     <form action="svCargarProductos" method="GET">
+      <div class="modal-body body-eliminar-prod">
+            <span class="input-group-text" id="inputGroup-sizing-sm">¿Que lista desea eliminar?</span> 
+             <input type="number" name="CodListaProdEliminar"></input>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+           <button type="submit" class="btn btn-primary">Aceptar</button>
+      </form>
       </div>
     </div>
   </div>
@@ -140,26 +165,7 @@
             </div>
         </div>
     </div>
-                
-    <script>
-            function buscarProd() {
-                // Obtén el valor ingresado por el usuario
-                let input = document.getElementById("searchProd").value.toLowerCase();
 
-                // Obtén todas las filas de la tabla, excepto la de encabezado
-                let table = document.querySelector(".tablita");
-                let rows = table.getElementsByTagName("tr");
-
-                // Recorre todas las filas y oculta las que no coincidan con la búsqueda
-                for (let i = 1; i < rows.length; i++) { // Empieza en 1 para saltar el encabezado
-                    let razonSocialCell = rows[i].getElementsByTagName("td")[2]; // Columna de Razon Social
-                    if (razonSocialCell) {
-                        let razonSocialText = razonSocialCell.textContent || razonSocialCell.innerText;
-                        rows[i].style.display = razonSocialText.toLowerCase().includes(input) ? "" : "none";
-                    }
-                }
-            }
-    </script>
     <script>
     window.onload = function() {
         // Verificar si hay un mensaje de error

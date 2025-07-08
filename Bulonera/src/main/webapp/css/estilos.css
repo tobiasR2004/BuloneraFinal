@@ -104,6 +104,7 @@
 
 .menu-dashboard {
   max-width: 90px;
+  justify-content: space-between;
   height: 100vh;
   background-color: var(--menu);
   padding: 25px;
@@ -114,6 +115,7 @@
 }
 
 .top-menu {
+  margin-bottom: 30%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -186,6 +188,7 @@
 
 .menu-dashboard.open .top-menu .logo span {
   display: flex;
+  justify-content: space-between;
   margin-top: 0px;
 }
 
@@ -274,6 +277,7 @@ section:target {
 }
 
 .inputBusquedaProd{
+    justify-content: right;
     margin-top: 6.5%;
 }
 
@@ -281,63 +285,10 @@ section:target {
     border: solid 2px black;
     border-collapse: collapse;
     width: 100%; 
+    height: 100%;
     background-color: #003053;
     color: aliceblue;
     table-layout: fixed;
-}
-
-.table-container .tablaProd {
-    overflow-x: auto;
-    width: 100%;
-}
-
-.tablaProd {
-    border: solid 2px black;
-    border-collapse: collapse;
-    width: 100%; 
-    background-color: #003053;
-    color: aliceblue;
-    table-layout: fixed;
-}
-
-.tablaProd th{
-    position: sticky;
-    top: 0;
-    background-color: #cbbfff;
-    color: #000000;
-    z-index: 2;
-    border: 2px solid black;
-    text-align: center;
-    padding: 8px;
-}
-
-.tablaProd tr,
-.tablitaProd td{
-    border: 1px solid  black;
-}
-
-.ColumnaCod {
-  table-layout: fixed;
-  border: solid 2px black;
-  text-align: center;
-  width: 150px;
-}
-.ColumnaCat {
-  table-layout: fixed;
-  border: solid 2px black;
-  text-align: center;
-  width: 190px;
-}
-.ColumnaNomb {
-  table-layout: fixed;
-  border: solid 2px black;
-  text-align: center;
-  width: 400px;
-}
-
-#tablaProd th.Columnas,
-#tablaProd td.Columnas {
-    width: 150px;
 }
 
 #searchInput {
@@ -379,7 +330,18 @@ section:target {
     overflow-x: auto;
 }
 
-.table-container #tablaDr{
+.table-container-prod{
+    position: relative;
+    width: 90%; 
+    margin: 1% 2% 10% auto; 
+    max-height: 85vh; 
+    overflow-y: auto;
+    overflow-x: auto;
+    
+}
+
+
+.table-container #tablaDr {
     margin-right: 10px;
     margin-bottom: 10%;    
 }    
@@ -392,6 +354,22 @@ section:target {
   table-layout: fixed;
   border: solid 2px black;
   text-align: center;
+}
+
+.Col-cod-lista{
+    width: 5%;  
+}
+
+.col-cod-prod{
+    width: 10%;
+}
+
+.Col-descrip{
+    width: 30%;
+}
+
+col-precio{
+    width: 20%;
 }
 
 td {
@@ -465,7 +443,6 @@ td {
 .modal-body {
   position: relative;
   display: block;
-  margin-left: 2%;
 }
 
 #cargarRem{
@@ -495,17 +472,12 @@ color: white;
 transition: background-color 0.4s, color 0.4s;   
 }
 
-.currency-symbol {
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-}
 
-.importe {
+.cancelDeuda-importe {
+  width: 30vh;
   padding-left: 25px; /* Espacio para el símbolo de peso */
   text-align: right;
+  border-radius: 3px;
 }
 
 .col{
@@ -716,11 +688,11 @@ transition: background-color 0.4s, color 0.4s;
 
 .selecExcel{
     margin-top: 10px;
-    margin-left: 35px;
+    margin-bottom: 10px;
     background-color: white;
     border: solid 1px #000000;
     color: black;
-    border-radius: 2%;
+    
 }
 
 #boton7{
@@ -729,10 +701,16 @@ transition: background-color 0.4s, color 0.4s;
     margin-top: 1px;
 }
 
-#boton10, #botonImportar{
+#boton10 {
     width: 113px;
     height: 58px;
     margin-top: 8.5px;
+}
+
+#botonImportar{
+    display: flex;
+    justify-content: center;
+    margin: 4px auto auto auto; 
 }
 
 .buscarProd{
@@ -809,8 +787,45 @@ transition: background-color 0.4s, color 0.4s;
     padding-bottom: 0px !important;
 }
 
+.body-eliminar-prod{
+    justify-items: center;
+}
+.input-carga-cod-lista{
+    justify-items: center;
+}
+.input-carga-cod-lista input{
+    margin-top: 8px;
+}
+
+.select-formaPago{
+    width: 80%
+}
+
+.items-body-cancelDeuda{
+   margin-bottom: 1rem;
+   width: 30vh;
+   margin-left: 35px;
+}
+
+.form-select-formaPago{
+    width: 100%;
+    height: 30px;
+    display: inline-block;
+    vertical-align:middle;
+    font-size: 12px;
+    margin-top: 15px;
+}
 
 
+#chequeFields {
+  display: none;
+  border: 1px solid red;
+  min-width: 150px;/* Fuerza que esté oculto al inicio */
+}
+.cancelDeuda-cheque {
+  width: 30vh;
+  margin-right: 15px;
+}
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
   .MenuPrincipal {

@@ -253,30 +253,63 @@
             </form>
         </div>
     </div>
-</div>    
-                    
- <!-- Modal CANCELAR DEUDA -->
+</div>      
+<!-- Modal Cancelar Deuda -->
 <div class="modal fade" id="CancelarDeuda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel" style="margin-left: 10%;">INGRESAR IMPORTE</h1>
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Cancelar Deuda</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form action="svCancelarDeuda" method="POST">
+
+          <!-- CONTENEDOR HORIZONTAL -->
+          <div class="d-flex justify-content-between gap-4 flex-wrap">
+
+            <!-- COLUMNA IZQUIERDA -->
+            <div class="d-flex flex-column gap-2">
+
+              <div class="input-group input-group-sm">
+                <span class="input-group-text">$</span>
+                <input class="form-control cancelDeuda-importe" name="cancelDeuda" id="importePago"
+                  type="text" placeholder="0.00" required pattern="^\d+(\.\d{1,2})?$">
+              </div>
+
+              <select class="form-select form-select-sm form-select-formaPago" name="formaPago" id="formaPago" required>
+                <option value="">...</option>
+                <option value="1">Efectivo</option>
+                <option value="2">Transferencia</option>
+                <option value="3">Cheque</option>
+              </select>
             </div>
-            <form action="svCancelarDeuda" method="POST">
-            <div class="modal-body">
-                <span class="currency-symbol">$</span>
-                <input class="importe" name="cancelDeuda" id="importePago" type="text" placeholder="0.00" required pattern="^\d+(\.\d{1,2})?$">
+
+            <!-- COLUMNA DERECHA: Campos de Cheque -->
+            <div class=" flex-column gap-2 items-body-canceldeuda-cheque" id="chequeFields">
+              <input class="form-control form-control-sm cancelDeuda-cheque" name="Banco" id="Banco" type="text" placeholder="Banco">
+              <input class="form-control form-control-sm cancelDeuda-cheque" name="nroCheque" id="nroCheque" type="text" placeholder="Nro. Cheque">
+              <input class="form-control form-control-sm cancelDeuda-cheque" name="fechaDePago" id="fechaDePago" type="Date" placeholder="Fecha">
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        onclick="document.getElementById('importePago').value = '';" >CANCELAR</button>
-                <button type="Submit" class="btn btn-primary" style="margin-left: 10%;">CONFIRMAR</button>
-            </form>
-            </div>
-        </div>
+
+          </div>
+
+          <!-- BOTONES -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+              onclick="document.getElementById('importePago').value = '';">CANCELAR</button>
+            <button type="submit" class="btn btn-primary">CONFIRMAR</button>
+          </div>
+
+        </form>
+      </div>
     </div>
-</div>  
-            
+  </div>
+</div>
+    
+    
 
 <!-- Modal de Error -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
@@ -294,7 +327,32 @@
                 </div>
             </div>
         </div>
-    </div>       
+    </div>   
+              
+<!-- habilitar o no seccion de cheques --><
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const formaPago = document.getElementById("formaPago");
+    const chequeFields = document.getElementById("chequeFields");
+
+    function toggleChequeInputs() { // 👈 depuración
+      if (formaPago.value == 3) {
+        chequeFields.style.display = "flex";
+      } else {
+        chequeFields.style.display = "none";
+        document.getElementById("Banco").value = "";
+        document.getElementById("nroCheque").value = "";
+        document.getElementById("fechaDePago").value = "";
+      }
+    }
+
+    // Escuchamos cambio en el select
+    formaPago.addEventListener("change", toggleChequeInputs);
+
+    // Ejecutamos al cargar
+    toggleChequeInputs();
+  });
+</script>      
 
 <script>
     const buscarInput = document.getElementById("buscarProducto");
