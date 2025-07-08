@@ -94,6 +94,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 cliente cli = (cliente) request.getSession().getAttribute("clientCabec");    
 List<detalle_remito> listDet = (List<detalle_remito>) request.getSession().getAttribute("DetallesList");
 List<pago> listaPago = (List<pago>) request.getSession().getAttribute("pagoList");
+double totalPago = 0;
+double importe = 0;
+double totalImporte = 0;
 
 if (listDet == null) {
     request.setAttribute("error", "No hay detalles para mostrar");
@@ -152,86 +155,104 @@ Table tablaPago = new Table(UnitValue.createPercentArray(new float[]{3,3,3,3,3,2
 tablaPago.setWidth(UnitValue.createPercentValue(100));
 
 // Agregar encabezados de la tabla detalles
+if ( !listDet.isEmpty()){
 tableDet.addHeaderCell(crearCeldaHeader("Fecha"));
 tableDet.addHeaderCell(crearCeldaHeader("Producto"));
 tableDet.addHeaderCell(crearCeldaHeader("Cantidad"));
 tableDet.addHeaderCell(crearCeldaHeader("Precio unitario"));
 tableDet.addHeaderCell(crearCeldaHeader("Importe"));
+}
 
 // Agregar encabezados de la tabla Productos
-tablaPago.addHeaderCell(crearCeldaHeader("Fecha"));
-tablaPago.addHeaderCell(crearCeldaHeader("Forma De Pago"));
-tablaPago.addHeaderCell(crearCeldaHeader("Nro Cheque"));
-tablaPago.addHeaderCell(crearCeldaHeader("Banco de Cheque"));
-tablaPago.addHeaderCell(crearCeldaHeader("Fecha pago Cheque"));
-tablaPago.addHeaderCell(crearCeldaHeader("Importe"));
-
+if (listaPago != null && !listaPago.isEmpty()){
+    tablaPago.addHeaderCell(crearCeldaHeader("Fecha"));
+    tablaPago.addHeaderCell(crearCeldaHeader("Forma De Pago"));
+    tablaPago.addHeaderCell(crearCeldaHeader("Nro Cheque"));
+    tablaPago.addHeaderCell(crearCeldaHeader("Banco de Cheque"));
+    tablaPago.addHeaderCell(crearCeldaHeader("Fecha pago Cheque"));
+    tablaPago.addHeaderCell(crearCeldaHeader("Importe"));
+}
 
 
 // Llenar la tabla con datos desde listDet (suponiendo que detalle_remito tiene estos campos)
-for (detalle_remito remito : listDet) {
-    // Formato de Fecha
-    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-    String fechaFormateada = formato.format(remito.getFechaDet());
+if ( !listDet.isEmpty()){
+    for (detalle_remito remito : listDet) {
+        // Formato de Fecha
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaFormateada = formato.format(remito.getFechaDet());
 
-    // Precio Unitario y Importe truncados a 2 decimales (sin redondear)
-    BigDecimal precioTruncado = new BigDecimal(remito.getPrecio_unit()).setScale(2, RoundingMode.DOWN);
-    BigDecimal importeTruncado = new BigDecimal(remito.getImporte()).setScale(2, RoundingMode.DOWN);
+        // Precio Unitario y Importe truncados a 2 decimales (sin redondear)
+        BigDecimal precioTruncado = new BigDecimal(remito.getPrecio_unit()).setScale(2, RoundingMode.DOWN);
+        BigDecimal importeTruncado = new BigDecimal(remito.getImporte()).setScale(2, RoundingMode.DOWN);
 
-    tableDet.addCell(crearCelda(fechaFormateada, TextAlignment.CENTER));
-    tableDet.addCell(crearCelda(remito.getNomb_prod(), TextAlignment.LEFT));
-    tableDet.addCell(crearCelda(String.valueOf(remito.getCant_prod()), TextAlignment.CENTER));
-    tableDet.addCell(crearCelda(precioTruncado.toString(), TextAlignment.RIGHT));
-    tableDet.addCell(crearCelda(importeTruncado.toString(), TextAlignment.RIGHT));
-}
-
-for (pago pagoList : listaPago) {
-    // Formato de Fecha
-    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-    String fechaFormateadaPago = formato.format(pagoList.getFecha_pago());
-
-    String formaPago = pagoList.getFormaPago();
-    String fechaChFormateadaPago = "";
-    String nroCheque = "";
-    String bancoCheque = "";
-
-    if ("Cheque".equals(formaPago)) {
-        fechaChFormateadaPago = pagoList.getFechaPagoCheque() != null 
-            ? formato.format(pagoList.getFechaPagoCheque()) : "";
-        nroCheque = (pagoList.getNroCheque() != 0) 
-            ? String.valueOf(pagoList.getNroCheque()) : "";
-        bancoCheque = pagoList.getBancoCheque() != null 
-            ? pagoList.getBancoCheque() : "";
+        tableDet.addCell(crearCelda(fechaFormateada, TextAlignment.CENTER));
+        tableDet.addCell(crearCelda(remito.getNomb_prod(), TextAlignment.LEFT));
+        tableDet.addCell(crearCelda(String.valueOf(remito.getCant_prod()), TextAlignment.CENTER));
+        tableDet.addCell(crearCelda(precioTruncado.toString(), TextAlignment.RIGHT));
+        tableDet.addCell(crearCelda(importeTruncado.toString(), TextAlignment.RIGHT));
     }
-
-    BigDecimal importeTruncado = new BigDecimal(pagoList.getImporte_pago()).setScale(2, RoundingMode.DOWN);
-
-    tablaPago.addCell(crearCelda(fechaFormateadaPago, TextAlignment.CENTER));
-    tablaPago.addCell(crearCelda(formaPago, TextAlignment.LEFT));
-    tablaPago.addCell(crearCelda(nroCheque, TextAlignment.CENTER));
-    tablaPago.addCell(crearCelda(bancoCheque, TextAlignment.RIGHT));
-    tablaPago.addCell(crearCelda(fechaChFormateadaPago, TextAlignment.CENTER));
-    tablaPago.addCell(crearCelda(importeTruncado.toString(), TextAlignment.RIGHT));
+    document.add(tableDet);
 }
-// Agregar la tabla al documento
-document.add(tableDet);
-document.add(new Paragraph("  PAGOS  ").setTextAlignment(TextAlignment.CENTER));
-document.add(tablaPago);
 
-double totalImporte = 0;
+if (listaPago != null && !listaPago.isEmpty()) {        
+    for (pago pagoList : listaPago) {
+        // Formato de Fecha
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaFormateadaPago = formato.format(pagoList.getFecha_pago());
+
+
+        String formaPago = pagoList.getFormaPago();
+        String fechaChFormateadaPago = "";
+        String nroCheque = "";
+        String bancoCheque = "";
+
+        if ("Cheque".equals(formaPago)) {
+            fechaChFormateadaPago = pagoList.getFechaPagoCheque() != null 
+                ? formato.format(pagoList.getFechaPagoCheque()) : "";
+            nroCheque = (pagoList.getNroCheque() != 0) 
+                ? String.valueOf(pagoList.getNroCheque()) : "";
+            bancoCheque = pagoList.getBancoCheque() != null 
+                ? pagoList.getBancoCheque() : "";
+        }
+
+        BigDecimal importeTruncado = new BigDecimal(pagoList.getImporte_pago()).setScale(2, RoundingMode.DOWN);
+
+        tablaPago.addCell(crearCelda(fechaFormateadaPago, TextAlignment.CENTER));
+        tablaPago.addCell(crearCelda(formaPago, TextAlignment.LEFT));
+        tablaPago.addCell(crearCelda(nroCheque, TextAlignment.CENTER));
+        tablaPago.addCell(crearCelda(bancoCheque, TextAlignment.RIGHT));
+        tablaPago.addCell(crearCelda(fechaChFormateadaPago, TextAlignment.CENTER));
+        tablaPago.addCell(crearCelda(importeTruncado.toString(), TextAlignment.RIGHT));
+        totalPago += pagoList.getImporte_pago();
+    }
+    document.add(new Paragraph("  PAGOS  ").setTextAlignment(TextAlignment.CENTER)); 
+    document.add(tablaPago);
+}
+
+
+
+
+
+
 for (detalle_remito remito : listDet) {
-    totalImporte += remito.getImporte();
+    importe += remito.getImporte();
 }
 
-// Agregar espacio antes del total
-document.add(new Paragraph("\n"));
+totalImporte = importe - totalPago;
 
-// Mostrar el total en la parte inferior de la página
-DecimalFormat dfTotal = new DecimalFormat("#.00");
-document.add(new Paragraph("TOTAL: $" + dfTotal.format(totalImporte))
-        .setBold()
-        .setFontSize(12)
-        .setTextAlignment(TextAlignment.RIGHT));
+DecimalFormat df = new DecimalFormat("#.00");
+if(importe != 0.00){
+    document.add(new Paragraph("\n"));
+    document.add(new Paragraph("TOTAL REMITOS: $" + df.format(importe))
+            .setFontSize(10).setTextAlignment(TextAlignment.RIGHT));
+}
+if(totalPago != 0.00){
+    document.add(new Paragraph("TOTAL PAGOS: $" + df.format(totalPago))
+            .setFontSize(10).setTextAlignment(TextAlignment.RIGHT));
+}
+
+document.add(new Paragraph("SALDO FINAL: $" + df.format(importe - totalPago))
+        .setBold().setFontSize(12).setTextAlignment(TextAlignment.RIGHT));
 
 
 document.close();
