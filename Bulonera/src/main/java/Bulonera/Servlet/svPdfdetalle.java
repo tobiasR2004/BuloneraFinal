@@ -218,11 +218,11 @@ if (listaPago != null && !listaPago.isEmpty()) {
         BigDecimal importeTruncado = new BigDecimal(pagoList.getImporte_pago()).setScale(2, RoundingMode.DOWN);
 
         tablaPago.addCell(crearCelda(fechaFormateadaPago, TextAlignment.CENTER));
-        tablaPago.addCell(crearCelda(formaPago, TextAlignment.LEFT));
+        tablaPago.addCell(crearCelda(formaPago, TextAlignment.CENTER));
         tablaPago.addCell(crearCelda(nroCheque, TextAlignment.CENTER));
-        tablaPago.addCell(crearCelda(bancoCheque, TextAlignment.RIGHT));
+        tablaPago.addCell(crearCelda(bancoCheque, TextAlignment.CENTER));
         tablaPago.addCell(crearCelda(fechaChFormateadaPago, TextAlignment.CENTER));
-        tablaPago.addCell(crearCelda(importeTruncado.toString(), TextAlignment.RIGHT));
+        tablaPago.addCell(crearCelda(importeTruncado.toString(), TextAlignment.CENTER));
         totalPago += pagoList.getImporte_pago();
     }
     document.add(new Paragraph("  PAGOS  ").setTextAlignment(TextAlignment.CENTER)); 
