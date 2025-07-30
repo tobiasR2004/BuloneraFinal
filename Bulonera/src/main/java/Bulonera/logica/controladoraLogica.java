@@ -281,5 +281,14 @@ public class controladoraLogica {
     // Si no es válido, marcamos que falló la autenticación
     request.setAttribute("usuarioValido", false);
 }
+    //CRUD PAGODETALLE
+
+    public void crearPagoDetalle(pagoDetalle pd1) {
+        ctrlpersis.crearPagoDet(pd1);
+    }
+    
+    public void asociarPagoDetImpagos(pago p1) {
+        ctrlpersis.asociarPagoADetallesImpagos(p1);
+    }
     
 }

@@ -825,25 +825,31 @@ public class controladoraPersistencia {
     }
 
     //CRUD PAGO_DETALLE
-   public void asociarPagoADetallesImpagos(pago pago, EntityManager em) {
-        double montoRestante = pago.getImporte_pago();
-
+    public void crearPagoDet(pagoDetalle pd1) {
+        PagoDetJpa.create(pd1);
+    }
+    
+   public void asociarPagoADetallesImpagos(pago p1) {
+        double montoRestante = p1.getImporte_pago();
+        EntityManager em = PagoDetJpa.getEntityManager();
+        
+        em.getTransaction().begin();
         // Obtener detalles impagos del cliente ordenados por fecha
         List<detalle_remito> detallesImpagos = em.createQuery(
                 "SELECT d FROM detalle_remito d "
-                + "WHERE d.cabecdetalleremito.clienteCabecera.id = :clienteId "
+                + "WHERE d.cabecdetalleremito.clienteCabecera.nroClient = :clienteId "
                 + "AND (d.precio_unit * d.cant_prod > "
-                + "(SELECT COALESCE(SUM(pdr.montoPagado), 0) FROM pagoDetalle pdr WHERE pdr.detalleRemito.id_remito = d.id_remito)) "
+                + "(SELECT COALESCE(SUM(pdr.montoPagado), 0) FROM pagoDetalle pdr WHERE pdr.detPago.id_remito = d.id_remito)) "
                 + "ORDER BY d.cabecdetalleremito.fecha_Rem ASC",
                 detalle_remito.class)
-                .setParameter("clienteId", pago.getCabecRemitoAsociado().getClienteCabecera().getNroClient())
+                .setParameter("clienteId", p1.getCabecRemitoAsociado().getClienteCabecera().getNroClient())
                 .getResultList();
 
         for (detalle_remito detalle : detallesImpagos) {
             double totalDetalle = detalle.getPrecio_unit() * detalle.getCant_prod();
 
             Double yaPagado = em.createQuery(
-                    "SELECT COALESCE(SUM(pdr.montoPagado), 0) FROM pagoDetalle pdr WHERE pdr.detalleRemito.id_remito = :detalleId",
+                    "SELECT COALESCE(SUM(pdr.montoPagado), 0) FROM pagoDetalle pdr WHERE pdr.detPago.id_remito = :detalleId",
                     Double.class)
                     .setParameter("detalleId", detalle.getId_remito())
                     .getSingleResult();
@@ -857,16 +863,20 @@ public class controladoraPersistencia {
             double montoAplicado = Math.min(saldo, montoRestante);
 
             pagoDetalle pdr = new pagoDetalle();
-            pdr.setPagoDet(pago);
+            pdr.setPagoDet(p1);
             pdr.setDetPago(detalle);
             pdr.setMontoPagado(montoAplicado);
             em.persist(pdr);
+            
 
             montoRestante -= montoAplicado;
 
             if (montoRestante <= 0) {
                 break;
             }
+            
         }
+        em.getTransaction().commit();
+        em.close();
     }
 }
