@@ -4,7 +4,6 @@
  */
 package Bulonera.Persistence;
 
-import Bulonera.Persistence.exceptions.IllegalOrphanException;
 import Bulonera.Persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -15,7 +14,6 @@ import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.cliente;
 import Bulonera.logica.cabecera_remito;
 import Bulonera.logica.pago;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -40,21 +38,7 @@ public class pagoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(pago pago) throws IllegalOrphanException {
-        List<String> illegalOrphanMessages = null;
-        cabecera_remito cabecRemitoAsociadoOrphanCheck = pago.getCabecRemitoAsociado();
-        if (cabecRemitoAsociadoOrphanCheck != null) {
-            pago oldPagoAsociadoOfCabecRemitoAsociado = cabecRemitoAsociadoOrphanCheck.getPagoAsociado();
-            if (oldPagoAsociadoOfCabecRemitoAsociado != null) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("The cabecera_remito " + cabecRemitoAsociadoOrphanCheck + " already has an item of type pago whose cabecRemitoAsociado column cannot be null. Please make another selection for the cabecRemitoAsociado field.");
-            }
-        }
-        if (illegalOrphanMessages != null) {
-            throw new IllegalOrphanException(illegalOrphanMessages);
-        }
+    public void create(pago pago) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -84,6 +68,11 @@ public class pagoJpaController implements Serializable {
                 cliente_pago = em.merge(cliente_pago);
             }
             if (cabecRemitoAsociado != null) {
+                pago oldPagoAsociadoOfCabecRemitoAsociado = cabecRemitoAsociado.getPagoAsociado();
+                if (oldPagoAsociadoOfCabecRemitoAsociado != null) {
+                    oldPagoAsociadoOfCabecRemitoAsociado.setCabecRemitoAsociado(null);
+                    oldPagoAsociadoOfCabecRemitoAsociado = em.merge(oldPagoAsociadoOfCabecRemitoAsociado);
+                }
                 cabecRemitoAsociado.setPagoAsociado(pago);
                 cabecRemitoAsociado = em.merge(cabecRemitoAsociado);
             }
@@ -95,7 +84,7 @@ public class pagoJpaController implements Serializable {
         }
     }
 
-    public void edit(pago pago) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(pago pago) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -107,19 +96,6 @@ public class pagoJpaController implements Serializable {
             cliente cliente_pagoNew = pago.getCliente_pago();
             cabecera_remito cabecRemitoAsociadoOld = persistentpago.getCabecRemitoAsociado();
             cabecera_remito cabecRemitoAsociadoNew = pago.getCabecRemitoAsociado();
-            List<String> illegalOrphanMessages = null;
-            if (cabecRemitoAsociadoNew != null && !cabecRemitoAsociadoNew.equals(cabecRemitoAsociadoOld)) {
-                pago oldPagoAsociadoOfCabecRemitoAsociado = cabecRemitoAsociadoNew.getPagoAsociado();
-                if (oldPagoAsociadoOfCabecRemitoAsociado != null) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("The cabecera_remito " + cabecRemitoAsociadoNew + " already has an item of type pago whose cabecRemitoAsociado column cannot be null. Please make another selection for the cabecRemitoAsociado field.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (cc_pagoNew != null) {
                 cc_pagoNew = em.getReference(cc_pagoNew.getClass(), cc_pagoNew.getId_cc());
                 pago.setCc_pago(cc_pagoNew);
@@ -154,6 +130,11 @@ public class pagoJpaController implements Serializable {
                 cabecRemitoAsociadoOld = em.merge(cabecRemitoAsociadoOld);
             }
             if (cabecRemitoAsociadoNew != null && !cabecRemitoAsociadoNew.equals(cabecRemitoAsociadoOld)) {
+                pago oldPagoAsociadoOfCabecRemitoAsociado = cabecRemitoAsociadoNew.getPagoAsociado();
+                if (oldPagoAsociadoOfCabecRemitoAsociado != null) {
+                    oldPagoAsociadoOfCabecRemitoAsociado.setCabecRemitoAsociado(null);
+                    oldPagoAsociadoOfCabecRemitoAsociado = em.merge(oldPagoAsociadoOfCabecRemitoAsociado);
+                }
                 cabecRemitoAsociadoNew.setPagoAsociado(pago);
                 cabecRemitoAsociadoNew = em.merge(cabecRemitoAsociadoNew);
             }

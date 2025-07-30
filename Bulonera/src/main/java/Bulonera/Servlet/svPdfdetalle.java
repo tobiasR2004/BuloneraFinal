@@ -111,7 +111,7 @@ String imagePath = getServletContext().getRealPath("/img/LogoBulonera.jpg");
 ByteArrayOutputStream baos = new ByteArrayOutputStream();
 PdfWriter writer = new PdfWriter(baos);
 PdfDocument pdf = new PdfDocument(writer);
-Document document = new Document(pdf, PageSize.A4.rotate());
+Document document = new Document(pdf, PageSize.A4);
 document.setMargins(10, 10, 10, 10);
 
 

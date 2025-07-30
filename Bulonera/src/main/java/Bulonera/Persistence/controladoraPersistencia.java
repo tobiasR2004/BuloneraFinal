@@ -12,6 +12,7 @@ import Bulonera.logica.cliente;
 import Bulonera.logica.cuenta_corriente;
 import Bulonera.logica.detalle_remito;
 import Bulonera.logica.pago;
+import Bulonera.logica.pagoDetalle;
 import Bulonera.logica.producto;
 import Bulonera.logica.usuario;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class controladoraPersistencia {
     pagoJpaController pagoJpa = new pagoJpaController();
     productoJpaController productoJpa = new productoJpaController();
     usuarioJpaController usuarioJpa = new usuarioJpaController();
+    pagoDetalleJpaController PagoDetJpa = new pagoDetalleJpaController();
 
     public controladoraPersistencia() {
     }
@@ -289,107 +291,107 @@ public class controladoraPersistencia {
         }
     }
 
-public void actualizarCuentaCorriente(int idCuentaCorriente) {
-    EntityManager em = cuenta_corrienteJpa.getEntityManager();
-    EntityTransaction tx = em.getTransaction();
+    public void actualizarCuentaCorriente(int idCuentaCorriente) {
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
 
-    try {
-        tx.begin();
+        try {
+            tx.begin();
 
-        // 1. Traer la cuenta corriente actual
-        cuenta_corriente cc = em.find(cuenta_corriente.class, idCuentaCorriente);
-        if (cc == null) {
-            throw new RuntimeException("Cuenta corriente no encontrada");
+            // 1. Traer la cuenta corriente actual
+            cuenta_corriente cc = em.find(cuenta_corriente.class, idCuentaCorriente);
+            if (cc == null) {
+                throw new RuntimeException("Cuenta corriente no encontrada");
+            }
+
+            // 2. Calcular el debe (suma importes totales asociados)
+            String sumaImportesQuery = "SELECT SUM(cr.importe_total) FROM cabecera_remito cr "
+                    + "WHERE cr.idRemito IN ("
+                    + " SELECT cc2.cabeceraremito.idRemito FROM cuenta_corriente cc2 WHERE cc2.id_cc = :idCuenta)";
+            Double ccDebe = (Double) em.createQuery(sumaImportesQuery)
+                    .setParameter("idCuenta", idCuentaCorriente)
+                    .getSingleResult();
+            if (ccDebe == null) {
+                ccDebe = 0.0;
+            }
+
+            // 3. Obtener idRemito e idCliente de esta cuenta corriente
+            List<Object[]> resultados = em.createQuery(
+                    "SELECT cc.cabeceraremito.idRemito, cc.cabeceraremito.clienteCabecera.nroClient "
+                    + "FROM cuenta_corriente cc WHERE cc.id_cc = :idCuenta")
+                    .setParameter("idCuenta", idCuentaCorriente)
+                    .getResultList();
+
+            if (resultados.isEmpty()) {
+                throw new RuntimeException("No se encontró cabecera_remito asociada a la cuenta corriente con ID " + idCuentaCorriente);
+            }
+
+            Object[] result = resultados.get(0);
+            Integer idRemitoActual = (Integer) result[0];
+            Integer idCliente = (Integer) result[1];
+
+            // 4. Calcular el haber acumulado anterior (antes del remito actual)
+            String sumaHaberQuery = "SELECT SUM(cc3.haber_cc) FROM cuenta_corriente cc3 "
+                    + "WHERE cc3.cabeceraremito.clienteCabecera.nroClient = :idCliente "
+                    + "AND cc3.cabeceraremito.idRemito < :idRemitoActual";
+            Double haberAnterior = (Double) em.createQuery(sumaHaberQuery)
+                    .setParameter("idCliente", idCliente)
+                    .setParameter("idRemitoActual", idRemitoActual)
+                    .getSingleResult();
+            if (haberAnterior == null) {
+                haberAnterior = 0.0;
+            }
+
+            // 5. Consultar saldo anterior (de la cuenta anterior al remito actual)
+            String jpqlSaldoAnterior = "SELECT cc4.saldo_cc FROM cuenta_corriente cc4 "
+                    + "WHERE cc4.cabeceraremito.clienteCabecera.nroClient = :idCliente "
+                    + "AND cc4.cabeceraremito.idRemito < :idRemitoActual "
+                    + "ORDER BY cc4.cabeceraremito.idRemito DESC";
+            List<Double> resultadoSaldoAnterior = em.createQuery(jpqlSaldoAnterior)
+                    .setParameter("idCliente", idCliente)
+                    .setParameter("idRemitoActual", idRemitoActual)
+                    .setMaxResults(1)
+                    .getResultList();
+            Double saldoAnterior = resultadoSaldoAnterior.isEmpty() ? 0.0 : resultadoSaldoAnterior.get(0);
+
+            // 6. Calcular saldo actual puntual
+            Double saldoTotal = saldoAnterior + ccDebe - haberAnterior;
+
+            // 7. Actualizar debe, saldo (haber no se toca)
+            cc.setDebe_cc(ccDebe);
+            cc.setSaldo_cc(saldoTotal);
+
+            em.merge(cc);
+
+            // 8. Recalcular saldo acumulado para todas las cuentas del cliente en orden cronológico
+            String jpqlCuentasCliente = "SELECT cc5 FROM cuenta_corriente cc5 "
+                    + "WHERE cc5.cabeceraremito.clienteCabecera.nroClient = :idCliente "
+                    + "ORDER BY cc5.cabeceraremito.idRemito ASC";
+            List<cuenta_corriente> cuentasCliente = em.createQuery(jpqlCuentasCliente, cuenta_corriente.class)
+                    .setParameter("idCliente", idCliente)
+                    .getResultList();
+
+            Double saldoAcumulado = 0.0;
+            for (cuenta_corriente cuenta : cuentasCliente) {
+                Double debe = cuenta.getDebe_cc() != null ? cuenta.getDebe_cc() : 0.0;
+                Double haber = cuenta.getHaber_cc() != null ? cuenta.getHaber_cc() : 0.0;
+                saldoAcumulado = saldoAcumulado + debe - haber;
+                cuenta.setSaldo_cc(saldoAcumulado);
+                em.merge(cuenta);
+            }
+
+            em.flush();
+            tx.commit();
+
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            throw new RuntimeException("Error actualizando cuenta corriente completa: " + e.getMessage(), e);
+        } finally {
+            em.close();
         }
-
-        // 2. Calcular el debe (suma importes totales asociados)
-        String sumaImportesQuery = "SELECT SUM(cr.importe_total) FROM cabecera_remito cr "
-                + "WHERE cr.idRemito IN ("
-                + " SELECT cc2.cabeceraremito.idRemito FROM cuenta_corriente cc2 WHERE cc2.id_cc = :idCuenta)";
-        Double ccDebe = (Double) em.createQuery(sumaImportesQuery)
-                .setParameter("idCuenta", idCuentaCorriente)
-                .getSingleResult();
-        if (ccDebe == null) {
-            ccDebe = 0.0;
-        }
-
-        // 3. Obtener idRemito e idCliente de esta cuenta corriente
-        List<Object[]> resultados = em.createQuery(
-                "SELECT cc.cabeceraremito.idRemito, cc.cabeceraremito.clienteCabecera.nroClient " +
-                        "FROM cuenta_corriente cc WHERE cc.id_cc = :idCuenta")
-                .setParameter("idCuenta", idCuentaCorriente)
-                .getResultList();
-
-        if (resultados.isEmpty()) {
-            throw new RuntimeException("No se encontró cabecera_remito asociada a la cuenta corriente con ID " + idCuentaCorriente);
-        }
-
-        Object[] result = resultados.get(0);
-        Integer idRemitoActual = (Integer) result[0];
-        Integer idCliente = (Integer) result[1];
-
-        // 4. Calcular el haber acumulado anterior (antes del remito actual)
-        String sumaHaberQuery = "SELECT SUM(cc3.haber_cc) FROM cuenta_corriente cc3 "
-                + "WHERE cc3.cabeceraremito.clienteCabecera.nroClient = :idCliente "
-                + "AND cc3.cabeceraremito.idRemito < :idRemitoActual";
-        Double haberAnterior = (Double) em.createQuery(sumaHaberQuery)
-                .setParameter("idCliente", idCliente)
-                .setParameter("idRemitoActual", idRemitoActual)
-                .getSingleResult();
-        if (haberAnterior == null) {
-            haberAnterior = 0.0;
-        }
-
-        // 5. Consultar saldo anterior (de la cuenta anterior al remito actual)
-        String jpqlSaldoAnterior = "SELECT cc4.saldo_cc FROM cuenta_corriente cc4 "
-                + "WHERE cc4.cabeceraremito.clienteCabecera.nroClient = :idCliente "
-                + "AND cc4.cabeceraremito.idRemito < :idRemitoActual "
-                + "ORDER BY cc4.cabeceraremito.idRemito DESC";
-        List<Double> resultadoSaldoAnterior = em.createQuery(jpqlSaldoAnterior)
-                .setParameter("idCliente", idCliente)
-                .setParameter("idRemitoActual", idRemitoActual)
-                .setMaxResults(1)
-                .getResultList();
-        Double saldoAnterior = resultadoSaldoAnterior.isEmpty() ? 0.0 : resultadoSaldoAnterior.get(0);
-
-        // 6. Calcular saldo actual puntual
-        Double saldoTotal = saldoAnterior + ccDebe - haberAnterior;
-
-        // 7. Actualizar debe, saldo (haber no se toca)
-        cc.setDebe_cc(ccDebe);
-        cc.setSaldo_cc(saldoTotal);
-
-        em.merge(cc);
-
-        // 8. Recalcular saldo acumulado para todas las cuentas del cliente en orden cronológico
-        String jpqlCuentasCliente = "SELECT cc5 FROM cuenta_corriente cc5 "
-                + "WHERE cc5.cabeceraremito.clienteCabecera.nroClient = :idCliente "
-                + "ORDER BY cc5.cabeceraremito.idRemito ASC";
-        List<cuenta_corriente> cuentasCliente = em.createQuery(jpqlCuentasCliente, cuenta_corriente.class)
-                .setParameter("idCliente", idCliente)
-                .getResultList();
-
-        Double saldoAcumulado = 0.0;
-        for (cuenta_corriente cuenta : cuentasCliente) {
-            Double debe = cuenta.getDebe_cc() != null ? cuenta.getDebe_cc() : 0.0;
-            Double haber = cuenta.getHaber_cc() != null ? cuenta.getHaber_cc() : 0.0;
-            saldoAcumulado = saldoAcumulado + debe - haber;
-            cuenta.setSaldo_cc(saldoAcumulado);
-            em.merge(cuenta);
-        }
-
-        em.flush();
-        tx.commit();
-
-    } catch (Exception e) {
-        if (tx.isActive()) {
-            tx.rollback();
-        }
-        throw new RuntimeException("Error actualizando cuenta corriente completa: " + e.getMessage(), e);
-    } finally {
-        em.close();
     }
-}
 
     //CRUD DETALLE REMITO
     public void crearDetalle(detalle_remito detalle1) {
@@ -450,23 +452,23 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
         }
     }
 
-        public void eliminarDetPorCliente(int idCli) {
-            EntityManager em = detalle_remitoJpa.getEntityManager();
-            try {
-                em.getTransaction().begin();
-                Query query = em.createQuery("DELETE FROM cuenta_corriente cc WHERE cc.cabeceraremito.clienteCabecera.nroClient = :idCli");
-                query.setParameter("idCli", idCli);
-                int deleted = query.executeUpdate();
-                System.out.println("Registros eliminados: " + deleted); 
-                query.executeUpdate();
-                em.getTransaction().commit();
-            } catch (Exception e) {
-                em.getTransaction().rollback();
-                e.printStackTrace();
-            } finally {
-                em.close();
-            }
+    public void eliminarDetPorCliente(int idCli) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM cuenta_corriente cc WHERE cc.cabeceraremito.clienteCabecera.nroClient = :idCli");
+            query.setParameter("idCli", idCli);
+            int deleted = query.executeUpdate();
+            System.out.println("Registros eliminados: " + deleted);
+            query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
         }
+    }
 
     public void modifDetalle(detalle_remito detalle1) {
         try {
@@ -555,7 +557,7 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
         }
     }
 
-    public void actualizarPreciosDetalleRemito(String codProducto, double nuevoPrecioVenta, double nuevoImporte) {
+    public void actualizarPreciosDetalleRemito(int idRemito, double nuevoPrecioVenta, double nuevoImporte) {
         EntityManager em = detalle_remitoJpa.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
@@ -564,21 +566,20 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
 
             String query = "UPDATE detalle_remito dr "
                     + "SET dr.precio_unit = :nuevoPrecio, dr.importe = :nuevoImporte "
-                    + "WHERE dr.cod_prod = :codProducto";
+                    + "WHERE dr.id_remito = :idRemito";
 
             Query updateQuery = em.createQuery(query);
             updateQuery.setParameter("nuevoPrecio", nuevoPrecioVenta);
             updateQuery.setParameter("nuevoImporte", nuevoImporte);
-            updateQuery.setParameter("codProducto", codProducto);
+            updateQuery.setParameter("idRemito", idRemito);
 
-            int filasActualizadas = updateQuery.executeUpdate();
-
+            updateQuery.executeUpdate();
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Error al actualizar los precios en detalle_remito: " + e.getMessage());
+            throw new RuntimeException("Error al actualizar el detalle_remito: " + e.getMessage());
         } finally {
             em.close();
         }
@@ -629,11 +630,7 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
 
     //CRUD PAGO
     public void crearPago(pago pago1) {
-        try {
-            pagoJpa.create(pago1);
-        } catch (IllegalOrphanException ex) {
-            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        pagoJpa.create(pago1);
     }
 
     public void eliminarPago(int id) {
@@ -662,9 +659,8 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
         return listaPagos;
     }
 
-    
-     public List<pago> consultarPagoXcabec(List<Integer> pagoIdCabec){
-         EntityManager em = detalle_remitoJpa.getEntityManager();
+    public List<pago> consultarPagoXcabec(List<Integer> pagoIdCabec) {
+        EntityManager em = detalle_remitoJpa.getEntityManager();
 
         // Consulta JPQL para filtrar solo por los remitos seleccionados
         String query = "SELECT p FROM pago p "
@@ -674,7 +670,8 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
         typedQuery.setParameter("pagoIdCabec", pagoIdCabec);  // pago seleccionados
 
         return typedQuery.getResultList();
-    } 
+    }
+
     //CRUD PRODUCTO
     public void crearProducto(producto prod1) {
         try {
@@ -746,7 +743,7 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
             transaction.begin();
 
             em.createQuery("DELETE FROM producto p WHERE p.codLista = :idLista").setParameter("idLista", idLista).executeUpdate();
-            
+
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
@@ -757,7 +754,7 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
             em.close();
         }
     }
-    
+
     public List<producto> obtenerProductosPaginados(int offset, int limite, String filtro) {
         EntityManager em = productoJpa.getEntityManager();
         try {
@@ -783,7 +780,6 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
             em.close();
         }
     }
-    
 
     //CRUD USUARIO
     public void crearUsuario(usuario user1) {
@@ -828,4 +824,49 @@ public void actualizarCuentaCorriente(int idCuentaCorriente) {
         }
     }
 
+    //CRUD PAGO_DETALLE
+   public void asociarPagoADetallesImpagos(pago pago, EntityManager em) {
+        double montoRestante = pago.getImporte_pago();
+
+        // Obtener detalles impagos del cliente ordenados por fecha
+        List<detalle_remito> detallesImpagos = em.createQuery(
+                "SELECT d FROM detalle_remito d "
+                + "WHERE d.cabecdetalleremito.clienteCabecera.id = :clienteId "
+                + "AND (d.precio_unit * d.cant_prod > "
+                + "(SELECT COALESCE(SUM(pdr.montoPagado), 0) FROM pagoDetalle pdr WHERE pdr.detalleRemito.id_remito = d.id_remito)) "
+                + "ORDER BY d.cabecdetalleremito.fecha_Rem ASC",
+                detalle_remito.class)
+                .setParameter("clienteId", pago.getCabecRemitoAsociado().getClienteCabecera().getNroClient())
+                .getResultList();
+
+        for (detalle_remito detalle : detallesImpagos) {
+            double totalDetalle = detalle.getPrecio_unit() * detalle.getCant_prod();
+
+            Double yaPagado = em.createQuery(
+                    "SELECT COALESCE(SUM(pdr.montoPagado), 0) FROM pagoDetalle pdr WHERE pdr.detalleRemito.id_remito = :detalleId",
+                    Double.class)
+                    .setParameter("detalleId", detalle.getId_remito())
+                    .getSingleResult();
+
+            double saldo = totalDetalle - yaPagado;
+
+            if (saldo <= 0) {
+                continue;
+            }
+
+            double montoAplicado = Math.min(saldo, montoRestante);
+
+            pagoDetalle pdr = new pagoDetalle();
+            pdr.setPagoDet(pago);
+            pdr.setDetPago(detalle);
+            pdr.setMontoPagado(montoAplicado);
+            em.persist(pdr);
+
+            montoRestante -= montoAplicado;
+
+            if (montoRestante <= 0) {
+                break;
+            }
+        }
+    }
 }

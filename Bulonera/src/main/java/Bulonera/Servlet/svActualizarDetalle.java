@@ -12,7 +12,9 @@ import Bulonera.logica.producto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -69,12 +71,12 @@ public class svActualizarDetalle extends HttpServlet {
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
     processRequest(request, response);
-// 1. Actualizar las referencias de productos en detalle_remito
-    ctrl.actrefDetalle();
-    
+
+    // 1. Actualizar las referencias de productos en detalle_remito
+    ctrl.actRefDetalle();
+
     // 2. Obtener la lista de detalles de remito
     List<detalle_remito> detalleList = ctrl.consultarListaDetalles();
-    boolean actexitosa = false;
 
     if (detalleList == null || detalleList.isEmpty()) {
         request.setAttribute("error", "No hay detalles de remito para actualizar.");
@@ -82,13 +84,16 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         return;
     }
 
+    Set<Integer> cabecIds = new HashSet<>();
+    Set<Integer> ccIds = new HashSet<>();
+
     for (detalle_remito detalle : detalleList) {
         if (detalle.getCod_prod() != null) {
             producto prod = ctrl.consultarProductoStr(detalle.getCod_prod());
 
             if (prod == null) {
                 System.out.println("Producto no encontrado para código: " + detalle.getCod_prod());
-                continue; // Salta al siguiente detalle
+                continue;
             }
 
             cabecera_remito cabec = detalle.getCabecdetalleremito();
@@ -107,25 +112,26 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
             String codProducto = prod.getCod_prod();
             Double precio = prod.getPrecio_venta();
             Double importenuevo = precio * cantprod;
+            int idDet = detalle.getId_remito();
+            
+            System.out.println("el importe nuevo de " + codProducto + "es " + precio + " x " + cantprod + "= " + importenuevo);
 
-            // Actualizar precios
-            ctrl.actPrecioDetalle(codProducto, precio, importenuevo);
+            // Actualizar precio y importe nuevo solo en el detalle
+            ctrl.actPrecioDetalle(idDet, precio, importenuevo);
 
-            // Actualizar el importe total del remito
-            ctrl.actimportetotal(cabec.getIdRemito());
-
-            // Actualizar los importes en cuenta corriente
-            ctrl.actualizarImportesCc(cC1.getId_cc());
-
-            actexitosa = true;
+            cabecIds.add(cabec.getIdRemito());
+            ccIds.add(cC1.getId_cc());
         }
     }
 
-    // Mensaje para la respuesta
-    if (actexitosa) {
-        request.setAttribute("error", "Actualización exitosa");
-    } else {
-        request.setAttribute("error", "No se encontraron remitos con productos para actualizar.");
+    // Actualizar importes totales por cabecera (una vez por cada cabecera)
+    for (Integer idCabecera : cabecIds) {
+        ctrl.actimportetotal(idCabecera);
+    }
+
+    // Actualizar importes en cuenta corriente (una vez por cada cuenta corriente)
+    for (Integer idCc : ccIds) {
+        ctrl.actualizarImportesCc(idCc);
     }
 
     // Redirigir a la página correspondiente
