@@ -291,4 +291,7 @@ public class controladoraLogica {
         ctrlpersis.asociarPagoADetallesImpagos(p1);
     }
     
+    public double montoPagadoXdet(int idRem) {
+       return ctrlpersis.obtenerMontoPagadoPorDetalle(idRem);
+    }
 }

@@ -879,4 +879,17 @@ public class controladoraPersistencia {
         em.getTransaction().commit();
         em.close();
     }
+   
+   public double obtenerMontoPagadoPorDetalle(int idDetalle) {
+    EntityManager em = PagoDetJpa.getEntityManager();
+    try {
+        return em.createQuery(
+            "SELECT COALESCE(SUM(p.montoPagado), 0) FROM pagoDetalle p WHERE p.detPago.id_remito = :idDetalle",
+            Double.class)
+            .setParameter("idDetalle", idDetalle)
+            .getSingleResult();
+    } finally {
+        em.close();
+    }
+}
 }
