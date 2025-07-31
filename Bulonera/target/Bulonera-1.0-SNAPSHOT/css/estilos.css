@@ -451,15 +451,19 @@ td {
 }
 
 .ancho{
-    width: 60px;
+    width: 70px;
 } 
 
 .anchoId{
     width: 100px;
 }
 
+.anchoNomb{
+    width: 300px;
+}
+
 .importeProd{
-    width: 150px
+    width: 90px
 }
 
 .btnEliminarLinea{

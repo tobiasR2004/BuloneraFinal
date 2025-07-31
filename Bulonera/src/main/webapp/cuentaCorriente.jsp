@@ -121,7 +121,7 @@
     </button>
 </form>
 
-<!-- Modal -->
+<!-- Modal CABECERA/DETALLE -->
 <form action="svCrearCabeceraRem" method="POST">
         <div class="modal fade" id="modalcabec" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
@@ -168,7 +168,7 @@
 </form>
 
 
-<!-- Estructura del modal -->
+<!-- Estructura del modal DETALLE REMITO -->
 <div class="modal fade" id="remito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content" id="cargarRem">
@@ -228,7 +228,7 @@
                         <tbody>
                             <tr class="fila-producto">
                                 <td><input class="sinBorde anchoId" minlength="1" type="text" name="idProd" onchange="completarProducto(this)"></td>
-                                <td><input class="sinBorde" type="text" minlength="1" name="nombreProd" readonly></td>
+                                <td><input class="sinBorde anchoNomb" type="text" minlength="1" name="nombreProd" readonly></td>
                                 <td><input class="sinBorde ancho cantProd" name="cantProd" type="number" step="any" min="0" required oninput="calcularImporte()"></td>
                                 <td><input class="sinBorde ancho precioProd" minlength="1" type="number" name="precioProd" readonly></td>
                                 <td><input class="sinBorde importeProd" minlength="1" type="number" name="importeProd" readonly></td>
