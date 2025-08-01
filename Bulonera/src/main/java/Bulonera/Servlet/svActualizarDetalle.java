@@ -93,9 +93,9 @@ public class svActualizarDetalle extends HttpServlet {
 
             // Obtener cuánto ya fue pagado para ese detalle
             double yaPagado = ctrl.montoPagadoXdet(detalle.getId_remito());
-
-            if (yaPagado != 0 && yaPagado >= totalDetalle) {
-                // Ya está completamente pagado, no actualizar
+            
+            if (yaPagado > 0.0) {
+                // Ya fue pagado total o parcialmente, no tocar
                 continue;
             }
 

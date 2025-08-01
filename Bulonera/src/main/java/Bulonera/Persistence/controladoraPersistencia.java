@@ -217,10 +217,20 @@ public class controladoraPersistencia {
     }
 
     public void eliminarCc(int id) {
+        EntityManager em = cuenta_corrienteJpa.getEntityManager();
         try {
-            cuenta_corrienteJpa.destroy(id);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(controladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            em.getTransaction().begin();
+
+            cuenta_corriente Cc = em.find(cuenta_corriente.class, id);
+            if (Cc != null) {
+                em.remove(Cc);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
         }
     }
 
@@ -278,10 +288,18 @@ public class controladoraPersistencia {
         EntityManager em = cuenta_corrienteJpa.getEntityManager();
         try {
             em.getTransaction().begin();
-            // Eliminar los detalles asociados a la cabecera
-            Query query = em.createQuery("DELETE FROM cuenta_corriente c WHERE c.cabeceraremito = :cabecera");
+
+            // Buscar la cuenta corriente asociada a la cabecera
+            TypedQuery<cuenta_corriente> query = em.createQuery(
+                    "SELECT c FROM cuenta_corriente c LEFT JOIN FETCH c.listaPagos_cc WHERE c.cabeceraremito = :cabecera",
+                    cuenta_corriente.class);
             query.setParameter("cabecera", cabecera);
-            query.executeUpdate();
+
+            List<cuenta_corriente> cuentas = query.getResultList();
+            for (cuenta_corriente cc : cuentas) {
+                em.remove(cc); // Acá sí aplica el cascade
+            }
+
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -828,68 +846,80 @@ public class controladoraPersistencia {
     public void crearPagoDet(pagoDetalle pd1) {
         PagoDetJpa.create(pd1);
     }
-    
-   public void asociarPagoADetallesImpagos(pago p1) {
+
+    public void asociarPagoADetallesImpagos(pago p1) {
         double montoRestante = p1.getImporte_pago();
         EntityManager em = PagoDetJpa.getEntityManager();
-        
-        em.getTransaction().begin();
-        // Obtener detalles impagos del cliente ordenados por fecha
-        List<detalle_remito> detallesImpagos = em.createQuery(
-                "SELECT d FROM detalle_remito d "
-                + "WHERE d.cabecdetalleremito.clienteCabecera.nroClient = :clienteId "
-                + "AND (d.precio_unit * d.cant_prod > "
-                + "(SELECT COALESCE(SUM(pdr.montoPagado), 0) FROM pagoDetalle pdr WHERE pdr.detPago.id_remito = d.id_remito)) "
-                + "ORDER BY d.cabecdetalleremito.fecha_Rem ASC",
-                detalle_remito.class)
-                .setParameter("clienteId", p1.getCabecRemitoAsociado().getClienteCabecera().getNroClient())
-                .getResultList();
 
-        for (detalle_remito detalle : detallesImpagos) {
-            double totalDetalle = detalle.getPrecio_unit() * detalle.getCant_prod();
+        try {
+            em.getTransaction().begin();
 
-            Double yaPagado = em.createQuery(
-                    "SELECT COALESCE(SUM(pdr.montoPagado), 0) FROM pagoDetalle pdr WHERE pdr.detPago.id_remito = :detalleId",
-                    Double.class)
-                    .setParameter("detalleId", detalle.getId_remito())
-                    .getSingleResult();
+            // 1. Obtener detalles con saldo pendiente
+            List<detalle_remito> detallesImpagos = em.createQuery(
+                    "SELECT d FROM detalle_remito d "
+                    + "WHERE d.cabecdetalleremito.clienteCabecera.nroClient = :clienteId "
+                    + "ORDER BY d.cabecdetalleremito.fecha_Rem ASC", detalle_remito.class)
+                    .setParameter("clienteId", p1.getCabecRemitoAsociado().getClienteCabecera().getNroClient())
+                    .getResultList();
 
-            double saldo = totalDetalle - yaPagado;
+            for (detalle_remito detalle : detallesImpagos) {
+                double totalDetalle = detalle.getPrecio_unit() * detalle.getCant_prod();
 
-            if (saldo <= 0) {
-                continue;
+                // 2. Cuánto se ha pagado hasta ahora sobre este detalle
+                Double yaPagado = em.createQuery(
+                        "SELECT COALESCE(SUM(pdr.montoPagado), 0) "
+                        + "FROM pagoDetalle pdr WHERE pdr.detPago.id_remito = :detalleId", Double.class)
+                        .setParameter("detalleId", detalle.getId_remito())
+                        .getSingleResult();
+
+                double saldo = totalDetalle - yaPagado;
+
+                // 3. Si ya se pagó completamente, lo saltamos
+                if (saldo <= 0) {
+                    continue;
+                }
+
+                // 4. Si hay algo de saldo, se aplica lo que se pueda
+                double montoAplicado = Math.min(saldo, montoRestante);
+
+                // 5. Crear y persistir el nuevo pagoDetalle
+                pagoDetalle pdr = new pagoDetalle();
+                pdr.setPagoDet(p1);
+                pdr.setDetPago(detalle);
+                pdr.setMontoPagado(montoAplicado);
+                em.persist(pdr);
+
+                montoRestante -= montoAplicado;
+
+                // 6. Si ya no queda más plata del pago, se corta el bucle
+                if (montoRestante <= 0) {
+                    break;
+                }
             }
 
-            double montoAplicado = Math.min(saldo, montoRestante);
-
-            pagoDetalle pdr = new pagoDetalle();
-            pdr.setPagoDet(p1);
-            pdr.setDetPago(detalle);
-            pdr.setMontoPagado(montoAplicado);
-            em.persist(pdr);
-            
-
-            montoRestante -= montoAplicado;
-
-            if (montoRestante <= 0) {
-                break;
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
             }
-            
+            e.printStackTrace(); // O mejor: loguear con logger
+        } finally {
+            if (em.isOpen()) {
+                em.close();
+            }
         }
-        em.getTransaction().commit();
-        em.close();
     }
-   
-   public double obtenerMontoPagadoPorDetalle(int idDetalle) {
-    EntityManager em = PagoDetJpa.getEntityManager();
-    try {
-        return em.createQuery(
-            "SELECT COALESCE(SUM(p.montoPagado), 0) FROM pagoDetalle p WHERE p.detPago.id_remito = :idDetalle",
-            Double.class)
-            .setParameter("idDetalle", idDetalle)
-            .getSingleResult();
-    } finally {
-        em.close();
+
+    public double obtenerMontoPagadoPorDetalle(int idDetalle) {
+        EntityManager em = PagoDetJpa.getEntityManager();
+        try {
+            return em.createQuery(
+                    "SELECT COALESCE(SUM(p.montoPagado), 0) FROM pagoDetalle p WHERE p.detPago.id_remito = :idDetalle",
+                    Double.class)
+                    .setParameter("idDetalle", idDetalle)
+                    .getSingleResult();
+        } finally {
+            em.close();
+        }
     }
-}
 }

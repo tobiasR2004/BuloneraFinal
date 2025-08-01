@@ -793,7 +793,11 @@ transition: background-color 0.4s, color 0.4s;
 }
 
 .body-eliminar-prod{
+    display: flex;
     justify-items: center;
+}
+.select-cod-lista {
+    
 }
 .input-carga-cod-lista{
     justify-items: center;
