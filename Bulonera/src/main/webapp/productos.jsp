@@ -107,11 +107,11 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">Ingrese ID de la lista que desea cargar</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body body-eliminar-prod">
+      <div class="modal-body">
         <form action="svCargarProductos" method="post" enctype="multipart/form-data">
         <div class="input-carga-cod-lista">    
             <span class="input-group-text " id="inputGroup-sizing-sm">Ingrese un codigo para asignar a la lista</span> 
-             <input type="number" name="CodListaProdCarga" min="0" step="1"></input>
+            <input type="number" class="select-cod-lista" name="CodListaProdCarga" min="0" step="1"></input>
         </div>
             <input class="selecExcel" type="file" id="file" name="file" accept=".xlsx">
             <button type="submit" class="btn btn-navbar" id="botonImportar">Importar productos</button>

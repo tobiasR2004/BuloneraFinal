@@ -74,6 +74,7 @@
   --bg-body: #c7e1ff;
 }
 
+
 #MenuPrincipal {
   background-image: url('../img/fondomenu.jpg');
   background-attachment: fixed;
@@ -450,15 +451,19 @@ td {
 }
 
 .ancho{
-    width: 60px;
+    width: 70px;
 } 
 
 .anchoId{
     width: 100px;
 }
 
+.anchoNomb{
+    width: 300px;
+}
+
 .importeProd{
-    width: 150px
+    width: 90px
 }
 
 .btnEliminarLinea{
@@ -689,6 +694,7 @@ transition: background-color 0.4s, color 0.4s;
 .selecExcel{
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-inline: 40px;
     background-color: white;
     border: solid 1px #000000;
     color: black;
@@ -788,7 +794,11 @@ transition: background-color 0.4s, color 0.4s;
 }
 
 .body-eliminar-prod{
+    display: flex;
     justify-items: center;
+}
+.select-cod-lista {
+    display: flex;
 }
 .input-carga-cod-lista{
     justify-items: center;

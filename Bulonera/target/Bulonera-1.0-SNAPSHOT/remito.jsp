@@ -10,7 +10,7 @@
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>
 <li>
-    <form action="svPdfdetalle" method="POST">
+    <form action="svPdfdetalle" method="POST" target="_blank">
         <button type="submit" class="btn btn-navbar" id="boton12" style="margin-left: 50px">
             Imprimir detalle  </button>  
     </form>

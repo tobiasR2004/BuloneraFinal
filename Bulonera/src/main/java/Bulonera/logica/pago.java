@@ -6,13 +6,16 @@ package Bulonera.logica;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,6 +44,9 @@ public class pago implements Serializable {
     private cliente cliente_pago;
     @ManyToOne
     private cuenta_corriente cc_pago;
+    
+    @OneToMany(mappedBy = "pagoDet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<pagoDetalle> detallesPago;
     
     @OneToOne
     @JoinColumn(name = "id_cabecRemito")

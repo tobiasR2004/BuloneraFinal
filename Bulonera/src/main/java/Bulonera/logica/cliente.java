@@ -43,7 +43,6 @@ public class cliente implements Serializable {
     @OneToMany(mappedBy = "cliente_pago")
     private ArrayList<pago> listaPagos_c;
     
-        // ✅ Agregar relación en cascada con remitos
     @OneToMany(mappedBy = "clienteCabecera", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<cabecera_remito> remitos = new ArrayList<>();
 
