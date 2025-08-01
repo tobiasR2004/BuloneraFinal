@@ -169,11 +169,11 @@ public class controladoraLogica {
         return ctrlpersis.consultarDetalleListCabec(remitosSeleccionados);
     }
     
-    public void actPrecioDetalle(String idprod, double nuevoprecio, double importe){
-        ctrlpersis.actualizarPreciosDetalleRemito(idprod, nuevoprecio, importe);
+    public void actPrecioDetalle(int idRemito, double nuevoprecio, double importe){
+        ctrlpersis.actualizarPreciosDetalleRemito(idRemito, nuevoprecio, importe);
     }
     
-    public void actrefDetalle(){
+    public void actRefDetalle(){
      ctrlpersis.actualizarReferenciasPorCodProd();
     }
     
@@ -281,5 +281,17 @@ public class controladoraLogica {
     // Si no es válido, marcamos que falló la autenticación
     request.setAttribute("usuarioValido", false);
 }
+    //CRUD PAGODETALLE
+
+    public void crearPagoDetalle(pagoDetalle pd1) {
+        ctrlpersis.crearPagoDet(pd1);
+    }
     
+    public void asociarPagoDetImpagos(pago p1) {
+        ctrlpersis.asociarPagoADetallesImpagos(p1);
+    }
+    
+    public double montoPagadoXdet(int idRem) {
+       return ctrlpersis.obtenerMontoPagadoPorDetalle(idRem);
+    }
 }

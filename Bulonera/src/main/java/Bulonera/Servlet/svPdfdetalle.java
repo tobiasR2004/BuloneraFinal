@@ -111,7 +111,7 @@ String imagePath = getServletContext().getRealPath("/img/LogoBulonera.jpg");
 ByteArrayOutputStream baos = new ByteArrayOutputStream();
 PdfWriter writer = new PdfWriter(baos);
 PdfDocument pdf = new PdfDocument(writer);
-Document document = new Document(pdf, PageSize.A4.rotate());
+Document document = new Document(pdf, PageSize.A4);
 document.setMargins(10, 10, 10, 10);
 
 
@@ -218,11 +218,11 @@ if (listaPago != null && !listaPago.isEmpty()) {
         BigDecimal importeTruncado = new BigDecimal(pagoList.getImporte_pago()).setScale(2, RoundingMode.DOWN);
 
         tablaPago.addCell(crearCelda(fechaFormateadaPago, TextAlignment.CENTER));
-        tablaPago.addCell(crearCelda(formaPago, TextAlignment.LEFT));
+        tablaPago.addCell(crearCelda(formaPago, TextAlignment.CENTER));
         tablaPago.addCell(crearCelda(nroCheque, TextAlignment.CENTER));
-        tablaPago.addCell(crearCelda(bancoCheque, TextAlignment.RIGHT));
+        tablaPago.addCell(crearCelda(bancoCheque, TextAlignment.CENTER));
         tablaPago.addCell(crearCelda(fechaChFormateadaPago, TextAlignment.CENTER));
-        tablaPago.addCell(crearCelda(importeTruncado.toString(), TextAlignment.RIGHT));
+        tablaPago.addCell(crearCelda(importeTruncado.toString(), TextAlignment.CENTER));
         totalPago += pagoList.getImporte_pago();
     }
     document.add(new Paragraph("  PAGOS  ").setTextAlignment(TextAlignment.CENTER)); 

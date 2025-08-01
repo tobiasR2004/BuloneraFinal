@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,7 @@ public class cuenta_corriente implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha_cc;
     
-    @OneToMany(mappedBy = "cc_pago")
+    @OneToMany(mappedBy = "cc_pago", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private ArrayList<pago> listaPagos_cc;
     
     @ManyToOne

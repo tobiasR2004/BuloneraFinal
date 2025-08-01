@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svCrearCabeceraRem.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Servlet\svModifclient.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Filters\FiltroSesion.java
@@ -44,6 +45,9 @@ C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\pago.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\logica\usuarioService.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\src\main\java\Bulonera\Persistence\cabecera_remitoJpaController.java
 =======
+=======
+C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\Persistence\pagoDetalleJpaController.java
+>>>>>>> cb5d2aa1af7efa5fddc10f4bbc944fc0adeefd5a
 C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\logica\usuario.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\logica\cliente.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\Persistence\productoJpaController.java
@@ -52,6 +56,7 @@ C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\Filters\Fi
 C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\com\mycompany\bulonera\resources\JakartaEE8Resource.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\logica\productoDTO.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\Servlet\svProductos.java
+C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\logica\pagoDetalle.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\Servlet\svProductosPaginados.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\Persistence\exceptions\NonexistentEntityException.java
 C:\Users\tobi2\BuloneraFinal\Bulonera\Bulonera\src\main\java\Bulonera\Servlet\sVcliente.java

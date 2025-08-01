@@ -12,6 +12,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Bulonera.logica.cliente;
+import Bulonera.logica.pago;
 import Bulonera.logica.detalle_remito;
 import java.util.ArrayList;
 import Bulonera.logica.cuenta_corriente;
@@ -55,6 +56,11 @@ public class cabecera_remitoJpaController implements Serializable {
                 clienteCabecera = em.getReference(clienteCabecera.getClass(), clienteCabecera.getNroClient());
                 cabecera_remito.setClienteCabecera(clienteCabecera);
             }
+            pago pagoAsociado = cabecera_remito.getPagoAsociado();
+            if (pagoAsociado != null) {
+                pagoAsociado = em.getReference(pagoAsociado.getClass(), pagoAsociado.getId_pago());
+                cabecera_remito.setPagoAsociado(pagoAsociado);
+            }
             ArrayList<detalle_remito> attachedListadetalles = new ArrayList<detalle_remito>();
             for (detalle_remito listadetallesdetalle_remitoToAttach : cabecera_remito.getListadetalles()) {
                 listadetallesdetalle_remitoToAttach = em.getReference(listadetallesdetalle_remitoToAttach.getClass(), listadetallesdetalle_remitoToAttach.getId_remito());
@@ -71,6 +77,15 @@ public class cabecera_remitoJpaController implements Serializable {
             if (clienteCabecera != null) {
                 clienteCabecera.getRemitos().add(cabecera_remito);
                 clienteCabecera = em.merge(clienteCabecera);
+            }
+            if (pagoAsociado != null) {
+                cabecera_remito oldCabecRemitoAsociadoOfPagoAsociado = pagoAsociado.getCabecRemitoAsociado();
+                if (oldCabecRemitoAsociadoOfPagoAsociado != null) {
+                    oldCabecRemitoAsociadoOfPagoAsociado.setPagoAsociado(null);
+                    oldCabecRemitoAsociadoOfPagoAsociado = em.merge(oldCabecRemitoAsociadoOfPagoAsociado);
+                }
+                pagoAsociado.setCabecRemitoAsociado(cabecera_remito);
+                pagoAsociado = em.merge(pagoAsociado);
             }
             for (detalle_remito listadetallesdetalle_remito : cabecera_remito.getListadetalles()) {
                 cabecera_remito oldCabecdetalleremitoOfListadetallesdetalle_remito = listadetallesdetalle_remito.getCabecdetalleremito();
@@ -106,6 +121,8 @@ public class cabecera_remitoJpaController implements Serializable {
             cabecera_remito persistentcabecera_remito = em.find(cabecera_remito.class, cabecera_remito.getIdRemito());
             cliente clienteCabeceraOld = persistentcabecera_remito.getClienteCabecera();
             cliente clienteCabeceraNew = cabecera_remito.getClienteCabecera();
+            pago pagoAsociadoOld = persistentcabecera_remito.getPagoAsociado();
+            pago pagoAsociadoNew = cabecera_remito.getPagoAsociado();
             ArrayList<detalle_remito> listadetallesOld = persistentcabecera_remito.getListadetalles();
             ArrayList<detalle_remito> listadetallesNew = cabecera_remito.getListadetalles();
             ArrayList<cuenta_corriente> listaCcOld = persistentcabecera_remito.getListaCc();
@@ -113,6 +130,10 @@ public class cabecera_remitoJpaController implements Serializable {
             if (clienteCabeceraNew != null) {
                 clienteCabeceraNew = em.getReference(clienteCabeceraNew.getClass(), clienteCabeceraNew.getNroClient());
                 cabecera_remito.setClienteCabecera(clienteCabeceraNew);
+            }
+            if (pagoAsociadoNew != null) {
+                pagoAsociadoNew = em.getReference(pagoAsociadoNew.getClass(), pagoAsociadoNew.getId_pago());
+                cabecera_remito.setPagoAsociado(pagoAsociadoNew);
             }
             ArrayList<detalle_remito> attachedListadetallesNew = new ArrayList<detalle_remito>();
             for (detalle_remito listadetallesNewdetalle_remitoToAttach : listadetallesNew) {
@@ -136,6 +157,19 @@ public class cabecera_remitoJpaController implements Serializable {
             if (clienteCabeceraNew != null && !clienteCabeceraNew.equals(clienteCabeceraOld)) {
                 clienteCabeceraNew.getRemitos().add(cabecera_remito);
                 clienteCabeceraNew = em.merge(clienteCabeceraNew);
+            }
+            if (pagoAsociadoOld != null && !pagoAsociadoOld.equals(pagoAsociadoNew)) {
+                pagoAsociadoOld.setCabecRemitoAsociado(null);
+                pagoAsociadoOld = em.merge(pagoAsociadoOld);
+            }
+            if (pagoAsociadoNew != null && !pagoAsociadoNew.equals(pagoAsociadoOld)) {
+                cabecera_remito oldCabecRemitoAsociadoOfPagoAsociado = pagoAsociadoNew.getCabecRemitoAsociado();
+                if (oldCabecRemitoAsociadoOfPagoAsociado != null) {
+                    oldCabecRemitoAsociadoOfPagoAsociado.setPagoAsociado(null);
+                    oldCabecRemitoAsociadoOfPagoAsociado = em.merge(oldCabecRemitoAsociadoOfPagoAsociado);
+                }
+                pagoAsociadoNew.setCabecRemitoAsociado(cabecera_remito);
+                pagoAsociadoNew = em.merge(pagoAsociadoNew);
             }
             for (detalle_remito listadetallesOlddetalle_remito : listadetallesOld) {
                 if (!listadetallesNew.contains(listadetallesOlddetalle_remito)) {
@@ -204,6 +238,11 @@ public class cabecera_remitoJpaController implements Serializable {
             if (clienteCabecera != null) {
                 clienteCabecera.getRemitos().remove(cabecera_remito);
                 clienteCabecera = em.merge(clienteCabecera);
+            }
+            pago pagoAsociado = cabecera_remito.getPagoAsociado();
+            if (pagoAsociado != null) {
+                pagoAsociado.setCabecRemitoAsociado(null);
+                pagoAsociado = em.merge(pagoAsociado);
             }
             ArrayList<detalle_remito> listadetalles = cabecera_remito.getListadetalles();
             for (detalle_remito listadetallesdetalle_remito : listadetalles) {
