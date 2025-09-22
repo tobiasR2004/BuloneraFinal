@@ -763,6 +763,10 @@ public class controladoraPersistencia {
             em.close();
         }
     }
+    
+    public void CodigosProdRepetidos(){
+    
+    } 
 
     public void vaciarProductos(int idLista) {
         EntityManager em = productoJpa.getEntityManager();
