@@ -290,6 +290,7 @@ section:target {
     background-color: #003053;
     color: aliceblue;
     table-layout: fixed;
+    margin-bottom: 10%;
 }
 
 #searchInput {

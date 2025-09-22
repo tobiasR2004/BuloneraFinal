@@ -190,7 +190,7 @@
                         <label for="numero-cliente" class="form-label">Numero de cliente</label>
                         <c:forEach var="clie" items="${listaClientes}">
                             <c:if test="${clienteIdSeleccionado == clie.nroClient}">
-                                <input type="text" id="razon-social" class="form-control" aria-label="RazÃ³n social"
+                                <input type="text" id="nro-cliente" class="form-control" aria-label="RazÃ³n social"
                                        disabled value="${clie.nroClient}">
                             </c:if>
                         </c:forEach>

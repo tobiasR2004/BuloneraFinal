@@ -206,8 +206,10 @@ public class svCancelarDeuda extends HttpServlet {
 
                     ctrl.crearcabecremito(cabec1);
                     ctrl.crearPago(pago1);
-                    ctrl.asociarPagoDetImpagos(pago1);
 
+                    
+                    ctrl.asociarPagoDetImpagos(pago1);
+                    
                         response.sendRedirect("sVcuentaCorrienteRemito?buscarCli=" + idCabec);
                     }
                 }

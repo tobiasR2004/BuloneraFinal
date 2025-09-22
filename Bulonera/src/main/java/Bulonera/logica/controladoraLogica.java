@@ -220,7 +220,7 @@ public class controladoraLogica {
         ctrlpersis.modifProducto(prod1);
     }
     
-    public producto consultarProductoStr(String codProd){
+    public producto consultarProductoStr(String codProd) throws Exception{
         return ctrlpersis.buscarProductoPorCodProd(codProd);
     }
     
@@ -293,5 +293,9 @@ public class controladoraLogica {
     
     public double montoPagadoXdet(int idRem) {
        return ctrlpersis.obtenerMontoPagadoPorDetalle(idRem);
+    }
+    
+    public void relacionpagodet(){
+        ctrlpersis.relacionPagoDet();
     }
 }
