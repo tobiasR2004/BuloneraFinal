@@ -289,9 +289,13 @@
 
             <!-- COLUMNA DERECHA: Campos de Cheque -->
             <div class=" flex-column gap-2 items-body-canceldeuda-cheque" id="chequeFields">
+              <input class="form-control form-control-sm cancelDeuda-cheque" name="titularCheque" id="titularCheque" type="text" placeholder="Titular">
               <input class="form-control form-control-sm cancelDeuda-cheque" name="Banco" id="Banco" type="text" placeholder="Banco">
               <input class="form-control form-control-sm cancelDeuda-cheque" name="nroCheque" id="nroCheque" type="text" placeholder="Nro. Cheque">
-              <input class="form-control form-control-sm cancelDeuda-cheque" name="fechaDePago" id="fechaDePago" type="Date" placeholder="Fecha">
+              <label class="lblCheque"> fecha de emision </label>
+              <input class="form-control form-control-sm cancelDeuda-cheque" name="fechaEmision" id="fechaEmision" type="Date" placeholder="Fecha emision">
+              <label class="lblCheque"> fecha de pago </label>
+              <input class="form-control form-control-sm cancelDeuda-cheque" name="fechaDePago" id="fechaDePago" type="Date" placeholder="Fecha pago">
             </div>
 
           </div>

@@ -165,16 +165,21 @@ public class svCancelarDeuda extends HttpServlet {
                     pago1.setImporte_pago(importepago);
                     switch (formaPagoInt) {
                         case 3:
+                            String titularCheque = request.getParameter("titularCheque");
                             String bancoCheque = request.getParameter("Banco");
                             String nroChequeStr = request.getParameter("nroCheque");
                             int nroCheque = Integer.parseInt(nroChequeStr);
                             String fechaPagoChequeStr = request.getParameter("fechaDePago");
+                            String fechaEmisionChequeStr = request.getParameter("fechaEmision");
                             try {
                                 Date fechaPagoCheque = format.parse(fechaPagoChequeStr);
+                                Date  fechaEmisionCheque = format.parse(fechaEmisionChequeStr);
                                 pago1.setFechaPagoCheque(fechaPagoCheque);
+                                pago1.setFechaEmisionCheque(fechaEmisionCheque);
                             } catch (ParseException ex) {
                                 Logger.getLogger(svCancelarDeuda.class.getName()).log(Level.SEVERE, null, ex);
                             }
+                            pago1.setTitularCheque(titularCheque);
                             pago1.setBancoCheque(bancoCheque);
                             pago1.setNroCheque(nroCheque);
                             pago1.setFormaPago("Cheque");
