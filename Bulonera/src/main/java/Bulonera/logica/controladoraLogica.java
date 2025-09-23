@@ -244,6 +244,10 @@ public class controladoraLogica {
         ctrlpersis.vaciarProductos(idLista);
     }
     
+    public void CodigosProdRepetidos(){
+        ctrlpersis.CodigosProdRepetidos();
+    }
+    
     //CRUD USUARIO
     public void crearUsuario(usuario user1){
         ctrlpersis.crearUsuario(user1);

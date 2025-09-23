@@ -19,6 +19,10 @@
 
 <button type="submit" class="btn btn-navbar" id="boton10" data-bs-toggle="modal" data-bs-target="#vaciarProd">vaciar productos</button>
 
+<form method="Post" action="svCorregirCodigos"> 
+<button type="submit" class="btn btn-navbar" id="boton10">Corregir Codigos</button>
+</form>
+
 <form method="get" action="svProductosPaginados">
         <input type="text" name="busqueda" value="${busqueda != null ? busqueda : ''}" class="inputBusquedaProd" placeholder="Buscar producto...">
         <button type="submit">Buscar</button>

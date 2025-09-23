@@ -46,6 +46,7 @@ Bulonera\Filters\exceptions\PreexistingEntityException.class
 Bulonera\Filters\exceptions\IllegalOrphanException.class
 Bulonera\Servlet\svPdfdetalle.class
 Bulonera\Servlet\svCancelarDeuda.class
+Bulonera\Servlet\svCorregirCodigos.class
 Bulonera\Filters\FiltroSesion.class
 Bulonera\Persistence\detalle_remitoJpaController.class
 Bulonera\Servlet\svRemito.class

@@ -763,10 +763,34 @@ public class controladoraPersistencia {
             em.close();
         }
     }
-    
+
     public void CodigosProdRepetidos(){
-    
-    } 
+        EntityManager em = productoJpa.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        
+        List<String> CodigosDuplicados = new ArrayList<>();
+        
+        TypedQuery<producto> query = em.createQuery("SELECT p from producto p ORDER BY p.cod_prod ASC, P.id_prod ASC",                    producto.class);
+        List<producto> productos = query.getResultList();
+
+        Map<String, Integer> contador = new HashMap<>();  
+        
+        for(producto p : productos  ){
+            int repeticiones = contador.getOrDefault(p.getCod_prod(), 0);
+            
+            if(repeticiones > 0){
+            char ultimodigito = p.getCod_prod().charAt(p.getCod_prod().length()-1);
+            String nuevoCod = p.getCod_prod() + String.valueOf(ultimodigito).repeat(repeticiones);
+            
+            p.setCod_prod(nuevoCod);
+            
+            em.getTransaction().begin();
+            em.merge(p);
+            em.getTransaction().commit();
+            }
+            contador.put(p.getCod_prod(), repeticiones + 1);
+        }
+    }
 
     public void vaciarProductos(int idLista) {
         EntityManager em = productoJpa.getEntityManager();
