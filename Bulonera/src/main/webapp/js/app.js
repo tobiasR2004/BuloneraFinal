@@ -32,16 +32,17 @@ enlacemenu.forEach(enlace => {
 function mostrarBotones(ids) {
     ids.forEach(id => {
         const boton = document.getElementById(id);
-        if (boton) boton.style.display = 'block';
+        if (boton)
+            boton.style.display = 'block';
     });
 }
 
-        document.getElementById('btnAlta').addEventListener('click', function() {
-            const tablaClientes = document.querySelector('#tablaClientes tbody');
-            const fila = document.createElement('tr');
+document.getElementById('btnAlta').addEventListener('click', function () {
+    const tablaClientes = document.querySelector('#tablaClientes tbody');
+    const fila = document.createElement('tr');
 
-            // Crear celdas vacías
-            fila.innerHTML = `
+    // Crear celdas vacías
+    fila.innerHTML = `
                 <td class="Columnas"></td>
                 <td class="Columnas"></td>
                 <td class="Columnas"></td>
@@ -49,19 +50,19 @@ function mostrarBotones(ids) {
                 <td class="Columnas"></td>
             `;
 
-            tablaClientes.appendChild(fila);
-        });
-        
-document.addEventListener("DOMContentLoaded", function() {
+    tablaClientes.appendChild(fila);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
     const errorModal = document.getElementById('errorModal');
     if (errorModal) {
         const button = errorModal.querySelector('.btn-close');
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
         });
     }
 });
-    
-    function calcularImporte() {
+
+function calcularImporte() {
     const filas = document.querySelectorAll('#tabla-remito tbody tr');
     filas.forEach(fila => {
         const cantidad = fila.querySelector('.cantProd').value || 0;
@@ -86,38 +87,38 @@ function calcularImporteTotal() {
     document.getElementById("importe-total").value = total.toFixed(2);
 }
 
-function completarProducto(input) {    
+function completarProducto(input) {
     const idProd = input.value.trim();
     if (idProd !== "") {
         fetch("svRemito?idProd=" + idProd)
-            .then(response => response.json())
-            .then(data => {
-                if (data.nombre && data.precio) {
-                    const fila = input.closest('tr');
-                    fila.querySelector('input[name="nombreProd"]').value = data.nombre;
-                    fila.querySelector('input[name="precioProd"]').value = data.precio;
-                } else {
-                    alert(data.error || "Producto no encontrado.");
-                }
-            })
-            .catch(error => {
-                console.error("Error al obtener los datos:", error);
-                alert("Error al obtener los datos del producto.");
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.nombre && data.precio) {
+                        const fila = input.closest('tr');
+                        fila.querySelector('input[name="nombreProd"]').value = data.nombre;
+                        fila.querySelector('input[name="precioProd"]').value = data.precio;
+                    } else {
+                        alert(data.error || "Producto no encontrado.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al obtener los datos:", error);
+                    alert("Error al obtener los datos del producto.");
+                });
     } else {
         alert("Por favor ingresa un ID de producto válido.");
     }
-    }
-    
-    //NUEVA FUNCION DE AL HACER DOBLE CLICK SE COMPLETE EL PRODUCTO
-    document.getElementById('listaResultados').addEventListener('dblclick', function(e) {
+}
+
+//NUEVA FUNCION DE AL HACER DOBLE CLICK SE COMPLETE EL PRODUCTO
+document.getElementById('listaResultados').addEventListener('dblclick', function (e) {
     const optionSeleccionada = e.target;
     if (optionSeleccionada.tagName.toLowerCase() === 'option') {
         const id = optionSeleccionada.value;
 
         const filaProducto = document.getElementById('fila-producto');
         const inputIdProd = filaProducto.querySelector('input[name="idProd"]');
-        
+
         // Poner el ID directamente
         inputIdProd.value = id;
 
@@ -126,10 +127,10 @@ function completarProducto(input) {
     }
 });
 
-    
-    
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("boton5").addEventListener("click", function() {
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("boton5").addEventListener("click", function () {
         const checkboxes = document.querySelectorAll(".checkboxRemito");
         checkboxes.forEach(column => {
             column.style.display = column.style.display === "none" ? "" : "none";

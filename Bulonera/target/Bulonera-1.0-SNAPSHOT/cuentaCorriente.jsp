@@ -190,7 +190,7 @@
                         <label for="numero-cliente" class="form-label">Numero de cliente</label>
                         <c:forEach var="clie" items="${listaClientes}">
                             <c:if test="${clienteIdSeleccionado == clie.nroClient}">
-                                <input type="text" id="razon-social" class="form-control" aria-label="RazÃ³n social"
+                                <input type="text" id="nro-cliente" class="form-control" aria-label="RazÃ³n social"
                                        disabled value="${clie.nroClient}">
                             </c:if>
                         </c:forEach>
@@ -289,9 +289,13 @@
 
             <!-- COLUMNA DERECHA: Campos de Cheque -->
             <div class=" flex-column gap-2 items-body-canceldeuda-cheque" id="chequeFields">
+              <input class="form-control form-control-sm cancelDeuda-cheque" name="titularCheque" id="titularCheque" type="text" placeholder="Titular">
               <input class="form-control form-control-sm cancelDeuda-cheque" name="Banco" id="Banco" type="text" placeholder="Banco">
               <input class="form-control form-control-sm cancelDeuda-cheque" name="nroCheque" id="nroCheque" type="text" placeholder="Nro. Cheque">
-              <input class="form-control form-control-sm cancelDeuda-cheque" name="fechaDePago" id="fechaDePago" type="Date" placeholder="Fecha">
+              <label class="lblCheque"> fecha de emision </label>
+              <input class="form-control form-control-sm cancelDeuda-cheque" name="fechaEmision" id="fechaEmision" type="Date" placeholder="Fecha emision">
+              <label class="lblCheque"> fecha de pago </label>
+              <input class="form-control form-control-sm cancelDeuda-cheque" name="fechaDePago" id="fechaDePago" type="Date" placeholder="Fecha pago">
             </div>
 
           </div>

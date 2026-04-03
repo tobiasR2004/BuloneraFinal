@@ -33,10 +33,13 @@ public class pago implements Serializable {
     private double importe_pago;
     private String formaPago;
     private int nroCheque;
-    private String bancoCheque; 
+    private String bancoCheque;
+    private String titularCheque;
    
     @Temporal(TemporalType.DATE)
     private Date fecha_pago;
+    @Temporal(TemporalType.DATE)
+    private Date fechaEmisionCheque;
     @Temporal(TemporalType.DATE)
     private Date fechaPagoCheque;
     
@@ -51,23 +54,41 @@ public class pago implements Serializable {
     @OneToOne
     @JoinColumn(name = "id_cabecRemito")
     private cabecera_remito cabecRemitoAsociado;
-    
 
-    public pago()
-    {
-    }
-
-    public pago(int id_pago, double importe_pago, String formaPago, int nroCheque, String bancoCheque, cabecera_remito cabecRemitoAsociado, Date fecha_pago, Date fechaPagoCheque, cliente cliente_pago, cuenta_corriente cc_pago) {
+    public pago(int id_pago, double importe_pago, String formaPago, int nroCheque, String bancoCheque, String titularCheque, Date fecha_pago, Date fechaEmisionCheque, Date fechaPagoCheque, cliente cliente_pago, cuenta_corriente cc_pago, List<pagoDetalle> detallesPago, cabecera_remito cabecRemitoAsociado) {
         this.id_pago = id_pago;
         this.importe_pago = importe_pago;
         this.formaPago = formaPago;
         this.nroCheque = nroCheque;
         this.bancoCheque = bancoCheque;
-        this.cabecRemitoAsociado = cabecRemitoAsociado;
+        this.titularCheque = titularCheque;
         this.fecha_pago = fecha_pago;
+        this.fechaEmisionCheque = fechaEmisionCheque;
         this.fechaPagoCheque = fechaPagoCheque;
         this.cliente_pago = cliente_pago;
         this.cc_pago = cc_pago;
+        this.detallesPago = detallesPago;
+        this.cabecRemitoAsociado = cabecRemitoAsociado;
+    }
+
+    public pago()
+    {
+    }
+
+    public String getTitularCheque() {
+        return titularCheque;
+    }
+
+    public void setTitularCheque(String titularCheque) {
+        this.titularCheque = titularCheque;
+    }
+
+    public Date getFechaEmisionCheque() {
+        return fechaEmisionCheque;
+    }
+
+    public void setFechaEmisionCheque(Date fechaEmisionCheque) {
+        this.fechaEmisionCheque = fechaEmisionCheque;
     }
 
     public cuenta_corriente getCc_pago() {

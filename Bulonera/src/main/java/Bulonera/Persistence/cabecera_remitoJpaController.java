@@ -27,7 +27,7 @@ import javax.persistence.Persistence;
  */
 public class cabecera_remitoJpaController implements Serializable {
 
-    public cabecera_remitoJpaController() {
+    public cabecera_remitoJpaController() {       
         emf = Persistence.createEntityManagerFactory("buloneraPU");
     }
 

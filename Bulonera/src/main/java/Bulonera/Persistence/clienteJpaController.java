@@ -27,6 +27,7 @@ public class clienteJpaController implements Serializable {
 
     public clienteJpaController() {
         emf = Persistence.createEntityManagerFactory("buloneraPU");
+
     }
 
     public clienteJpaController(EntityManagerFactory emf) {

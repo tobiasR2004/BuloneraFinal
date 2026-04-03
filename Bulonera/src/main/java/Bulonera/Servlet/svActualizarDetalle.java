@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,7 +58,6 @@ public class svActualizarDetalle extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
@@ -70,7 +71,7 @@ public class svActualizarDetalle extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        List<String> errores = new ArrayList<>();
 
         // 1. Actualizar las referencias de productos en detalle_remito
         ctrl.actRefDetalle();
@@ -93,46 +94,49 @@ public class svActualizarDetalle extends HttpServlet {
 
             // Obtener cuánto ya fue pagado para ese detalle
             double yaPagado = ctrl.montoPagadoXdet(detalle.getId_remito());
-            
+
             if (yaPagado > 0.0) {
                 // Ya fue pagado total o parcialmente, no tocar
                 continue;
             }
 
             if (detalle.getCod_prod() != null) {
-                producto prod = ctrl.consultarProductoStr(detalle.getCod_prod());
-
-                if (prod == null) {
-                    request.setAttribute("error", "Producto no encontrado para código: " + detalle.getCod_prod());
-                    request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
-                }
-
-                cabecera_remito cabec = detalle.getCabecdetalleremito();
-                if (cabec == null) {
-                    request.setAttribute("error", "Cabecera remito es null para detalle ID: " + detalle.getId_remito());
-                    request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+                try {
+                    producto prod = ctrl.consultarProductoStr(detalle.getCod_prod());
                     
+                    if (prod == null) {
+                        errores.add("Producto no encontrado para remito: " + detalle.getId_remito());
+                        continue;
+                    }
+                    
+                    cabecera_remito cabec = detalle.getCabecdetalleremito();
+                    if (cabec == null) {
+                        errores.add("Cabecera remito es null para detalle ID: " + detalle.getId_remito());
+                        continue;
+                    }
+                    
+                    cuenta_corriente cC1 = ctrl.consultarCcporCabec(cabec);
+                    if (cC1 == null) {
+                        System.out.println("Cuenta corriente no encontrada para remito ID: " + cabec.getIdRemito());
+                        continue;
+                    }
+                    
+                    double cantprod = detalle.getCant_prod();
+                    String codProducto = prod.getCod_prod();
+                    Double precio = prod.getPrecio_venta();
+                    Double importenuevo = precio * cantprod;
+                    int idDet = detalle.getId_remito();
+                    
+                    System.out.println("el importe nuevo de " + codProducto + " es " + precio + " x " + cantprod + " = " + importenuevo);
+                    
+                    // Actualizar precio y nuevo importe solo en detalles con saldo pendiente
+                    ctrl.actPrecioDetalle(idDet, precio, importenuevo);
+                    
+                    cabecIds.add(cabec.getIdRemito());
+                    ccIds.add(cC1.getId_cc());
+                } catch (Exception ex) {
+                    Logger.getLogger(svActualizarDetalle.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                cuenta_corriente cC1 = ctrl.consultarCcporCabec(cabec);
-                if (cC1 == null) {
-                    System.out.println("Cuenta corriente no encontrada para remito ID: " + cabec.getIdRemito());
-                    continue;
-                }
-
-                double cantprod = detalle.getCant_prod();
-                String codProducto = prod.getCod_prod();
-                Double precio = prod.getPrecio_venta();
-                Double importenuevo = precio * cantprod;
-                int idDet = detalle.getId_remito();
-
-                System.out.println("el importe nuevo de " + codProducto + " es " + precio + " x " + cantprod + " = " + importenuevo);
-
-                // Actualizar precio y nuevo importe solo en detalles con saldo pendiente
-                ctrl.actPrecioDetalle(idDet, precio, importenuevo);
-
-                cabecIds.add(cabec.getIdRemito());
-                ccIds.add(cC1.getId_cc());
             }
         }
 
@@ -144,6 +148,12 @@ public class svActualizarDetalle extends HttpServlet {
         // Actualizar importes en cuenta corriente (una vez por cada cuenta corriente)
         for (Integer idCc : ccIds) {
             ctrl.actualizarImportesCc(idCc);
+        }
+
+        if (!errores.isEmpty()) {
+            request.setAttribute("error", errores);
+            request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);
+            return;
         }
 
         // Redirigir a la página correspondiente

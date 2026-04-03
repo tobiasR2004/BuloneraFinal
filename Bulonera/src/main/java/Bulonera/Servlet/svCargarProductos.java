@@ -127,6 +127,7 @@ public class svCargarProductos extends HttpServlet {
 
                     // Guarda los productos en la base de datos
                     ctrl.guardarProduct(productos);
+                    
 
                     // Responde al usuario
                     request.getRequestDispatcher("productos.jsp").forward(request, response);

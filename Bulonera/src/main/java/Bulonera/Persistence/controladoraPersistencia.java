@@ -715,14 +715,24 @@ public class controladoraPersistencia {
         }
     }
 
-    public producto buscarProductoPorCodProd(String codProd) {
+    public producto buscarProductoPorCodProd(String codProd) throws Exception {
         EntityManager em = clienteJpa.getEntityManager();
         try {
-            TypedQuery<producto> query = em.createQuery("SELECT p FROM producto p WHERE p.cod_prod = :codProd", producto.class);
+            TypedQuery<producto> query = em.createQuery(
+                    "SELECT p FROM producto p WHERE p.cod_prod = :codProd", producto.class
+            );
             query.setParameter("codProd", codProd);
-            return query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
+
+            List<producto> resultados = query.getResultList();
+
+            if (resultados.isEmpty()) {
+                return null; // No se encontró
+            } else if (resultados.size() == 1) {
+                return resultados.get(0); // Un único resultado
+            } else {
+                // Más de un resultado → lanzamos excepción personalizada
+                throw new Exception("Error: se encontraron múltiples productos con el mismo código: " + codProd);
+            }
         } finally {
             em.close();
         }
@@ -751,6 +761,34 @@ public class controladoraPersistencia {
             throw new Exception("Error guardando productos: " + e.getMessage());
         } finally {
             em.close();
+        }
+    }
+
+    public void CodigosProdRepetidos(){
+        EntityManager em = productoJpa.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        
+        List<String> CodigosDuplicados = new ArrayList<>();
+        
+        TypedQuery<producto> query = em.createQuery("SELECT p from producto p ORDER BY p.cod_prod ASC, P.id_prod ASC",                    producto.class);
+        List<producto> productos = query.getResultList();
+
+        Map<String, Integer> contador = new HashMap<>();  
+        
+        for(producto p : productos  ){
+            int repeticiones = contador.getOrDefault(p.getCod_prod(), 0);
+            
+            if(repeticiones > 0){
+            char ultimodigito = p.getCod_prod().charAt(p.getCod_prod().length()-1);
+            String nuevoCod = p.getCod_prod() + String.valueOf(ultimodigito).repeat(repeticiones);
+            
+            p.setCod_prod(nuevoCod);
+            
+            em.getTransaction().begin();
+            em.merge(p);
+            em.getTransaction().commit();
+            }
+            contador.put(p.getCod_prod(), repeticiones + 1);
         }
     }
 
@@ -921,5 +959,58 @@ public class controladoraPersistencia {
         } finally {
             em.close();
         }
+    }
+
+    /* ESTO SE USO PARA ACTUALIZAR LOS PAGO DETALLES DE PAGOS PREVIOS A LA TABLA PAGODETALLE  AHORA NO SE USA */
+    public void relacionPagoDet() {
+        EntityManager em = PagoDetJpa.getEntityManager();
+        em.getTransaction().begin();
+
+        List<pago> pagos = em.createQuery("SELECT p FROM pago p", pago.class).getResultList();
+
+        for (pago p : pagos) {
+            double montoRestante = p.getImporte_pago();
+
+            List<detalle_remito> detalles = em.createQuery(
+                    "SELECT d FROM detalle_remito d "
+                    + "WHERE d.cabecdetalleremito.clienteCabecera = :cli "
+                    + "ORDER BY d.cabecdetalleremito.fecha_Rem ASC", detalle_remito.class)
+                    .setParameter("cli", p.getCliente_pago())
+                    .getResultList();
+
+            for (detalle_remito d : detalles) {
+                double totalDetalle = d.getPrecio_unit() * d.getCant_prod();
+
+                Double yaPagado = em.createQuery(
+                        "SELECT COALESCE(SUM(pdr.montoPagado), 0) "
+                        + "FROM pagoDetalle pdr WHERE pdr.detPago.id_remito = :detalleId", Double.class)
+                        .setParameter("detalleId", d.getId_remito())
+                        .getSingleResult();
+
+                double saldo = totalDetalle - yaPagado;
+                if (saldo <= 0) {
+                    continue;
+                }
+
+                double montoAplicado = Math.min(saldo, montoRestante);
+
+                if (montoAplicado > 0) {
+                    pagoDetalle nuevoPD = new pagoDetalle();
+                    nuevoPD.setPagoDet(p);
+                    nuevoPD.setDetPago(d);
+                    nuevoPD.setMontoPagado(montoAplicado);
+                    em.persist(nuevoPD);
+
+                    montoRestante -= montoAplicado;
+                }
+
+                if (montoRestante <= 0) {
+                    break;
+                }
+            }
+        }
+
+        em.getTransaction().commit();
+        em.close();
     }
 }
