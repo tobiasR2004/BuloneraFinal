@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -78,7 +79,7 @@ public class svActualizarDetalle extends HttpServlet {
 
         // 2. Obtener la lista de detalles de remito
         List<detalle_remito> detalleList = ctrl.consultarListaDetalles();
-
+        
         if (detalleList == null || detalleList.isEmpty()) {
             request.setAttribute("error", "No hay detalles de remito para actualizar.");
             request.getRequestDispatcher("cuentaCorriente.jsp").forward(request, response);

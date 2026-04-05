@@ -14,15 +14,17 @@
             <%@include file="componentes/body.jsp"%>
             
             <!--BOTONES NAVBAR-->
+            
+            <c:set var="estaDeshabilitado" value="${empty sessionScope.clienteIdSeleccionado || sessionScope.clienteIdSeleccionado == -1}" />
             <li class="nav-item">
-                <button type="button" class="btn btn-navbar" id="boton4" style="margin-left: 50px">Eliminar</button>
+                <button type="button" class="btn btn-navbar" id="boton4" style="margin-left: 50px" ${estaDeshabilitado ? 'disabled' : ''}>Eliminar</button>
             </li>
             <li class="nav-item">
-                <button type="button" class="btn btn-navbar" id="boton5">Ver detalle</button>
+                <button type="button" class="btn btn-navbar" id="boton5" ${estaDeshabilitado ? 'disabled' : ''}>Ver detalle</button>
             </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-navbar" id="boton6" data-bs-target="#CancelarDeuda"
-                        data-bs-toggle="modal">Cancelar deuda</button>
+                        data-bs-toggle="modal" ${estaDeshabilitado ? 'disabled' : ''}>Cancelar deuda</button>
             </li>
             <form action="svActualizarDetalle" method="Post">
             <li class="nav-item">

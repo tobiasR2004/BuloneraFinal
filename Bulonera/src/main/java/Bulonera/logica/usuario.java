@@ -14,6 +14,7 @@ import javax.persistence.Id;
 /**
  *
  * @author Alumno
+ 
  */
 @Entity
 public class usuario implements Serializable
