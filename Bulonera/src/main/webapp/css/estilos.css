@@ -33,12 +33,13 @@
 #Logo {
     width: 100%;
     height: 10%;
+    border-radius: 6px;
     margin-bottom: 3%;
 }
 
 .MenuPrincipal {
     width: 40%;
-    background-color: rgba(196, 196, 196, 0.308);
+    background-color: rgba(8, 8, 8, 0.6);
     padding: 1%;
     border-radius: 3%;
     margin: 40px 36% 10px 36%;
@@ -206,7 +207,6 @@
 
 .btnnavBuscar{
     margin-left: 5px;
-    
 }
 
 .bg-body-tertiary {

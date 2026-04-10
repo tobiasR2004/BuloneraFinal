@@ -29,7 +29,7 @@
       %>
        
     <form class="MenuPrincipal" action="svLogin" method="POST">
-        <img id="Logo" src="img/LogoBulonera.jpg" alt="Logo Bulonera">
+        <img id="Logo" src="img/bannerLogin.jpg" alt="Logo Bulonera">
         <div class="mb-3">
             <label for="exampleInputUsuario" class="form-label">USUARIO</label>
             <input type="text" class="form-control" id="exampleInputUsuario" aria-describedby="UsuarioHelp" minlength="5" maxlength="25" required pattern="[^\s]+" name="nombreUs">
@@ -39,7 +39,7 @@
             <input type="password" class="form-control" id="exampleInputPassword1" minlength="3" name="contrasenia">
         </div>
         <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-danger">INGRESAR</button>
+            <button type="submit" class="btn btn-success">INGRESAR</button>
         </div>
     </form>
 
