@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-     <head>
+    <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,9 +24,14 @@
         
         <!-- jQuery (requerido por DataTables) -->
         <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-       <!-- DataTables CSS -->
+        <!-- DataTables CSS -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
         <!-- DataTables JS -->
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        
+        <!-- fuente para titulo del navbar -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@100;200;300;400;500;600;700&family=Kanit:wght@400;500;700&family=Syne:wght@400..800&display=swap" rel="stylesheet">
         
     </head>

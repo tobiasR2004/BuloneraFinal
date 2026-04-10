@@ -8,31 +8,21 @@
             30
         </session-timeout>
     </session-config>
-
-    <filter>
-        <filter-name>CorsFilter</filter-name>
-        <filter-class>service.CorsFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>CorsFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
     
     <filter>
         <filter-name>CorsFilter</filter-name>
         <filter-class>Bulonera.Filters.CorsFilter</filter-class>
     </filter>
-
-    <filter-mapping>
-        <filter-name>CorsFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
     
     <filter>
         <filter-name>FiltroSesion</filter-name>
         <filter-class>Bulonera.Filters.FiltroSesion</filter-class>
     </filter>
+    
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <filter-mapping>
         <filter-name>FiltroSesion</filter-name>

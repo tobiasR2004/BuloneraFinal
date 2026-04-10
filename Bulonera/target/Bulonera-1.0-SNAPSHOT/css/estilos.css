@@ -1,20 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 *{
-  font-family: Rubik, sans-serif;
+    font-family: Rubik, sans-serif;
 }
 
 .btnaux{
-  top: 50%;
-  left: 50%;   
-  padding: 10px 20px;
-  font-size: 16px;
-  position: fixed;
-  cursor: pointer;
-  border-radius: 5px;
-  border: 1px solid #6c757d;
-  color: #6c757d;
-  transition: background-color 0.3s, color 0.3s;   
+    top: 50%;
+    left: 50%;   
+    padding: 10px 20px;
+    font-size: 16px;
+    position: fixed;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+    transition: background-color 0.3s, color 0.3s;   
 }
 
 #esconderText{
@@ -22,43 +22,43 @@
 }
 
 .bodyIndex {
-  background-image: url(../img/Fondolog.jpg);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  padding-left: 0px;  
+    background-image: url(../img/Fondolog.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    padding-left: 0px;  
 }
 
 #Logo {
-  width: 100%;
-  height: 10%;
-  margin-bottom: 3%;
+    width: 100%;
+    height: 10%;
+    margin-bottom: 3%;
 }
 
 .MenuPrincipal {
-  width: 40%;
-  background-color: rgba(196, 196, 196, 0.308);
-  padding: 1%;
-  border-radius: 3%;
-  margin: 40px 36% 10px 36%;
-  padding-top: 3%;
-  padding-bottom: 1%;
+    width: 40%;
+    background-color: rgba(196, 196, 196, 0.308);
+    padding: 1%;
+    border-radius: 3%;
+    margin: 40px 36% 10px 36%;
+    padding-top: 3%;
+    padding-bottom: 1%;
 }
 
 .btn-danger {
-  margin-top: 5%;
+    margin-top: 5%;
 }
 
 #boton6:hover{
-  color: #fff;
-  background-color: #c82333;
-  border-color: #bd2130;
+    color: #fff;
+    background-color: #c82333;
+    border-color: #bd2130;
 }
 
 .mb-3 {
-  padding: 3%;
-  color: white;
+    padding: 3%;
+    color: white;
 }
 
 .headermenu{
@@ -68,58 +68,58 @@
     z-index: 10;  
 }
 :root {
-  --blanco: #E0E0E0;
-  --azulopac: #184463;
-  --menu: #003053;
-  --bg-body: #c7e1ff;
+    --blanco: #E0E0E0;
+    --azulopac: #184463;
+    --menu: #003053;
+    --bg-body: #c7e1ff;
 }
 
 
 #MenuPrincipal {
-  background-image: url('../img/fondomenu.jpg');
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-  left: 0px;
-  top: 0px;
+    background-image: url('../img/fondomenu.jpg');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    left: 0px;
+    top: 0px;
 }
 
 .menu {
-  padding: 0;
-  margin: 0;
-  position: fixed;
-  padding-left: 0px;  
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    padding-left: 0px;  
 }
 
 .bodymenu {
-  display: flex;          
-  margin: 0;
-  position: relative;
-  font-family: Rubik, sans-serif;
-  color: var(--blanco);
+    display: flex;          
+    margin: 0;
+    position: relative;
+    font-family: Rubik, sans-serif;
+    color: var(--blanco);
 }
 
 .menu-dashboard {
-  max-width: 90px;
-  justify-content: space-between;
-  height: 100vh;
-  background-color: var(--menu);
-  padding: 25px;
-  transition: max-width .3s ease;
-  margin-top: 0px;
-  position: fixed;
-  z-index: 3;
+    max-width: 90px;
+    justify-content: space-between;
+    height: 100vh;
+    background-color: var(--menu);
+    padding: 25px;
+    transition: max-width .3s ease;
+    margin-top: 0px;
+    position: fixed;
+    z-index: 3;
 }
 
 .top-menu {
-  margin-bottom: 30%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    margin-bottom: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .onlyTXT{
@@ -130,78 +130,78 @@
 }
 
 .top-menu .logo {
-  display: flex;
-  align-items: center;
-  padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
 }
 
 .top-menu .logo span {
-  font-size: 20px;
-  margin-left: 10px;
-  display: none;
+    font-size: 20px;
+    margin-left: 10px;
+    display: none;
 }
 
 .top-menu .toggle {
-  width: 30px;
-  height: 20px;
-  display: inline-block;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;  
+    width: 30px;
+    height: 20px;
+    display: inline-block;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;  
 }
 
 .top-menu .toggle i {
-  font-size: 35px;
+    font-size: 35px;
 } 
 
 
 .elementmenu .enlace {
-  width: 130%;
-  padding: 30px 0px 30px 17px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  cursor: pointer;
-  font-size: 20px;
-  transition: all .3s ease;
+    width: 130%;
+    padding: 30px 0px 30px 17px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all .3s ease;
 }
 
 .elementmenu .enlace:hover {
-  background: var(--azulopac);
+    background: var(--azulopac);
 }
 
 .elementmenu .enlace i {
-  margin-right: 20px;
-  font-size: 25px;
+    margin-right: 20px;
+    font-size: 25px;
 }
 
 .elementmenu .enlace span {
-  opacity: 0;
-  transition: opacity .3s ease;
+    opacity: 0;
+    transition: opacity .3s ease;
 }
 
 .menu-dashboard.open {
-  position: fixed;
-  max-width: 300px;
-  z-index: 3;
+    position: fixed;
+    max-width: 300px;
+    z-index: 3;
 }
 
 .menu-dashboard.open .top-menu .logo span {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0px;
 }
 
 .menu-dashboard.open .elementmenu .enlace {
-  width: auto;
-  padding: 30px 0px;
-
+    width: auto;
+    padding: 30px 0px;
+    
 }
 
 .menu-dashboard.open .elementmenu .enlace span {
-  opacity: 1;
-  padding: 50px 5px;
+    opacity: 1;
+    padding: 50px 5px;
 }
 
 .btnnavBuscar{
@@ -210,71 +210,82 @@
 }
 
 .bg-body-tertiary {
-  display: flex;
-  position: fixed;
-  right: 0;
-  width: 78%;
-  z-index: 1;
+    display: flex;
+    position: fixed;
+    right: 0;
+    width: 78%;
+    z-index: 1;
 }
 
 .titulonavbar {
-  font-family:Impact;
-  border: solid white 2px;
-  position: fixed;
-  background-color:dodgerblue;
-  padding: 15px;
-  top: 1px;
-  left: 10%;
-  color: white;
+    font-family: 'syne', sans-serif;
+    font-weight: 700;           
+    text-transform: uppercase;  
+    letter-spacing: 0.15em;
+    color: #2c7db5;             
+    font-size: 24px;
+    border: solid #243e4f 1px;
+    border-radius: 1%;
+    position: fixed;
+    padding: 15px;
+    top: 3px;
+    left: 6.5%;
+    width: auto;           
+    min-width: 250px;      
+    max-width: 90%;
+    
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    z-index: 1000;
 }
 
 .btn-outline-success { 
-  background-color: white;
-  color: var(--azulopac);
-  border-color: var(--azulopac);
+    background-color: white;
+    color: var(--azulopac);
+    border-color: var(--azulopac);
 }
 
 #btnAcept{
-  margin-top: 15%;
-  width: 400px;
+    margin-top: 15%;
+    width: 400px;
 }
 
 .btn-outline-success:hover {
-  background-color: #0d6d00;
-  border-color: #0d6d00;
+    background-color: #0d6d00;
+    border-color: #0d6d00;
 }
 
 section {
-  display: none;
+    display: none;
 }
 
 section:target {
-  display: block;
+    display: block;
 }
 
 .enlace span {
-  text-decoration: double;
-  color: var(--bg-body);
+    text-decoration: double;
+    color: var(--bg-body);
 }
 
 .modal-content {
-  color: #003053;
-  background-color: #D3EBEC;
+    color: #003053;
+    background-color: #D3EBEC;
 }
 
 .btn-navbar {
-  margin: 0px 10px 0px 30px;
-  background-color: #184463;
-  color: white;
+    margin: 0px 10px 0px 30px;
+    background-color: #184463;
+    color: white;
 }
 
 
 #opcion5 {
-  width: 100px;
+    width: 100px;
 }
 
 .nav-item{
-  list-style-type: none;
+    list-style-type: none;
 }
 
 .inputBusquedaProd{
@@ -302,11 +313,11 @@ section:target {
 }
 
 #produc{
-     margin-top: 80px;
+    margin-top: 80px;
 }
 
 .tablita th {
-   position: sticky;
+    position: sticky;
     top: 0;
     background-color: #cbbfff;
     color: #000000;
@@ -349,13 +360,13 @@ section:target {
 }    
 
 .tablita tbody tr:nth-of-type(odd) {
-  background-color: #184463;
+    background-color: #184463;
 }
 
 .Columnas {
-  table-layout: fixed;
-  border: solid 2px black;
-  text-align: center;
+    table-layout: fixed;
+    border: solid 2px black;
+    text-align: center;
 }
 
 .Col-cod-lista{
@@ -375,42 +386,42 @@ col-precio{
 }
 
 td {
-  height: 30px;
-  
+    height: 30px;
+    
 }
 
 .btn-outline-primary {
-  position: fixed;
-  bottom: 8%;
+    position: fixed;
+    bottom: 8%;
 }
 
 .mb-3config {
-  position: fixed;
-  left: 37%;
+    position: fixed;
+    left: 37%;
 }
 
 .label2 {
-  margin-bottom: 10px;
-  border-radius: 2px;
-  background-color: #003053;
-  color: white;
-  position: relative;
-  text-align: center;
-  width: 400px;
-  padding: 5%;
+    margin-bottom: 10px;
+    border-radius: 2px;
+    background-color: #003053;
+    color: white;
+    position: relative;
+    text-align: center;
+    width: 400px;
+    padding: 5%;
 }
 
 .inputConfig {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  position: absolute;
-  right: 3%;
-  text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: absolute;
+    right: 3%;
+    text-align: center;
 }
 
 .labelConfig {
-  margin-top: 10px;
-  margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #importe{
@@ -422,29 +433,29 @@ td {
 
 
 .btnremito {
-  top: 90%;
-  left: 50%;   
-  padding: 10px 20px;
-  font-size: 16px;
-  position: fixed;
-  cursor: pointer;
-  border-radius: 5px;
-  border: 1px solid #6c757d;
-  background-color: transparent;
-  color: #6c757d;
-  transition: background-color 0.3s, color 0.3s;
+    top: 90%;
+    left: 50%;   
+    padding: 10px 20px;
+    font-size: 16px;
+    position: fixed;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #6c757d;
+    background-color: transparent;
+    color: #6c757d;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 
 .modif {
-  width: 400px;
-  height: 60%;
-  margin-left: 40%;
+    width: 400px;
+    height: 60%;
+    margin-left: 40%;
 }
 
 .modal-body {
-  position: relative;
-  display: block;
+    position: relative;
+    display: block;
 }
 
 #cargarRem{
@@ -473,35 +484,35 @@ td {
 }
 
 .btnEliminarLinea:hover{
-background-color: red;
-color: white;
-transition: background-color 0.4s, color 0.4s;   
+    background-color: red;
+    color: white;
+    transition: background-color 0.4s, color 0.4s;   
 }
 
 
 .cancelDeuda-importe {
-  width: 30vh;
-  padding-left: 25px; /* Espacio para el símbolo de peso */
-  text-align: right;
-  border-radius: 3px;
+    width: 30vh;
+    padding-left: 25px; /* Espacio para el símbolo de peso */
+    text-align: right;
+    border-radius: 3px;
 }
 
 .col{
-  color: #000000;
+    color: #000000;
 }
 
 #importe-total{
-  width: 150px;
+    width: 150px;
 }
 
 .importefinal{
-  margin-left: 50%;
-  margin-bottom: 30px;
-  width: 150px;
+    margin-left: 50%;
+    margin-bottom: 30px;
+    width: 150px;
 }
 
 .form-group-inline label {
-  margin-bottom: 0; /* Elimina el margen inferior del label */
+    margin-bottom: 0; /* Elimina el margen inferior del label */
 }
 
 .paginacion {
@@ -542,19 +553,19 @@ transition: background-color 0.4s, color 0.4s;
 }
 
 #boton9{
-  border: 0px;
-  margin-left: 60px;
-  padding: 7px 15px;
+    border: 0px;
+    margin-left: 60px;
+    padding: 7px 15px;
 }
 
 #boton9:hover{
-  color: #fff;
-  background-color: #c82333;
-  border-color: #bd2130;
+    color: #fff;
+    background-color: #c82333;
+    border-color: #bd2130;
 }
 
 #boton5, #boton6, #boton9, #boton11{
-  width: 150px;
+    width: 150px;
 }
 
 #boton14{
@@ -640,7 +651,7 @@ transition: background-color 0.4s, color 0.4s;
 }
 
 .cabecRemito{
- padding: 2%;
+    padding: 2%;
 }
 
 .cabecRemito label{
@@ -672,15 +683,15 @@ transition: background-color 0.4s, color 0.4s;
 }
 
 .fondoRem{
- margin-top: 70px;
- margin-left: 29%;
- width: 800px;
- height: 150px;
- display: flex;
- position: fixed;
- background-color: rgba(20, 75, 110, 0.5);
- border-radius: 10px;
- box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); 
+    margin-top: 70px;
+    margin-left: 29%;
+    width: 800px;
+    height: 150px;
+    display: flex;
+    position: fixed;
+    background-color: rgba(20, 75, 110, 0.5);
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); 
 }
 
 .modal-bodyCabec{
@@ -756,8 +767,8 @@ transition: background-color 0.4s, color 0.4s;
 }
 
 .cancel:hover{
-  background-color:#0d6efd;
-  border-color: #0d6efd;
+    background-color:#0d6efd;
+    border-color: #0d6efd;
 }
 
 #confirmarEliminacion {
@@ -770,20 +781,20 @@ transition: background-color 0.4s, color 0.4s;
 }
 
 #boton8{
-  display: flex;
-  position: fixed;
-  left: 55%;
-  top: 90%;
-  font-size: 16px;
-  padding: 10px 20px;
-  background-color: #0d6d00;
-  border-color: #0d6d00;
-  color: white;
+    display: flex;
+    position: fixed;
+    left: 55%;
+    top: 90%;
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #0d6d00;
+    border-color: #0d6d00;
+    color: white;
 }
 
 #boton8:hover{
-  background-color: #0d6d00;
-  border-color: #0d6d00;
+    background-color: #0d6d00;
+    border-color: #0d6d00;
 }
 
 .detCargaRemito{
@@ -813,9 +824,9 @@ transition: background-color 0.4s, color 0.4s;
 }
 
 .items-body-cancelDeuda{
-   margin-bottom: 1rem;
-   width: 30vh;
-   margin-left: 35px;
+    margin-bottom: 1rem;
+    width: 30vh;
+    margin-left: 35px;
 }
 
 .form-select-formaPago{
@@ -829,8 +840,8 @@ transition: background-color 0.4s, color 0.4s;
 
 
 #chequeFields {
-  display: none;
-  min-width: 150px;/* Fuerza que esté oculto al inicio */
+    display: none;
+    min-width: 150px;/* Fuerza que esté oculto al inicio */
 }
 
 .lblCheque{
@@ -838,76 +849,76 @@ transition: background-color 0.4s, color 0.4s;
 }
 
 .cancelDeuda-cheque {
-  width: 30vh;
-  margin-right: 15px;
+    width: 30vh;
+    margin-right: 15px;
 }
 /* Consultas de medios para hacer el diseño responsivo */
 @media (max-width: 768px) {
-  .MenuPrincipal {
-      width: 90%;
-      margin: 20px auto;
-  }
-
-  .bodymenu {
-      font-size: 0.9em;
-  }
-
-  .menu-dashboard {
-      max-width: 70px;
-  }
-
-  .menu-dashboard.open {
-      max-width: 250px;
-  }
-
-  .btn-outline-secondary {
-      margin-left: 30%;
-      font-size: 20px;
-  }
-
-  #client, #cuentcorr, #prod, #configcuenta {
-      left: 10%;
-      top: 15%;
-      width: 80%;
-  }
-
-  .label2, .btn-success, .modif {
-      width: 80%;
-      margin-left: 10%;
-  }
+    .MenuPrincipal {
+        width: 90%;
+        margin: 20px auto;
+    }
+    
+    .bodymenu {
+        font-size: 0.9em;
+    }
+    
+    .menu-dashboard {
+        max-width: 70px;
+    }
+    
+    .menu-dashboard.open {
+        max-width: 250px;
+    }
+    
+    .btn-outline-secondary {
+        margin-left: 30%;
+        font-size: 20px;
+    }
+    
+    #client, #cuentcorr, #prod, #configcuenta {
+        left: 10%;
+        top: 15%;
+        width: 80%;
+    }
+    
+    .label2, .btn-success, .modif {
+        width: 80%;
+        margin-left: 10%;
+    }
 }
 
 @media (max-width: 480px) {
-  .MenuPrincipal {
-      width: 100%;
-      margin: 10px auto;
-  }
-
-  .bodymenu {
-      font-size: 0.8em;
-  }
-
-  .menu-dashboard {
-      max-width: 60px;
-  }
-
-  .menu-dashboard.open {
-      max-width: 200px;
-  }
-
-  .btn-outline-secondary {
-      margin-left: 20%;
-      font-size: 18px;
-  }
-
-  #client, #cuentcorr, #prod, #configcuenta {
-      left: 5%;
-      top: 20%;
-      width: 90%;
-  }
-
-  .label2, .btn-success, .modif {
-      width: 90%;
-      margin-left: 5%;
-  }
+    .MenuPrincipal {
+        width: 100%;
+        margin: 10px auto;
+    }
+    
+    .bodymenu {
+        font-size: 0.8em;
+    }
+    
+    .menu-dashboard {
+        max-width: 60px;
+    }
+    
+    .menu-dashboard.open {
+        max-width: 200px;
+    }
+    
+    .btn-outline-secondary {
+        margin-left: 20%;
+        font-size: 18px;
+    }
+    
+    #client, #cuentcorr, #prod, #configcuenta {
+        left: 5%;
+        top: 20%;
+        width: 90%;
+    }
+    
+    .label2, .btn-success, .modif {
+        width: 90%;
+        margin-left: 5%;
+    }
 }
