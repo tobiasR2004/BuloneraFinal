@@ -2,17 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Bulonera.Persistence;
+package TLaccount.Persistence;
 
-import Bulonera.Persistence.exceptions.NonexistentEntityException;
+import TLaccount.Persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import Bulonera.logica.cabecera_remito;
-import Bulonera.logica.detalle_remito;
-import Bulonera.logica.producto;
+import TLaccount.logica.cabecera_remito;
+import TLaccount.logica.detalle_remito;
+import TLaccount.logica.producto;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,7 +25,7 @@ import javax.persistence.Persistence;
 public class detalle_remitoJpaController implements Serializable {
 
     public detalle_remitoJpaController() {
-        emf = Persistence.createEntityManagerFactory("buloneraPU");
+        emf = Persistence.createEntityManagerFactory("TLaccountPU");
     }
 
     public detalle_remitoJpaController(EntityManagerFactory emf) {

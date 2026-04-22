@@ -1,4 +1,4 @@
-package com.mycompany.bulonera.resources;
+package com.mycompany.TLaccount.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

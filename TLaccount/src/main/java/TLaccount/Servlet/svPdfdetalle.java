@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Bulonera.Servlet;
+package TLaccount.Servlet;
 
-import Bulonera.logica.cliente;
-import Bulonera.logica.controladoraLogica;
-import Bulonera.logica.detalle_remito;
-import Bulonera.logica.pago;
+import TLaccount.logica.cliente;
+import TLaccount.logica.controladoraLogica;
+import TLaccount.logica.detalle_remito;
+import TLaccount.logica.pago;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.color.DeviceGray;

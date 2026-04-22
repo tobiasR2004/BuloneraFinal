@@ -1,4 +1,4 @@
-package Bulonera.Filters.exceptions;
+package TLaccount.Filters.exceptions;
 
 public class NonexistentEntityException extends Exception {
     public NonexistentEntityException(String message, Throwable cause) {

@@ -1,4 +1,4 @@
-package Bulonera.Persistence.exceptions;
+package TLaccount.Persistence.exceptions;
 
 public class PreexistingEntityException extends Exception {
     public PreexistingEntityException(String message, Throwable cause) {

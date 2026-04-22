@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Bulonera.Servlet;
+package TLaccount.Servlet;
 
-import Bulonera.logica.controladoraLogica;
-import Bulonera.logica.producto;
+import TLaccount.logica.controladoraLogica;
+import TLaccount.logica.producto;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.servlet.annotation.MultipartConfig;
-import service.excelService;
+import TLaccount.service.excelService;
 
 
 

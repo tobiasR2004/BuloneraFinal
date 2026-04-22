@@ -1,11 +1,11 @@
-package Bulonera.Servlet;
+package TLaccount.Servlet;
 
-import Bulonera.logica.cabecera_remito;
-import Bulonera.logica.cliente;
-import Bulonera.logica.controladoraLogica;
-import Bulonera.logica.cuenta_corriente;
-import Bulonera.logica.detalle_remito;
-import Bulonera.logica.producto;
+import TLaccount.logica.cabecera_remito;
+import TLaccount.logica.cliente;
+import TLaccount.logica.controladoraLogica;
+import TLaccount.logica.cuenta_corriente;
+import TLaccount.logica.detalle_remito;
+import TLaccount.logica.producto;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;

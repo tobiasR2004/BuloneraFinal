@@ -2,19 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Bulonera.Persistence;
+package TLaccount.Persistence;
 
-import Bulonera.Persistence.exceptions.IllegalOrphanException;
-import Bulonera.Persistence.exceptions.NonexistentEntityException;
-import Bulonera.Persistence.exceptions.PreexistingEntityException;
-import Bulonera.logica.cabecera_remito;
-import Bulonera.logica.cliente;
-import Bulonera.logica.cuenta_corriente;
-import Bulonera.logica.detalle_remito;
-import Bulonera.logica.pago;
-import Bulonera.logica.pagoDetalle;
-import Bulonera.logica.producto;
-import Bulonera.logica.usuario;
+import TLaccount.Persistence.exceptions.IllegalOrphanException;
+import TLaccount.Persistence.exceptions.NonexistentEntityException;
+import TLaccount.Persistence.exceptions.PreexistingEntityException;
+import TLaccount.logica.cabecera_remito;
+import TLaccount.logica.cliente;
+import TLaccount.logica.cuenta_corriente;
+import TLaccount.logica.detalle_remito;
+import TLaccount.logica.pago;
+import TLaccount.logica.pagoDetalle;
+import TLaccount.logica.producto;
+import TLaccount.logica.usuario;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

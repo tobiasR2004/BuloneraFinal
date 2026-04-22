@@ -1,4 +1,4 @@
-name: CI/CD Bulonera
+name: CI/CD TLaccount
 
 on:
   push:

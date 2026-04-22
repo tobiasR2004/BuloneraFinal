@@ -2,9 +2,9 @@
 * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
 */
-package service;
+package TLaccount.service;
 
-import Bulonera.logica.producto;
+import TLaccount.logica.producto;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.InputStream;

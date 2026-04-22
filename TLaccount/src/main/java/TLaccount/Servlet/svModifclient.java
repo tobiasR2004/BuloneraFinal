@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Bulonera.Servlet;
+package TLaccount.Servlet;
 
-import Bulonera.logica.cliente;
-import Bulonera.logica.controladoraLogica;
+import TLaccount.logica.cliente;
+import TLaccount.logica.controladoraLogica;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

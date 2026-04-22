@@ -7,7 +7,6 @@
 
 <%@page import="java.math.BigDecimal"%>
 <%@page import="java.util.List"%>
-<%@page import="Bulonera.logica.producto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>

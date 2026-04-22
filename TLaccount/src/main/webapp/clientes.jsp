@@ -1,4 +1,4 @@
-<%@page import="Bulonera.logica.cliente"%>
+<%@page import="TLaccount.logica.cliente"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>

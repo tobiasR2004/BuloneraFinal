@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Bulonera.Servlet;
+package TLaccount.Servlet;
 
-import Bulonera.Persistence.controladoraPersistencia;
-import Bulonera.logica.cliente;
-import Bulonera.logica.controladoraLogica;
-import Bulonera.logica.producto;
-import Bulonera.logica.productoDTO;
+import TLaccount.Persistence.controladoraPersistencia;
+import TLaccount.logica.cliente;
+import TLaccount.logica.controladoraLogica;
+import TLaccount.logica.producto;
+import TLaccount.logica.productoDTO;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;

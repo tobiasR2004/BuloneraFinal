@@ -6,8 +6,8 @@
 
 
 
+<%@page import="TLaccount.logica.cliente"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="Bulonera.logica.cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>

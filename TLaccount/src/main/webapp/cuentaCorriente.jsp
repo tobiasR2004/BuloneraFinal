@@ -4,10 +4,9 @@
     Author     : tobi2
 --%>
 
-            <%@page import="Bulonera.logica.cuenta_corriente"%>
+            <%@page import="TLaccount.logica.cliente"%>
             <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-            <%@page import="Bulonera.logica.cliente"%>
             <%@page import="java.util.List"%>
             <%@page contentType="text/html" pageEncoding="UTF-8"%>
             <%@include file="componentes/head.jsp"%>

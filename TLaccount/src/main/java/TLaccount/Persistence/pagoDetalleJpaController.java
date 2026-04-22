@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Bulonera.Persistence;
+package TLaccount.Persistence;
 
-import Bulonera.Persistence.exceptions.NonexistentEntityException;
-import Bulonera.logica.pagoDetalle;
+import TLaccount.Persistence.exceptions.NonexistentEntityException;
+import TLaccount.logica.pagoDetalle;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -23,7 +23,7 @@ import javax.persistence.criteria.Root;
 public class pagoDetalleJpaController implements Serializable {
 
     public pagoDetalleJpaController() {
-        emf = Persistence.createEntityManagerFactory("buloneraPU");
+        emf = Persistence.createEntityManagerFactory("TLaccountPU");
     }
 
     public pagoDetalleJpaController(EntityManagerFactory emf) {

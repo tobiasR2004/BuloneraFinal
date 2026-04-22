@@ -3,9 +3,9 @@
     Created on : 6 nov 2024, 21:24:20
     Author     : tobi2
 --%>
-<%@page import="Bulonera.logica.detalle_remito"%>
+<%@page import="TLaccount.logica.cliente"%>
+<%@page import="TLaccount.logica.detalle_remito"%>
 <%@page import="java.util.List"%>
-<%@page import="Bulonera.logica.cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="componentes/head.jsp"%>
 <%@include file="componentes/body.jsp"%>

@@ -4,8 +4,8 @@
     Author     : tobi2
 --%>
 
-<%@page import="Bulonera.logica.usuarioService"%>
-<%@page import="Bulonera.Persistence.controladoraPersistencia"%>
+<%@page import="TLaccount.logica.usuarioService"%>
+<%@page import="TLaccount.Persistence.controladoraPersistencia"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -29,7 +29,7 @@
       %>
        
     <form class="MenuPrincipal" action="svLogin" method="POST">
-        <img id="Logo" src="img/bannerLogin.jpg" alt="Logo Bulonera">
+        <img id="Logo" src="img/bannerLogin.jpg" alt="Logo TLaccount">
         <div class="mb-3">
             <label for="exampleInputUsuario" class="form-label">USUARIO</label>
             <input type="text" class="form-control" id="exampleInputUsuario" aria-describedby="UsuarioHelp" minlength="5" maxlength="25" required pattern="[^\s]+" name="nombreUs">

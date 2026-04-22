@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Bulonera.logica;
-import Bulonera.logica.usuario;
-import Bulonera.Persistence.controladoraPersistencia;
+package TLaccount.logica;
+import TLaccount.logica.usuario;
+import TLaccount.Persistence.controladoraPersistencia;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
